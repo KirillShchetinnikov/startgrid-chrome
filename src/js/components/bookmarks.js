@@ -33,7 +33,7 @@ import  confirmPopup from '../plugins/confirmPopup.js';
 import { containsPermissions, requestPermissions } from '../api/permissions';
 import { isThumbnailStale } from '../api/remoteThumbnail';
 import {
-  getFaviconSizeOverride,
+  getThumbnailSizeOverride,
   shouldDownloadFavicon
 } from '../api/faviconPreferences';
 import './vb-bookmark';
@@ -333,6 +333,10 @@ const Bookmarks = (() => {
     return Boolean(bookmark) && isDefaultFolder(bookmark.parentId);
   }
 
+  function getStoredThumbnailSize(thumbnail) {
+    return getThumbnailSizeOverride(thumbnail?.thumbnailSize ?? thumbnail?.faviconSize);
+  }
+
   function genBookmark(bookmark) {
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
     const thumbnailSource = thumbnail?.source
@@ -341,9 +345,7 @@ const Bookmarks = (() => {
       || shouldDownloadFavicon(thumbnail, settings.$.download_favicons_by_default);
     const image = useStoredImage ? thumbnail?.blobUrl : null;
     const custom = thumbnail?.custom || false;
-    const faviconSize = thumbnailSource === 'favicon'
-      ? getFaviconSizeOverride(thumbnail?.faviconSize)
-      : null;
+    const thumbnailSize = getStoredThumbnailSize(thumbnail);
 
     const vbBookmark = document.createElement('a', { is: 'vb-bookmark' });
     Object.assign(vbBookmark, {
@@ -355,7 +357,7 @@ const Bookmarks = (() => {
       isCustomImage: custom,
       openNewTab: settings.$.open_link_newtab,
       thumbnailSource,
-      faviconSize,
+      thumbnailSize,
       hasTitle: settings.$.show_bookmark_title,
       hasFavicon: settings.$.show_favicon
     });
@@ -952,7 +954,7 @@ const Bookmarks = (() => {
     });
 
     bookmark.thumbnailSource = source;
-    bookmark.faviconSize = getFaviconSizeOverride(existing?.faviconSize);
+    bookmark.thumbnailSize = getStoredThumbnailSize(existing);
     bookmark.isCustomImage = custom;
     const useStoredImage = source !== 'favicon'
       || shouldDownloadFavicon(existing, settings.$.download_favicons_by_default);
@@ -985,7 +987,7 @@ const Bookmarks = (() => {
     const useStoredImage = source !== 'favicon'
       || shouldDownloadFavicon(image, settings.$.download_favicons_by_default);
     bookmark.thumbnailSource = source;
-    bookmark.faviconSize = getFaviconSizeOverride(image.faviconSize);
+    bookmark.thumbnailSize = getStoredThumbnailSize(image);
     bookmark.isCustomImage = image.custom;
     bookmark.image = useStoredImage ? blobUrl : null;
 
@@ -1046,6 +1048,30 @@ const Bookmarks = (() => {
       { source: 'favicon', sourceUrl: pageUrl }
     );
   }
+
+  async function setThumbnailSize(bookmark, value) {
+    if (!canUseThumbnail(bookmark)) return false;
+
+    const existing = await ImageDB.get(bookmark.id);
+    const thumbnailSize = getThumbnailSizeOverride(value);
+    const payload = {
+      ...(existing || {}),
+      id: bookmark.id
+    };
+
+    if (thumbnailSize) payload.thumbnailSize = thumbnailSize;
+    else delete payload.thumbnailSize;
+    delete payload.faviconSize;
+
+    await ImageDB.update(payload);
+    const currentThumbnail = THUMBNAILS_MAP.get(bookmark.id) || {};
+    const storedThumbnail = { ...currentThumbnail, ...payload };
+    delete storedThumbnail.faviconSize;
+    THUMBNAILS_MAP.set(bookmark.id, storedThumbnail);
+    bookmark.thumbnailSize = thumbnailSize;
+    return payload;
+  }
+
   async function setFaviconPreferences(bookmark, preferences = {}) {
     if (!canUseThumbnail(bookmark)) return false;
 
@@ -1056,21 +1082,17 @@ const Bookmarks = (() => {
       source: 'favicon',
       sourceUrl: bookmark.url
     };
-    const faviconSize = getFaviconSizeOverride(preferences.faviconSize);
 
     if (typeof preferences.downloadFavicon === 'boolean') {
       payload.downloadFavicon = preferences.downloadFavicon;
     } else {
       delete payload.downloadFavicon;
     }
-    if (faviconSize) payload.faviconSize = faviconSize;
-    else delete payload.faviconSize;
 
     await ImageDB.update(payload);
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id) || {};
     THUMBNAILS_MAP.set(bookmark.id, { ...thumbnail, ...payload });
     bookmark.thumbnailSource = 'favicon';
-    bookmark.faviconSize = faviconSize;
     bookmark.image = shouldDownloadFavicon(payload, settings.$.download_favicons_by_default)
       ? thumbnail.blobUrl || null
       : null;
@@ -1089,17 +1111,18 @@ const Bookmarks = (() => {
     const sourceUrl = source === 'url'
       ? existing?.sourceUrl
       : source === 'favicon' ? bookmark.url : null;
+    const thumbnailSize = getStoredThumbnailSize(existing);
     const payload = {
       id: bookmark.id,
       source,
       ...(typeof existing?.downloadFavicon === 'boolean' && { downloadFavicon: existing.downloadFavicon }),
-      ...(getFaviconSizeOverride(existing?.faviconSize) && { faviconSize: existing.faviconSize }),
+      ...(thumbnailSize && { thumbnailSize }),
       ...(sourceUrl && { sourceUrl })
     };
     await ImageDB.update(payload);
     THUMBNAILS_MAP.set(bookmark.id, payload);
     bookmark.thumbnailSource = source;
-    bookmark.faviconSize = getFaviconSizeOverride(payload.faviconSize);
+    bookmark.thumbnailSize = thumbnailSize;
     bookmark.isCustomImage = false;
     bookmark.image = null;
   }
@@ -1527,6 +1550,7 @@ const Bookmarks = (() => {
     setRemoteThumbnail,
     setLocalThumbnailSource,
     setFaviconThumbnailSource,
+    setThumbnailSize,
     clearCachedThumbnail,
     setFaviconPreferences,
     removeThumbnail,

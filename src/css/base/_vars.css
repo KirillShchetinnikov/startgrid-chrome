@@ -41,7 +41,7 @@
 
   /* Bookmark */
   --bookmark-aspect-ratio: 4 / 3;
-  --bookmark-logo-size: 32px;
+  --bookmark-thumbnail-size: 32px;
   --bookmark-radius: 18px;
   --bookmark-shadow-opacity: 8%;
   --bookmark-hover-shadow-opacity: 15%;

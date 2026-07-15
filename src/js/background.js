@@ -480,8 +480,10 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
       const fileBlob = $base64ToBlob(data.capture, 'image/webp');
       const blob = await $resizeThumbnail(fileBlob);
+      const existing = await ImageDB.get(id);
       await ImageDB.update({
         id,
+        ...(existing || {}),
         blob,
         custom: false,
         source: 'site',

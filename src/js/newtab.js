@@ -28,7 +28,7 @@ import {
 } from './utils';
 import ImageDB from './api/imageDB';
 import {
-  getFaviconSizeOverride,
+  getThumbnailSizeOverride,
   shouldDownloadFavicon
 } from './api/faviconPreferences';
 import { CONTEXT_MENU, LOCAL_PROTOCOLS } from './constants';
@@ -50,8 +50,9 @@ const customScreen = document.getElementById('customScreen');
 const thumbnailSource = document.getElementById('thumbnailSource');
 const thumbnailUrl = document.getElementById('thumbnailUrl');
 const faviconOptionsWrap = document.getElementById('faviconOptionsWrap');
+const thumbnailSizeWrap = document.getElementById('thumbnailSizeWrap');
 const faviconDownloadPreference = document.getElementById('faviconDownloadPreference');
-const thumbnailFaviconSize = document.getElementById('thumbnailFaviconSize');
+const thumbnailImageSize = document.getElementById('thumbnailImageSize');
 const thumbnailUrlWrap = document.getElementById('thumbnailUrlWrap');
 const thumbnailActions = document.getElementById('thumbnailActions');
 const captureThumbnailButton = document.getElementById('captureThumbnail');
@@ -733,6 +734,7 @@ function handleThumbnailSourceChange() {
     thumbnailUrlWrap.hidden = true;
     thumbnailUrl.required = false;
     faviconOptionsWrap.hidden = true;
+    thumbnailSizeWrap.hidden = true;
     thumbnailActions.hidden = true;
     customScreen.style.display = '';
     resetCustomImageButton.hidden = true;
@@ -746,6 +748,7 @@ function handleThumbnailSourceChange() {
   const isLocal = source === 'local';
   const isRefreshable = ['site', 'url', 'favicon'].includes(source);
 
+  thumbnailSizeWrap.hidden = false;
   faviconOptionsWrap.hidden = source !== 'favicon';
   thumbnailUrlWrap.hidden = !isUrl;
   thumbnailUrl.required = isUrl;
@@ -881,10 +884,11 @@ function getModalFaviconPreferences() {
   if (downloadPreference === 'download') downloadFavicon = true;
   if (downloadPreference === 'chrome') downloadFavicon = false;
 
-  return {
-    downloadFavicon,
-    faviconSize: getFaviconSizeOverride(thumbnailFaviconSize.value)
-  };
+  return { downloadFavicon };
+}
+
+function getModalThumbnailSize() {
+  return getThumbnailSizeOverride(thumbnailImageSize.value);
 }
 
 function usesDownloadedFavicon(preferences = getModalFaviconPreferences()) {
@@ -905,6 +909,7 @@ async function handleSubmitForm(evt) {
   const thumbnailUrlValue = form.thumbnailUrl.value.trim();
   const faviconPreferences = getModalFaviconPreferences();
   const downloadFavicon = usesDownloadedFavicon(faviconPreferences);
+  const thumbnailSize = getModalThumbnailSize();
   const shouldCaptureSite = thumbnailEnabled && thumbnailSourceValue === 'site' && (
     id === 'New'
       ? pendingThumbnailSource !== 'site'
@@ -943,6 +948,10 @@ async function handleSubmitForm(evt) {
     bookmark = await Bookmarks.updateBookmark(id, title, url, newLocation);
   } else {
     bookmark = await Bookmarks.createBookmark(title, url);
+  }
+
+  if (bookmark && thumbnailEnabled) {
+    await Bookmarks.setThumbnailSize(bookmark, thumbnailSize);
   }
 
   if (bookmark) {
@@ -1073,8 +1082,9 @@ async function prepareModal(target) {
       faviconDownloadPreference.value = imageData?.downloadFavicon === true
         ? 'download'
         : imageData?.downloadFavicon === false ? 'chrome' : 'inherit';
-      thumbnailFaviconSize.value = getFaviconSizeOverride(imageData?.faviconSize) || '';
-      thumbnailFaviconSize.placeholder = String(settings.$.favicon_size);
+      const savedThumbnailSize = imageData?.thumbnailSize ?? imageData?.faviconSize;
+      thumbnailImageSize.value = getThumbnailSizeOverride(savedThumbnailSize) || '';
+      thumbnailImageSize.placeholder = String(settings.$.favicon_size);
       document.getElementById('thumbnailSourceWrap').hidden = false;
       handleThumbnailSourceChange();
       if (thumbnailEnabled) {
@@ -1101,8 +1111,8 @@ async function prepareModal(target) {
     deleteThumbnailButton.disabled = true;
     document.getElementById('thumbnailSourceWrap').hidden = false;
     faviconDownloadPreference.value = 'inherit';
-    thumbnailFaviconSize.value = '';
-    thumbnailFaviconSize.placeholder = String(settings.$.favicon_size);
+    thumbnailImageSize.value = '';
+    thumbnailImageSize.placeholder = String(settings.$.favicon_size);
     const pastePermission = await containsPermissions({ permissions: ['clipboardRead'] });
     pasteThumbnailButton.disabled = pastePermission
       ? !(await checkClipboardImage())

@@ -222,6 +222,7 @@ body.gmodal-open {
 .gmodal__thumbnail-source,
 .gmodal__thumbnail-url,
 .gmodal__favicon-options,
+.gmodal__thumbnail-size,
 .gmodal__thumbnail-actions {
   display: none;
 }
@@ -230,6 +231,8 @@ body.gmodal-open {
 .gmodal.has-add .gmodal__thumbnail-source:not([hidden]),
 .gmodal.has-edit .gmodal__thumbnail-url:not([hidden]),
 .gmodal.has-edit .gmodal__favicon-options:not([hidden]),
+.gmodal.has-edit .gmodal__thumbnail-size:not([hidden]),
+.gmodal.has-add .gmodal__thumbnail-size:not([hidden]),
 .gmodal.has-add .gmodal__favicon-options:not([hidden]),
 .gmodal.has-add .gmodal__thumbnail-url:not([hidden]),
 .gmodal.has-edit .gmodal__thumbnail-actions:not([hidden]) {

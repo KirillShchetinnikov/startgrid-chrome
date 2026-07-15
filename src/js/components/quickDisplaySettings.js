@@ -17,7 +17,8 @@ const STYLE_SETTINGS = new Set([
   'dial_radius',
   'dial_aspect_ratio',
   'dial_shadow',
-  'dial_hover_lift'
+  'dial_hover_lift',
+  'favicon_size'
 ]);
 
 function message(id) {
@@ -91,6 +92,14 @@ function createPanel() {
             <option value="3 / 2">${message('dial_aspect_ratio_photo')}</option>
             <option value="16 / 9">${message('dial_aspect_ratio_wide')}</option>
           </select>
+        </label>
+        <label class="quick-settings__field" for="quick_favicon_size">
+          <span>${message('favicon_size')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_favicon_size" type="range" min="16" max="128" step="4"
+              data-setting="favicon_size" data-unit="px">
+            <output id="quick_favicon_size_value" for="quick_favicon_size"></output>
+          </span>
         </label>
         <label class="quick-settings__field" for="quick_dial_shadow">
           <span>${message('dial_shadow')}</span>

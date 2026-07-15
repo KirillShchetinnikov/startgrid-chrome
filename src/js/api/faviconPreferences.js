@@ -1,11 +1,11 @@
-export const FAVICON_SIZE_MIN = 16;
-export const FAVICON_SIZE_MAX = 128;
-export const FAVICON_SIZE_DEFAULT = 32;
+export const THUMBNAIL_SIZE_MIN = 16;
+export const THUMBNAIL_SIZE_MAX = 128;
+export const THUMBNAIL_SIZE_DEFAULT = 32;
 
-export function normalizeFaviconSize(value, fallback = FAVICON_SIZE_DEFAULT) {
+export function normalizeThumbnailSize(value, fallback = THUMBNAIL_SIZE_DEFAULT) {
   const size = Number.parseInt(value, 10);
   if (!Number.isFinite(size)) return fallback;
-  return Math.min(FAVICON_SIZE_MAX, Math.max(FAVICON_SIZE_MIN, size));
+  return Math.min(THUMBNAIL_SIZE_MAX, Math.max(THUMBNAIL_SIZE_MIN, size));
 }
 
 export function getFaviconDownloadOverride(value) {
@@ -16,7 +16,7 @@ export function shouldDownloadFavicon(thumbnail, globalDefault = false) {
   return getFaviconDownloadOverride(thumbnail?.downloadFavicon) ?? Boolean(globalDefault);
 }
 
-export function getFaviconSizeOverride(value) {
+export function getThumbnailSizeOverride(value) {
   if (value === null || value === undefined || value === '') return null;
-  return normalizeFaviconSize(value, null);
+  return normalizeThumbnailSize(value, null);
 }

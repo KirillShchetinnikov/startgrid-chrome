@@ -77,13 +77,13 @@
     "message": "Use Chrome cache"
   },
   "favicon_size_individual": {
-    "message": "Individual favicon size"
+    "message": "Individual thumbnail image size"
   },
   "favicon_size_individual_placeholder": {
     "message": "32"
   },
   "favicon_size_individual_note": {
-    "message": "Leave empty to use the global size."
+    "message": "Leave empty to use the global thumbnail image size."
   },
   "download_favicons_by_default": {
     "message": "Download favicons from websites by default"
@@ -92,10 +92,10 @@
     "message": "When a favicon thumbnail is missing locally, download it in the background when the start page opens."
   },
   "favicon_size": {
-    "message": "Favicon size"
+    "message": "Thumbnail image size"
   },
   "favicon_size_note": {
-    "message": "Default favicon image size on tiles. Individual tile settings take priority."
+    "message": "Default image size for all thumbnail types. Individual tile settings take priority."
   },
   "thumbnail_url": {
     "message": "Bélyegkép URL-címe"

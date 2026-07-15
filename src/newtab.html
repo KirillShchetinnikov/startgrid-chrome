@@ -88,14 +88,15 @@
                     <option value="chrome" data-locale-message="favicon_download_chrome">Use Chrome cache</option>
                   </select>
                 </div>
-                <div class="group">
-                  <label class="label" for="thumbnailFaviconSize" data-locale-message="favicon_size_individual">Individual favicon size</label>
-                  <input type="number" class="form-control" id="thumbnailFaviconSize" name="thumbnailFaviconSize"
-                    min="16" max="128" step="4" placeholder="32" data-locale-message="favicon_size_individual_placeholder.placeholder">
-                  <span class="gmodal__thumbnail-note" data-locale-message="favicon_size_individual_note">
-                    Leave empty to use the global size.
-                  </span>
-                </div>
+              </div>
+              <div class="group gmodal__thumbnail-size" id="thumbnailSizeWrap" hidden>
+                <label class="label" for="thumbnailImageSize" data-locale-message="favicon_size_individual">Individual thumbnail image size</label>
+                <input type="number" class="form-control" id="thumbnailImageSize" name="thumbnailImageSize"
+                  min="16" max="128" step="4" placeholder="32"
+                  data-locale-message="favicon_size_individual_placeholder.placeholder">
+                <span class="gmodal__thumbnail-note" data-locale-message="favicon_size_individual_note">
+                  Leave empty to use the global thumbnail image size.
+                </span>
               </div>
 
               <div class="group gmodal__thumbnail-url" id="thumbnailUrlWrap" hidden>

@@ -162,7 +162,7 @@
 }
 
 .bookmark__img--logo {
-  background-size: var(--bookmark-logo-size);
+  background-size: var(--bookmark-thumbnail-size);
   background-position: center;
 }
 
@@ -173,7 +173,7 @@
   border-radius: 2px;
   background-color: rgb(0 0 0 / 10%);
   background-position: center;
-  background-size: min(30%, var(--bookmark-logo-size));
+  background-size: min(30%, var(--bookmark-thumbnail-size));
   background-repeat: no-repeat;
   &:only-child,
   &:first-child:nth-last-child(2),
@@ -192,6 +192,11 @@
 
 .bookmark__img--contain {
   background-size: contain;
+  background-position: center;
+}
+
+.bookmark__img--sized {
+  background-size: var(--bookmark-thumbnail-size);
   background-position: center;
 }
 

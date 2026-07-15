@@ -160,6 +160,7 @@ class VbBookmark extends HTMLAnchorElement {
 
     const isFavicon = this.thumbnailSource === 'favicon';
     if (this.image) {
+      thumbnail.classList.add('bookmark__img--sized');
       thumbnail.classList.toggle('bookmark__img--logo', isFavicon);
       thumbnail.classList.toggle('bookmark__img--contain', !isFavicon && (this.isCustomImage || this.isFolder));
       thumbnail.style.backgroundImage = `url('${this.image}')`;
@@ -177,6 +178,7 @@ class VbBookmark extends HTMLAnchorElement {
       }
     } else {
       thumbnail.classList.add('bookmark__img--logo');
+      thumbnail.classList.add('bookmark__img--sized');
       thumbnail.style.backgroundImage = `url('${this.#getLogoUrl(this.url)}')`;
     }
 
@@ -230,7 +232,7 @@ class VbBookmark extends HTMLAnchorElement {
     }
 
     const configuredSize = Number.parseInt(
-      getComputedStyle(this).getPropertyValue('--bookmark-logo-size'),
+      getComputedStyle(this).getPropertyValue('--bookmark-thumbnail-size'),
       10
     );
     return faviconURL(url, Number.isFinite(configuredSize) ? configuredSize : 32);
@@ -314,16 +316,16 @@ class VbBookmark extends HTMLAnchorElement {
     }
   }
 
-  get faviconSize() {
-    const value = Number.parseInt(this.style.getPropertyValue('--bookmark-logo-size'), 10);
+  get thumbnailSize() {
+    const value = Number.parseInt(this.style.getPropertyValue('--bookmark-thumbnail-size'), 10);
     return Number.isFinite(value) ? value : null;
   }
-  set faviconSize(value) {
+  set thumbnailSize(value) {
     const size = Number.parseInt(value, 10);
     if (Number.isFinite(size)) {
-      this.style.setProperty('--bookmark-logo-size', `${size}px`);
+      this.style.setProperty('--bookmark-thumbnail-size', `${size}px`);
     } else {
-      this.style.removeProperty('--bookmark-logo-size');
+      this.style.removeProperty('--bookmark-thumbnail-size');
     }
   }
 
