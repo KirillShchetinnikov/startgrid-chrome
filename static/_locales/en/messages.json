@@ -1,0 +1,597 @@
+{
+  "ext_name": {
+    "message": "StartGrid"
+  },
+  "ext_desc": {
+    "message": "Simple speed dial bookmarks page, including search, add, edit, delete and dragging bookmarks."
+  },
+  "default_title": {
+    "message": "StartGrid"
+  },
+  "color_theme": {
+    "message": "Color theme"
+  },
+  "dark_theme": {
+    "message": "Dark"
+  },
+  "light_theme": {
+    "message": "Light"
+  },
+  "os_theme": {
+    "message": "OS theme"
+  },
+  "placeholder_input_search": {
+    "message": "Search in $engine$",
+    "placeholders": {
+      "engine": {
+        "content": "$1"
+      }
+    }
+  },
+  "placeholder_input_search_bookmarks": {
+    "message": "bookmarks"
+  },
+  "search_browser_default": {
+    "message": "Browser default"
+  },
+  "placeholder_input_title": {
+    "message": "Enter bookmark title"
+  },
+  "label_title": {
+    "message": "Title"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "label_folder": {
+    "message": "Folder"
+  },
+  "thumbnail_source": {
+    "message": "Thumbnail source"
+  },
+  "thumbnail_actions": {
+    "message": "Thumbnail actions"
+  },
+  "thumbnail_source_local": {
+    "message": "Local storage"
+  },
+  "thumbnail_source_site": {
+    "message": "Create from website"
+  },
+  "thumbnail_source_url": {
+    "message": "From URL"
+  },
+  "thumbnail_source_favicon": {
+    "message": "Website favicon (default)"
+  },
+  "thumbnail_url": {
+    "message": "Thumbnail URL"
+  },
+  "thumbnail_url_note": {
+    "message": "The image is cached locally and checked for updates periodically."
+  },
+  "notice_thumbnail_url_failed": {
+    "message": "Failed to download the thumbnail from URL"
+  },
+  "url_field_tip": {
+    "message": "Enter URL or leave it blank if you want to create the folder"
+  },
+  "btn_close": {
+    "message": "Cancel"
+  },
+  "btn_save": {
+    "message": "Save"
+  },
+  "btn_back": {
+    "message": "Done"
+  },
+  "back_to_main": {
+    "message": "Back to bookmarks"
+  },
+  "btn_apply": {
+    "message": "Apply"
+  },
+  "contextmenu_tab": {
+    "message": "Open in new tab"
+  },
+  "contextmenu_window": {
+    "message": "Open in new window"
+  },
+  "contextmenu_open_all": {
+    "message": "Open all"
+  },
+  "contextmenu_open_all_window": {
+    "message": "Open all in new window"
+  },
+  "contextmenu_incognito": {
+    "message": "Open in incognito mode"
+  },
+  "contextmenu_copy_link": {
+    "message": "Copy link address"
+  },
+  "contextmenu_edit": {
+    "message": "Edit"
+  },
+  "contextmenu_capture": {
+    "message": "Refresh thumbnail"
+  },
+  "contextmenu_upload": {
+    "message": "Upload from computer"
+  },
+  "contextmenu_upload_paste": {
+    "message": "Upload from clipboard"
+  },
+  "contextmenu_remove": {
+    "message": "Remove"
+  },
+  "confirm_delete_image": {
+    "message": "Delete image ?"
+  },
+  "confirm_delete_images": {
+    "message": "Are you sure? All local images will be deleted"
+  },
+  "confirm_delete_bookmark": {
+    "message": "Are you sure you want to delete the bookmark ?"
+  },
+  "confirm_delete_folder": {
+    "message": "Are you sure you want to delete the folder and all its contents ?"
+  },
+  "confirm_restore_default_settings": {
+    "message": "Are you sure you want to restore default settings ?"
+  },
+  "confirm_clear_sync_settings": {
+    "message": "Are you sure you want to delete all previously synchronized data to start fresh ?"
+  },
+  "confirm_sync_remote_settings": {
+    "message": "You have previously synchronized data!!\nDo you want to overwrite your current local settings with your previously saved remote settings?"
+  },
+  "notice_image_removed": {
+    "message": "Image has been removed"
+  },
+  "notice_thumb_image_updated": {
+    "message": "Bookmark thumb has been updated"
+  },
+  "notice_bookmark_exist": {
+    "message": "Bookmark already exists"
+  },
+  "notice_bookmark_created": {
+    "message": "Bookmark created"
+  },
+  "notice_bookmark_updated": {
+    "message": "Bookmark updated"
+  },
+  "notice_bookmark_removed": {
+    "message": "Bookmark \"<span data-title>$title$</span>\" deleted",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_folder_removed": {
+    "message": "Folder \"<span data-title>$title$</span>\" deleted",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_selected_bookmarks_removed": {
+    "message": "Selected bookmarks have been deleted"
+  },
+  "notice_images_removed": {
+    "message": "All images was deleted"
+  },
+  "notice_cant_find_id": {
+    "message": "Cant find folder by id. Maybe you have not synced bookmarks"
+  },
+  "notice_reset_default_settings": {
+    "message": "Default local settings are reset"
+  },
+  "notice_sync_settings_cleared": {
+    "message": "Data synchronization cleared"
+  },
+  "notice_bg_image_updated": {
+    "message": "Background image has been changed"
+  },
+  "notice_thumbnails_update_complete": {
+    "message": "Thumbnail update complete"
+  },
+  "notice_link_copied": {
+    "message": "Link copied"
+  },
+  "alert_file_type_fail_type": {
+    "message": "Bad file type\nValid file type ($type$)",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert_file_type_fail_size": {
+    "message": "Maximum upload file size: $filesize$ MB",
+    "placeholders": {
+      "filesize": {
+        "content": "$1"
+      }
+    }
+  },
+  "not_found_text": {
+    "message": "Can not find the folder by id. You may not have synchronized bookmarks, or you deleted | moved this folder."
+  },
+  "not_found_link_text": {
+    "message": "Bookmarks bar"
+  },
+  "add_bookmark": {
+    "message": "Add to bookmarks"
+  },
+  "save_to_current_folder": {
+    "message": "Save to current folder"
+  },
+  "edit_bookmark": {
+    "message": "Edit bookmark"
+  },
+  "options": {
+    "message": "Options"
+  },
+  "quick_display_settings": {
+    "message": "Quick bookmark appearance"
+  },
+  "quick_display_settings_description": {
+    "message": "Changes are applied immediately"
+  },
+  "more_settings": {
+    "message": "All settings"
+  },
+  "bookmark_appearance_setting": {
+    "message": "Bookmarks"
+  },
+  "page_appearance_setting": {
+    "message": "Home page"
+  },
+  "bookmark_behavior_setting": {
+    "message": "Behavior"
+  },
+  "thumbnails_setting": {
+    "message": "Thumbnails"
+  },
+  "thumbnails_setting_description": {
+    "message": "Settings in this section apply to all supported thumbnail sources: website screenshots, image URLs, and favicons. Locally uploaded images are never replaced automatically."
+  },
+  "data_privacy_setting": {
+    "message": "Data and privacy"
+  },
+  "logo_external_url": {
+    "message": "External logo URL"
+  },
+  "dial_width": {
+    "message": "Panel width"
+  },
+  "number_of_columns": {
+    "message": "Number of Columns"
+  },
+  "vertical_center": {
+    "message": "Vertical centering"
+  },
+  "default_folder_id": {
+    "message": "Default Folder"
+  },
+  "default_folder_sync_note": {
+    "message": "Sync is enabled. This setting is saved to Chrome Sync."
+  },
+  "default_folder_local_note": {
+    "message": "Sync is disabled. This setting is saved on this device."
+  },
+  "background": {
+    "message": "Background"
+  },
+  "color": {
+    "message": "Color"
+  },
+  "background_noimage": {
+    "message": "Without background image"
+  },
+  "background_noimage_text": {
+    "message": "Theme without background image"
+  },
+  "background_bing": {
+    "message": "Bing Image Of The Day"
+  },
+  "background_bing_text": {
+    "message": "Bing Image of the Day is a daily background photo featured on Bing’s homepage. Each day, Microsoft showcases a stunning or interesting image of nature, architecture, or culture from around the world"
+  },
+  "bing_permission_toast": {
+    "message": "Bing Image of the Day requires host permission to bing.com. You can enable this permission on the <a href=\"/options.html\">settings page</a> by selecting the \"Bing Image of the Day\" option and confirming the permission"
+  },
+  "background_external": {
+    "message": "Image from URL"
+  },
+  "background_local": {
+    "message": "Image or video from computer"
+  },
+  "background_effect": {
+    "message": "Background effect"
+  },
+  "background_effect_note": {
+    "message": "Experimental feature, may affect performance"
+  },
+  "background_effect_distortion": {
+    "message": "Distortion"
+  },
+  "background_effect_none": {
+    "message": "None"
+  },
+  "choose_file": {
+    "message": "Image or video"
+  },
+  "show_settings_icon": {
+    "message": "Show the settings icon"
+  },
+  "show_quick_settings_icon": {
+    "message": "Show the quick settings icon"
+  },
+  "show_toolbar": {
+    "message": "Show search bar and folder selection"
+  },
+  "show_create_column": {
+    "message": "Show column for adding a bookmark"
+  },
+  "show_bookmark_title": {
+    "message": "Show bookmark title"
+  },
+  "show_favicon": {
+    "message": "Show the Favicon next to the title"
+  },
+  "open_link_newtab": {
+    "message": "Open bookmarks and search in a new tab"
+  },
+  "show_contextmenu_item": {
+    "message": "Show in context menu"
+  },
+  "drag_and_drop": {
+    "message": "Enable Drag & Drop"
+  },
+  "auto_generate_thumbnail": {
+    "message": "Automatically get favicon when creating a bookmark"
+  },
+  "enable_sync": {
+    "message": "Enable Synchronization"
+  },
+  "clear_background_locals": {
+    "message": "Clear folder with local images"
+  },
+  "reset_local_default": {
+    "message": "Reset Local Settings to Default Values"
+  },
+  "reset_sync_text": {
+    "message": "Delete Synchronized Data from Server"
+  },
+  "version": {
+    "message": "Version"
+  },
+  "thumbnails_creation": {
+    "message": "Creating thumbnails: $start$ out of $total$",
+    "placeholders": {
+      "start": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "thumbnails_update_warn": {
+    "message": "Each thumbnail is refreshed from its selected source: website, image URL, or favicon. Locally uploaded images are preserved. Updating can affect performance."
+  },
+  "thumbnails_update_button": {
+    "message": "Thumbnails update button"
+  },
+  "thumbnails_update_recursive": {
+    "message": "Including subfolders"
+  },
+  "thumbnails_update_recursive_note": {
+    "message": "If the \"$option$\" option is enabled",
+    "placeholders": {
+      "option": {
+        "content": "$1"
+      }
+    }
+  },
+  "thumbnails_auto_refresh": {
+    "message": "Automatically refresh thumbnails"
+  },
+  "thumbnails_auto_refresh_note": {
+    "message": "Checks and refreshes outdated thumbnails when the home page opens"
+  },
+  "thumbnails_auto_refresh_interval": {
+    "message": "Automatic refresh interval"
+  },
+  "thumbnails_auto_refresh_interval_note": {
+    "message": "Time between thumbnail refreshes, from 1 hour to 7 days"
+  },
+  "hours_short": {
+    "message": "h"
+  },
+  "folder_preview": {
+    "message": "Thumbnails of sites on a folder instead of an icon"
+  },
+  "folder_preview_description": {
+    "message": "While this setting is enabled, thumbnails of 4 random sites from the folder will be displayed instead of the icon or custom picture."
+  },
+  "backup_settings": {
+    "message": "Import / Export Settings"
+  },
+  "backup_settings_description": {
+    "message": "Backup only for extension settings, excluding bookmarks and images"
+  },
+  "import": {
+    "message": "Import"
+  },
+  "export": {
+    "message": "Export"
+  },
+  "import_settings_success": {
+    "message": "Settings imported"
+  },
+  "import_settings_failed": {
+    "message": "Failed to parse settings file"
+  },
+  "without_confirmation": {
+    "message": "Do not ask for confirmation when deleting"
+  },
+  "toggle_clipboard_access": {
+    "message": "Permission to read from the clipboard"
+  },
+  "toggle_clipboard_access_description": {
+    "message": "Allows the extension to read data from the clipboard to upload a bookmark thumbnail. The 'Upload from clipboard' action will become available in the bookmark editing window. If you're concerned about this permission, simply don't enable it."
+  },
+  "error_input_required": {
+    "message": "Required field"
+  },
+  "error_input_url": {
+    "message": "URL is not valid"
+  },
+  "thumbnails_update_delay": {
+    "message": "Delay before creating a thumbnail"
+  },
+  "thumbnails_update_delay_note": {
+    "message": "It can be useful when the page content is loading for a long time. The longer the delay, the longer the wait"
+  },
+  "close_tab_after_adding_bookmark": {
+    "message": "Automatically closing a tab if you have added it to bookmarks"
+  },
+  "close_tab_after_adding_bookmark_note": {
+    "message": "Only when adding via the context menu"
+  },
+  "empty_search": {
+    "message": "Bookmarks not found"
+  },
+  "logo_external": {
+    "message": "External logos"
+  },
+  "logo_external_note": {
+    "message": "Link to a third-party logo resource. Please be careful, the substring <code>{{website}}</code> must remain unchanged and be inserted into the appropriate place in the link."
+  },
+  "delete_thumbnail": {
+    "message": "Delete from local storage"
+  },
+  "show_back_column": {
+    "message": "Show back column in bookmarks"
+  },
+  "search_engine": {
+    "message": "Default search engine"
+  },
+  "move_to_start": {
+    "message": "Move a bookmark to the top of the list inside a folder"
+  },
+  "bookmarks_sorting_type": {
+    "message": "Sort by type"
+  },
+  "sort_by": {
+    "message": "Sort by"
+  },
+  "sort_by_date": {
+    "message": "Date"
+  },
+  "sort_by_alphabet": {
+    "message": "Alphabetically"
+  },
+  "not_sorting": {
+    "message": "Not sorted"
+  },
+  "folders_on_top": {
+    "message": "Folders on top"
+  },
+  "folders_at_the_bottom": {
+    "message": "Folders at the bottom"
+  },
+  "bookmarks_sorting_warning": {
+    "message": "Drag-and-drop sorting will be disabled if one of the sorting options is selected"
+  },
+  "search_autofocus": {
+    "message": "Focus on the search bar"
+  },
+  "confirm_delete_selected_bookmarks": {
+    "message": "Are you sure you want to delete selected bookmarks ?"
+  },
+  "button_action_move": {
+    "message": "Move to folder"
+  },
+  "parent_folder": {
+    "message": "Parent folder"
+  },
+  "new_bookmark": {
+    "message": "New bookmark"
+  },
+  "modal_dismiss": {
+    "message": "Modal dismiss"
+  },
+  "remove_thumbnail": {
+    "message": "Remove thumbnail"
+  },
+  "thumbnails_update": {
+    "message": "Thumbnails update"
+  },
+  "bookmark_context": {
+    "message": "Bookmark context"
+  },
+  "clear_search": {
+    "message": "Clear search"
+  },
+  "search_suggestions_permission_tooltip": {
+    "message": "Access to Google.com is needed for search autocomplete suggestions"
+  },
+  "search": {
+    "message": "Search"
+  },
+  "toggle_selected_bookmarks_popup": {
+    "message": "Toggle popup to open links"
+  },
+  "toggle_search_popup": {
+    "message": "Toggle popup with search"
+  },
+  "open_selected": {
+    "message": "Open selected"
+  },
+  "delete_selected": {
+    "message": "Delete selected"
+  },
+  "select_folder": {
+    "message": "Select a folder"
+  },
+  "show_last_opened_folder": {
+    "message": "Show last opened folder"
+  },
+  "history_back": {
+    "message": "History back"
+  },
+  "default_folder_home": {
+    "message": "Go to default folder"
+  },
+  "incognito_access_note": {
+    "message": "You must allow the extension to run in private mode"
+  },
+  "notice_host_permissions": {
+    "message": "To create website thumbnails, permission from the user is required for the extension to access websites"
+  },
+  "learn_more": {
+    "message": "Learn more"
+  },
+  "why_use_host_permissions": {
+    "message": "Why use this permission?"
+  },
+  "host_permissions_info": {
+    "message": "<p>This permission is necessary for generating website screenshots. The extension does not collect, track, or modify your data on websites. The only modification that occurs after opening a separate window with the website is hiding the scroll bar on the site before generating the screenshot (to make the screenshot as scroll-bar-free as possible). The extension code is available on <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. If you are concerned about this permission, you can choose not to grant it, the extension will still function without it, but generating website screenshots for bookmarks will not be available.</p><p>This permission will be requested when attempting to take a website screenshot (if it is disabled). You can also manage this right in the browser settings by opening a window with detailed information about the extension.</p>"
+  },
+  "example_string": {
+    "message": "Example: $string$",
+    "placeholders": {
+      "string": {
+        "content": "$1"
+      }
+    }
+  },
+  "undo": {
+    "message": "Undo"
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-locale-message="options">Options</title>
+  <!-- For Light/Dark mode: avoid flickering on reload -->
+  <!-- block rendering styles with theme.js -->
+  <!-- styles will go below -->
+  <script src="js/theme.js"></script>
+</head>
+
+<body class="options">
+
+  <div class="wrap">
+    <a class="options-back-btn btn md-ripple" id="back_to_main" href="newtab.html">
+      <svg width="20" height="20" aria-hidden="true">
+        <use xlink:href="/img/symbol.svg#arrow_back"/>
+      </svg>
+      <span data-locale-message="back_to_main">Back to bookmarks</span>
+    </a>
+    <div class="settings-container" id="settings"></div>
+
+    <!--end settings-->
+
+    <footer class="footer">
+      <div class="footer__wrap">
+        <div class="footer__pull-left" id="ext_name"></div>
+        <a href="https://github.com/KirillShchetinnikov/startgrid-chrome" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <div class="footer__pull-right" id="ext_version"></div>
+      </div>
+    </footer>
+
+  </div>
+  <!--end wrap-->
+
+</body>
+
+</html>

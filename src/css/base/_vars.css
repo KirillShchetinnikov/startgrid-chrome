@@ -1,0 +1,211 @@
+:root {
+  /* Colors */
+  --color-primary: rgb(91 79 214);
+  --color-primary-dark: rgb(67 56 176);
+  --color-primary-alpha-40: rgb(91 79 214 / 32%);
+  --color-accent: rgb(244 108 132);
+  --color-muted: rgb(132 129 151);
+  --color-warning: rgb(220 66 87);
+  --color-warning-alpha-20: rgb(220 66 87 / 18%);
+
+  /* Theme */
+  --theme-background: rgb(249 248 252);
+  --theme-background-alpha-0: rgb(255 255 255 / 0%);
+  --theme-background-alpha-95: rgb(255 255 255 / 95%);
+  --theme-background-2: rgb(255 255 255);
+  --theme-background-3: rgb(239 237 247);
+  --theme-background-3-alpha-0: rgb(239 237 247 / 0%);
+  --theme-background-3-alpha-65: rgb(239 237 247 / 75%);
+  --theme-background-3-alpha-95: rgb(239 237 247 / 96%);
+  --theme-background-input: var(--theme-background);
+  --theme-text-color: rgb(39 37 57);
+  --theme-invert-alpha-10: rgba(0 0 0 / 10%);
+  --theme-invert-alpha-20: rgba(0 0 0 / 20%);
+  --theme-invert-alpha-50: rgba(0 0 0 / 50%);
+
+  /* body */
+  --body-background: var(--theme-background);
+  --filter-invert-image: none;
+
+  /* Base */
+  --font-family: inter, ui-sans-serif, -apple-system, "BlinkMacSystemFont", "Segoe UI", sans-serif;
+  --font-size-base: 14px;
+  --line-height: 1.5;
+  --base-radius: 14px;
+  --surface-border: 1px solid rgb(80 70 120 / 11%);
+  --surface-shadow: 0 14px 40px rgb(42 35 82 / 10%);
+
+  /* Spiner */
+  --spinner-size: 12px;
+  --spinner-color: var(--color-primary);
+
+  /* Bookmark */
+  --bookmark-aspect-ratio: 4 / 3;
+  --bookmark-logo-size: 32px;
+  --bookmark-radius: 18px;
+  --bookmark-bg: var(--theme-background-2);
+  --bookmark-overlay-bg: var(--theme-background-3-alpha-95);
+  --bookmark-caption-bg: var(--theme-background-2);
+  --bookmark-caption-after-transparent: var(--theme-background-3-alpha-0);
+  --bookmark-caption-color: var(--theme-text-color);
+  --bookmark-outline-color: var(--color-primary-alpha-40);
+  --bookmark-image-fill: var(--filter-invert-image);
+  --bookmark-dropzone-outline-width: 2px;
+  --bookmark-dropzone-outline: var(--bookmark-dropzone-outline-width) dashed var(--theme-invert-alpha-50);
+  --bookmark-dropzone-background: var(--theme-background-2);
+  --bookmark-dropzone-background-active: var(--color-primary-alpha-40);
+  --bookmark-dropzone-icon-invert: none;
+  --dropline-width: 6px;
+
+  /* Options */
+  --options-slider-width: 700px;
+  --options-slider-transition: 0.35s cubic-bezier(0, 0, 0.2, 1);
+
+  /* Forms */
+  --header-input-color-controls: var(--color-primary-dark);
+  --search-reset-btn-color: #000;
+  --input-border: 1px solid rgb(80 70 120 / 14%);
+  --input-padding: 12px 14px;
+  --input-shadow-color: rgb(91 79 214 / 18%);
+  --input-shadow: 0 0 0 4px var(--input-shadow-color);
+  --input-shadow-error: 0 0 7px 2px var(--color-warning-alpha-20);
+  --input-placeholder-color: hsl(0deg 0% 66%);
+  --input-placeholder-focus-color: hsl(0deg 0% 80%);
+  --input-bg: var(--theme-background-input);
+  --input-text-color: inherit;
+  --select-icon: url("/img/select-arrow.svg");
+  --select-folder: url("/img/select-dark-folder.svg");
+  --input-radius: 14px;
+
+  /* Buttons */
+  --btn: linear-gradient(135deg, var(--color-primary), rgb(126 67 206));
+  --btn-active: var(--color-primary-dark);
+  --btn-color: #fff;
+  --btn-padding: 10px 17px;
+  --btn-radius: 12px;
+  --circ-btn-size: 42px;
+
+  /* Scrollbar */
+  --scrollbar-width: 10px;
+  --scrollbar-color: rgb(91 79 214 / 35%);
+  --scrollbar-hover-color: rgb(91 79 214 / 60%);
+
+  /* Switch */
+  --switch-width: 38px;
+  --switch-height: 20px;
+  --switch-inactive-bar: rgb(126 122 148 / 28%);
+  --switch-inactive-circle: #fff;
+  --switch-active-bar-color: hsl(217deg 89% 61% / 40%);
+  --switch-active-bar: var(--switch-active-bar-color);
+  --switch-active-circle: var(--color-primary);
+  --switch-circle-size: 18px;
+
+  /* Grid */
+  --container-width: 100%;
+  --grid-column-min-width: 80px;
+  --grid-gap: 16px;
+  --grid-columns: auto-fit;
+
+  /* Modal */
+  --modal-background: var(--theme-background-2);
+  --modal-custom-image-background: var(--theme-background-3);
+  --modal-header-border-color: #ddd;
+  --modal-footer-border-color: var(--modal-header-border-color);
+  --modal-close-fill: #000;
+  --modal-custom-image-filter: invert(1);
+
+  /* options */
+  --options-background: rgb(244 242 249);
+  --option-tbl-hover-bg: rgb(91 79 214 / 5%);
+  --tabs-control-background: var(--theme-background-3);
+  --tabs-control-gradient-background-alpha-0: rgb(249 249 249 / 0%);
+  --tabs-control-gradient-background: rgb(249 249 249 / 95%);
+  --tabs-content-background: var(--theme-background);
+
+  /* not found */
+  --notfound-background: var(--theme-background-3-alpha-65);
+  --notfound-color: var(--theme-text-color);
+  --notfound-icon-filter: var(--filter-invert-image);
+
+  /* Context menu */
+  --context-menu-bg: rgb(255 255 255 / 96%);
+  --context-menu-bg-hover: var(--theme-background-3);
+  --context-menu-color: var(--theme-text-color);
+  --context-menu-divider: rgb(0 0 0 / 10%);
+
+  /* search engines */
+  --engine-svg-color: #555;
+
+  /* services popup */
+
+  color-scheme: light;
+}
+
+.dark {
+  --theme-background: rgb(24 22 34);
+  --theme-background-alpha-0: rgb(33 33 33 / 0%);
+  --theme-background-alpha-95: rgb(33 33 33 / 95%);
+  --theme-background-2: rgb(34 31 48);
+  --theme-background-3: rgb(48 44 65);
+  --theme-background-3-alpha-0: rgb(64 64 64 / 0%);
+  --theme-background-3-alpha-65: rgb(64 64 64 / 65%);
+  --theme-background-3-alpha-95: rgb(64 64 64 / 95%);
+  --theme-background-input: var(--theme-background-3);
+  --theme-invert-alpha-10: rgb(255 255 255 / 10%);
+  --theme-invert-alpha-20: rgba(255 255 255 / 20%);
+  --theme-invert-alpha-50: rgb(255 255 255 / 50%);
+
+  /* body */
+  --body-background: var(--theme-background);
+  --theme-text-color: rgb(244 242 250);
+
+  /* Colors */
+  --filter-invert-image: invert(1);
+
+  /* Scrollbar dark theme */
+  --scrollbar-color: rgb(160 151 224 / 45%);
+  --scrollbar-hover-color: rgb(160 151 224 / 70%);
+
+  /* bookmark  dark theme */
+  --bookmark-image-fill: var(--filter-invert-image);
+  --bookmark-dropzone-border: 2px dashed #999;
+  --bookmark-dropzone-icon-invert: invert(1);
+
+  /* Forms  dark theme */
+  --header-input-color-controls: #fff;
+  --search-reset-btn-color: #fff;
+  --input-text-color: rgb(255 255 255 / 80%);
+  --input-placeholder-color: hsl(0deg 0% 50%);
+  --input-placeholder-focus-color: hsl(0deg 0% 50% / 70%);
+  --input-border: 1px solid transparent;
+  --select-icon: url("/img/select-arrow-light.svg");
+  --select-folder: url("/img/select-folder.svg");
+
+  /* Options  dark theme */
+  --options-background: rgb(20 18 29);
+  --option-tbl-hover-bg: hsl(0deg 0% 0% / 7%);
+  --tabs-content-background: var(--theme-background-2);
+  --tabs-control-gradient-background-alpha: var(--theme-background-alpha-0);
+  --tabs-control-gradient-background: hsl(0deg 0% 13% / 95%);
+
+  /* Modal dark theme */
+  --modal-header-border-color: rgb(220 220 220 / 10%);
+  --modal-close-fill: #fff;
+  --modal-custom-image-bg: var(--theme-bg-200);
+  --modal-custom-image-filter: none;
+
+  /* notfound dark theme */
+  --notfound-color: var(--theme-text-color);
+  --notfound-icon-filter: var(--filter-invert-image);
+
+  /* Context menu */
+  --context-menu-bg: rgb(34 31 48 / 97%);
+  --context-menu-divider: rgb(255 255 255 / 10%);
+
+  /* search engines */
+  --engine-svg-color: #fafafa;
+
+  /* services popup */
+
+  color-scheme: dark;
+}

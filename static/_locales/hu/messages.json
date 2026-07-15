@@ -1,0 +1,597 @@
+{
+  "ext_name": {
+    "message": "StartGrid"
+  },
+  "ext_desc": {
+    "message": "Egyszerű gyorshívó könyvjelző oldal, beleértve a keresést, a könyvjelzők hozzáadását, szerkesztését, törlését és áthúzását."
+  },
+  "default_title": {
+    "message": "StartGrid"
+  },
+  "color_theme": {
+    "message": "Színséma"
+  },
+  "dark_theme": {
+    "message": "Sötét"
+  },
+  "light_theme": {
+    "message": "Világos"
+  },
+  "os_theme": {
+    "message": "OS téma"
+  },
+  "placeholder_input_search": {
+    "message": "Keresés a $engine$",
+    "placeholders": {
+      "engine": {
+        "content": "$1"
+      }
+    }
+  },
+  "placeholder_input_search_bookmarks": {
+    "message": "könyvjelzőkben"
+  },
+  "search_browser_default": {
+    "message": "Böngésző beállítás"
+  },
+  "placeholder_input_title": {
+    "message": "Adja meg a könyvjelző címét"
+  },
+  "label_title": {
+    "message": "Cím"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "label_folder": {
+    "message": "Mappa"
+  },
+  "thumbnail_source": {
+    "message": "Bélyegkép forrása"
+  },
+  "thumbnail_actions": {
+    "message": "Bélyegkép-műveletek"
+  },
+  "thumbnail_source_local": {
+    "message": "Helyi tárhely"
+  },
+  "thumbnail_source_site": {
+    "message": "Létrehozás a webhelyről"
+  },
+  "thumbnail_source_url": {
+    "message": "URL-címről"
+  },
+  "thumbnail_source_favicon": {
+    "message": "Webhely faviconja"
+  },
+  "thumbnail_url": {
+    "message": "Bélyegkép URL-címe"
+  },
+  "thumbnail_url_note": {
+    "message": "A kép helyben van gyorsítótárazva, és rendszeresen frissítésre kerül."
+  },
+  "notice_thumbnail_url_failed": {
+    "message": "Nem sikerült letölteni a bélyegképet az URL-címről"
+  },
+  "url_field_tip": {
+    "message": "Adja meg az URL-címet, vagy hagyja üresen, ha létre akarja hozni a mappát."
+  },
+  "btn_close": {
+    "message": "Mégse"
+  },
+  "btn_save": {
+    "message": "Mentés"
+  },
+  "btn_back": {
+    "message": "Kész"
+  },
+  "back_to_main": {
+    "message": "Vissza a könyvjelzőkhöz"
+  },
+  "btn_apply": {
+    "message": "Alkalmaz"
+  },
+  "contextmenu_tab": {
+    "message": "Megnyitás új lapon"
+  },
+  "contextmenu_window": {
+    "message": "Megnyitás új ablakban"
+  },
+  "contextmenu_open_all": {
+    "message": "Az összes megnyitása"
+  },
+  "contextmenu_open_all_window": {
+    "message": "Mindent új ablakban nyit meg"
+  },
+  "contextmenu_incognito": {
+    "message": "Megnyitás inkognitó módban"
+  },
+  "contextmenu_copy_link": {
+    "message": "Link címének másolása"
+  },
+  "contextmenu_edit": {
+    "message": "Szerkesztés"
+  },
+  "contextmenu_capture": {
+    "message": "Miniatűr frissítése"
+  },
+  "contextmenu_upload": {
+    "message": "Feltöltés a számítógépről"
+  },
+  "contextmenu_upload_paste": {
+    "message": "Feltöltés vágólapról"
+  },
+  "contextmenu_remove": {
+    "message": "Eltávolítás"
+  },
+  "confirm_delete_image": {
+    "message": "Kép törlése?"
+  },
+  "confirm_delete_images": {
+    "message": "Biztos vagy benne? Minden helyi kép törlésre kerül!"
+  },
+  "confirm_delete_bookmark": {
+    "message": "Biztos, hogy törölni szeretné a könyvjelzőt? ?"
+  },
+  "confirm_delete_folder": {
+    "message": "Biztos, hogy törölni szeretné a mappát és annak minden tartalmát? ?"
+  },
+  "confirm_restore_default_settings": {
+    "message": "Biztos, hogy vissza akarja állítani az alapértelmezett beállításokat?"
+  },
+  "confirm_clear_sync_settings": {
+    "message": "Biztos, hogy törölni szeretné az összes korábban szinkronizált adatot az újrakezdéshez? ?"
+  },
+  "confirm_sync_remote_settings": {
+    "message": "Korábban szinkronizáltad az adatokat!!!\n Szeretné felülírni a jelenlegi helyi beállításokat a korábban elmentett távoli beállításokkal?"
+  },
+  "notice_image_removed": {
+    "message": "A kép eltávolításra került"
+  },
+  "notice_thumb_image_updated": {
+    "message": "Könyvjelző miniatűrök frissítése"
+  },
+  "notice_bookmark_exist": {
+    "message": "A könyvjelző már létezik"
+  },
+  "notice_bookmark_created": {
+    "message": "Létrehozott könyvjelző"
+  },
+  "notice_bookmark_updated": {
+    "message": "Könyvjelző módosítva"
+  },
+  "notice_bookmark_removed": {
+    "message": "Könyvjelző \"<span data-title>$title$</span>\" törölve",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_folder_removed": {
+    "message": "Mappa \"<span data-title>$title$</span>\" törölve",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_selected_bookmarks_removed": {
+    "message": "A kiválasztott könyvjelzők törölve lettek"
+  },
+  "notice_images_removed": {
+    "message": "Minden kép törlésre került"
+  },
+  "notice_cant_find_id": {
+    "message": "Nem találom a mappát az azonosító alapján. Talán nem szinkronizáltad a könyvjelzőket?"
+  },
+  "notice_reset_default_settings": {
+    "message": "Az alapértelmezett helyi beállítások visszaállítása"
+  },
+  "notice_sync_settings_cleared": {
+    "message": "Szinkronizált beállítások és adatok törölve."
+  },
+  "notice_bg_image_updated": {
+    "message": "A háttérkép megváltozott"
+  },
+  "notice_thumbnails_update_complete": {
+    "message": "A miniatűrök frissítése befejeződött"
+  },
+  "notice_link_copied": {
+    "message": "Link másolva"
+  },
+  "alert_file_type_fail_type": {
+    "message": "Rossz fájltípus\nÉrvényes fájltípus ($type$)",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert_file_type_fail_size": {
+    "message": "Maximális feltölthető fájlméret: $filesize$ MB",
+    "placeholders": {
+      "filesize": {
+        "content": "$1"
+      }
+    }
+  },
+  "not_found_text": {
+    "message": "Nem találja a mappát az azonosító alapján. Lehet, hogy nem szinkronizálta a könyvjelzőket, vagy törölte vagy | áthelyezte ezt a mappát."
+  },
+  "not_found_link_text": {
+    "message": "Könyvjelzők sáv"
+  },
+  "add_bookmark": {
+    "message": "Hozzáadás a könyvjelzőkhöz"
+  },
+  "save_to_current_folder": {
+    "message": "Mentés az aktuális mappába"
+  },
+  "edit_bookmark": {
+    "message": "Könyvjelző szerkesztése"
+  },
+  "options": {
+    "message": "Beállítások"
+  },
+  "quick_display_settings": {
+    "message": "Quick bookmark appearance"
+  },
+  "quick_display_settings_description": {
+    "message": "Changes are applied immediately"
+  },
+  "more_settings": {
+    "message": "All settings"
+  },
+  "bookmark_appearance_setting": {
+    "message": "Bookmarks"
+  },
+  "page_appearance_setting": {
+    "message": "Page"
+  },
+  "bookmark_behavior_setting": {
+    "message": "Behavior"
+  },
+  "thumbnails_setting": {
+    "message": "Thumbnails"
+  },
+  "thumbnails_setting_description": {
+    "message": "Settings in this section apply to all supported thumbnail sources: website screenshots, image URLs, and favicons. Locally uploaded images are never replaced automatically."
+  },
+  "data_privacy_setting": {
+    "message": "Data and privacy"
+  },
+  "logo_external_url": {
+    "message": "External logo URL"
+  },
+  "dial_width": {
+    "message": "Panel szélessége"
+  },
+  "number_of_columns": {
+    "message": "Oszlopok száma"
+  },
+  "vertical_center": {
+    "message": "Függőlegesen középre igazítás"
+  },
+  "default_folder_id": {
+    "message": "Alapértelmezett mappa"
+  },
+  "default_folder_sync_note": {
+    "message": "A szinkronizálás be van kapcsolva. Ez a beállítás a Chrome Sync szolgáltatásban tárolódik."
+  },
+  "default_folder_local_note": {
+    "message": "A szinkronizálás ki van kapcsolva. Ez a beállítás ezen az eszközön tárolódik."
+  },
+  "background": {
+    "message": "Háttér"
+  },
+  "color": {
+    "message": "Szín"
+  },
+  "background_noimage": {
+    "message": "Háttérkép nélkül"
+  },
+  "background_noimage_text": {
+    "message": "Téma háttérkép nélkül"
+  },
+  "background_bing": {
+    "message": "Bing napi képe"
+  },
+  "background_bing_text": {
+    "message": "A Bing napi képe egy napi háttérfotó, amely megjelenik a Bing kezdőlapján. A Microsoft minden nap lenyűgöző vagy érdekes képet mutat be a természetből, az építészetből vagy a kultúrából a világ különböző részeiről"
+  },
+  "bing_permission_toast": {
+    "message": "A Bing napi képe funkcióhoz engedély szükséges a bing.com webhelyhez. Ezt az engedélyt a <a href=\"/options.html\">beállítások oldalon</a> engedélyezheti a „Bing napi képe” opció kiválasztásával és az engedély megerősítésével."
+  },
+  "background_external": {
+    "message": "Kép az URL-címről"
+  },
+  "background_local": {
+    "message": "Kép vagy videó számítógépről"
+  },
+  "background_effect": {
+    "message": "Háttéreffektus"
+  },
+  "background_effect_note": {
+    "message": "Kísérleti funkció, befolyásolhatja a teljesítményt"
+  },
+  "background_effect_distortion": {
+    "message": "Torzítás"
+  },
+  "background_effect_none": {
+    "message": "Nincs"
+  },
+  "choose_file": {
+    "message": "Kép vagy videó"
+  },
+  "show_settings_icon": {
+    "message": "A beállítások ikonjának megjelenítése"
+  },
+  "show_quick_settings_icon": {
+    "message": "Show the quick settings icon"
+  },
+  "show_toolbar": {
+    "message": "Keresősáv és mappaválasztás megjelenítése"
+  },
+  "show_create_column": {
+    "message": "Könyvjelző hozzáadására szolgáló miniatűr megjelenítése"
+  },
+  "show_bookmark_title": {
+    "message": "Könyvjelző címének megjelenítése"
+  },
+  "show_favicon": {
+    "message": "A kedvencek ikon megjelenítése a cím mellett"
+  },
+  "open_link_newtab": {
+    "message": "Nyissa meg a könyvjelzőket, és keressen egy új lapon"
+  },
+  "show_contextmenu_item": {
+    "message": "Megjelenítés a helyi menüben"
+  },
+  "drag_and_drop": {
+    "message": "Drag & Drop engedélyezése"
+  },
+  "auto_generate_thumbnail": {
+    "message": "Miniatűrkép generálása könyvjelző létrehozásakor"
+  },
+  "enable_sync": {
+    "message": "Szinkronizálás engedélyezése"
+  },
+  "clear_background_locals": {
+    "message": "A helyi képeket tartalmazó mappa törlése"
+  },
+  "reset_local_default": {
+    "message": "Helyi beállítások visszaállítása alapértelmezett értékekre"
+  },
+  "reset_sync_text": {
+    "message": "Szinkronizált adatok törlése a kiszolgálóról"
+  },
+  "version": {
+    "message": "Verzió"
+  },
+  "thumbnails_creation": {
+    "message": "Miniatűrök létrehozása: $start$ a $total$-ból",
+    "placeholders": {
+      "start": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "thumbnails_update_warn": {
+    "message": "A miniatűrök frissítése befolyásolhatja a teljesítményt (a mappában lévő könyvjelzők számától és a számítógép teljesítményétől függően)."
+  },
+  "thumbnails_update_button": {
+    "message": "Miniatűrök frissítése gomb"
+  },
+  "thumbnails_update_recursive": {
+    "message": "Beleértve az almappákat is"
+  },
+  "thumbnails_update_recursive_note": {
+    "message": "Ha a(z) \"$option$\" opció engedélyezve van",
+    "placeholders": {
+      "option": {
+        "content": "$1"
+      }
+    }
+  },
+  "thumbnails_auto_refresh": {
+    "message": "Automatically refresh thumbnails"
+  },
+  "thumbnails_auto_refresh_note": {
+    "message": "Checks and refreshes outdated thumbnails when the home page opens"
+  },
+  "thumbnails_auto_refresh_interval": {
+    "message": "Automatic refresh interval"
+  },
+  "thumbnails_auto_refresh_interval_note": {
+    "message": "Time between thumbnail refreshes, from 1 hour to 7 days"
+  },
+  "hours_short": {
+    "message": "h"
+  },
+  "folder_preview": {
+    "message": "A webhelyek miniatűrjei egy mappában ikon helyett."
+  },
+  "folder_preview_description": {
+    "message": "Amíg ez a beállítás be van kapcsolva, az ikon vagy az egyéni kép helyett 4 véletlenszerű oldal miniatűrképe jelenik meg a mappából."
+  },
+  "backup_settings": {
+    "message": "Importálás / exportálás beállítások"
+  },
+  "backup_settings_description": {
+    "message": "Biztonsági mentés csak a kiterjesztés beállításairól, kivéve a könyvjelzőket és a képeket"
+  },
+  "import": {
+    "message": "Importálás"
+  },
+  "export": {
+    "message": "Exportálás"
+  },
+  "import_settings_success": {
+    "message": "Importált beállítások."
+  },
+  "import_settings_failed": {
+    "message": "Nem sikerült elemezni a beállításfájlt!"
+  },
+  "without_confirmation": {
+    "message": "Törléskor ne kérjen megerősítést"
+  },
+  "toggle_clipboard_access": {
+    "message": "Engedély a vágólap olvasásához"
+  },
+  "toggle_clipboard_access_description": {
+    "message": "Lehetővé teszi a bővítmény számára, hogy adatokat olvasson a vágólapról a könyvjelző miniatűrjének feltöltéséhez. A könyvjelző szerkesztési ablakában elérhetővé válik a „Feltöltés a vágólapról” művelet. Ha aggódik emiatt az engedély miatt, egyszerűen ne engedélyezze azt."
+  },
+  "error_input_required": {
+    "message": "Kötelező mező"
+  },
+  "error_input_url": {
+    "message": "Érvénytelen URL"
+  },
+  "thumbnails_update_delay": {
+    "message": "Késleltetés a bélyegkép létrehozása előtt"
+  },
+  "thumbnails_update_delay_note": {
+    "message": "Hasznos lehet, ha az oldal tartalma hosszú ideig betöltődik. Minél hosszabb a késés, annál hosszabb a várakozás"
+  },
+  "close_tab_after_adding_bookmark": {
+    "message": "Egy lap automatikus bezárása, ha felvette a könyvjelzők közé"
+  },
+  "close_tab_after_adding_bookmark_note": {
+    "message": "Csak a helyi menün keresztül történő hozzáadásakor"
+  },
+  "empty_search": {
+    "message": "A könyvjelzők nem találhatók"
+  },
+  "logo_external": {
+    "message": "Külső logók"
+  },
+  "logo_external_note": {
+    "message": "Hivatkozás külső logóforrásra. Ügyeljen arra, hogy az <code>{{website}}</code> aláfűzés változatlan maradjon, és a megfelelő helyre kerüljön a hivatkozásban"
+  },
+  "delete_thumbnail": {
+    "message": "Törlés a helyi tárhelyről"
+  },
+  "show_back_column": {
+    "message": "Vissza miniatűr megjelenítése a lapokon"
+  },
+  "search_engine": {
+    "message": "Alapértelmezett kereső"
+  },
+  "move_to_start": {
+    "message": "Helyezzen át egy könyvjelzőt a lista elejére egy mappán belül"
+  },
+  "bookmarks_sorting_type": {
+    "message": "Rendezés típus szerint"
+  },
+  "sort_by": {
+    "message": "Rendezés"
+  },
+  "sort_by_date": {
+    "message": "Dátum szerint"
+  },
+  "sort_by_alphabet": {
+    "message": "Ábécé sorrendben"
+  },
+  "not_sorting": {
+    "message": "Nincs rendezés"
+  },
+  "folders_on_top": {
+    "message": "Mappák felül"
+  },
+  "folders_at_the_bottom": {
+    "message": "Mappák alul"
+  },
+  "bookmarks_sorting_warning": {
+    "message": "A fogd és vidd rendezés le lesz tiltva, ha valamelyik rendezési opciót kiválasztja"
+  },
+  "search_autofocus": {
+    "message": "Fókuszáljon a keresősávra"
+  },
+  "confirm_delete_selected_bookmarks": {
+    "message": "Biztosan törli a kiválasztott könyvjelzőket ?"
+  },
+  "button_action_move": {
+    "message": "Áthelyezés mappába"
+  },
+  "parent_folder": {
+    "message": "Szülőmappa"
+  },
+  "new_bookmark": {
+    "message": "Új könyvjelző"
+  },
+  "modal_dismiss": {
+    "message": "Modális elutasítás"
+  },
+  "remove_thumbnail": {
+    "message": "Távolítsa el az indexképet"
+  },
+  "thumbnails_update": {
+    "message": "Miniatűrök frissítése"
+  },
+  "bookmark_context": {
+    "message": "Könyvjelző kontextus"
+  },
+  "clear_search": {
+    "message": "Keresés törlése"
+  },
+  "search_suggestions_permission_tooltip": {
+    "message": "A keresési automatikus kiegészítésekhez hozzáférés szükséges a Google.com-hoz"
+  },
+  "search": {
+    "message": "Keresés"
+  },
+  "toggle_selected_bookmarks_popup": {
+    "message": "Kapcsolja be a felugró ablakot a hivatkozások megnyitásához"
+  },
+  "toggle_search_popup": {
+    "message": "Felugró ablak váltása kereséssel"
+  },
+  "open_selected": {
+    "message": "Kijelölt megnyitása"
+  },
+  "delete_selected": {
+    "message": "Kijelöltek eltávolítása"
+  },
+  "select_folder": {
+    "message": "Válasszon ki egy mappát"
+  },
+  "show_last_opened_folder": {
+    "message": "Legutóbb megnyitott mappa megjelenítése"
+  },
+  "history_back": {
+    "message": "Vissza az előzményekhez"
+  },
+  "default_folder_home": {
+    "message": "Ugrás az alapértelmezett mappába"
+  },
+  "incognito_access_note": {
+    "message": "Engedélyeznie kell a bővítmény privát módban történő futtatását"
+  },
+  "notice_host_permissions": {
+    "message": "A weboldalak bélyegképeinek létrehozásához engedély szükséges a felhasználótól, hogy a bővítmény hozzáférhessen a weboldalakhoz."
+  },
+  "learn_more": {
+    "message": "Tudjon meg többet"
+  },
+  "why_use_host_permissions": {
+    "message": "Miért használjuk ezt a jogosultságot?"
+  },
+  "host_permissions_info": {
+    "message": "<p>Ez az engedély szükséges a webhelyek képernyőképeinek generálásához. A bővítmény nem gyűjt, követ, vagy módosítja az adataidat a webhelyeken. Az egyetlen módosítás, ami történik a weboldal külön ablakban történő megnyitása után, az a görgetősáv elrejtése a webhelyen a képernyőkép generálása előtt (hogy a képernyőkép lehetőleg ne tartalmazzon görgetősávot). A bővítmény kódja elérhető a <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. Ha aggódsz emiatt a jogosultság miatt, választhatod, hogy nem adsz hozzá engedélyt, az alkalmazás még mindig működni fog nélküle, de az internetes oldalakról készített képernyőképek mentése könyvjelzőkhöz nem lesz elérhető.</p><p>Ezt az engedélyt kérni fogják, amikor megpróbálod a webhely képernyőképét elkészíteni (ha letiltva van). Ezt a jogot a böngészőbeállításokban is kezelheted egy ablak megnyitásával, amely részletes információkat tartalmaz a bővítményről.</p>"
+  },
+  "example_string": {
+    "message": "Példa: $string$",
+    "placeholders": {
+      "string": {
+        "content": "$1"
+      }
+    }
+  },
+  "undo": {
+    "message": "Visszavonás"
+  }
+}

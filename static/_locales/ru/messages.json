@@ -1,0 +1,597 @@
+{
+  "ext_name": {
+    "message": "StartGrid"
+  },
+  "ext_desc": {
+    "message": "Простая страница визуальных закладок, включает в себя поиск, добавление, редактирование, удаление и сортировку закладок."
+  },
+  "default_title": {
+    "message": "StartGrid"
+  },
+  "color_theme": {
+    "message": "Цветовая тема"
+  },
+  "dark_theme": {
+    "message": "Тёмная"
+  },
+  "light_theme": {
+    "message": "Светлая"
+  },
+  "os_theme": {
+    "message": "Тема ОС"
+  },
+  "placeholder_input_search": {
+    "message": "Поиск в $engine$",
+    "placeholders": {
+      "engine": {
+        "content": "$1"
+      }
+    }
+  },
+  "placeholder_input_search_bookmarks": {
+    "message": "закладках"
+  },
+  "search_browser_default": {
+    "message": "Настройки браузера"
+  },
+  "placeholder_input_title": {
+    "message": "Введите название закладки"
+  },
+  "label_title": {
+    "message": "Название"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "label_folder": {
+    "message": "Папка"
+  },
+  "thumbnail_source": {
+    "message": "Источник миниатюры"
+  },
+  "thumbnail_actions": {
+    "message": "Действия с миниатюрой"
+  },
+  "thumbnail_source_local": {
+    "message": "Локальное хранилище"
+  },
+  "thumbnail_source_site": {
+    "message": "Создать миниатюру из сайта"
+  },
+  "thumbnail_source_url": {
+    "message": "Из URL"
+  },
+  "thumbnail_source_favicon": {
+    "message": "Favicon сайта (по умолчанию)"
+  },
+  "thumbnail_url": {
+    "message": "URL миниатюры"
+  },
+  "thumbnail_url_note": {
+    "message": "Изображение хранится локально и периодически проверяется на обновления."
+  },
+  "notice_thumbnail_url_failed": {
+    "message": "Не удалось скачать миниатюру по URL"
+  },
+  "url_field_tip": {
+    "message": "Введите URL или оставьте поле пустым, если вы хотите создать папку"
+  },
+  "btn_close": {
+    "message": "Отмена"
+  },
+  "btn_save": {
+    "message": "Сохранить"
+  },
+  "btn_back": {
+    "message": "Готово"
+  },
+  "back_to_main": {
+    "message": "Назад к закладкам"
+  },
+  "btn_apply": {
+    "message": "Применить"
+  },
+  "contextmenu_tab": {
+    "message": "Открыть в новой вкладке"
+  },
+  "contextmenu_window": {
+    "message": "Открыть в новом окне"
+  },
+  "contextmenu_open_all": {
+    "message": "Открыть все"
+  },
+  "contextmenu_open_all_window": {
+    "message": "Открыть все в новом окне"
+  },
+  "contextmenu_incognito": {
+    "message": "Открыть в режиме инкогнито"
+  },
+  "contextmenu_copy_link": {
+    "message": "Копировать адрес ссылки"
+  },
+  "contextmenu_edit": {
+    "message": "Редактировать"
+  },
+  "contextmenu_capture": {
+    "message": "Обновить миниатюру"
+  },
+  "contextmenu_upload": {
+    "message": "Загрузить с компьютера"
+  },
+  "contextmenu_upload_paste": {
+    "message": "Загрузить из буфера обмена"
+  },
+  "contextmenu_remove": {
+    "message": "Удалить"
+  },
+  "confirm_delete_image": {
+    "message": "Удалить изображение ?"
+  },
+  "confirm_delete_images": {
+    "message": "Вы уверены? Все локальные изображения будут удалены."
+  },
+  "confirm_delete_bookmark": {
+    "message": "Вы действительно хотите удалить закладку ?"
+  },
+  "confirm_delete_folder": {
+    "message": "Вы действительно хотите удалить папку и все ее содержимое ?"
+  },
+  "confirm_restore_default_settings": {
+    "message": "Вы действительно хотите восстановить настройки по умолчанию ?"
+  },
+  "confirm_clear_sync_settings": {
+    "message": "Вы действительно хотите сбросить сихронизированные настройки ?"
+  },
+  "confirm_sync_remote_settings": {
+    "message": "Вы хотите перезаписать свои текущие локальные настройки ранее синхронизированными настройками ?"
+  },
+  "notice_image_removed": {
+    "message": "Изображение было удалено"
+  },
+  "notice_thumb_image_updated": {
+    "message": "Изображение закладки обновлено"
+  },
+  "notice_bookmark_exist": {
+    "message": "Закладка уже существует"
+  },
+  "notice_bookmark_created": {
+    "message": "Закладка создана"
+  },
+  "notice_bookmark_updated": {
+    "message": "Закладка обновлена"
+  },
+  "notice_bookmark_removed": {
+    "message": "Закладка \"<span data-title>$title$</span>\" удалена",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_folder_removed": {
+    "message": "Папка \"<span data-title>$title$</span>\" удалена",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_selected_bookmarks_removed": {
+    "message": "Выбранные закладки удалены"
+  },
+  "notice_images_removed": {
+    "message": "Все изображения удалены"
+  },
+  "notice_cant_find_id": {
+    "message": "Папка не найдена. Возможно, у вас нет синхронизированных закладок"
+  },
+  "notice_reset_default_settings": {
+    "message": "Настройки успешно сброшены"
+  },
+  "notice_sync_settings_cleared": {
+    "message": "Синхронизированные настройки сброшены"
+  },
+  "notice_bg_image_updated": {
+    "message": "Фоновая картинка была изменена"
+  },
+  "notice_thumbnails_update_complete": {
+    "message": "Обновление миниатюр завершено"
+  },
+  "notice_link_copied": {
+    "message": "Ссылка скопирована"
+  },
+  "alert_file_type_fail_type": {
+    "message": "Неверный тип файла\nДопустимый тип файла ($type$)",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert_file_type_fail_size": {
+    "message": "Максимальный размер загружаемого файла: $filesize$ MB",
+    "placeholders": {
+      "filesize": {
+        "content": "$1"
+      }
+    }
+  },
+  "not_found_text": {
+    "message": "Папка не найдена. Возможно, у вас нет синхронизированных закладок или папка удалена|перемещена."
+  },
+  "not_found_link_text": {
+    "message": "Панель закладок"
+  },
+  "add_bookmark": {
+    "message": "Добавить в закладки"
+  },
+  "save_to_current_folder": {
+    "message": "Сохранить в текущей папке"
+  },
+  "edit_bookmark": {
+    "message": "Редактировать закладку"
+  },
+  "options": {
+    "message": "Опции"
+  },
+  "quick_display_settings": {
+    "message": "Быстрый вид закладок"
+  },
+  "quick_display_settings_description": {
+    "message": "Изменения применяются сразу"
+  },
+  "more_settings": {
+    "message": "Все настройки"
+  },
+  "bookmark_appearance_setting": {
+    "message": "Закладки"
+  },
+  "page_appearance_setting": {
+    "message": "Главная страница"
+  },
+  "bookmark_behavior_setting": {
+    "message": "Поведение"
+  },
+  "thumbnails_setting": {
+    "message": "Миниатюры"
+  },
+  "thumbnails_setting_description": {
+    "message": "Настройки этого раздела применяются ко всем поддерживаемым источникам миниатюр: снимкам сайтов, изображениям по URL и favicon. Загруженные вручную изображения автоматически не заменяются."
+  },
+  "data_privacy_setting": {
+    "message": "Данные и приватность"
+  },
+  "logo_external_url": {
+    "message": "URL внешних логотипов"
+  },
+  "dial_width": {
+    "message": "Ширина панели"
+  },
+  "number_of_columns": {
+    "message": "Кол-во колонок в ряду"
+  },
+  "vertical_center": {
+    "message": "Вертикальное центрирование"
+  },
+  "default_folder_id": {
+    "message": "Папка по умолчанию"
+  },
+  "default_folder_sync_note": {
+    "message": "Синхронизация включена. Настройка сохраняется в облаке Chrome Sync."
+  },
+  "default_folder_local_note": {
+    "message": "Синхронизация отключена. Настройка сохраняется на этом устройстве."
+  },
+  "background": {
+    "message": "Фон"
+  },
+  "color": {
+    "message": "Цвет"
+  },
+  "background_noimage": {
+    "message": "Без фонового изображения"
+  },
+  "background_noimage_text": {
+    "message": "Тема без фонового изображения"
+  },
+  "background_bing": {
+    "message": "Изображение дня Bing"
+  },
+  "background_bing_text": {
+    "message": "Изображение дня Bing — это ежедневное фоновое фото на главной странице Bing. Каждый день Microsoft показывает впечатляющее или интересное изображение природы, архитектуры или культуры со всего мира"
+  },
+  "bing_permission_toast": {
+    "message": "Изображение дня Bing требует разрешения на доступ к bing.com. Вы можете включить это разрешение на <a href=\"/options.html\">странице настроек</a>, выбрав опцию «Изображение дня Bing» и подтвердив разрешение."
+  },
+  "background_external": {
+    "message": "URL-адрес картинки"
+  },
+  "background_local": {
+    "message": "Изображение или видео с компьютера"
+  },
+  "background_effect": {
+    "message": "Эффект фона"
+  },
+  "background_effect_note": {
+    "message": "Экспериментальная функция, может повлиять на производительность"
+  },
+  "background_effect_distortion": {
+    "message": "Искажение"
+  },
+  "background_effect_none": {
+    "message": "Нет"
+  },
+  "choose_file": {
+    "message": "Изображение или видео"
+  },
+  "show_settings_icon": {
+    "message": "Показывать иконку настроек"
+  },
+  "show_quick_settings_icon": {
+    "message": "Показывать иконку быстрых настроек"
+  },
+  "show_toolbar": {
+    "message": "Показывать панель поиска и выбора папки"
+  },
+  "show_create_column": {
+    "message": "Показывать кнопку добавления закладки"
+  },
+  "show_bookmark_title": {
+    "message": "Показывать название закладки"
+  },
+  "show_favicon": {
+    "message": "Показывать иконки сайтов рядом с названием"
+  },
+  "open_link_newtab": {
+    "message": "Открывать закладки и поиск в новой вкладке"
+  },
+  "show_contextmenu_item": {
+    "message": "Показывать в контекстном меню"
+  },
+  "drag_and_drop": {
+    "message": "Включить перетаскивание"
+  },
+  "auto_generate_thumbnail": {
+    "message": "Автоматически получать favicon при создании закладки"
+  },
+  "enable_sync": {
+    "message": "Включить синхронизацию"
+  },
+  "clear_background_locals": {
+    "message": "Очистить папку с локальными миниатюрами"
+  },
+  "reset_local_default": {
+    "message": "Сброс к настройками по умолчанию"
+  },
+  "reset_sync_text": {
+    "message": "Удалить синхронизированные данные с сервера"
+  },
+  "version": {
+    "message": "Версия"
+  },
+  "thumbnails_creation": {
+    "message": "Создание миниатюр: $start$ из $total$",
+    "placeholders": {
+      "start": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "thumbnails_update_warn": {
+    "message": "Каждая миниатюра обновляется из выбранного для неё источника: сайт, URL изображения или favicon. Загруженные вручную изображения сохраняются без изменений. Обновление может влиять на производительность."
+  },
+  "thumbnails_update_button": {
+    "message": "Кнопка обновления миниатюр"
+  },
+  "thumbnails_update_recursive": {
+    "message": "Включая подпапки"
+  },
+  "thumbnails_update_recursive_note": {
+    "message": "Если опция \"$option$\" включена",
+    "placeholders": {
+      "option": {
+        "content": "$1"
+      }
+    }
+  },
+  "thumbnails_auto_refresh": {
+    "message": "Автоматически обновлять миниатюры"
+  },
+  "thumbnails_auto_refresh_note": {
+    "message": "Проверяет и обновляет устаревшие миниатюры при открытии главной страницы"
+  },
+  "thumbnails_auto_refresh_interval": {
+    "message": "Интервал автоматического обновления"
+  },
+  "thumbnails_auto_refresh_interval_note": {
+    "message": "Время между обновлениями миниатюр: от 1 часа до 7 дней"
+  },
+  "hours_short": {
+    "message": " ч"
+  },
+  "folder_preview": {
+    "message": "Миниатюры сайтов на папке вместо иконки"
+  },
+  "folder_preview_description": {
+    "message": "Пока включена эта настройка, будут отображаться миниатюры 4-x случайных сайтов из папки вместо иконки или пользовательской картинки"
+  },
+  "backup_settings": {
+    "message": "Импорт / Экспорт настроек"
+  },
+  "backup_settings_description": {
+    "message": "Резервное копирование только для настроек расширения, исключая закладки и изображения"
+  },
+  "import": {
+    "message": "Импорт"
+  },
+  "export": {
+    "message": "Экспорт"
+  },
+  "import_settings_success": {
+    "message": "Настройки импортированы"
+  },
+  "import_settings_failed": {
+    "message": "Неудалось распарсить файл с настройками"
+  },
+  "without_confirmation": {
+    "message": "Не спрашивать подтверждения при удалении"
+  },
+  "toggle_clipboard_access": {
+    "message": "Разрешение на чтение из буфера обмена"
+  },
+  "toggle_clipboard_access_description": {
+    "message": "Позволяет расширению считывать данные из буфера обмена для загрузки миниатюры. В окне редактирования закладки станет доступно действие «Загрузить из буфера обмена». Если вас беспокоит это разрешение, просто не включайте его."
+  },
+  "error_input_required": {
+    "message": "Обязательное поле"
+  },
+  "error_input_url": {
+    "message": "URL не валиден"
+  },
+  "thumbnails_update_delay": {
+    "message": "Задержка перед созданием миниатюры"
+  },
+  "thumbnails_update_delay_note": {
+    "message": "Это может быть полезно, когда контент страницы долго грузится. Чем больше задержка, тем больше ожидание"
+  },
+  "close_tab_after_adding_bookmark": {
+    "message": "Закрывать вкладку автоматически, если добавили ее в закладки"
+  },
+  "close_tab_after_adding_bookmark_note": {
+    "message": "Только при добавлении через контекстное меню"
+  },
+  "empty_search": {
+    "message": "Закладки не найдены"
+  },
+  "logo_external": {
+    "message": "Внешние логотипы"
+  },
+  "logo_external_note": {
+    "message": "Ссылка на сторонний ресурс логотипов. Будьте осторожны, подстрока <code>{{website}}</code> должна оставаться неизменной и подставляться в нужное место ссылки"
+  },
+  "delete_thumbnail": {
+    "message": "Удалить из локального хранилища"
+  },
+  "show_back_column": {
+    "message": "Показывать колонку назад в закладках"
+  },
+  "search_engine": {
+    "message": "Поисковая система"
+  },
+  "move_to_start": {
+    "message": "Перемещать закладку в начало списка внутри папки"
+  },
+  "bookmarks_sorting_type": {
+    "message": "Сортировка по типу"
+  },
+  "sort_by": {
+    "message": "Сортировать по"
+  },
+  "sort_by_date": {
+    "message": "Дате"
+  },
+  "sort_by_alphabet": {
+    "message": "Алфавиту"
+  },
+  "not_sorting": {
+    "message": "Не сортировать"
+  },
+  "folders_on_top": {
+    "message": "Папки наверху списка"
+  },
+  "folders_at_the_bottom": {
+    "message": "Папки внизу списка"
+  },
+  "bookmarks_sorting_warning": {
+    "message": "Сортировка перетаскиванием будет отключена, если выбран один из пунктов сортировки"
+  },
+  "search_autofocus": {
+    "message": "Фокус на строке поиска"
+  },
+  "confirm_delete_selected_bookmarks": {
+    "message": "Вы уверены, что хотите удалить выбранные закладки ?"
+  },
+  "button_action_move": {
+    "message": "Переместить в папку"
+  },
+  "parent_folder": {
+    "message": "Родительская папка"
+  },
+  "new_bookmark": {
+    "message": "Новая закладка"
+  },
+  "modal_dismiss": {
+    "message": "Зыкрыть окно"
+  },
+  "remove_thumbnail": {
+    "message": "Удалить миниатюру"
+  },
+  "thumbnails_update": {
+    "message": "Обновление миниатюр"
+  },
+  "bookmark_context": {
+    "message": "Контекст закладки"
+  },
+  "clear_search": {
+    "message": "Очистить поиск"
+  },
+  "search_suggestions_permission_tooltip": {
+    "message": "Для работы автоподсказок поиска необходим доступ к Google.com"
+  },
+  "search": {
+    "message": "Поиск"
+  },
+  "toggle_selected_bookmarks_popup": {
+    "message": "Переключатель всплывающего окна для октрытия выбранных закладок"
+  },
+  "toggle_search_popup": {
+    "message": "Переключатель всплывающего окна с поиском"
+  },
+  "open_selected": {
+    "message": "Открыть выбранные"
+  },
+  "delete_selected": {
+    "message": "Удалить выбранные"
+  },
+  "select_folder": {
+    "message": "Выбор папки"
+  },
+  "show_last_opened_folder": {
+    "message": "Показывать последнюю открытую папку"
+  },
+  "history_back": {
+    "message": "Назад"
+  },
+  "default_folder_home": {
+    "message": "Перейти в папку по умолчанию"
+  },
+  "incognito_access_note": {
+    "message": "Вы должны разрешить расширению работать в приватном режиме"
+  },
+  "notice_host_permissions": {
+    "message": "Для создания миниатюр веб-сайтов требуется разрешение пользователя, чтобы расширение могло получить доступ к веб-сайтам."
+  },
+  "learn_more": {
+    "message": "Узнать больше"
+  },
+  "why_use_host_permissions": {
+    "message": "Для чего нужно это разрешение?"
+  },
+  "host_permissions_info": {
+    "message": "<p>Данное разрешение необходимо для генерации скриншотов сайтов. Расширение не собирает, не отслеживает и не модифицирует Ваши данные на сайтах. Единственная модификация, которая происходит после открытия отдельного окна с сайтом, это скрытие полосы прокрутки на сайте, перед генерацией скриншота (чтобы скриншот по возможности был без полосы прокрутки). Код расширения доступен на <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. Если Вас пугает данное разрешение, его можно не давать, расширение будет работать без него, но генерация скриншотов сайтов для закладок будет не доступна.<p>Данное разрешение будет запрашиваться при попытке сделать скриншот сайта(если оно отключено). Так же этим правом можно управлять в настройках браузера, открыв окно с детальной информации о расширении.</p>"
+  },
+  "example_string": {
+    "message": "Пример: $string$",
+    "placeholders": {
+      "string": {
+        "content": "$1"
+      }
+    }
+  },
+  "undo": {
+    "message": "Отменить"
+  }
+}

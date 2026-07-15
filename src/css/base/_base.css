@@ -1,0 +1,122 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::placeholder {
+  color: var(--input-placeholder-color);
+}
+
+input[type="text"]:focus::placeholder {
+  color: var(--input-placeholder-focus-color);
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 35px;
+  background-clip: padding-box;
+  background-color: var(--scrollbar-color);
+  border: 2px solid transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-hover-color);
+}
+
+body {
+  margin: 0;
+  line-height: var(--line-height);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  overflow-x: hidden;
+  background-color: var(--body-background);
+  color: var(--theme-text-color);
+  background-image:
+    radial-gradient(circle at 8% 0%, rgb(122 83 218 / 9%), transparent 30rem),
+    radial-gradient(circle at 92% 6%, rgb(244 108 132 / 8%), transparent 27rem);
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 1;
+}
+
+p {
+  margin: 0 0 15px;
+}
+
+a {
+  text-decoration-line: underline;
+  text-underline-offset: 0.12em;
+  text-decoration-thickness: 1px;
+  color: var(--color-primary);
+
+  &:not([href]) {
+    cursor: default;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+video {
+  max-width: 100%;
+}
+
+.error-hint {
+  font-size: 90%;
+  color: var(--color-warning);
+}
+
+@keyframes zoom-out {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}

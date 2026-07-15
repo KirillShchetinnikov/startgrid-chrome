@@ -1,0 +1,13 @@
+StartGrid
+=========
+
+This project is based on the open-source project "Visual Bookmarks Chrome":
+https://github.com/k-ivan/visual-bookmarks-chrome
+
+Original author: Ivan Kuzmichov (k-ivan / ivan_k)
+Original package license: ISC
+
+StartGrid is independently developed and distributed. Its interface, visual
+system, project identity, Chrome-only platform layer, icons, build pipeline,
+storage namespaces, documentation, and release process have been rewritten or
+substantially reworked for this standalone project.

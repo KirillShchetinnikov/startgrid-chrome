@@ -1,0 +1,99 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+  },
+  "globals": {
+    "chrome": true,
+    "browser": true
+  },
+  "rules": {
+    "strict": 0,
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1,
+        "ignoredNodes": ["TemplateLiteral > *"]
+      }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single",
+      { "allowTemplateLiterals": true }
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-empty-function": "error",
+    "brace-style": "error",
+    "spaced-comment": "error",
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "ignoreComments": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    "eol-last": "error",
+    "no-useless-escape": "off",
+    "block-spacing": "error",
+    "array-bracket-spacing": "error",
+    "computed-property-spacing": "error",
+    "func-call-spacing": "error",
+    "keyword-spacing": "error",
+    "semi-spacing": "error",
+    "comma-spacing": "error",
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ],
+    "space-in-parens": "error",
+    "space-unary-ops": [
+      2,
+      {
+        "words": true,
+        "nonwords": false
+      }
+    ],
+    "space-infix-ops": ["error", { "int32Hint": false }],
+    "arrow-spacing": "error",
+    "no-var": "error",
+    "no-duplicate-imports": "error",
+    "no-unneeded-ternary": "error",
+    "object-curly-spacing": ["error", "always"],
+    "key-spacing": ["error", { "afterColon": true }],
+    "comma-dangle": ["error", "never"],
+    "padded-blocks": ["error", "never"],
+    "require-await": "error",
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxBOF": 0,
+        "maxEOF": 0
+      }
+    ]
+  }
+}

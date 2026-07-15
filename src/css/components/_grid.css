@@ -1,0 +1,30 @@
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding-inline: var(--container-padding-inline, 0);
+
+  @media (max-width: 768px) {
+    --container-padding-inline: 50px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(var(--grid-column-min-width), 1fr));
+  grid-gap: var(--grid-gap);
+  justify-content: center;
+
+  & .not-found {
+    grid-column: 1 / -1;
+  }
+}
+
+.grid--vcenter {
+  /* content padding + header height (+ top padding) */
+  min-height: calc(100vh - 115px);
+  align-content: center;
+
+  @nest .hidden-toolbar & {
+    min-height: calc(100vh - 60px);
+  }
+}

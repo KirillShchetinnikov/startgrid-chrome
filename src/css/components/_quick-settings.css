@@ -1,0 +1,131 @@
+.quick-settings {
+  position: fixed;
+  z-index: 1002;
+  right: 24px;
+  bottom: 88px;
+  width: min(390px, calc(100vw - var(--circ-btn-size) - 42px));
+  max-height: calc(100vh - 82px);
+  overflow-y: auto;
+  padding: 22px;
+  color: var(--theme-text-color);
+  background: var(--theme-background-alpha-95);
+  border: var(--surface-border);
+  border-radius: 20px;
+  box-shadow: var(--surface-shadow);
+  backdrop-filter: blur(22px) saturate(1.25);
+}
+
+.quick-settings[hidden] {
+  display: none;
+}
+
+.quick-settings__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 16px;
+
+  & h2 {
+    margin: 0 0 4px;
+    font-size: 1.3rem;
+    letter-spacing: -0.03em;
+  }
+
+  & p {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+}
+
+.quick-settings__close {
+  flex: 0 0 auto;
+  display: flex;
+  padding: 5px;
+  color: inherit;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+
+  & svg {
+    color: currentcolor;
+  }
+}
+
+.quick-settings__controls {
+  display: grid;
+  gap: 4px;
+}
+
+.quick-settings__field,
+.quick-settings__switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  min-height: 46px;
+  padding: 7px 9px;
+  border-radius: 12px;
+
+  &:hover,
+  &:focus-within {
+    background: var(--option-tbl-hover-bg);
+  }
+}
+
+.quick-settings__field > span:first-child,
+.quick-settings__switch-row > span:first-child {
+  font-weight: 600;
+}
+
+.quick-settings__field .form-control {
+  width: min(150px, 45%);
+}
+
+.quick-settings__range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  & input {
+    width: 120px;
+    accent-color: var(--color-primary);
+  }
+
+  & output {
+    min-width: 38px;
+    text-align: right;
+  }
+}
+
+.quick-settings__switch-row {
+  cursor: pointer;
+
+  & .switch__label {
+    padding-left: var(--switch-width);
+  }
+}
+
+.quick-settings__external-logo {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 7px;
+
+  & .form-control {
+    width: 100%;
+  }
+}
+
+.quick-settings__more {
+  display: block;
+  margin-top: 16px;
+}
+
+@media (max-width: 480px) {
+  .quick-settings {
+    right: 10px;
+    width: calc(100vw - 20px);
+  }
+}

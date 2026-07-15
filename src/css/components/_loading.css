@@ -1,0 +1,36 @@
+@keyframes rotator {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(1turn); }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 225;
+  }
+  50% {
+    stroke-dashoffset: 65;
+    transform: rotate(90deg);
+  }
+  100% {
+    stroke-dashoffset: 225;
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -20px;
+  margin-top: -20px;
+  width: 40px;
+  height: 40px;
+  animation: rotator 1.5s linear infinite;
+  transform-origin: center;
+  & > circle {
+    stroke-dasharray: 265;
+    stroke-dashoffset: 0;
+    transform-origin: center;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+}

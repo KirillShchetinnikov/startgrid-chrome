@@ -1,0 +1,46 @@
+<div class="header">
+  <div class="header__brand" aria-label="StartGrid">
+    <img src="/icons/icon48.png" width="36" height="36" alt="">
+    <span>StartGrid</span>
+  </div>
+  <div class="header__items header__items--search">
+    <div class="search-wrap">
+      <form method="get" action="" id="searchForm">
+        <input
+          type="text"
+          id="bookmarkSearch"
+          class="form-control"
+          placeholder="Search"
+          spellcheck="false"
+          data-locale-message="placeholder_input_search"
+          autocomplete="off"
+        >
+      </form>
+      <vb-popup class="header__engine">
+        <span class="header__engine-button" slot="button"></span>
+        <div class="header__engine-content" slot="content"></div>
+      </vb-popup>
+
+      <div class="search-actions">
+        <button class="search-button search-reset-btn" id="searchReset" data-locale-message="clear_search.aria-label" aria-label="Clear search">
+          <svg class="search-icon" width="20" height="20">
+            <use xlink:href="/img/symbol.svg#close"/>
+          </svg>
+        </button>
+        <button class="search-button" id="searchSuggestions" data-locale-message="search_suggestions_permission_tooltip.aria-label" data-tooltip aria-label="Access for Google.com search suggestions" hidden>
+          <svg class="search-icon" width="20" height="20">
+            <use xlink:href="/img/symbol.svg#manage_search"/>
+          </svg>
+        </button>
+        <button class="search-button" form="searchForm" id="searchSubmit" data-locale-message="search.aria-label" aria-label="Search">
+          <svg class="search-icon" width="20" height="20">
+            <use xlink:href="/img/symbol.svg#search"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="header__items header__items--select">
+    <vb-select-folders id="selectFolders"></vb-select-folders>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-locale-message="ext_name">StartGrid</title>
+  <!-- For Light/Dark mode: avoid flickering on reload -->
+  <!-- block rendering styles with theme.js -->
+  <!-- styles will go below -->
+  <script src="js/theme.js"></script>
+</head>
+
+<body>
+  <aside class="aside-controls" id="aside_controls">
+    <!-- buttons -->
+  </aside>
+
+  <main id="main" class="app">
+    <div class="container">
+      <header></header>
+      <div class="content" id="content">
+        <div class="grid" id="bookmarks"></div>
+        <div id="dial_loading" class="dial-loading" hidden>
+          <svg class="loading" id="loading" viewBox="0 0 100 100">
+            <defs>
+              <lineargradient id="gradient">
+                <stop offset="5%"  stop-color="#4285f4"/>
+                <stop offset="95%" stop-color="#b96bd6"/>
+              </lineargradient>
+            </defs>
+            <circle class="path" fill="none" stroke="url(#gradient)" stroke-width="8" stroke-linecap="round" cx="50" cy="50" r="40"></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="bg sticky" id="bg"></div>
+  <div class="gmodal" id="modal">
+    <div class="gmodal__container has-center">
+      <div class="gmodal__dialog">
+        <form class="gmodal__form" id="formBookmark" action="#0" novalidate>
+          <div class="gmodal__header">
+            <div class="gmodal__title" id="modalHead"></div>
+            <button type="button" class="gmodal__close md-ripple" data-gmodal="dismiss" data-ripple-center data-locale-message="modal_dismiss.aria-label" aria-label="Modal dismiss">
+              <svg width="20" height="20" fill="#000">
+                <use xlink:href="/img/symbol.svg#close"/>
+              </svg>
+            </button>
+          </div>
+          <div class="gmodal__body" id="modalContent">
+            <!-- <div class="gmodal__desc" id="desc"></div> -->
+            <div class="gmodal__controls">
+              <div class="group">
+                <label class="label" for="title" data-locale-message="label_title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Enter bookmark title" data-locale-message="placeholder_input_title" spellcheck="false" required data-error-i18n="error_input_required">
+              </div>
+              <div class="group" id="urlWrap">
+                <div class="gmodal__control-row">
+                  <label class="label" for="url" data-locale-message="label_url">URL</label>
+                  <span class="gmodal__tip" id="createTip" data-locale-message="url_field_tip">Enter URL or leave it blank if you want to create the folder</span>
+                </div>
+                <input type="url" class="form-control" id="url" placeholder="https://www.google.com" spellcheck="false" data-error-i18n="error_input_url">
+              </div>
+              <div class="group gmodal__select" id="selFolder">
+                <label class="label" for="select-folder" data-locale-message="label_folder"></label>
+                <vb-select-folders id="modalSelectFolders" select-id="select-folder"></vb-select-folders>
+              </div>
+              <div class="group gmodal__thumbnail-source" id="thumbnailSourceWrap">
+                <label class="label" for="thumbnailSource" data-locale-message="thumbnail_source">Thumbnail source</label>
+                <select class="form-control" id="thumbnailSource" name="thumbnailSource">
+                  <option value="favicon" data-locale-message="thumbnail_source_favicon">Website favicon (default)</option>
+                  <option value="local" data-locale-message="thumbnail_source_local">Local storage</option>
+                  <option value="site" data-locale-message="thumbnail_source_site">Create from website</option>
+                  <option value="url" data-locale-message="thumbnail_source_url">From URL</option>
+                </select>
+              </div>
+              <div class="group gmodal__thumbnail-url" id="thumbnailUrlWrap" hidden>
+                <label class="label" for="thumbnailUrl" data-locale-message="thumbnail_url">Thumbnail URL</label>
+                <input type="url" class="form-control" id="thumbnailUrl" name="thumbnailUrl" placeholder="https://example.com/image.webp" spellcheck="false" data-error-i18n="error_input_url">
+                <span class="gmodal__thumbnail-note" data-locale-message="thumbnail_url_note">The image is cached locally and checked for updates periodically.</span>
+              </div>
+              <div class="group gmodal__thumbnail-actions" id="thumbnailActions" hidden>
+                <span class="label" data-locale-message="thumbnail_actions">Thumbnail actions</span>
+                <div class="gmodal__thumbnail-buttons">
+                  <button type="button" class="btn btn--clear md-ripple" id="captureThumbnail" data-locale-message="contextmenu_capture">Refresh thumbnail</button>
+                  <button type="button" class="btn btn--clear md-ripple" id="uploadThumbnail" data-locale-message="contextmenu_upload">Upload from computer</button>
+                  <button type="button" class="btn btn--clear md-ripple" id="pasteThumbnail" data-locale-message="contextmenu_upload_paste">Upload from clipboard</button>
+                  <button type="button" class="btn btn--clear md-ripple" id="deleteThumbnail" data-locale-message="delete_thumbnail">Delete from local storage</button>
+                </div>
+              </div>
+            </div>
+            <div class="gmodal__custom-image" id="customScreen">
+              <img alt="">
+              <button type="button" class="md-ripple gmodal__custom-reset" id="resetCustomImage" data-ripple-center data-locale-message="remove_thumbnail.aria-label" aria-label="Remove thumbnail">
+                <svg width="20" height="20" fill="currenColor">
+                  <use xlink:href="/img/symbol.svg#close"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="gmodal__footer text-right">
+            <button type="button" class="btn btn--clear md-ripple" data-gmodal="dismiss" data-locale-message="btn_close" data-ripple-color="rgba(0,0,0,.3)">Cancel</button>
+            <button type="submit" class="btn md-ripple" id="saveBookmarkBtn" data-locale-message="btn_save">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="gmodal" id="modal-host-permissions">
+    <div class="gmodal__container has-center">
+      <div class="gmodal__dialog">
+        <div class="gmodal__header">
+          <div class="gmodal__title" data-locale-message="why_use_host_permissions"></div>
+          <button type="button" class="gmodal__close md-ripple" data-gmodal="dismiss" data-ripple-center data-locale-message="modal_dismiss.aria-label" aria-label="Modal dismiss">
+            <svg width="20" height="20" fill="#000">
+              <use xlink:href="/img/symbol.svg#close"/>
+            </svg>
+          </button>
+        </div>
+        <div class="gmodal__body" data-locale-html="host_permissions_info"></div>
+      </div>
+    </div>
+  </div>
+
+  <vb-context-menu id="context-menu" trigger-selector=".bookmark"></vb-context-menu>
+
+  <!-- begin upload thumb input -->
+  <input type="file" name="upload" id="upload" data-id class="thumb-upload" accept=".jpg, .jpeg, .png, .webp">
+  <!-- end upload thumb input -->
+
+</body>
+
+</html>

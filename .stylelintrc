@@ -1,0 +1,50 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "import-notation": "string",
+    "indentation": 2,
+    "string-quotes": "double",
+    "no-duplicate-selectors": true,
+    "no-descending-specificity": null,
+    "function-comma-space-before": "never",
+    "function-comma-space-after": "always-single-line",
+    "comment-empty-line-before": ["always", {
+      "except": ["first-nested"]
+    }],
+    "color-hex-case": "lower",
+    "color-hex-length": "short",
+    "selector-class-pattern": "^(?:(?:o|c|u|t|s|is|has|_|js|qa)-)?[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*(?:__[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:--[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:\\[.+\\])?$",
+    "selector-no-qualifying-type": [true, {
+      "ignore": ["attribute", "class", "id"]
+    }],
+    "selector-max-id": 0,
+    "selector-combinator-space-after": "always",
+    "selector-attribute-quotes": "always",
+    "declaration-block-trailing-semicolon": "always",
+    "declaration-colon-space-before": "never",
+    "declaration-colon-space-after": "always-single-line",
+    "declaration-colon-newline-after": "always-multi-line",
+    "property-no-vendor-prefix": true,
+    "value-no-vendor-prefix": true,
+    "number-leading-zero": "always",
+    "at-rule-no-vendor-prefix": true,
+    "rule-empty-line-before": null,
+    "selector-pseudo-element-colon-notation": "double",
+    "selector-pseudo-element-no-unknown": [true, {
+      "ignorePseudoElements": ["picker", "picker-icon", "checkmark", "view-transition-old", "view-transition-new"]
+    }],
+    "selector-pseudo-class-no-unknown": [true, {
+      "ignorePseudoClasses": ["open"]
+    }],
+    "selector-type-no-unknown": [true, {
+      "ignoreTypes": ["selectedcontent"]
+    }],
+    "property-no-unknown": [true, {
+      "ignoreProperties": ["field-sizing"]
+    }],
+    "selector-pseudo-class-parentheses-space-inside": "never",
+    "selector-no-vendor-prefix": true,
+    "media-feature-colon-space-after": "always",
+    "max-line-length": 180
+  }
+}
