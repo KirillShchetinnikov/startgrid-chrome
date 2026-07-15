@@ -43,6 +43,9 @@
   --bookmark-aspect-ratio: 4 / 3;
   --bookmark-logo-size: 32px;
   --bookmark-radius: 18px;
+  --bookmark-shadow-opacity: 8%;
+  --bookmark-hover-shadow-opacity: 15%;
+  --bookmark-hover-lift: 4px;
   --bookmark-bg: var(--theme-background-2);
   --bookmark-overlay-bg: var(--theme-background-3-alpha-95);
   --bookmark-caption-bg: var(--theme-background-2);

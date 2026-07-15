@@ -130,6 +130,9 @@
   "confirm_delete_images": {
     "message": "你確定嗎？所有本機的圖片將被刪除"
   },
+  "confirm_clear_local_cache": {
+    "message": "Вы уверены? Все временные локальные данные будут удалены. Настройки и локальные изображения сохранятся."
+  },
   "confirm_delete_bookmark": {
     "message": "你確定要刪除這個書籤嗎？"
   },
@@ -181,6 +184,9 @@
   },
   "notice_images_removed": {
     "message": "所有縮圖已刪除"
+  },
+  "notice_local_cache_cleared": {
+    "message": "Локальный кэш очищен"
   },
   "notice_cant_find_id": {
     "message": "無法按照 ID 找到資料夾。或許你還沒有同步過書籤"
@@ -266,6 +272,33 @@
   },
   "dial_width": {
     "message": "寬度比例"
+  },
+  "dial_gap": {
+    "message": "Расстояние между плитками"
+  },
+  "dial_radius": {
+    "message": "Скругление углов плитки"
+  },
+  "dial_aspect_ratio": {
+    "message": "Пропорции плитки"
+  },
+  "dial_aspect_ratio_square": {
+    "message": "Квадратные (1:1)"
+  },
+  "dial_aspect_ratio_standard": {
+    "message": "Стандартные (4:3)"
+  },
+  "dial_aspect_ratio_photo": {
+    "message": "Фото (3:2)"
+  },
+  "dial_aspect_ratio_wide": {
+    "message": "Широкие (16:9)"
+  },
+  "dial_shadow": {
+    "message": "Интенсивность тени плитки"
+  },
+  "dial_hover_lift": {
+    "message": "Подъём плитки при наведении"
   },
   "number_of_columns": {
     "message": "畫面寬度(左到右的數量)"
@@ -360,11 +393,20 @@
   "clear_background_locals": {
     "message": "清除本機機料夾內的圖示"
   },
+  "clear_local_cache": {
+    "message": "Очистить локальный кэш"
+  },
   "reset_local_default": {
     "message": "將本機的設定回復到預設值"
   },
+  "reset_local_default_description": {
+    "message": "Сбрасывает только локальные настройки и отключает синхронизацию. Синхронизированные данные на сервере не удаляются."
+  },
   "reset_sync_text": {
     "message": "刪除伺服器上以同步的資料"
+  },
+  "reset_sync_description": {
+    "message": "Удаляет только синхронизированные настройки с сервера и отключает синхронизацию. Локальные настройки, изображения и кэш сохраняются."
   },
   "version": {
     "message": "版本"
@@ -385,17 +427,6 @@
   },
   "thumbnails_update_button": {
     "message": "更新的按鈕縮圖"
-  },
-  "thumbnails_update_recursive": {
-    "message": "包含子目錄"
-  },
-  "thumbnails_update_recursive_note": {
-    "message": "如果啟用了\"$option$\" 選項",
-    "placeholders": {
-      "option": {
-        "content": "$1"
-      }
-    }
   },
   "thumbnails_auto_refresh": {
     "message": "Автоматически обновлять миниатюры"
@@ -480,6 +511,24 @@
   },
   "search_engine": {
     "message": "預設的搜尋引擎"
+  },
+  "search_results_display": {
+    "message": "Отображение результатов поиска по закладкам"
+  },
+  "search_results_display_flat": {
+    "message": "Только плитки"
+  },
+  "search_results_display_folder_name": {
+    "message": "Родительская папка на плитке"
+  },
+  "search_results_display_folder_path": {
+    "message": "Полный путь к папке на плитке"
+  },
+  "search_results_display_grouped": {
+    "message": "Группировать по папкам"
+  },
+  "search_results_root_folder": {
+    "message": "Корневая папка закладок"
   },
   "move_to_start": {
     "message": "將書籤移至資料夾內清單的頂部"

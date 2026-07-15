@@ -23,6 +23,77 @@ const appearanceSettings = [
     }
   },
   {
+    id: 'dial_gap',
+    title: browser.i18n.getMessage('dial_gap'),
+    type: 'range',
+    min: 0,
+    max: 40,
+    step: 1,
+    data: {
+      selectorOutput: '#dial_gap_value',
+      outputPostfix: 'px'
+    }
+  },
+  {
+    id: 'dial_radius',
+    title: browser.i18n.getMessage('dial_radius'),
+    type: 'range',
+    min: 0,
+    max: 40,
+    step: 1,
+    data: {
+      selectorOutput: '#dial_radius_value',
+      outputPostfix: 'px'
+    }
+  },
+  {
+    id: 'dial_aspect_ratio',
+    title: browser.i18n.getMessage('dial_aspect_ratio'),
+    type: 'select',
+    options: [
+      {
+        value: '1 / 1',
+        title: browser.i18n.getMessage('dial_aspect_ratio_square')
+      },
+      {
+        value: '4 / 3',
+        title: browser.i18n.getMessage('dial_aspect_ratio_standard')
+      },
+      {
+        value: '3 / 2',
+        title: browser.i18n.getMessage('dial_aspect_ratio_photo')
+      },
+      {
+        value: '16 / 9',
+        title: browser.i18n.getMessage('dial_aspect_ratio_wide')
+      }
+    ]
+  },
+  {
+    id: 'dial_shadow',
+    title: browser.i18n.getMessage('dial_shadow'),
+    type: 'range',
+    min: 0,
+    max: 30,
+    step: 1,
+    data: {
+      selectorOutput: '#dial_shadow_value',
+      outputPostfix: '%'
+    }
+  },
+  {
+    id: 'dial_hover_lift',
+    title: browser.i18n.getMessage('dial_hover_lift'),
+    type: 'range',
+    min: 0,
+    max: 12,
+    step: 1,
+    data: {
+      selectorOutput: '#dial_hover_lift_value',
+      outputPostfix: 'px'
+    }
+  },
+  {
     id: 'vertical_center',
     title: browser.i18n.getMessage('vertical_center'),
     type: 'switch'
@@ -153,6 +224,29 @@ export default [
         options: []
       },
       {
+        id: 'search_results_display',
+        title: browser.i18n.getMessage('search_results_display'),
+        type: 'select',
+        options: [
+          {
+            value: 'flat',
+            title: browser.i18n.getMessage('search_results_display_flat')
+          },
+          {
+            value: 'folder_name',
+            title: browser.i18n.getMessage('search_results_display_folder_name')
+          },
+          {
+            value: 'folder_path',
+            title: browser.i18n.getMessage('search_results_display_folder_path')
+          },
+          {
+            value: 'grouped',
+            title: browser.i18n.getMessage('search_results_display_grouped')
+          }
+        ]
+      },
+      {
         id: 'open_link_newtab',
         title: browser.i18n.getMessage('open_link_newtab'),
         type: 'switch'
@@ -256,14 +350,6 @@ export default [
         }
       },
       {
-        id: 'thumbnails_update_recursive',
-        title: browser.i18n.getMessage('thumbnails_update_recursive'),
-        note: browser.i18n.getMessage('thumbnails_update_recursive_note', [
-          browser.i18n.getMessage('thumbnails_update_button')
-        ]),
-        type: 'switch'
-      },
-      {
         id: 'thumbnails_auto_refresh',
         title: browser.i18n.getMessage('thumbnails_auto_refresh'),
         note: browser.i18n.getMessage('thumbnails_auto_refresh_note'),
@@ -299,6 +385,12 @@ export default [
         type: 'switch'
       },
       {
+        id: 'clear_cache',
+        title: browser.i18n.getMessage('clear_local_cache'),
+        type: 'button',
+        text: browser.i18n.getMessage('btn_apply')
+      },
+      {
         id: 'backup',
         title: browser.i18n.getMessage('backup_settings'),
         note: browser.i18n.getMessage('backup_settings_description'),
@@ -309,12 +401,14 @@ export default [
       {
         id: 'restore_local',
         title: browser.i18n.getMessage('reset_local_default'),
+        note: browser.i18n.getMessage('reset_local_default_description'),
         type: 'button',
         text: browser.i18n.getMessage('btn_apply')
       },
       {
         id: 'restore_sync',
         title: browser.i18n.getMessage('reset_sync_text'),
+        note: browser.i18n.getMessage('reset_sync_description'),
         type: 'button',
         text: browser.i18n.getMessage('btn_apply')
       },

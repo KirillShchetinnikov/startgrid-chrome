@@ -26,6 +26,11 @@ class VbBookmarksPanel extends HTMLElement {
   ];
   folderId = null;
   foldersThree = [];
+  thumbnailUpdatesEnabled = true;
+
+  set allowThumbnailUpdates(value) {
+    this.thumbnailUpdatesEnabled = Boolean(value);
+  }
 
   set selectedFolder(value) {
     this.folderId = value;
@@ -59,14 +64,17 @@ class VbBookmarksPanel extends HTMLElement {
       html: /* html */ `<svg width="20" height="20"><use xlink:href="/img/symbol.svg#close"/></svg>`
     });
 
-    this.actionsNodes = this.actions.map(action => {
-      if (action.action === 'open_all') {
-        const actions = CONTEXT_MENU
-          .filter(item => ['open_all', 'open_all_window', 'new_window_incognito'].includes(item.action))
-          .map(item => {
-            return `<div class="bookmarks-panel__popup-action" data-action="${item.action}">${item.title}</div>`;
-          });
-        return (/* html */
+    this.actionsNodes = this.actions
+      .filter(action => (
+        action.action !== 'update_thumbnails' || this.thumbnailUpdatesEnabled
+      )).map(action => {
+        if (action.action === 'open_all') {
+          const actions = CONTEXT_MENU
+            .filter(item => ['open_all', 'open_all_window', 'new_window_incognito'].includes(item.action))
+            .map(item => {
+              return `<div class="bookmarks-panel__popup-action" data-action="${item.action}">${item.title}</div>`;
+            });
+          return (/* html */
           `<vb-popup class="bookmarks-panel__popup" label="${browser.i18n.getMessage('toggle_selected_bookmarks_popup')}">
             <span class="bookmarks-panel__action" slot="button">
               <svg width="20" height="20"><use xlink:href="/img/symbol.svg#${action.icon}"></use></svg>
@@ -75,14 +83,14 @@ class VbBookmarksPanel extends HTMLElement {
               ${actions.join('')}
             </div>
           </vb-popup>`
-        );
-      }
-      return (/* html */
+          );
+        }
+        return (/* html */
         `<button class="bookmarks-panel__action md-ripple" data-ripple-center data-action="${action.action}" aria-label="${action.text}">
           <svg width="20" height="20"><use xlink:href="/img/symbol.svg#${action.icon}"></use></svg>
         </button>`
-      );
-    });
+        );
+      });
 
     this.selectContainer = $createElement('div', {
       class: 'bookmarks-panel__selector'

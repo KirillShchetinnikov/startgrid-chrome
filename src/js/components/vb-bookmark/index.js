@@ -207,6 +207,13 @@ class VbBookmark extends HTMLAnchorElement {
       this.append(this.#createBookmarkCaption());
     }
 
+    if (this.searchFolderLabel) {
+      this.append($createElement('span', {
+        class: 'bookmark__folder-path',
+        title: this.searchFolderLabel
+      }, this.searchFolderLabel));
+    }
+
     if (this.isDND) {
       this.append($createElement('div', {
         class: 'dropzone-bookmark',

@@ -11,6 +11,16 @@ const RERENDER_SETTINGS = new Set([
   'logo_external_url'
 ]);
 
+const STYLE_SETTINGS = new Set([
+  'dial_columns',
+  'dial_width',
+  'dial_gap',
+  'dial_radius',
+  'dial_aspect_ratio',
+  'dial_shadow',
+  'dial_hover_lift'
+]);
+
 function message(id) {
   return browser.i18n.getMessage(id);
 }
@@ -53,8 +63,50 @@ function createPanel() {
         <label class="quick-settings__field" for="quick_dial_width">
           <span>${message('dial_width')}</span>
           <span class="quick-settings__range">
-            <input id="quick_dial_width" type="range" min="50" max="99" step="1" data-setting="dial_width">
+            <input id="quick_dial_width" type="range" min="50" max="99" step="1"
+              data-setting="dial_width" data-unit="%">
             <output id="quick_dial_width_value" for="quick_dial_width"></output>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_gap">
+          <span>${message('dial_gap')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_dial_gap" type="range" min="0" max="40" step="1"
+              data-setting="dial_gap" data-unit="px">
+            <output id="quick_dial_gap_value" for="quick_dial_gap"></output>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_radius">
+          <span>${message('dial_radius')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_dial_radius" type="range" min="0" max="40" step="1"
+              data-setting="dial_radius" data-unit="px">
+            <output id="quick_dial_radius_value" for="quick_dial_radius"></output>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_aspect_ratio">
+          <span>${message('dial_aspect_ratio')}</span>
+          <select class="form-control" id="quick_dial_aspect_ratio" data-setting="dial_aspect_ratio">
+            <option value="1 / 1">${message('dial_aspect_ratio_square')}</option>
+            <option value="4 / 3">${message('dial_aspect_ratio_standard')}</option>
+            <option value="3 / 2">${message('dial_aspect_ratio_photo')}</option>
+            <option value="16 / 9">${message('dial_aspect_ratio_wide')}</option>
+          </select>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_shadow">
+          <span>${message('dial_shadow')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_dial_shadow" type="range" min="0" max="30" step="1"
+              data-setting="dial_shadow" data-unit="%">
+            <output id="quick_dial_shadow_value" for="quick_dial_shadow"></output>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_hover_lift">
+          <span>${message('dial_hover_lift')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_dial_hover_lift" type="range" min="0" max="12" step="1"
+              data-setting="dial_hover_lift" data-unit="px">
+            <output id="quick_dial_hover_lift_value" for="quick_dial_hover_lift"></output>
           </span>
         </label>
         ${createSwitch('vertical_center')}
@@ -83,7 +135,7 @@ export default function initQuickDisplaySettings({ container, onRerender }) {
   trigger.type = 'button';
   trigger.setAttribute('aria-label', message('quick_display_settings'));
   trigger.setAttribute('aria-expanded', 'false');
-  trigger.innerHTML = '<svg width="20" height="20"><use xlink:href="/img/symbol.svg#apps"></use></svg>';
+  trigger.innerHTML = '<svg width="20" height="20"><use xlink:href="/img/symbol.svg#palette"></use></svg>';
 
   const panel = createPanel();
   document.body.append(panel);
@@ -99,8 +151,11 @@ export default function initQuickDisplaySettings({ container, onRerender }) {
       } else {
         control.value = settings.$[key];
       }
+      if (control.type === 'range') {
+        const output = panel.querySelector(`#${control.id}_value`);
+        output.textContent = `${settings.$[key]}${control.dataset.unit}`;
+      }
     });
-    panel.querySelector('#quick_dial_width_value').textContent = `${settings.$.dial_width}%`;
     externalLogoField.hidden = !settings.$.logo_external;
   }
 
@@ -126,7 +181,7 @@ export default function initQuickDisplaySettings({ container, onRerender }) {
       settings.$[key] = value;
     }
 
-    if (key === 'dial_columns' || key === 'dial_width') {
+    if (STYLE_SETTINGS.has(key)) {
       UI.calculateStyles();
     } else if (key === 'vertical_center') {
       document.getElementById('bookmarks').classList.toggle('grid--vcenter', Boolean(value));
@@ -145,9 +200,12 @@ export default function initQuickDisplaySettings({ container, onRerender }) {
     const control = event.target.closest('[data-setting]');
     if (control) applySetting(control);
   });
-  panel.querySelector('#quick_dial_width').addEventListener('input', event => {
-    panel.querySelector('#quick_dial_width_value').textContent = `${event.target.value}%`;
-    applySetting(event.target, false);
+  panel.querySelectorAll('input[type="range"][data-setting]').forEach(control => {
+    control.addEventListener('input', event => {
+      const output = panel.querySelector(`#${event.target.id}_value`);
+      output.textContent = `${event.target.value}${event.target.dataset.unit}`;
+      applySetting(event.target, false);
+    });
   });
   document.addEventListener('click', event => {
     if (!panel.hidden && !panel.contains(event.target) && !trigger.contains(event.target)) {

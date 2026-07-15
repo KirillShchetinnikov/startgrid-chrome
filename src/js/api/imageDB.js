@@ -54,6 +54,27 @@ export default class ImageDB {
     }
   }
 
+  static async clearThumbnails() {
+    try {
+      const db = await this.#dbConnect();
+      const tx = db.transaction(this.DB_STORE, 'readwrite');
+      let cursor = await tx.store.openCursor();
+
+      while (cursor) {
+        if (cursor.key !== 'background') {
+          await cursor.delete();
+        }
+        cursor = await cursor.continue();
+      }
+
+      await tx.done;
+      return true;
+    } catch (error) {
+      console.warn(error);
+      return false;
+    }
+  }
+
   static async count() {
     try {
       const db = await this.#dbConnect();

@@ -128,7 +128,10 @@
     "message": "Delete image ?"
   },
   "confirm_delete_images": {
-    "message": "Are you sure? All local images will be deleted"
+    "message": "Are you sure? All local thumbnails will be deleted."
+  },
+  "confirm_clear_local_cache": {
+    "message": "Are you sure? All temporary local data will be deleted. Settings and local images will be preserved."
   },
   "confirm_delete_bookmark": {
     "message": "Are you sure you want to delete the bookmark ?"
@@ -137,10 +140,10 @@
     "message": "Are you sure you want to delete the folder and all its contents ?"
   },
   "confirm_restore_default_settings": {
-    "message": "Are you sure you want to restore default settings ?"
+    "message": "Reset only local settings to defaults and disable synchronization? Synchronized data on the server will be preserved."
   },
   "confirm_clear_sync_settings": {
-    "message": "Are you sure you want to delete all previously synchronized data to start fresh ?"
+    "message": "Delete synchronized settings from the server and disable synchronization? Local settings, images, and cache will be preserved."
   },
   "confirm_sync_remote_settings": {
     "message": "You have previously synchronized data!!\nDo you want to overwrite your current local settings with your previously saved remote settings?"
@@ -180,16 +183,19 @@
     "message": "Selected bookmarks have been deleted"
   },
   "notice_images_removed": {
-    "message": "All images was deleted"
+    "message": "All local thumbnails deleted"
+  },
+  "notice_local_cache_cleared": {
+    "message": "Local cache cleared"
   },
   "notice_cant_find_id": {
     "message": "Cant find folder by id. Maybe you have not synced bookmarks"
   },
   "notice_reset_default_settings": {
-    "message": "Default local settings are reset"
+    "message": "Local settings reset; synchronization disabled"
   },
   "notice_sync_settings_cleared": {
-    "message": "Data synchronization cleared"
+    "message": "Synchronized server data deleted; synchronization disabled"
   },
   "notice_bg_image_updated": {
     "message": "Background image has been changed"
@@ -266,6 +272,33 @@
   },
   "dial_width": {
     "message": "Panel width"
+  },
+  "dial_gap": {
+    "message": "Distance between tiles"
+  },
+  "dial_radius": {
+    "message": "Tile corner radius"
+  },
+  "dial_aspect_ratio": {
+    "message": "Tile proportions"
+  },
+  "dial_aspect_ratio_square": {
+    "message": "Square (1:1)"
+  },
+  "dial_aspect_ratio_standard": {
+    "message": "Standard (4:3)"
+  },
+  "dial_aspect_ratio_photo": {
+    "message": "Photo (3:2)"
+  },
+  "dial_aspect_ratio_wide": {
+    "message": "Wide (16:9)"
+  },
+  "dial_shadow": {
+    "message": "Tile shadow intensity"
+  },
+  "dial_hover_lift": {
+    "message": "Tile lift on hover"
   },
   "number_of_columns": {
     "message": "Number of Columns"
@@ -358,13 +391,22 @@
     "message": "Enable Synchronization"
   },
   "clear_background_locals": {
-    "message": "Clear folder with local images"
+    "message": "Clear folder with local thumbnails"
+  },
+  "clear_local_cache": {
+    "message": "Clear local cache"
   },
   "reset_local_default": {
-    "message": "Reset Local Settings to Default Values"
+    "message": "Reset settings to default values"
+  },
+  "reset_local_default_description": {
+    "message": "Resets only local settings and disables synchronization. Synchronized server data is not deleted."
   },
   "reset_sync_text": {
     "message": "Delete Synchronized Data from Server"
+  },
+  "reset_sync_description": {
+    "message": "Deletes only synchronized settings from the server and disables synchronization. Local settings, images, and cache are preserved."
   },
   "version": {
     "message": "Version"
@@ -385,17 +427,6 @@
   },
   "thumbnails_update_button": {
     "message": "Thumbnails update button"
-  },
-  "thumbnails_update_recursive": {
-    "message": "Including subfolders"
-  },
-  "thumbnails_update_recursive_note": {
-    "message": "If the \"$option$\" option is enabled",
-    "placeholders": {
-      "option": {
-        "content": "$1"
-      }
-    }
   },
   "thumbnails_auto_refresh": {
     "message": "Automatically refresh thumbnails"
@@ -480,6 +511,24 @@
   },
   "search_engine": {
     "message": "Default search engine"
+  },
+  "search_results_display": {
+    "message": "Bookmark search results"
+  },
+  "search_results_display_flat": {
+    "message": "Tiles only"
+  },
+  "search_results_display_folder_name": {
+    "message": "Parent folder on the tile"
+  },
+  "search_results_display_folder_path": {
+    "message": "Full folder path on the tile"
+  },
+  "search_results_display_grouped": {
+    "message": "Group by folders"
+  },
+  "search_results_root_folder": {
+    "message": "Root bookmarks folder"
   },
   "move_to_start": {
     "message": "Move a bookmark to the top of the list inside a folder"

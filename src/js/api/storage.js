@@ -8,6 +8,9 @@ export const storage = {
     },
     remove(key) {
       return browser.storage.local.remove(key);
+    },
+    clear() {
+      return browser.storage.local.clear();
     }
   },
   sync: {
@@ -19,6 +22,9 @@ export const storage = {
     },
     remove(key) {
       return browser.storage.sync.remove(key);
+    },
+    clear() {
+      return browser.storage.sync.clear();
     }
   }
 };

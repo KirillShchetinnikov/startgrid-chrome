@@ -17,6 +17,11 @@ const DEFAULTS = Object.freeze({
   show_last_opened_folder: false,
   dial_columns: 7,
   dial_width: 70, // value in percent (50,60,70,80,90)
+  dial_gap: 16,
+  dial_radius: 18,
+  dial_aspect_ratio: '4 / 3',
+  dial_shadow: 8,
+  dial_hover_lift: 4,
   vertical_center: false,
   drag_and_drop: true,
   auto_generate_thumbnail: true,
@@ -31,7 +36,6 @@ const DEFAULTS = Object.freeze({
   show_favicon: true,
   open_link_newtab: false,
   thumbnails_update_button: true,
-  thumbnails_update_recursive: false,
   thumbnails_update_delay: 0.5,
   thumbnails_auto_refresh: false,
   thumbnails_auto_refresh_interval: 24,
@@ -41,6 +45,7 @@ const DEFAULTS = Object.freeze({
   logo_external: false,
   logo_external_url: '',
   search_engine: 'bookmarks',
+  search_results_display: 'folder_name',
   move_to_start: false,
   sort_by: '', // '' | date | alphabet
   bookmarks_sorting_type: '',
@@ -53,12 +58,19 @@ const DEPRECATED_SETTINGS = [
   'custom_style',
   'services_enable',
   'services_list',
-  'enable_virtual_pagination'
+  'enable_virtual_pagination',
+  'thumbnails_update_recursive'
 ];
 
 function sanitizeSettings(currentSettings) {
   DEPRECATED_SETTINGS.forEach(key => delete currentSettings[key]);
   return currentSettings;
+}
+
+function createSyncSettings(currentSettings) {
+  const syncSettings = JSON.parse(JSON.stringify(currentSettings));
+  SETTINGS_NOT_SYNCED.forEach(key => delete syncSettings[key]);
+  return sanitizeSettings(syncSettings);
 }
 
 async function resolveSyncedDefaultFolder(currentSettings) {
@@ -101,29 +113,30 @@ const settingsStore = () => {
     async init() {
       // read local settings
       let { settings } = await storage.local.get('settings');
-
-      // if there are no settings, set default
-      if (!settings) {
-        settings = Object.assign({}, DEFAULTS);
-        storage.local.set({ settings });
-      } else {
-        // if the settings are already there
-        // but default settings object is expanded
-        // we need to add these properties immediately
-        Object.assign($settings, DEFAULTS, settings);
-      }
+      settings = Object.assign({}, DEFAULTS, settings);
+      sanitizeSettings(settings);
+      let syncSettings = {};
 
       // if synchronization is enabled, we take data from the cloud
       if (settings.enable_sync) {
-        const { settings: syncSettings } = await storage.sync.get('settings');
+        ({ settings: syncSettings = {} } = await storage.sync.get('settings'));
+        sanitizeSettings(syncSettings);
         Object.assign(settings, syncSettings);
-        sanitizeSettings(settings);
         await resolveSyncedDefaultFolder(settings);
-        await storage.local.set({ settings });
       }
 
+      await storage.local.set({ settings });
+
       // write the settings to the settings.$ object
-      Object.assign($settings, sanitizeSettings(settings));
+      Object.assign($settings, settings);
+
+      const currentSyncSettings = createSyncSettings($settings);
+      if (
+        settings.enable_sync
+        && JSON.stringify(syncSettings) !== JSON.stringify(currentSyncSettings)
+      ) {
+        await storage.sync.set({ settings: currentSyncSettings });
+      }
     },
 
     /**
@@ -145,27 +158,25 @@ const settingsStore = () => {
         if (!SETTINGS_NOT_SYNCED.includes(key)) {
           // if we change sync settings
           // start synchronization
-          this.syncToStorage();
+          await this.syncToStorage();
         }
       }
     },
 
     async updateAll(settings = {}) {
       Object.assign($settings, sanitizeSettings(settings));
-      // await setLocalSettings({ settings: $settings });
       await storage.local.set({ settings: $settings });
+      if ($settings.enable_sync) {
+        await this.syncToStorage();
+      }
     },
 
     /**
      * syncToStorage - update storage cloud
      * send the current settings to the cloud previously excluding local
      */
-    syncToStorage() {
-      // TODO: вместо JSON[method] использовать structuredClone
-      const settings = JSON.parse(JSON.stringify($settings));
-      SETTINGS_NOT_SYNCED.forEach(key => delete settings[key]);
-      sanitizeSettings(settings);
-      storage.sync.set({ settings });
+    async syncToStorage() {
+      await storage.sync.set({ settings: createSyncSettings($settings) });
     },
 
     /**
@@ -184,8 +195,19 @@ const settingsStore = () => {
      * @returns Promise
      */
     async resetLocal() {
-      $settings = Object.assign({}, DEFAULTS);
+      $settings = Object.assign({}, DEFAULTS, { enable_sync: false });
       await storage.local.set({ settings: $settings });
+      localStorage.clear();
+    },
+
+    /**
+     * Clear transient data without deleting settings or local images.
+     * @returns Promise
+     */
+    async clearLocalCache() {
+      const currentSettings = JSON.parse(JSON.stringify($settings));
+      await storage.local.clear();
+      await storage.local.set({ settings: currentSettings });
       localStorage.clear();
     },
 
@@ -193,10 +215,10 @@ const settingsStore = () => {
      * Reset sync settings
      * @returns Promise
      */
-    resetSync() {
-      return new Promise(resolve => {
-        browser.storage.sync.clear(resolve);
-      });
+    async resetSync() {
+      $settings.enable_sync = false;
+      await storage.local.set({ settings: $settings });
+      await storage.sync.clear();
     }
   };
 };

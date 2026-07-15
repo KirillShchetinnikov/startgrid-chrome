@@ -130,6 +130,9 @@
   "confirm_delete_images": {
     "message": "Biztos vagy benne? Minden helyi kép törlésre kerül!"
   },
+  "confirm_clear_local_cache": {
+    "message": "Are you sure? All temporary local data will be deleted. Settings and local images will be preserved."
+  },
   "confirm_delete_bookmark": {
     "message": "Biztos, hogy törölni szeretné a könyvjelzőt? ?"
   },
@@ -181,6 +184,9 @@
   },
   "notice_images_removed": {
     "message": "Minden kép törlésre került"
+  },
+  "notice_local_cache_cleared": {
+    "message": "Local cache cleared"
   },
   "notice_cant_find_id": {
     "message": "Nem találom a mappát az azonosító alapján. Talán nem szinkronizáltad a könyvjelzőket?"
@@ -266,6 +272,33 @@
   },
   "dial_width": {
     "message": "Panel szélessége"
+  },
+  "dial_gap": {
+    "message": "Distance between tiles"
+  },
+  "dial_radius": {
+    "message": "Tile corner radius"
+  },
+  "dial_aspect_ratio": {
+    "message": "Tile proportions"
+  },
+  "dial_aspect_ratio_square": {
+    "message": "Square (1:1)"
+  },
+  "dial_aspect_ratio_standard": {
+    "message": "Standard (4:3)"
+  },
+  "dial_aspect_ratio_photo": {
+    "message": "Photo (3:2)"
+  },
+  "dial_aspect_ratio_wide": {
+    "message": "Wide (16:9)"
+  },
+  "dial_shadow": {
+    "message": "Tile shadow intensity"
+  },
+  "dial_hover_lift": {
+    "message": "Tile lift on hover"
   },
   "number_of_columns": {
     "message": "Oszlopok száma"
@@ -360,11 +393,20 @@
   "clear_background_locals": {
     "message": "A helyi képeket tartalmazó mappa törlése"
   },
+  "clear_local_cache": {
+    "message": "Clear local cache"
+  },
   "reset_local_default": {
     "message": "Helyi beállítások visszaállítása alapértelmezett értékekre"
   },
+  "reset_local_default_description": {
+    "message": "Resets only local settings and disables synchronization. Synchronized server data is not deleted."
+  },
   "reset_sync_text": {
     "message": "Szinkronizált adatok törlése a kiszolgálóról"
+  },
+  "reset_sync_description": {
+    "message": "Deletes only synchronized settings from the server and disables synchronization. Local settings, images, and cache are preserved."
   },
   "version": {
     "message": "Verzió"
@@ -385,17 +427,6 @@
   },
   "thumbnails_update_button": {
     "message": "Miniatűrök frissítése gomb"
-  },
-  "thumbnails_update_recursive": {
-    "message": "Beleértve az almappákat is"
-  },
-  "thumbnails_update_recursive_note": {
-    "message": "Ha a(z) \"$option$\" opció engedélyezve van",
-    "placeholders": {
-      "option": {
-        "content": "$1"
-      }
-    }
   },
   "thumbnails_auto_refresh": {
     "message": "Automatically refresh thumbnails"
@@ -480,6 +511,24 @@
   },
   "search_engine": {
     "message": "Alapértelmezett kereső"
+  },
+  "search_results_display": {
+    "message": "Bookmark search results"
+  },
+  "search_results_display_flat": {
+    "message": "Tiles only"
+  },
+  "search_results_display_folder_name": {
+    "message": "Parent folder on the tile"
+  },
+  "search_results_display_folder_path": {
+    "message": "Full folder path on the tile"
+  },
+  "search_results_display_grouped": {
+    "message": "Group by folders"
+  },
+  "search_results_root_folder": {
+    "message": "Root bookmarks folder"
   },
   "move_to_start": {
     "message": "Helyezzen át egy könyvjelzőt a lista elejére egy mappán belül"

@@ -96,6 +96,7 @@ async function init() {
   document.getElementById('restore_sync').addEventListener('click', handleResetSyncSettings);
   document.getElementById('enable_sync').addEventListener('change', handleChangeSync);
   document.getElementById('clear_images').addEventListener('click', handleDeleteImages);
+  document.getElementById('clear_cache').addEventListener('click', handleClearLocalCache);
   document.getElementById('toggle_clipboard_access').addEventListener('change', handleToggleClipboardAccess);
 
   document.getElementById('export').addEventListener('click', handleExportSettings);
@@ -397,8 +398,19 @@ async function handleDeleteImages(evt) {
   const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_delete_images'));
   if (!confirmAction) return;
 
-  await ImageDB.clear();
+  const cleared = await ImageDB.clearThumbnails();
+  if (!cleared) return;
   Toast.show(browser.i18n.getMessage('notice_images_removed'));
+}
+
+async function handleClearLocalCache(evt) {
+  evt.preventDefault();
+
+  const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_clear_local_cache'));
+  if (!confirmAction) return;
+
+  await settings.clearLocalCache();
+  Toast.show(browser.i18n.getMessage('notice_local_cache_cleared'));
 }
 
 async function handleResetLocalSettings() {
@@ -409,6 +421,8 @@ async function handleResetLocalSettings() {
 
   window.vbToggleTheme();
   getOptions();
+  toggleBackgroundControls(settings.$.background_image);
+  updateDefaultFolderControl();
   Toast.show(browser.i18n.getMessage('notice_reset_default_settings'));
 }
 async function handleResetSyncSettings() {
@@ -416,6 +430,8 @@ async function handleResetSyncSettings() {
   if (!confirmAction) return;
 
   await settings.resetSync();
+  getOptions();
+  updateDefaultFolderControl();
   Toast.show(browser.i18n.getMessage('notice_sync_settings_cleared'));
 }
 async function updateDefaultFolder(folderId) {

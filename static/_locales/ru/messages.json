@@ -128,7 +128,10 @@
     "message": "Удалить изображение ?"
   },
   "confirm_delete_images": {
-    "message": "Вы уверены? Все локальные изображения будут удалены."
+    "message": "Вы уверены? Все локальные миниатюры будут удалены."
+  },
+  "confirm_clear_local_cache": {
+    "message": "Вы уверены? Все временные локальные данные будут удалены. Настройки и локальные изображения сохранятся."
   },
   "confirm_delete_bookmark": {
     "message": "Вы действительно хотите удалить закладку ?"
@@ -137,10 +140,10 @@
     "message": "Вы действительно хотите удалить папку и все ее содержимое ?"
   },
   "confirm_restore_default_settings": {
-    "message": "Вы действительно хотите восстановить настройки по умолчанию ?"
+    "message": "Сбросить только локальные настройки и отключить синхронизацию? Данные на сервере будут сохранены."
   },
   "confirm_clear_sync_settings": {
-    "message": "Вы действительно хотите сбросить сихронизированные настройки ?"
+    "message": "Удалить синхронизированные настройки с сервера и отключить синхронизацию? Локальные настройки, изображения и кэш будут сохранены."
   },
   "confirm_sync_remote_settings": {
     "message": "Вы хотите перезаписать свои текущие локальные настройки ранее синхронизированными настройками ?"
@@ -180,16 +183,19 @@
     "message": "Выбранные закладки удалены"
   },
   "notice_images_removed": {
-    "message": "Все изображения удалены"
+    "message": "Все локальные миниатюры удалены"
+  },
+  "notice_local_cache_cleared": {
+    "message": "Локальный кэш очищен"
   },
   "notice_cant_find_id": {
     "message": "Папка не найдена. Возможно, у вас нет синхронизированных закладок"
   },
   "notice_reset_default_settings": {
-    "message": "Настройки успешно сброшены"
+    "message": "Локальные настройки сброшены, синхронизация отключена"
   },
   "notice_sync_settings_cleared": {
-    "message": "Синхронизированные настройки сброшены"
+    "message": "Данные на сервере удалены, синхронизация отключена"
   },
   "notice_bg_image_updated": {
     "message": "Фоновая картинка была изменена"
@@ -266,6 +272,33 @@
   },
   "dial_width": {
     "message": "Ширина панели"
+  },
+  "dial_gap": {
+    "message": "Расстояние между плитками"
+  },
+  "dial_radius": {
+    "message": "Скругление углов плитки"
+  },
+  "dial_aspect_ratio": {
+    "message": "Пропорции плитки"
+  },
+  "dial_aspect_ratio_square": {
+    "message": "Квадратные (1:1)"
+  },
+  "dial_aspect_ratio_standard": {
+    "message": "Стандартные (4:3)"
+  },
+  "dial_aspect_ratio_photo": {
+    "message": "Фото (3:2)"
+  },
+  "dial_aspect_ratio_wide": {
+    "message": "Широкие (16:9)"
+  },
+  "dial_shadow": {
+    "message": "Интенсивность тени плитки"
+  },
+  "dial_hover_lift": {
+    "message": "Подъём плитки при наведении"
   },
   "number_of_columns": {
     "message": "Кол-во колонок в ряду"
@@ -360,11 +393,20 @@
   "clear_background_locals": {
     "message": "Очистить папку с локальными миниатюрами"
   },
+  "clear_local_cache": {
+    "message": "Очистить локальный кэш"
+  },
   "reset_local_default": {
-    "message": "Сброс к настройками по умолчанию"
+    "message": "Сбросить настройки по умолчанию"
+  },
+  "reset_local_default_description": {
+    "message": "Сбрасывает только локальные настройки и отключает синхронизацию. Синхронизированные данные на сервере не удаляются."
   },
   "reset_sync_text": {
     "message": "Удалить синхронизированные данные с сервера"
+  },
+  "reset_sync_description": {
+    "message": "Удаляет только синхронизированные настройки с сервера и отключает синхронизацию. Локальные настройки, изображения и кэш сохраняются."
   },
   "version": {
     "message": "Версия"
@@ -385,17 +427,6 @@
   },
   "thumbnails_update_button": {
     "message": "Кнопка обновления миниатюр"
-  },
-  "thumbnails_update_recursive": {
-    "message": "Включая подпапки"
-  },
-  "thumbnails_update_recursive_note": {
-    "message": "Если опция \"$option$\" включена",
-    "placeholders": {
-      "option": {
-        "content": "$1"
-      }
-    }
   },
   "thumbnails_auto_refresh": {
     "message": "Автоматически обновлять миниатюры"
@@ -480,6 +511,24 @@
   },
   "search_engine": {
     "message": "Поисковая система"
+  },
+  "search_results_display": {
+    "message": "Отображение результатов поиска по закладкам"
+  },
+  "search_results_display_flat": {
+    "message": "Только плитки"
+  },
+  "search_results_display_folder_name": {
+    "message": "Родительская папка на плитке"
+  },
+  "search_results_display_folder_path": {
+    "message": "Полный путь к папке на плитке"
+  },
+  "search_results_display_grouped": {
+    "message": "Группировать по папкам"
+  },
+  "search_results_root_folder": {
+    "message": "Корневая папка закладок"
   },
   "move_to_start": {
     "message": "Перемещать закладку в начало списка внутри папки"

@@ -9,6 +9,8 @@ import {
 } from './utils';
 import {
   create,
+  get,
+  getSubTree,
   flattenArrayBookmarks,
   search,
   remove,
@@ -314,6 +316,19 @@ async function handleCreateThumbnail(id, bookmark, callback) {
   callback && callback();
 }
 
+async function removeStoredThumbnails(id) {
+  const subTree = await getSubTree(id).catch(() => null);
+  const ids = [id];
+
+  if (subTree?.[0]?.children) {
+    ids.push(
+      ...flattenArrayBookmarks(subTree[0].children, true).map(bookmark => bookmark.id)
+    );
+  }
+
+  await Promise.all(ids.map(thumbnailId => ImageDB.delete(thumbnailId)));
+}
+
 async function handleBookmarks(eventType, id, bookmark) {
   const { importingBookmarks } = await storage.local.get('importingBookmarks');
   if (importingBookmarks) return;
@@ -325,13 +340,29 @@ async function handleBookmarks(eventType, id, bookmark) {
     initContextMenu();
   }
 
+  const { settings } = await storage.local.get('settings');
+  let currentBookmark = bookmark;
+  if (['changed', 'moved'].includes(eventType)) {
+    const bookmarks = await get(id).catch(() => []);
+    currentBookmark = bookmarks[0] || bookmark;
+  }
+
+  const isHomeBookmark = String(currentBookmark.parentId)
+    === String(getDefaultFolderId(settings));
+
+  if (
+    ['created', 'changed', 'moved'].includes(eventType)
+    && !isHomeBookmark
+  ) {
+    await removeStoredThumbnails(id);
+  }
+
   // to avoid duplicating actions when editing bookmarks,
   // we will ignore further execution if our application is in the active tab
   const tabs = await browser.tabs.query({ active: true });
-  const tabUrl = tabs[0].url.replace(/#\d*/, '');
+  const tabUrl = tabs[0]?.url?.replace(/#\d*/, '');
   if (NEWTAB_URLS.includes(tabUrl)) return;
 
-  const { settings } = await storage.local.get('settings');
   const sendMessageCallback = () => {
     browser.runtime.sendMessage({ bookmarksUpdated: true }, () => {
       if (browser.runtime.lastError) {
@@ -344,11 +375,12 @@ async function handleBookmarks(eventType, id, bookmark) {
   // send a command to update the list of bookmarks
   if (
     ['created', 'changed'].includes(eventType) &&
+    isHomeBookmark &&
     settings.auto_generate_thumbnail &&
-    bookmark.url
+    currentBookmark.url
   ) {
     const allUrlsPermission = await containsPermissions({ origins: ['<all_urls>'] });
-    allUrlsPermission ? handleCreateThumbnail(id, bookmark, sendMessageCallback) : sendMessageCallback();
+    allUrlsPermission ? handleCreateThumbnail(id, currentBookmark, sendMessageCallback) : sendMessageCallback();
   } else {
     sendMessageCallback();
   }
@@ -370,7 +402,11 @@ async function handleBookmarks(eventType, id, bookmark) {
 browser.storage.onChanged.addListener((changes, area) => {
   // if storage changes from local
   // watching the settings parameter
-  if (area === 'local' && changes?.settings?.oldValue) {
+  if (
+    area === 'local'
+    && changes?.settings?.oldValue
+    && changes?.settings?.newValue
+  ) {
     // at the moment we only need to track changes for the show_contextmenu_item option
     const { show_contextmenu_item: newContextMenu } = changes.settings.newValue;
     const { show_contextmenu_item: oldContextMenu } = changes.settings.oldValue;

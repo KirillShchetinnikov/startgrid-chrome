@@ -7,6 +7,7 @@ import { storage } from '../api/storage';
 import {
   move,
   getSubTree,
+  getThree,
   search as searchBookmarks,
   remove,
   removeTree,
@@ -308,6 +309,14 @@ const Bookmarks = (() => {
     return getCurrentFolderId() ?? configuredStartFolder();
   }
 
+  function isDefaultFolder(folderId = startFolder()) {
+    return String(folderId) === String(settings.defaultFolderId);
+  }
+
+  function canUseThumbnail(bookmark) {
+    return Boolean(bookmark) && isDefaultFolder(bookmark.parentId);
+  }
+
   function genBookmark(bookmark) {
     let image;
     let custom = false;
@@ -447,37 +456,102 @@ const Bookmarks = (() => {
     });
   }
 
+  function createFolderPathMap(nodes) {
+    const paths = new Map();
+
+    function walk(node, parentPath) {
+      if (node.url) return;
+
+      const path = node.title ? [...parentPath, node.title] : parentPath;
+      paths.set(String(node.id), path);
+      node.children?.forEach(child => walk(child, path));
+    }
+
+    nodes.forEach(node => walk(node, []));
+    return paths;
+  }
+
+  function createSearchResult(bookmark, folderLabel = '') {
+    const result = bookmark.url ? genBookmark(bookmark) : genFolder(bookmark);
+    result.searchFolderLabel = folderLabel;
+    return result;
+  }
+
+  function getSearchFolderLabel(bookmark, folderPaths, displayMode) {
+    const path = folderPaths.get(String(bookmark.parentId)) ?? [];
+    if (!path.length) {
+      return browser.i18n.getMessage('search_results_root_folder');
+    }
+
+    return displayMode === 'folder_name'
+      ? path[path.length - 1]
+      : path.join(' › ');
+  }
+
+  function appendGroupedSearchResults(fragment, bookmarks, folderPaths) {
+    const groups = new Map();
+
+    bookmarks.forEach(bookmark => {
+      const key = String(bookmark.parentId ?? '');
+      if (!groups.has(key)) {
+        groups.set(key, {
+          label: getSearchFolderLabel(bookmark, folderPaths, 'folder_path'),
+          bookmarks: []
+        });
+      }
+      groups.get(key).bookmarks.push(bookmark);
+    });
+
+    [...groups.values()]
+      .sort((a, b) => a.label.localeCompare(b.label, undefined, {
+        sensitivity: 'base',
+        numeric: true
+      }))
+      .forEach(group => {
+        const heading = $createElement('h2', {
+          class: 'search-results__folder'
+        });
+        heading.append(
+          $createElement('span', {
+            class: 'search-results__folder-title'
+          }, group.label),
+          $createElement('span', {
+            class: 'search-results__folder-count'
+          }, group.bookmarks.length)
+        );
+        fragment.appendChild(heading);
+        group.bookmarks.forEach(bookmark => {
+          fragment.appendChild(createSearchResult(bookmark));
+        });
+      });
+  }
+
   /**
    * Render bookmarks
    * @param {Array<BookmarkTreeNode>} arr - array of bookmarks
    * @param {boolean} [hasCreate=false] - show add bookmark button
+   * @param {Object} [options] - search result display options
    */
-  async function render(arr, hasCreate = false) {
+  async function render(arr, hasCreate = false, options = {}) {
     dialLoading.hidden = false;
     clearContainer();
 
     const bookamrksArr = arr;
+    const isHomeFolder = isDefaultFolder();
 
-    // bookmarks ids array
-    const bookmarksIds = bookamrksArr.map(child => child.id);
+    // Only direct children of the configured home folder may have thumbnails.
+    const bookmarksIds = bookamrksArr
+      .filter(canUseThumbnail)
+      .map(child => child.id);
     let childrenBookmarks;
 
-    // array of indexDB query promises
-    // request for main thumbnails
-    const promiseThumbnailsRequests = [
-      ImageDB.getAllByIds(bookmarksIds)
-    ];
-    // request for thumbnails in folders if the display option is enabled
-    if (settings.$.folder_preview) {
+    const thumbnails = await ImageDB.getAllByIds(bookmarksIds);
+
+    // Folder previews on the home page use bookmark icons, never nested thumbnails.
+    if (isHomeFolder && settings.$.folder_preview) {
       // get children bookmarks for folders
       childrenBookmarks = getChildrenBookmarks(bookamrksArr);
-      // get only ids
-      const childrenIds = childrenBookmarks.map(child => child.id);
-      promiseThumbnailsRequests.push(ImageDB.getAllByIds(childrenIds));
     }
-
-    // request thumbnails from indexDB
-    const [thumbnails, childrenThumbnails] = await Promise.all(promiseThumbnailsRequests);
 
     // clear local thumbnail map
     THUMBNAILS_MAP.clear();
@@ -490,9 +564,8 @@ const Bookmarks = (() => {
       THUMBNAILS_MAP.set(thumbnail.id, thumbnail);
     });
 
-    // convert blob to thumbnail url for children bookmarks
-    if (settings.$.folder_preview) {
-      setChildrenThumbnails(childrenThumbnails, childrenBookmarks);
+    if (childrenBookmarks) {
+      setChildrenThumbnails([], childrenBookmarks);
     }
 
     if (settings.$.sort_by === 'date') {
@@ -515,17 +588,20 @@ const Bookmarks = (() => {
 
     const fragment = document.createDocumentFragment();
 
-    for (let bookmark of bookamrksArr) {
-      if (bookmark.url) {
-        fragment.appendChild(genBookmark(bookmark));
-      } else {
-        fragment.appendChild(genFolder(bookmark));
+    if (options.searchDisplay === 'grouped') {
+      appendGroupedSearchResults(fragment, bookamrksArr, options.folderPaths);
+    } else {
+      for (let bookmark of bookamrksArr) {
+        const folderLabel = ['folder_name', 'folder_path'].includes(options.searchDisplay)
+          ? getSearchFolderLabel(bookmark, options.folderPaths, options.searchDisplay)
+          : '';
+        fragment.appendChild(createSearchResult(bookmark, folderLabel));
       }
     }
 
     container.appendChild(fragment);
 
-    if (settings.$.thumbnails_auto_refresh) {
+    if (isHomeFolder && settings.$.thumbnails_auto_refresh) {
       const staleThumbnails = thumbnails.filter(thumbnail => (
         isThumbnailStale(thumbnail, settings.$.thumbnails_auto_refresh_interval)
       ));
@@ -729,16 +805,11 @@ const Bookmarks = (() => {
   }
 
   function autoUpdateThumb() {
-    if (isGeneratedThumbs) return;
-    const id = startFolder();
+    if (isGeneratedThumbs || !isDefaultFolder()) return;
+    const id = String(settings.defaultFolderId);
     getSubTree(id)
       .then((items) => {
-        // check recursively or not
-        const children = settings.$.thumbnails_update_recursive
-          // create a flat array of nested bookmarks
-          ? flattenArrayBookmarks(items[0].children)
-          // only first level bookmarks without folders
-          : items[0].children.filter(item => item.url);
+        const children = items[0].children.filter(item => item.url);
 
         // sort by newest
         if (settings.$.sort_by_newest) {
@@ -749,24 +820,13 @@ const Bookmarks = (() => {
       });
   }
 
-  async function updateSelectedThumbnails(selectedBookmarks) {
-    const bookmarks = [];
+  function updateSelectedThumbnails(selectedBookmarks) {
+    if (!isDefaultFolder()) return;
 
-    for (let b of selectedBookmarks) {
-      if (!b.isFolder) {
-        bookmarks.push(b);
-      } else {
-        const three = await getSubTree(b.id);
-        if (settings.$.thumbnails_update_recursive) {
-          bookmarks.push(...flattenArrayBookmarks(three));
-        } else {
-          const bookmarksThree = three[0].children.filter(child => child.url);
-          bookmarks.push(...bookmarksThree);
-        }
-      }
-    }
-
-    captureMultipleBookmarks(bookmarks);
+    const bookmarks = selectedBookmarks.filter(bookmark => (
+      !bookmark.isFolder && canUseThumbnail(bookmark)
+    ));
+    return captureMultipleBookmarks(bookmarks);
   }
 
   async function moveSelectedBookmarks(selectedBookmarks, destinationId) {
@@ -803,7 +863,10 @@ const Bookmarks = (() => {
         parentId: destinationId,
         ...(settings.$.move_to_start && { index: 0 })
       })
-        .then(() => {
+        .then(async() => {
+          if (!isDefaultFolder(destinationId)) {
+            await removeThumbnail(bookmark.id, bookmark.isFolder);
+          }
           $customTrigger('updateFolderList', document);
           bookmark.remove();
         });
@@ -819,6 +882,8 @@ const Bookmarks = (() => {
    * @param {(string|undefined)} data.site - domain
    */
   async function uploadScreen(bookmark, fileBlob, options = {}) {
+    if (!canUseThumbnail(bookmark)) return false;
+
     const {
       source = 'local',
       custom = true,
@@ -875,6 +940,8 @@ const Bookmarks = (() => {
   }
 
   async function applyRemoteThumbnail(bookmark, url, showNotice = false, options = {}) {
+    if (!canUseThumbnail(bookmark)) return { success: false };
+
     bookmark && (bookmark.hasOverlay = true);
     const response = await requestRemoteThumbnail(bookmark.id, url, options);
     const image = await ImageDB.get(bookmark.id);
@@ -905,6 +972,11 @@ const Bookmarks = (() => {
   }
 
   async function setLocalThumbnailSource(id) {
+    const bookmark = document.getElementById(`vb-${id}`);
+    if (!canUseThumbnail(bookmark)) {
+      return false;
+    }
+
     const image = await ImageDB.get(id);
     if (!image) return;
 
@@ -930,6 +1002,8 @@ const Bookmarks = (() => {
   }
 
   async function clearCachedThumbnail(bookmark, source) {
+    if (!canUseThumbnail(bookmark)) return false;
+
     const existing = await ImageDB.get(bookmark.id);
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
     if (thumbnail?.blobUrl) {
@@ -1029,7 +1103,7 @@ const Bookmarks = (() => {
 
     if (!hostPermissions) return;
 
-    if (!bookmark) return;
+    if (!canUseThumbnail(bookmark)) return;
 
     bookmark.hasOverlay = true;
     return new Promise(resolve => {
@@ -1076,19 +1150,28 @@ const Bookmarks = (() => {
    * Search bookmarks
    * @param {String} query
    */
-  function  search(query) {
-    searchBookmarks(query)
-      .then(match => {
-        if (match.length > 0) {
-          if (settings.$.drag_and_drop) {
-            // if dnd we turn off sorting and destroy nested instances
-            container.sortInstance?.toggleDisable(true);
-          }
-          render(match);
-        } else {
-          container.innerHTML = `<div class="empty-search">🙁 ${browser.i18n.getMessage('empty_search')}</div>`;
-        }
+  async function search(query) {
+    const searchDisplay = settings.$.search_results_display;
+    const folderTree = searchDisplay === 'flat'
+      ? Promise.resolve([])
+      : getThree().catch(() => []);
+    const [match, tree] = await Promise.all([
+      searchBookmarks(query),
+      folderTree
+    ]);
+
+    if (match.length > 0) {
+      if (settings.$.drag_and_drop) {
+        // if dnd we turn off sorting and destroy nested instances
+        container.sortInstance?.toggleDisable(true);
+      }
+      await render(match, false, {
+        searchDisplay,
+        folderPaths: createFolderPathMap(tree)
       });
+    } else {
+      container.innerHTML = `<div class="empty-search">🙁 ${browser.i18n.getMessage('empty_search')}</div>`;
+    }
   }
 
   async function removeFromBrowser(bookmark, isFolder) {
@@ -1289,13 +1372,15 @@ const Bookmarks = (() => {
         parentId: moveId,
         ...(settings.$.move_to_start && { index: 0 })
       };
-      move(id, destination)
-        .then(() => {
-          $customTrigger('updateFolderList', document);
-          bookmark.remove();
-        });
+      await move(id, destination);
+      if (!isDefaultFolder(moveId)) {
+        await removeThumbnail(id, !result.url);
+      }
+      $customTrigger('updateFolderList', document);
+      bookmark.remove();
     } else {
       // else update bookmark view
+      bookmark.parentId = result.parentId;
       bookmark.title = result.title;
       bookmark.url = result.url ? result.url : `#${result.id}`;
       $customTrigger('updateFolderList', document);
@@ -1324,7 +1409,8 @@ const Bookmarks = (() => {
     autoUpdateThumb,
     updateSelectedThumbnails,
     moveSelectedBookmarks,
-    checkHostPermissions
+    checkHostPermissions,
+    isDefaultFolder
   };
 })();
 

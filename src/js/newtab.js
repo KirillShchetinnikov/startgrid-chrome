@@ -64,6 +64,14 @@ let generateThumbsBtn = null;
 let pendingThumbnailBlob = null;
 let pendingThumbnailSource = null;
 
+function updateThumbnailControls(folderId) {
+  const enabled = Bookmarks.isDefaultFolder(folderId);
+  if (generateThumbsBtn) {
+    generateThumbsBtn.hidden = !enabled;
+  }
+  return enabled;
+}
+
 async function init() {
   // Set lang attr
   // Replacement underscore on the dash because underscore is not a valid language subtag
@@ -79,6 +87,9 @@ async function init() {
   window.addEventListener('storage', handleUpdateStorage);
   window.addEventListener('load', handleLoad);
   document.addEventListener('changeFolder', hideControlMultiplyBookmarks);
+  document.addEventListener('changeFolder', ({ detail }) => {
+    updateThumbnailControls(detail.folderId);
+  });
 
   /**
    * Settings
@@ -172,6 +183,7 @@ async function init() {
       html: `<svg width="20" height="20"><use xlink:href="/img/symbol.svg#capture_fill"/></svg>`
     });
     document.getElementById('aside_controls').appendChild(generateThumbsBtn);
+    updateThumbnailControls();
 
     // Thumbnail generation tracking events
     // Switching the flag in the local storage to prevent multiple launches
@@ -275,6 +287,7 @@ async function showControlMultiplyBookmarks() {
     class: 'bookmarks-panel'
   });
   vbBookmarksPanel.selectedFolder = getCurrentFolderId() || settings.defaultFolderId;
+  vbBookmarksPanel.allowThumbnailUpdates = Bookmarks.isDefaultFolder();
   vbBookmarksPanel.folders = await getFolders();
 
   document.body.append(vbBookmarksPanel);
@@ -300,6 +313,9 @@ function handleMultipleBookmarks(evt) {
   const { action, destFolder } = evt.detail;
 
   if (!action) return;
+  if (action === 'update_thumbnails' && !Bookmarks.isDefaultFolder()) {
+    return;
+  }
 
   switch (action) {
     case 'open_all':
@@ -362,12 +378,14 @@ function handlePagehide() {
 
 function handleUpdateStorage(e) {
   // If several tabs are open, on the rest of them we will update the attribute at the button
-  if (e.key === 'update_thumbnails') {
+  if (e.key === 'update_thumbnails' && generateThumbsBtn) {
     generateThumbsBtn.disabled = !!e.newValue;
   }
 }
 
 async function handleGenerateThumbs() {
+  if (!Bookmarks.isDefaultFolder()) return;
+
   if (!(await Bookmarks.checkHostPermissions())) {
     return;
   }
@@ -680,6 +698,7 @@ function handleCloseModal() {
   delete form.dataset.oldThumbnailSource;
   delete form.dataset.oldThumbnailUrl;
   delete form.dataset.thumbnailHasImage;
+  delete form.dataset.thumbnailEnabled;
   pendingThumbnailBlob = null;
   pendingThumbnailSource = null;
   deleteThumbnailButton.disabled = true;
@@ -687,6 +706,18 @@ function handleCloseModal() {
 }
 
 function handleThumbnailSourceChange() {
+  const enabled = form.dataset.thumbnailEnabled === 'true';
+  if (!enabled) {
+    document.getElementById('thumbnailSourceWrap').hidden = true;
+    thumbnailUrlWrap.hidden = true;
+    thumbnailUrl.required = false;
+    thumbnailActions.hidden = true;
+    customScreen.style.display = '';
+    resetCustomImageButton.hidden = true;
+    return;
+  }
+
+  resetCustomImageButton.hidden = false;
   const source = thumbnailSource.value;
   const isNew = form.getAttribute('data-action') === 'New';
   const isUrl = source === 'url';
@@ -827,23 +858,27 @@ async function handleSubmitForm(evt) {
   const id = form.getAttribute('data-action');
   const title = form.title.value.trim();
   const url = form.url.value.trim();
+  const destinationFolderId = id === 'New'
+    ? container.dataset.folder
+    : modalSelectFolders.value;
+  const thumbnailEnabled = Bookmarks.isDefaultFolder(destinationFolderId);
   const thumbnailSourceValue = form.thumbnailSource.value;
   const thumbnailUrlValue = form.thumbnailUrl.value.trim();
-  const shouldCaptureSite = thumbnailSourceValue === 'site' && (
+  const shouldCaptureSite = thumbnailEnabled && thumbnailSourceValue === 'site' && (
     id === 'New'
       ? pendingThumbnailSource !== 'site'
       : form.dataset.oldThumbnailSource !== 'site'
         || form.dataset.oldUrl !== url
         || form.dataset.thumbnailHasImage !== 'true'
   );
-  const shouldFetchUrl = thumbnailSourceValue === 'url' && (
+  const shouldFetchUrl = thumbnailEnabled && thumbnailSourceValue === 'url' && (
     id === 'New'
       ? pendingThumbnailSource !== 'url'
       : form.dataset.oldThumbnailSource !== 'url'
         || form.dataset.oldThumbnailUrl !== thumbnailUrlValue
         || form.dataset.thumbnailHasImage !== 'true'
   );
-  const shouldFetchFavicon = thumbnailSourceValue === 'favicon' && (
+  const shouldFetchFavicon = thumbnailEnabled && thumbnailSourceValue === 'favicon' && (
     id === 'New'
       ? pendingThumbnailSource !== 'favicon'
       : form.dataset.oldThumbnailSource !== 'favicon'
@@ -870,7 +905,9 @@ async function handleSubmitForm(evt) {
   }
 
   if (bookmark) {
-    if (thumbnailSourceValue === 'local') {
+    if (!thumbnailEnabled) {
+      await Bookmarks.removeThumbnail(bookmark.id, bookmark.isFolder);
+    } else if (thumbnailSourceValue === 'local') {
       if (pendingThumbnailBlob && pendingThumbnailSource === 'local') {
         await Bookmarks.uploadScreen(bookmark, pendingThumbnailBlob);
       } else {
@@ -957,15 +994,19 @@ async function prepareModal(target) {
 
     const { id, url, parentId } = bookmarkNode[0];
     const title = $unescapeHtml(bookmarkNode[0].title);
-    const imageData = await ImageDB.get(id);
+    const thumbnailEnabled = Bookmarks.isDefaultFolder(parentId);
+    const imageData = thumbnailEnabled ? await ImageDB.get(id) : null;
     form.setAttribute('data-action', id);
+    form.dataset.thumbnailEnabled = String(thumbnailEnabled);
 
     // generate bookmark folder list
     modalSelectFolders.setAttribute('parent-folder-id', parentId);
     modalSelectFolders.setAttribute('bookmark-id', id);
     modalSelectFolders.folders = await getFolders();
 
-    await showModalThumbnail(id);
+    if (thumbnailEnabled) {
+      await showModalThumbnail(id);
+    }
     const pastePermission = await containsPermissions({ permissions: ['clipboardRead'] });
     pasteThumbnailButton.disabled = pastePermission
       ? !(await checkClipboardImage())
@@ -1000,6 +1041,7 @@ async function prepareModal(target) {
     titleField.value = '';
     urlField.value = '';
     form.setAttribute('data-action', 'New');
+    form.dataset.thumbnailEnabled = String(Bookmarks.isDefaultFolder(container.dataset.folder));
     thumbnailSource.value = 'favicon';
     thumbnailUrl.value = '';
     deleteThumbnailButton.disabled = true;

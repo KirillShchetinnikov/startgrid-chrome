@@ -109,9 +109,29 @@ export default {
   calculateStyles() {
     const doc = document.documentElement;
     const grid = document.getElementById('bookmarks');
-    const gap = parseInt(window.getComputedStyle(doc).getPropertyValue('--grid-gap'));
     const columns = parseInt(settings.$.dial_columns);
     const lsGridWidth = parseInt(settings.$.dial_width);
+    const clamp = (value, min, max, fallback) => {
+      const number = parseInt(value);
+      return Number.isFinite(number)
+        ? Math.min(max, Math.max(min, number))
+        : fallback;
+    };
+    const gap = clamp(settings.$.dial_gap, 0, 40, 16);
+    const radius = clamp(settings.$.dial_radius, 0, 40, 18);
+    const shadow = clamp(settings.$.dial_shadow, 0, 30, 8);
+    const hoverLift = clamp(settings.$.dial_hover_lift, 0, 12, 4);
+    const aspectRatios = new Set(['1 / 1', '4 / 3', '3 / 2', '16 / 9']);
+    const aspectRatio = aspectRatios.has(settings.$.dial_aspect_ratio)
+      ? settings.$.dial_aspect_ratio
+      : '4 / 3';
+
+    doc.style.setProperty('--grid-gap', `${gap}px`);
+    doc.style.setProperty('--bookmark-radius', `${radius}px`);
+    doc.style.setProperty('--bookmark-aspect-ratio', aspectRatio);
+    doc.style.setProperty('--bookmark-shadow-opacity', `${shadow}%`);
+    doc.style.setProperty('--bookmark-hover-shadow-opacity', `${Math.min(45, shadow * 1.875)}%`);
+    doc.style.setProperty('--bookmark-hover-lift', `${hoverLift}px`);
 
     const mediaQuery = window.matchMedia('(width > 480px)');
     const containerWidth = mediaQuery.matches ? lsGridWidth : 100;
