@@ -22,11 +22,11 @@ export function getCurrentFolderId() {
   return currentFolderId;
 }
 
-export function navigateToFolder(folderId) {
+export function navigateToFolder(folderId, force = false) {
   const nextFolderId = String(folderId);
-  if (!nextFolderId || nextFolderId === currentFolderId) return;
+  if (!nextFolderId || (!force && nextFolderId === currentFolderId)) return;
 
-  if (currentFolderId !== null) {
+  if (currentFolderId !== null && nextFolderId !== currentFolderId) {
     folderHistory.push(currentFolderId);
   }
   currentFolderId = nextFolderId;
@@ -41,10 +41,10 @@ export function navigateBack(defaultFolderId) {
   dispatchFolderNavigation();
 }
 
-export function navigateHome(defaultFolderId) {
+export function navigateHome(defaultFolderId, force = false) {
   const homeFolderId = String(defaultFolderId);
   folderHistory.length = 0;
-  if (!homeFolderId || homeFolderId === currentFolderId) return;
+  if (!homeFolderId || (!force && homeFolderId === currentFolderId)) return;
 
   currentFolderId = homeFolderId;
   dispatchFolderNavigation();

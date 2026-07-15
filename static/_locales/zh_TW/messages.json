@@ -497,6 +497,9 @@
   "empty_search": {
     "message": "沒有找到書籤"
   },
+  "search_failed": {
+    "message": "Не удалось выполнить поиск по закладкам. Попробуйте ещё раз."
+  },
   "logo_external": {
     "message": "外部圖示"
   },

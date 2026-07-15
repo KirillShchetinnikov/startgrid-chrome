@@ -1,5 +1,6 @@
 import { settings } from '../settings';
 import UI from './ui';
+import confirmPopup from '../plugins/confirmPopup';
 
 const RERENDER_SETTINGS = new Set([
   'show_create_column',
@@ -122,6 +123,11 @@ function createPanel() {
             data-setting="logo_external_url" placeholder="https://img.logo.dev/{{website}}" spellcheck="false">
         </label>
       </div>
+      <div class="quick-settings__reset">
+        <button class="btn btn--clear quick-settings__reset-button md-ripple" type="button"
+          data-quick-settings-reset>${message('reset_local_default')}</button>
+        <small class="text-muted">${message('reset_local_default_description')}</small>
+      </div>
       <a class="btn quick-settings__more" href="options.html">${message('more_settings')}</a>
     </section>`;
 
@@ -206,6 +212,13 @@ export default function initQuickDisplaySettings({ container, onRerender }) {
       output.textContent = `${event.target.value}${event.target.dataset.unit}`;
       applySetting(event.target, false);
     });
+  });
+  panel.querySelector('[data-quick-settings-reset]').addEventListener('click', async() => {
+    const confirmed = await confirmPopup(message('confirm_restore_default_settings'));
+    if (!confirmed) return;
+
+    await settings.resetLocal();
+    window.location.reload();
   });
   document.addEventListener('click', event => {
     if (!panel.hidden && !panel.contains(event.target) && !trigger.contains(event.target)) {

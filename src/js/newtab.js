@@ -397,7 +397,12 @@ async function handleGenerateThumbs() {
 }
 
 async function handleDelegateClick(evt) {
-  if (evt.target.closest('#bookmark-back')) {
+  const searchFolder = evt.target.closest('[data-search-folder-id]');
+
+  if (searchFolder) {
+    evt.preventDefault();
+    navigateToFolder(searchFolder.dataset.searchFolderId, true);
+  } else if (evt.target.closest('#bookmark-back')) {
     evt.preventDefault();
     navigateToFolder(container.dataset.parentFolder);
   } else if (evt.target.closest('#add')) {

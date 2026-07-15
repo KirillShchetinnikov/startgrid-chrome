@@ -155,6 +155,8 @@ class VbHeader extends HTMLElement {
             })
           );
         }
+
+        this.hashchange();
       });
   }
 
@@ -274,7 +276,10 @@ class VbHeader extends HTMLElement {
   hashchange() {
     const folderId = getCurrentFolderId() || this.initialFolderId;
 
-    if (folderId !== this.initialFolderId) {
+    const isNestedFolder = folderId !== this.initialFolderId;
+    const isBookmarkSearch = this.isBookmarksEngine && Boolean(this.inputNode.value.trim());
+
+    if (isNestedFolder) {
       if (!this.backNode) {
         this.backNode = $createElement(
           'button',
@@ -290,6 +295,13 @@ class VbHeader extends HTMLElement {
         this.headerNode.insertAdjacentElement('afterbegin', this.backNode);
         this.backNode.addEventListener('click', this.handleBack);
       }
+    } else if (this.backNode) {
+      this.backNode.removeEventListener('click', this.handleBack);
+      this.backNode.remove();
+      this.backNode = null;
+    }
+
+    if (isNestedFolder || isBookmarkSearch) {
       if (!this.homeNode) {
         this.homeNode = $createElement(
           'button',
@@ -302,21 +314,23 @@ class VbHeader extends HTMLElement {
           }
         );
         this.handleHome = this.handleHome.bind(this);
-        this.backNode.insertAdjacentElement('afterend', this.homeNode);
+        if (this.backNode) {
+          this.backNode.insertAdjacentElement('afterend', this.homeNode);
+        } else {
+          this.headerNode.insertAdjacentElement('afterbegin', this.homeNode);
+        }
         this.homeNode.addEventListener('click', this.handleHome);
       }
-    } else {
-      if (this.backNode) {
-        this.backNode.removeEventListener('click', this.handleBack);
-        this.backNode.remove();
-        this.backNode = null;
-      }
-      if (this.homeNode) {
-        this.homeNode.removeEventListener('click', this.handleHome);
-        this.homeNode.remove();
-        this.homeNode = null;
-      }
+    } else if (this.homeNode) {
+      this.homeNode.removeEventListener('click', this.handleHome);
+      this.homeNode.remove();
+      this.homeNode = null;
     }
+
+    if (this.backNode && this.homeNode) {
+      this.backNode.insertAdjacentElement('afterend', this.homeNode);
+    }
+
     this.selectNode.setAttribute('folder-id', folderId);
   }
 
@@ -389,12 +403,26 @@ class VbHeader extends HTMLElement {
   }
 
   handleHome() {
-    navigateHome(settings.defaultFolderId);
+    const forceNavigation = this.isBookmarksEngine && Boolean(this.inputNode.value.trim());
+    if (forceNavigation) this.clearBookmarkSearch();
+    navigateHome(settings.defaultFolderId, forceNavigation);
+  }
+
+  clearBookmarkSearch() {
+    if (!this.isBookmarksEngine || !this.inputNode.value) return;
+
+    this.inputNode.value = '';
+    this.inputValue = '';
+    this.closeSuggest();
+    this.resetNode.classList.remove('is-show');
+    this.hashchange();
   }
 
   handleReset() {
-    this.inputNode.value = '';
-    if (this.isBookmarksEngine) {
+    const isBookmarksEngine = this.isBookmarksEngine;
+    this.clearBookmarkSearch();
+
+    if (isBookmarksEngine) {
       this.inputNode.dispatchEvent(
         new CustomEvent('vb:searchreset', {
           bubbles: true,
@@ -402,10 +430,12 @@ class VbHeader extends HTMLElement {
         })
       );
     } else {
+      this.inputNode.value = '';
+      this.inputValue = '';
       this.closeSuggest();
+      this.resetNode.classList.remove('is-show');
     }
 
-    this.resetNode.classList.remove('is-show');
     this.inputNode.focus();
   }
 
@@ -428,6 +458,7 @@ class VbHeader extends HTMLElement {
     }
 
     this.resetNode.classList.toggle('is-show', search.trim().length);
+    this.hashchange();
   }
 
   handleDocumentKeydown(e) {

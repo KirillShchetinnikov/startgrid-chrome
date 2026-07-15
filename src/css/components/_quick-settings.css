@@ -118,9 +118,28 @@
   }
 }
 
+.quick-settings__reset {
+  display: grid;
+  gap: 7px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: var(--surface-border);
+
+  & small {
+    line-height: 1.35;
+  }
+}
+
+.quick-settings__reset-button {
+  width: 100%;
+  border: var(--surface-border);
+  color: var(--theme-text-color);
+  background: var(--theme-background-2);
+}
+
 .quick-settings__more {
   display: block;
-  margin-top: 16px;
+  margin-top: 10px;
 }
 
 @media (max-width: 480px) {

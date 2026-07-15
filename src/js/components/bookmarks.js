@@ -48,6 +48,7 @@ const Bookmarks = (() => {
   const container = document.getElementById('bookmarks');
   const dialLoading = document.getElementById('dial_loading');
   let isGeneratedThumbs = false;
+  let activeSearchRequest = 0;
 
   async function init() {
     // screen sizes needed for the service worker
@@ -81,20 +82,23 @@ const Bookmarks = (() => {
 
     initFolderNavigation(configuredStartFolder());
 
+    let hasSearch = false;
+    let vbHeader = null;
+
     // Search bookmarks if toolbar enable
     if (settings.$.show_toolbar) {
       await import(/* webpackChunkName: "webcomponents/vb-header" */'./vb-header');
-      const vbHeader = document.createElement('vb-header');
+      vbHeader = document.createElement('vb-header');
       vbHeader.setAttribute('placeholder', browser.i18n.getMessage('placeholder_input_search'));
       vbHeader.setAttribute('initial-folder-id', settings.defaultFolderId);
       vbHeader.setAttribute('folder-id', startFolder());
       document.querySelector('header').append(vbHeader);
 
-      let hasSearch = false;
       const searchHandler = $debounce(({ detail }) => {
         if (!detail.isBookmarksEngine) {
           if (hasSearch) {
             hasSearch = false;
+            activeSearchRequest += 1;
             createSpeedDial(startFolder());
             document.body.classList.remove('has-search');
           }
@@ -104,6 +108,7 @@ const Bookmarks = (() => {
         const query = detail.search.trim();
         if (!query.length) {
           hasSearch = false;
+          activeSearchRequest += 1;
           createSpeedDial(startFolder());
         } else {
           hasSearch = true;
@@ -113,6 +118,7 @@ const Bookmarks = (() => {
       }, 500);
       const searchResetHandler = () => {
         hasSearch = false;
+        activeSearchRequest += 1;
         createSpeedDial(startFolder());
         document.body.classList.remove('has-search');
       };
@@ -124,6 +130,13 @@ const Bookmarks = (() => {
     // Change the current dial without changing the new-tab URL.
     document.addEventListener('folderNavigate', async function({ detail }) {
       const folderId = detail.folderId;
+      activeSearchRequest += 1;
+      if (hasSearch) {
+        hasSearch = false;
+        document.body.classList.remove('has-search');
+      }
+      vbHeader?.clearBookmarkSearch();
+
       await createSpeedDial(folderId);
 
       // Save the ID of the last opened folder
@@ -508,8 +521,10 @@ const Bookmarks = (() => {
         numeric: true
       }))
       .forEach(group => {
-        const heading = $createElement('h2', {
-          class: 'search-results__folder'
+        const heading = $createElement('button', {
+          class: 'search-results__folder',
+          type: 'button',
+          'data-search-folder-id': group.bookmarks[0].parentId
         });
         heading.append(
           $createElement('span', {
@@ -517,7 +532,7 @@ const Bookmarks = (() => {
           }, group.label),
           $createElement('span', {
             class: 'search-results__folder-count'
-          }, group.bookmarks.length)
+          }, String(group.bookmarks.length))
         );
         fragment.appendChild(heading);
         group.bookmarks.forEach(bookmark => {
@@ -1151,26 +1166,37 @@ const Bookmarks = (() => {
    * @param {String} query
    */
   async function search(query) {
-    const searchDisplay = settings.$.search_results_display;
-    const folderTree = searchDisplay === 'flat'
-      ? Promise.resolve([])
-      : getThree().catch(() => []);
-    const [match, tree] = await Promise.all([
-      searchBookmarks(query),
-      folderTree
-    ]);
+    const requestId = ++activeSearchRequest;
+    try {
+      const searchDisplay = settings.$.search_results_display;
+      const folderTree = searchDisplay === 'flat'
+        ? Promise.resolve([])
+        : getThree().catch(() => []);
+      const [match, tree] = await Promise.all([
+        searchBookmarks(query),
+        folderTree
+      ]);
 
-    if (match.length > 0) {
-      if (settings.$.drag_and_drop) {
-        // if dnd we turn off sorting and destroy nested instances
-        container.sortInstance?.toggleDisable(true);
+      if (requestId !== activeSearchRequest) return;
+
+      if (match.length > 0) {
+        if (settings.$.drag_and_drop) {
+          // if dnd we turn off sorting and destroy nested instances
+          container.sortInstance?.toggleDisable(true);
+        }
+        await render(match, false, {
+          searchDisplay,
+          folderPaths: createFolderPathMap(tree)
+        });
+      } else {
+        container.innerHTML = `<div class="empty-search">🙁 ${browser.i18n.getMessage('empty_search')}</div>`;
       }
-      await render(match, false, {
-        searchDisplay,
-        folderPaths: createFolderPathMap(tree)
-      });
-    } else {
-      container.innerHTML = `<div class="empty-search">🙁 ${browser.i18n.getMessage('empty_search')}</div>`;
+    } catch (error) {
+      if (requestId !== activeSearchRequest) return;
+      console.error('Bookmark search failed', error);
+      container.innerHTML = `<div class="empty-search">🙁 ${browser.i18n.getMessage('search_failed')}</div>`;
+    } finally {
+      if (requestId === activeSearchRequest) dialLoading.hidden = true;
     }
   }
 

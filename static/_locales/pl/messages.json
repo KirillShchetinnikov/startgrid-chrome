@@ -497,6 +497,9 @@
   "empty_search": {
     "message": "Nie znaleziono zakładek"
   },
+  "search_failed": {
+    "message": "Could not search bookmarks. Please try again."
+  },
   "logo_external": {
     "message": "Loga zewnętrzne"
   },
