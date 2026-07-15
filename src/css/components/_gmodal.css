@@ -221,6 +221,7 @@ body.gmodal-open {
 
 .gmodal__thumbnail-source,
 .gmodal__thumbnail-url,
+.gmodal__favicon-options,
 .gmodal__thumbnail-actions {
   display: none;
 }
@@ -228,6 +229,8 @@ body.gmodal-open {
 .gmodal.has-edit .gmodal__thumbnail-source:not([hidden]),
 .gmodal.has-add .gmodal__thumbnail-source:not([hidden]),
 .gmodal.has-edit .gmodal__thumbnail-url:not([hidden]),
+.gmodal.has-edit .gmodal__favicon-options:not([hidden]),
+.gmodal.has-add .gmodal__favicon-options:not([hidden]),
 .gmodal.has-add .gmodal__thumbnail-url:not([hidden]),
 .gmodal.has-edit .gmodal__thumbnail-actions:not([hidden]) {
   display: block;
@@ -242,6 +245,10 @@ body.gmodal-open {
   margin-top: 5px;
   color: #999;
   font-size: 0.75rem;
+}
+
+.gmodal__favicon-options > .group:last-child {
+  margin-bottom: 0;
 }
 
 .gmodal__thumbnail-buttons {

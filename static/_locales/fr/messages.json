@@ -64,6 +64,39 @@
   "thumbnail_source_favicon": {
     "message": "Favicon du site"
   },
+  "favicon_download_preference": {
+    "message": "Favicon source"
+  },
+  "favicon_download_inherit": {
+    "message": "Use global setting"
+  },
+  "favicon_download_site": {
+    "message": "Download from website"
+  },
+  "favicon_download_chrome": {
+    "message": "Use Chrome cache"
+  },
+  "favicon_size_individual": {
+    "message": "Individual favicon size"
+  },
+  "favicon_size_individual_placeholder": {
+    "message": "32"
+  },
+  "favicon_size_individual_note": {
+    "message": "Leave empty to use the global size."
+  },
+  "download_favicons_by_default": {
+    "message": "Download favicons from websites by default"
+  },
+  "download_favicons_by_default_note": {
+    "message": "When a favicon thumbnail is missing locally, download it in the background when the start page opens."
+  },
+  "favicon_size": {
+    "message": "Favicon size"
+  },
+  "favicon_size_note": {
+    "message": "Default favicon image size on tiles. Individual tile settings take priority."
+  },
   "thumbnail_url": {
     "message": "URL de la miniature"
   },

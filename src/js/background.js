@@ -24,6 +24,7 @@ import {
 } from './constants';
 import { containsPermissions } from './api/permissions';
 import { getBlobHash } from './api/remoteThumbnail';
+import { shouldDownloadFavicon } from './api/faviconPreferences';
 
 function getHtmlAttribute(tag, name) {
   const match = tag.match(new RegExp(`\\s${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
@@ -121,6 +122,7 @@ async function updateRemoteThumbnail({ id, url, source = 'url', sourceUrl = url 
 
     await ImageDB.update({
       id,
+      ...(existing || {}),
       blob,
       custom: true,
       source,
@@ -361,6 +363,10 @@ async function handleBookmarks(eventType, id, bookmark) {
   // we will ignore further execution if our application is in the active tab
   const tabs = await browser.tabs.query({ active: true });
   const tabUrl = tabs[0]?.url?.replace(/#\d*/, '');
+  const thumbnail = isHomeBookmark ? await ImageDB.get(id) : null;
+  const thumbnailSource = thumbnail?.source
+    || (thumbnail?.blob ? (thumbnail.custom ? 'local' : 'site') : 'favicon');
+  const downloadFavicon = shouldDownloadFavicon(thumbnail, settings.download_favicons_by_default);
   if (NEWTAB_URLS.includes(tabUrl)) return;
 
   const sendMessageCallback = () => {
@@ -376,7 +382,8 @@ async function handleBookmarks(eventType, id, bookmark) {
   if (
     ['created', 'changed'].includes(eventType) &&
     isHomeBookmark &&
-    settings.auto_generate_thumbnail &&
+    thumbnailSource === 'favicon' &&
+    downloadFavicon &&
     currentBookmark.url
   ) {
     const allUrlsPermission = await containsPermissions({ origins: ['<all_urls>'] });

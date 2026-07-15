@@ -28,6 +28,10 @@ import {
   checkClipboardImage
 } from './utils';
 import ImageDB from './api/imageDB';
+import {
+  getFaviconSizeOverride,
+  shouldDownloadFavicon
+} from './api/faviconPreferences';
 import { CONTEXT_MENU, LOCAL_PROTOCOLS } from './constants';
 import { bookmarksToDelete } from './state';
 import Toast from './components/toast';
@@ -46,6 +50,9 @@ const urlWrap = document.getElementById('urlWrap');
 const customScreen = document.getElementById('customScreen');
 const thumbnailSource = document.getElementById('thumbnailSource');
 const thumbnailUrl = document.getElementById('thumbnailUrl');
+const faviconOptionsWrap = document.getElementById('faviconOptionsWrap');
+const faviconDownloadPreference = document.getElementById('faviconDownloadPreference');
+const thumbnailFaviconSize = document.getElementById('thumbnailFaviconSize');
 const thumbnailUrlWrap = document.getElementById('thumbnailUrlWrap');
 const thumbnailActions = document.getElementById('thumbnailActions');
 const captureThumbnailButton = document.getElementById('captureThumbnail');
@@ -576,9 +583,9 @@ function showModalBlob(blob, id = null) {
   deleteThumbnailButton.disabled = false;
 }
 
-async function showModalThumbnail(id) {
+async function showModalThumbnail(id, showStoredImage = true) {
   const imageData = await ImageDB.get(id);
-  if (!imageData?.blob) {
+  if (!imageData?.blob || !showStoredImage) {
     customScreen.style.display = '';
     deleteThumbnailButton.disabled = true;
     return;
@@ -623,6 +630,7 @@ async function handleCaptureThumbnail() {
     if (blob) {
       pendingThumbnailBlob = blob;
       pendingThumbnailSource = source;
+      if (source === 'favicon') faviconDownloadPreference.value = 'download';
       showModalBlob(blob);
       handleThumbnailSourceChange();
     }
@@ -662,6 +670,7 @@ async function handleCaptureThumbnail() {
   }
 
   if (response && !response.warning && response.success !== false) {
+    if (source === 'favicon') faviconDownloadPreference.value = 'download';
     form.dataset.oldThumbnailSource = source;
     form.dataset.oldThumbnailUrl = remoteUrl;
     if (['site', 'favicon'].includes(source)) {
@@ -724,6 +733,7 @@ function handleThumbnailSourceChange() {
     document.getElementById('thumbnailSourceWrap').hidden = true;
     thumbnailUrlWrap.hidden = true;
     thumbnailUrl.required = false;
+    faviconOptionsWrap.hidden = true;
     thumbnailActions.hidden = true;
     customScreen.style.display = '';
     resetCustomImageButton.hidden = true;
@@ -737,6 +747,7 @@ function handleThumbnailSourceChange() {
   const isLocal = source === 'local';
   const isRefreshable = ['site', 'url', 'favicon'].includes(source);
 
+  faviconOptionsWrap.hidden = source !== 'favicon';
   thumbnailUrlWrap.hidden = !isUrl;
   thumbnailUrl.required = isUrl;
   captureThumbnailButton.hidden = !isRefreshable;
@@ -865,9 +876,25 @@ function openTab(url, options = {}) {
   } catch (e) {}
 }
 
+function getModalFaviconPreferences() {
+  const downloadPreference = faviconDownloadPreference.value;
+  let downloadFavicon = null;
+  if (downloadPreference === 'download') downloadFavicon = true;
+  if (downloadPreference === 'chrome') downloadFavicon = false;
+
+  return {
+    downloadFavicon,
+    faviconSize: getFaviconSizeOverride(thumbnailFaviconSize.value)
+  };
+}
+
+function usesDownloadedFavicon(preferences = getModalFaviconPreferences()) {
+  return shouldDownloadFavicon(preferences, settings.$.download_favicons_by_default);
+}
+
 async function handleSubmitForm(evt) {
-  evt.preventDefault();
   const form = evt.target;
+  evt.preventDefault();
   const id = form.getAttribute('data-action');
   const title = form.title.value.trim();
   const url = form.url.value.trim();
@@ -877,6 +904,8 @@ async function handleSubmitForm(evt) {
   const thumbnailEnabled = Bookmarks.isDefaultFolder(destinationFolderId);
   const thumbnailSourceValue = form.thumbnailSource.value;
   const thumbnailUrlValue = form.thumbnailUrl.value.trim();
+  const faviconPreferences = getModalFaviconPreferences();
+  const downloadFavicon = usesDownloadedFavicon(faviconPreferences);
   const shouldCaptureSite = thumbnailEnabled && thumbnailSourceValue === 'site' && (
     id === 'New'
       ? pendingThumbnailSource !== 'site'
@@ -891,7 +920,7 @@ async function handleSubmitForm(evt) {
         || form.dataset.oldThumbnailUrl !== thumbnailUrlValue
         || form.dataset.thumbnailHasImage !== 'true'
   );
-  const shouldFetchFavicon = thumbnailEnabled && thumbnailSourceValue === 'favicon' && (
+  const shouldFetchFavicon = thumbnailEnabled && thumbnailSourceValue === 'favicon' && downloadFavicon && (
     id === 'New'
       ? pendingThumbnailSource !== 'favicon'
       : form.dataset.oldThumbnailSource !== 'favicon'
@@ -952,6 +981,13 @@ async function handleSubmitForm(evt) {
         Bookmarks.setRemoteThumbnail(bookmark, thumbnailUrlValue);
       }
     } else if (url && thumbnailSourceValue === 'favicon') {
+      const shouldResetFavicon = id !== 'New' && (
+        form.dataset.oldThumbnailSource !== 'favicon'
+        || form.dataset.oldUrl !== url
+      );
+      if (shouldResetFavicon) await Bookmarks.clearCachedThumbnail(bookmark, 'favicon');
+      await Bookmarks.setFaviconPreferences(bookmark, faviconPreferences);
+
       if (pendingThumbnailBlob && pendingThumbnailSource === 'favicon') {
         await Bookmarks.uploadScreen(bookmark, pendingThumbnailBlob, {
           source: 'favicon',
@@ -1017,9 +1053,6 @@ async function prepareModal(target) {
     modalSelectFolders.setAttribute('bookmark-id', id);
     modalSelectFolders.folders = await getFolders();
 
-    if (thumbnailEnabled) {
-      await showModalThumbnail(id);
-    }
     const pastePermission = await containsPermissions({ permissions: ['clipboardRead'] });
     pasteThumbnailButton.disabled = pastePermission
       ? !(await checkClipboardImage())
@@ -1038,8 +1071,17 @@ async function prepareModal(target) {
       form.dataset.oldThumbnailUrl = imageData?.source === 'url' ? imageData.sourceUrl : '';
       form.dataset.thumbnailHasImage = String(Boolean(imageData?.blob));
       thumbnailUrl.value = imageData?.source === 'url' ? imageData.sourceUrl : '';
+      faviconDownloadPreference.value = imageData?.downloadFavicon === true
+        ? 'download'
+        : imageData?.downloadFavicon === false ? 'chrome' : 'inherit';
+      thumbnailFaviconSize.value = getFaviconSizeOverride(imageData?.faviconSize) || '';
+      thumbnailFaviconSize.placeholder = String(settings.$.favicon_size);
       document.getElementById('thumbnailSourceWrap').hidden = false;
       handleThumbnailSourceChange();
+      if (thumbnailEnabled) {
+        const showStoredImage = thumbnailSource.value !== 'favicon' || usesDownloadedFavicon();
+        await showModalThumbnail(id, showStoredImage);
+      }
     } else {
       urlWrap.style.display = 'none';
       thumbnailSource.value = 'local';
@@ -1059,6 +1101,9 @@ async function prepareModal(target) {
     thumbnailUrl.value = '';
     deleteThumbnailButton.disabled = true;
     document.getElementById('thumbnailSourceWrap').hidden = false;
+    faviconDownloadPreference.value = 'inherit';
+    thumbnailFaviconSize.value = '';
+    thumbnailFaviconSize.placeholder = String(settings.$.favicon_size);
     const pastePermission = await containsPermissions({ permissions: ['clipboardRead'] });
     pasteThumbnailButton.disabled = pastePermission
       ? !(await checkClipboardImage())

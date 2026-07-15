@@ -24,7 +24,8 @@ const DEFAULTS = Object.freeze({
   dial_hover_lift: 4,
   vertical_center: false,
   drag_and_drop: true,
-  auto_generate_thumbnail: true,
+  download_favicons_by_default: false,
+  favicon_size: 32,
   enable_sync: true,
   show_toolbar: true,
   show_contextmenu_item: true,
@@ -60,7 +61,8 @@ const DEPRECATED_SETTINGS = [
   'services_enable',
   'services_list',
   'enable_virtual_pagination',
-  'thumbnails_update_recursive'
+  'thumbnails_update_recursive',
+  'auto_generate_thumbnail'
 ];
 
 function sanitizeSettings(currentSettings) {

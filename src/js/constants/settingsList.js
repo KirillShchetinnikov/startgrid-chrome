@@ -337,9 +337,23 @@ export default [
         type: 'switch'
       },
       {
-        id: 'auto_generate_thumbnail',
-        title: browser.i18n.getMessage('auto_generate_thumbnail'),
+        id: 'download_favicons_by_default',
+        title: browser.i18n.getMessage('download_favicons_by_default'),
+        note: browser.i18n.getMessage('download_favicons_by_default_note'),
         type: 'switch'
+      },
+      {
+        id: 'favicon_size',
+        title: browser.i18n.getMessage('favicon_size'),
+        note: browser.i18n.getMessage('favicon_size_note'),
+        type: 'range',
+        min: 16,
+        max: 128,
+        step: 4,
+        data: {
+          selectorOutput: '#favicon_size_output',
+          outputPostfix: 'px'
+        }
       },
       {
         id: 'thumbnails_update_delay',

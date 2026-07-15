@@ -284,7 +284,10 @@ async function handleSetOptions(e) {
   if (id === 'enable_sync') return;
 
   if (/checkbox|radio/.test(target.type)) {
-    if (id === 'thumbnails_auto_refresh' && target.checked) {
+    if (
+      ['thumbnails_auto_refresh', 'download_favicons_by_default'].includes(id)
+      && target.checked
+    ) {
       const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
       if (!hasPermission) target.checked = false;
     }

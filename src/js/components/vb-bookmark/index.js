@@ -37,7 +37,8 @@ class VbBookmark extends HTMLAnchorElement {
       'href',
       'title',
       'image',
-      'has-overlay'
+      'has-overlay',
+      'thumbnail-source'
     ];
   }
 
@@ -87,16 +88,10 @@ class VbBookmark extends HTMLAnchorElement {
         titleEl.textContent = newValue;
       }
     }
-    if (attr === 'image') {
+    if (['image', 'thumbnail-source'].includes(attr)) {
       const imageEl = this.querySelector('[data-thumb]');
       const newThumbnail = this.#createBookmarkThumbnail();
-      queueMicrotask(() => {
-        imageEl.replaceWith(newThumbnail);
-      });
-
-      if (!this.isFolder) {
-        this.#updateLogo();
-      }
+      imageEl.replaceWith(newThumbnail);
     }
     if (
       attr === 'href' &&
@@ -167,8 +162,10 @@ class VbBookmark extends HTMLAnchorElement {
   #createBookmarkThumbnail() {
     const thumbnail = $createElement('div', { 'data-thumb': '', class: 'bookmark__img' });
 
+    const isFavicon = this.thumbnailSource === 'favicon';
     if (this.image) {
-      thumbnail.classList.toggle('bookmark__img--contain', this.isCustomImage || this.isFolder);
+      thumbnail.classList.toggle('bookmark__img--logo', isFavicon);
+      thumbnail.classList.toggle('bookmark__img--contain', !isFavicon && (this.isCustomImage || this.isFolder));
       thumbnail.style.backgroundImage = `url('${this.image}')`;
     } else if (this.isFolder) {
       if (this.hasFolderPreview) {
@@ -237,9 +234,13 @@ class VbBookmark extends HTMLAnchorElement {
       return this.#getDefaultIconForUrl(url);
     }
 
+    const configuredSize = Number.parseInt(
+      getComputedStyle(this).getPropertyValue('--bookmark-logo-size'),
+      10
+    );
     return this.#externalLogo
       ? this.#externalLogo.replace('{{website}}', $getDomain(url))
-      : faviconURL(url, 32);
+      : faviconURL(url, Number.isFinite(configuredSize) ? configuredSize : 32);
   }
 
   #getFaviconUrl(url = this.url) {
@@ -314,6 +315,29 @@ class VbBookmark extends HTMLAnchorElement {
       this.setAttribute('image', value);
     } else {
       this.removeAttribute('image', value);
+    }
+  }
+  get thumbnailSource() {
+    return this.getAttribute('thumbnail-source') || 'favicon';
+  }
+  set thumbnailSource(value) {
+    if (value) {
+      this.setAttribute('thumbnail-source', value);
+    } else {
+      this.removeAttribute('thumbnail-source');
+    }
+  }
+
+  get faviconSize() {
+    const value = Number.parseInt(this.style.getPropertyValue('--bookmark-logo-size'), 10);
+    return Number.isFinite(value) ? value : null;
+  }
+  set faviconSize(value) {
+    const size = Number.parseInt(value, 10);
+    if (Number.isFinite(size)) {
+      this.style.setProperty('--bookmark-logo-size', `${size}px`);
+    } else {
+      this.style.removeProperty('--bookmark-logo-size');
     }
   }
 

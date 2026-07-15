@@ -64,6 +64,39 @@
   "thumbnail_source_favicon": {
     "message": "Favicon сайта (по умолчанию)"
   },
+  "favicon_download_preference": {
+    "message": "Источник favicon"
+  },
+  "favicon_download_inherit": {
+    "message": "Использовать общую настройку"
+  },
+  "favicon_download_site": {
+    "message": "Скачивать с сайта"
+  },
+  "favicon_download_chrome": {
+    "message": "Использовать кэш Chrome"
+  },
+  "favicon_size_individual": {
+    "message": "Индивидуальный размер favicon"
+  },
+  "favicon_size_individual_placeholder": {
+    "message": "32"
+  },
+  "favicon_size_individual_note": {
+    "message": "Оставьте поле пустым, чтобы использовать общий размер."
+  },
+  "download_favicons_by_default": {
+    "message": "Скачивать favicon с сайтов по умолчанию"
+  },
+  "download_favicons_by_default_note": {
+    "message": "Если favicon отсутствует в локальном хранилище, скачивать его в фоне при открытии стартовой страницы."
+  },
+  "favicon_size": {
+    "message": "Размер favicon"
+  },
+  "favicon_size_note": {
+    "message": "Общий размер favicon на плитках. Индивидуальная настройка плитки имеет приоритет."
+  },
   "thumbnail_url": {
     "message": "URL миниатюры"
   },
