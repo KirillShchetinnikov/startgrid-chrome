@@ -30,6 +30,7 @@ const DEFAULTS = Object.freeze({
   show_contextmenu_item: true,
   show_settings_icon: true,
   show_quick_settings_icon: true,
+  show_extension_icon: true,
   show_back_column: true,
   show_create_column: true,
   show_bookmark_title: true,

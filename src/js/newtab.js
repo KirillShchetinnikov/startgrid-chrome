@@ -56,6 +56,7 @@ const resetCustomImageButton = document.getElementById('resetCustomImage');
 const ctxMenuEl = document.getElementById('context-menu');
 const upload = document.getElementById('upload');
 const asideControlsNode = document.getElementById('aside_controls');
+const extensionIconNode = document.getElementById('extension_icon');
 let multipleSelectedBookmarks = [];
 let lastSelectedBookmark = null;
 let isGenerateThumbs = false;
@@ -63,6 +64,11 @@ let modalApi;
 let generateThumbsBtn = null;
 let pendingThumbnailBlob = null;
 let pendingThumbnailSource = null;
+
+function updateExtensionIconVisibility(visible) {
+  extensionIconNode.hidden = !visible;
+  document.body.classList.toggle('has-extension-icon', visible);
+}
 
 function updateThumbnailControls(folderId) {
   const enabled = Bookmarks.isDefaultFolder(folderId);
@@ -95,6 +101,7 @@ async function init() {
    * Settings
    */
   await settings.init();
+  updateExtensionIconVisibility(settings.$.show_extension_icon);
 
   /**
    * UI
@@ -153,7 +160,8 @@ async function init() {
   if (settings.$.show_quick_settings_icon) {
     initQuickDisplaySettings({
       container: asideControlsNode,
-      onRerender: () => Bookmarks.refresh()
+      onRerender: () => Bookmarks.refresh(),
+      onExtensionIconVisibilityChange: updateExtensionIconVisibility
     });
   }
 

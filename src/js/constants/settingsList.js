@@ -197,6 +197,11 @@ export default [
         type: 'switch'
       },
       {
+        id: 'show_extension_icon',
+        title: browser.i18n.getMessage('show_extension_icon'),
+        type: 'switch'
+      },
+      {
         group: [
           {
             id: 'default_folder_id',

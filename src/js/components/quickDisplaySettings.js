@@ -111,6 +111,7 @@ function createPanel() {
           </span>
         </label>
         ${createSwitch('vertical_center')}
+        ${createSwitch('show_extension_icon')}
         ${createSwitch('show_create_column')}
         ${createSwitch('show_back_column')}
         ${createSwitch('show_bookmark_title')}
@@ -134,7 +135,11 @@ function createPanel() {
   return wrapper.firstElementChild;
 }
 
-export default function initQuickDisplaySettings({ container, onRerender }) {
+export default function initQuickDisplaySettings({
+  container,
+  onRerender,
+  onExtensionIconVisibilityChange
+}) {
   const trigger = document.createElement('button');
   trigger.id = 'quick_settings_trigger';
   trigger.className = 'circ-btn display-settings-link md-ripple';
@@ -191,6 +196,9 @@ export default function initQuickDisplaySettings({ container, onRerender }) {
       UI.calculateStyles();
     } else if (key === 'vertical_center') {
       document.getElementById('bookmarks').classList.toggle('grid--vcenter', Boolean(value));
+    } else if (key === 'show_extension_icon') {
+      onExtensionIconVisibilityChange(Boolean(value));
+      UI.calculateStyles();
     } else if (RERENDER_SETTINGS.has(key)) {
       await onRerender();
     }

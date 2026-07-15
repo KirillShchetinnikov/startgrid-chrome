@@ -363,6 +363,9 @@
   "show_quick_settings_icon": {
     "message": "Show the quick settings icon"
   },
+  "show_extension_icon": {
+    "message": "Show the StartGrid icon"
+  },
   "show_toolbar": {
     "message": "Show search bar and folder selection"
   },

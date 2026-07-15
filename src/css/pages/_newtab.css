@@ -13,6 +13,39 @@ body {
   overflow-y: scroll;
   height: 100vh;
 }
+
+.extension-icon {
+  position: fixed;
+  z-index: 1000;
+  top: 24px;
+  left: 24px;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 6px;
+  background: var(--theme-background-alpha-95);
+  border: var(--surface-border);
+  border-radius: 15px;
+  box-shadow: var(--surface-shadow);
+  backdrop-filter: blur(18px) saturate(1.3);
+  pointer-events: none;
+
+  &[hidden] {
+    display: none;
+  }
+
+  & img {
+    display: block;
+    filter: drop-shadow(0 5px 10px rgb(76 56 164 / 22%));
+  }
+}
+
+.has-image .extension-icon {
+  background: rgb(25 22 38 / 58%);
+  border-color: rgb(255 255 255 / 16%);
+}
+
 .aside-controls {
   position: fixed;
   right: 24px;
@@ -34,6 +67,17 @@ body {
   &:focus-within {
     opacity: 1;
     transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 480px) {
+  .extension-icon {
+    top: 14px;
+    left: 14px;
+  }
+
+  .has-extension-icon .header {
+    padding-top: 76px;
   }
 }
 

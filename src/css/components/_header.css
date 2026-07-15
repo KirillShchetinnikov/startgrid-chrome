@@ -22,20 +22,6 @@
   }
 }
 
-.header__brand {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-width: max-content;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-
-  & img {
-    filter: drop-shadow(0 5px 10px rgb(76 56 164 / 22%));
-  }
-}
-
 .header__items--search {
   flex: 3;
 }

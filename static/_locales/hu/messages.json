@@ -363,6 +363,9 @@
   "show_quick_settings_icon": {
     "message": "Show the quick settings icon"
   },
+  "show_extension_icon": {
+    "message": "A StartGrid ikon megjelenítése"
+  },
   "show_toolbar": {
     "message": "Keresősáv és mappaválasztás megjelenítése"
   },

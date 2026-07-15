@@ -363,6 +363,9 @@
   "show_quick_settings_icon": {
     "message": "Показывать иконку быстрых настроек"
   },
+  "show_extension_icon": {
+    "message": "显示 StartGrid 图标"
+  },
   "show_toolbar": {
     "message": "显示搜索栏和文件夹选择"
   },

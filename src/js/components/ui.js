@@ -144,6 +144,7 @@ export default {
     if ((
       settings.$.show_settings_icon ||
       settings.$.show_quick_settings_icon ||
+      settings.$.show_extension_icon ||
       settings.$.thumbnails_update_button
     ) && lsGridWidth >= 85
     ) {
@@ -152,6 +153,8 @@ export default {
       // value = left right(increased padding for the scrollbar)
       // const paddingInline = `${circBtnSize + 20}px ${circBtnSize + 30}px`;
       doc.style.setProperty('--container-padding-inline', `${circBtnSize + 20}px`);
+    } else {
+      doc.style.removeProperty('--container-padding-inline');
     }
 
     // Calculate column dimensions
