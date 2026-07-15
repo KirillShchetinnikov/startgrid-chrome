@@ -70,21 +70,53 @@ async function init() {
 
   // Tabs
   const tabs = document.querySelector('.tabs');
-  const tabsCount = tabs.querySelectorAll('.tabs__section').length;
+  const tabsBar = tabs.querySelector('.tabs__bar');
+  const tabControls = [...tabs.querySelectorAll('.tabs__controls')];
+  const tabSections = [...tabs.querySelectorAll('.tabs__section')];
+  const tabsCount = tabSections.length;
   const savedTabIndex = parseInt(localStorage['option_tab_slide']) || 0;
   const initialTabIndex = Math.min(savedTabIndex, tabsCount - 1);
+  const syncTabHeaderState = currentIndex => {
+    tabControls.forEach((control, index) => {
+      const isActive = index === currentIndex;
+      control.setAttribute('aria-selected', String(isActive));
+      control.tabIndex = isActive ? 0 : -1;
+      tabSections[index].setAttribute('aria-hidden', String(!isActive));
+    });
+  };
+
   tabsSliderInstance = new TabsSlider(tabs, {
     draggable: false,
     slide: initialTabIndex
   });
+  syncTabHeaderState(initialTabIndex);
   localStorage['option_tab_slide'] = initialTabIndex;
+
+  tabsBar.addEventListener('keydown', event => {
+    const currentControl = event.target.closest('.tabs__controls');
+    if (!currentControl) return;
+
+    const currentIndex = tabControls.indexOf(currentControl);
+    let nextIndex = currentIndex;
+    if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + tabsCount) % tabsCount;
+    else if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabsCount;
+    else if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = tabsCount - 1;
+    else return;
+
+    event.preventDefault();
+    tabsSliderInstance.show(nextIndex);
+    tabControls[nextIndex].focus();
+  });
 
   const manifest = browser.runtime.getManifest();
   document.getElementById('ext_name').textContent = manifest.name;
   document.getElementById('ext_version').textContent = `${browser.i18n.getMessage('version')} ${manifest.version}`;
 
   tabs.addEventListener('tabChange', function(evt) {
-    localStorage['option_tab_slide'] = evt.detail.currentIndex;
+    const { currentIndex } = evt.detail;
+    localStorage['option_tab_slide'] = currentIndex;
+    syncTabHeaderState(currentIndex);
     document.querySelector('.tabs__viewport').scrollTop = 0;
   });
   getOptions();

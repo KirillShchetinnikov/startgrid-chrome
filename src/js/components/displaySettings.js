@@ -196,8 +196,13 @@ export function displaySettings(settings) {
   const tabs = [];
   const sections = [];
 
-  settings.forEach((setting) => {
-    tabs.push(`<div class="tabs__controls md-ripple">${setting.key}</div>`);
+  settings.forEach((setting, index) => {
+    const tabId = `settings-tab-${index}`;
+    const panelId = `settings-panel-${index}`;
+    tabs.push(`<button class="tabs__controls" id="${tabId}" type="button" role="tab"
+      aria-selected="false" aria-controls="${panelId}" tabindex="-1">
+      <span class="tabs__label">${setting.key}</span>
+    </button>`);
 
     const list = setting?.list?.map((item) => {
       if (item.group) {
@@ -209,7 +214,8 @@ export function displaySettings(settings) {
       }
     }).join('');
 
-    sections.push(`<div class="tabs__section">
+    sections.push(`<div class="tabs__section" id="${panelId}" role="tabpanel"
+      aria-labelledby="${tabId}">
       ${setting.description ? `<p class="settings-section__description">${setting.description}</p>` : ''}
       ${list ?? ''}
     </div>`);
@@ -218,7 +224,7 @@ export function displaySettings(settings) {
   return (/* html*/
   `<div class="tabs">
       <div class="tabs__bar-wrap">
-        <div class="tabs__bar">
+        <div class="tabs__bar" role="tablist">
           ${tabs.join('')}
         </div>
       </div>
