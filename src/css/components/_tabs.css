@@ -62,7 +62,12 @@
   padding: 8px;
   background-color: var(--tabs-control-background);
   overflow-x: auto;
+  scrollbar-width: none;
   box-shadow: inset 0 -5px 5px -3px rgb(0 0 0 / 0.5%);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .tabs__controls {
@@ -185,6 +190,15 @@
   overflow-y: auto;
   background-color: var(--tabs-content-background);
   scrollbar-gutter: stable;
+
+  &.is-switching {
+    scrollbar-color: transparent transparent;
+
+    &::-webkit-scrollbar-thumb,
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+  }
 }
 
 .tabs__section {

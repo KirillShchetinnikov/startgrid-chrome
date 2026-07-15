@@ -71,8 +71,10 @@ async function init() {
   // Tabs
   const tabs = document.querySelector('.tabs');
   const tabsBar = tabs.querySelector('.tabs__bar');
+  const tabsViewport = tabs.querySelector('.tabs__viewport');
   const tabControls = [...tabs.querySelectorAll('.tabs__controls')];
   const tabSections = [...tabs.querySelectorAll('.tabs__section')];
+  let scrollbarRestoreTimer;
   const tabsCount = tabSections.length;
   const savedTabIndex = parseInt(localStorage['option_tab_slide']) || 0;
   const initialTabIndex = Math.min(savedTabIndex, tabsCount - 1);
@@ -117,7 +119,12 @@ async function init() {
     const { currentIndex } = evt.detail;
     localStorage['option_tab_slide'] = currentIndex;
     syncTabHeaderState(currentIndex);
-    document.querySelector('.tabs__viewport').scrollTop = 0;
+    tabsViewport.classList.add('is-switching');
+    clearTimeout(scrollbarRestoreTimer);
+    scrollbarRestoreTimer = setTimeout(() => {
+      tabsViewport.classList.remove('is-switching');
+    }, 400);
+    tabsViewport.scrollTop = 0;
   });
   getOptions();
 
