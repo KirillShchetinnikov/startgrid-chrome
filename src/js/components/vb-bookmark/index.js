@@ -1,12 +1,11 @@
 // import styles from '../../../css/components/_bookmark.css';
-import { $createElement, $getDomain, faviconURL } from '../../utils';
+import { $createElement, faviconURL } from '../../utils';
 import { SVG_LOADER } from '../../constants';
 
 class VbBookmark extends HTMLAnchorElement {
   #isRendered = false;
   #overlayEl = null;
   #_folderChildren = [];
-  #externalLogo = false;
   #iconMap = {
     chrome: '/img/chrome.svg',
     edge: '/img/edge.svg',
@@ -64,9 +63,6 @@ class VbBookmark extends HTMLAnchorElement {
   #updateLogo() {
     const imageEl = this.querySelector('.bookmark__img');
     imageEl.className = 'bookmark__img bookmark__img--logo';
-    if (this.#externalLogo) {
-      imageEl.classList.add('bookmark__img--external');
-    }
     imageEl.style.backgroundImage = `url('${this.#getLogoUrl(this.url)}')`;
   }
 
@@ -181,7 +177,6 @@ class VbBookmark extends HTMLAnchorElement {
       }
     } else {
       thumbnail.classList.add('bookmark__img--logo');
-      thumbnail.classList.toggle('bookmark__img--external', this.#externalLogo);
       thumbnail.style.backgroundImage = `url('${this.#getLogoUrl(this.url)}')`;
     }
 
@@ -238,9 +233,7 @@ class VbBookmark extends HTMLAnchorElement {
       getComputedStyle(this).getPropertyValue('--bookmark-logo-size'),
       10
     );
-    return this.#externalLogo
-      ? this.#externalLogo.replace('{{website}}', $getDomain(url))
-      : faviconURL(url, Number.isFinite(configuredSize) ? configuredSize : 32);
+    return faviconURL(url, Number.isFinite(configuredSize) ? configuredSize : 32);
   }
 
   #getFaviconUrl(url = this.url) {
@@ -248,13 +241,6 @@ class VbBookmark extends HTMLAnchorElement {
       return this.#getDefaultIconForUrl(url);
     }
     return faviconURL(url);
-  }
-
-  get serviceLogo() {
-    return this.#externalLogo;
-  }
-  set externalLogo(value) {
-    this.#externalLogo = value;
   }
 
   get hasOverlay() {

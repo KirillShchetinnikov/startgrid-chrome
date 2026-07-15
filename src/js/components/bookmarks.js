@@ -212,7 +212,6 @@ const Bookmarks = (() => {
 
         const classes = ['drag-ghost'];
         ghost = draggedElement.cloneNode(true);
-        ghost.externalLogo = settings.$.logo_external ? settings.$.logo_external_url : null;
         if (ghost.isFolder && settings.$.folder_preview) {
           ghost.folderChidlren = renderFolderChildren(ghost);
         }
@@ -354,7 +353,6 @@ const Bookmarks = (() => {
       parentId: bookmark.parentId,
       image,
       isCustomImage: custom,
-      externalLogo: settings.$.logo_external ? settings.$.logo_external_url : null,
       openNewTab: settings.$.open_link_newtab,
       thumbnailSource,
       faviconSize,
@@ -378,7 +376,6 @@ const Bookmarks = (() => {
       isFolder: true,
       hasFolderPreview: folderPreview,
       folderChidlren: folderPreview ? renderFolderChildren(bookmark) : [],
-      externalLogo: settings.$.logo_external ? settings.$.logo_external_url : null,
       image,
       openNewTab: settings.$.open_link_newtab,
       hasTitle: settings.$.show_bookmark_title,

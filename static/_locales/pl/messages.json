@@ -300,9 +300,6 @@
   "data_privacy_setting": {
     "message": "Data and privacy"
   },
-  "logo_external_url": {
-    "message": "External logo URL"
-  },
   "dial_width": {
     "message": "Szerokość panelu"
   },
@@ -536,12 +533,6 @@
   "search_failed": {
     "message": "Could not search bookmarks. Please try again."
   },
-  "logo_external": {
-    "message": "Loga zewnętrzne"
-  },
-  "logo_external_note": {
-    "message": "Link do zewnętrznego źródła logotypów. Uważaj, podciąg <code>{{website}}</code> musi zostać niezmieniony i wstawiony we właściwe miejsce w linku"
-  },
   "delete_thumbnail": {
     "message": "Usuń z pamięci lokalnej"
   },
@@ -670,14 +661,6 @@
   },
   "host_permissions_info": {
     "message": "<p>Ta zgoda jest konieczna do generowania zrzutów ekranu stron internetowych. Rozszerzenie nie zbiera, nie śledzi ani nie modyfikuje twoich danych na stronach internetowych. Jedyną modyfikacją, która następuje po otwarciu nowego okna ze stroną internetową, jest ukrycie paska przewijania przed wygenerowaniem zrzutu ekranu (aby zrzut ekranu był pozbawiony paska przewijania). Kod rozszerzenia jest dostępny na <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. Jeśli obawiasz się tego uprawnienia, możesz zdecydować się nie udzielać go. Rozszerzenie nadal będzie działać bez niego, ale generowanie zrzutów ekranu strony internetowej dla zakładek nie będzie dostępne.</p><p>Ta zgoda będzie żądana podczas próby zrobienia zrzutu ekranu strony internetowej (jeśli jest wyłączona). Możesz także zarządzać tym prawem w ustawieniach przeglądarki, otwierając okno z szczegółowymi informacjami na temat rozszerzenia.</p>"
-  },
-  "example_string": {
-    "message": "Przykład: $string$",
-    "placeholders": {
-      "string": {
-        "content": "$1"
-      }
-    }
   },
   "undo": {
     "message": "Cofnij"

@@ -21,10 +21,6 @@ function createSwitch(setting) {
     })
   );
 
-  if (setting.id === 'logo_external') {
-    return switchElement.outerHTML + createExternalLogoSetting(setting);
-  }
-
   return switchElement.outerHTML;
 }
 
@@ -111,20 +107,6 @@ function createVbSelect(setting) {
     id: setting.id,
     class: 'js-change'
   }).outerHTML;
-}
-
-function createExternalLogoSetting() {
-  return /* html */`<input
-    type="text"
-    name="logo_external_url"
-    id="logo_external_url"
-    class="form-control js-change"
-    placeholder="https://img.logo.dev/{{website}}"
-    spellcheck="false"
-    value=""
-    data-locale-message="external"
-    style="margin-top: 5px">
-    <small>${browser.i18n.getMessage('example_string', '<code>https://img.logo.dev/{{website}}</code>')}</small>`;
 }
 
 function createBackup(setting) {

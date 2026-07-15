@@ -108,16 +108,6 @@
   }
 }
 
-.quick-settings__external-logo {
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 7px;
-
-  & .form-control {
-    width: 100%;
-  }
-}
-
 .quick-settings__reset {
   display: grid;
   gap: 7px;

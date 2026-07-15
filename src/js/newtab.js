@@ -20,7 +20,6 @@ import {
   getFolders
 } from './api/bookmark';
 import {
-  // $getDomain,
   $createElement,
   $copyStr,
   $unescapeHtml,

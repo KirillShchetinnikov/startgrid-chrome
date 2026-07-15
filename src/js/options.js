@@ -178,9 +178,6 @@ function getOptions() {
   generateSearchEngineList();
   getPermissions();
 
-  const logoExternalInput = document.getElementById('logo_external_url');
-  logoExternalInput.value = settings.$.logo_external_url;
-
   for (let id of Object.keys(settings.$)) {
     const elOption = document.getElementById(id);
 

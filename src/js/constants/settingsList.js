@@ -123,12 +123,6 @@ const appearanceSettings = [
     title: browser.i18n.getMessage('folder_preview'),
     note: browser.i18n.getMessage('folder_preview_description'),
     type: 'switch'
-  },
-  {
-    id: 'logo_external',
-    title: browser.i18n.getMessage('logo_external'),
-    note: browser.i18n.getMessage('logo_external_note'),
-    type: 'switch'
   }
 ];
 

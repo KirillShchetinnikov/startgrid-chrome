@@ -300,9 +300,6 @@
   "data_privacy_setting": {
     "message": "Данные и приватность"
   },
-  "logo_external_url": {
-    "message": "URL внешних логотипов"
-  },
   "dial_width": {
     "message": "寬度比例"
   },
@@ -536,12 +533,6 @@
   "search_failed": {
     "message": "Не удалось выполнить поиск по закладкам. Попробуйте ещё раз."
   },
-  "logo_external": {
-    "message": "外部圖示"
-  },
-  "logo_external_note": {
-    "message": "外部圖示資源的連結。請注意，字串 <code>{{website}}</code> 必須保持不變，並插入到連結中的正確位置。"
-  },
   "delete_thumbnail": {
     "message": "從本機儲存空間刪除"
   },
@@ -670,14 +661,6 @@
   },
   "host_permissions_info": {
     "message": "<p>此權限對於產生網站螢幕截圖是必需的。但 StartGrid 不會收集、追蹤或修改您在網站上的資料。打開網站的單獨視窗後發生的唯一變動是在產生螢幕截圖之前隱藏網站上的捲軸 (盡量讓螢幕截圖不會有捲軸). 擴充代碼可在 <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. 如果對此此權限有疑慮，可以選擇不同意授權，網站的截圖功能將無法使用，但 StartGrid 仍然可以正常執行。</p><p>嘗試截取網站螢幕截圖時將請求此權限 (如果已停用)。你也可以透過開啟包含有關擴充功能的詳細資訊的視窗來在瀏覽器設定中管理此權限。</p>"
-  },
-  "example_string": {
-    "message": "範例： $string$",
-    "placeholders": {
-      "string": {
-        "content": "$1"
-      }
-    }
   },
   "undo": {
     "message": "復原"

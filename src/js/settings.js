@@ -44,8 +44,6 @@ const DEFAULTS = Object.freeze({
   without_confirmation: false,
   folder_preview: false,
   close_tab_after_adding_bookmark: false,
-  logo_external: false,
-  logo_external_url: '',
   search_engine: 'bookmarks',
   search_results_display: 'folder_name',
   move_to_start: false,

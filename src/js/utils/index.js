@@ -213,13 +213,6 @@ export function $shuffle([...arr]) {
   return arr;
 }
 
-export function $getDomain(url) {
-  // return url.replace(/https?:\/\/(www.)?/i, '').replace(/\/.*/i, '');
-  return url
-    .replace(/(https?|ftps?|chrome|chrome-extension|file):\/\/\/?(www.)?/i, '')
-    .replace(/:?\/.*/i, '');
-}
-
 export function $isValidUrl(url) {
   // The regex used in AngularJS to validate a URL + chrome internal pages & extension url & on-disk files
   const URL_REGEXP = /^(http|https|ftp|file|chrome|chrome-extension):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;

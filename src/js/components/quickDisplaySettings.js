@@ -7,9 +7,7 @@ const RERENDER_SETTINGS = new Set([
   'show_back_column',
   'show_bookmark_title',
   'show_favicon',
-  'folder_preview',
-  'logo_external',
-  'logo_external_url'
+  'folder_preview'
 ]);
 
 const STYLE_SETTINGS = new Set([
@@ -117,12 +115,6 @@ function createPanel() {
         ${createSwitch('show_bookmark_title')}
         ${createSwitch('show_favicon')}
         ${createSwitch('folder_preview')}
-        ${createSwitch('logo_external')}
-        <label class="quick-settings__field quick-settings__external-logo" for="quick_logo_external_url">
-          <span>${message('logo_external_url')}</span>
-          <input class="form-control" id="quick_logo_external_url" type="text"
-            data-setting="logo_external_url" placeholder="https://img.logo.dev/{{website}}" spellcheck="false">
-        </label>
       </div>
       <div class="quick-settings__reset">
         <button class="btn btn--clear quick-settings__reset-button md-ripple" type="button"
@@ -152,8 +144,6 @@ export default function initQuickDisplaySettings({
   document.body.append(panel);
   container.append(trigger);
 
-  const externalLogoField = panel.querySelector('.quick-settings__external-logo');
-
   function syncControls() {
     panel.querySelectorAll('[data-setting]').forEach(control => {
       const key = control.dataset.setting;
@@ -167,7 +157,6 @@ export default function initQuickDisplaySettings({
         output.textContent = `${settings.$[key]}${control.dataset.unit}`;
       }
     });
-    externalLogoField.hidden = !settings.$.logo_external;
   }
 
   function togglePanel(force, restoreFocus = true) {
@@ -201,10 +190,6 @@ export default function initQuickDisplaySettings({
       UI.calculateStyles();
     } else if (RERENDER_SETTINGS.has(key)) {
       await onRerender();
-    }
-
-    if (key === 'logo_external') {
-      externalLogoField.hidden = !value;
     }
   }
 

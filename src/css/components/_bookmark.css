@@ -166,10 +166,6 @@
   background-position: center;
 }
 
-.bookmark__img--external {
-  background-size: 50%;
-}
-
 .bookmark__img--children {
   flex-grow: 0;
   width: calc(40% - 4px);
