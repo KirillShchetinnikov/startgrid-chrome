@@ -170,6 +170,7 @@ function createPanel() {
 
 export default function initQuickDisplaySettings({
   container,
+  showTrigger = true,
   onRerender,
   onExtensionIconVisibilityChange,
   onToolbarVisibilityChange
@@ -182,6 +183,7 @@ export default function initQuickDisplaySettings({
   trigger.setAttribute('aria-label', triggerLabel);
   trigger.title = triggerLabel;
   trigger.setAttribute('aria-expanded', 'false');
+  trigger.hidden = !showTrigger;
   trigger.innerHTML = '<svg width="20" height="20"><use xlink:href="/img/symbol.svg#palette"></use></svg>';
 
   const panel = createPanel();
@@ -307,4 +309,7 @@ export default function initQuickDisplaySettings({
   });
 
   syncControls();
+  return {
+    toggle: () => togglePanel()
+  };
 }

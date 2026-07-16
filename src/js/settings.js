@@ -22,6 +22,10 @@ import {
   mergeSyncSettings,
   splitSyncSettings
 } from './syncSettings';
+import {
+  DEFAULT_KEYBOARD_SHORTCUTS,
+  normalizeKeyboardShortcuts
+} from './keyboardShortcuts';
 
 const DEFAULTS = Object.freeze({
   color_theme: 'os',
@@ -82,7 +86,8 @@ const DEFAULTS = Object.freeze({
   show_home_folders: true,
   bookmarks_sorting_type: 'together',
   navigation_sort_by: '', // '' | date | alphabet
-  search_autofocus: false
+  search_autofocus: false,
+  keyboard_shortcuts: DEFAULT_KEYBOARD_SHORTCUTS
 });
 
 const SETTINGS_NOT_SYNCED = ['default_folder_id', 'sync_default_folder_id', 'enable_sync'];
@@ -171,6 +176,7 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   currentSettings.page_cascade_duration = Number.isFinite(cascadeDuration)
     ? Math.min(1500, Math.max(200, cascadeDuration))
     : DEFAULTS.page_cascade_duration;
+  currentSettings.keyboard_shortcuts = normalizeKeyboardShortcuts(currentSettings.keyboard_shortcuts);
   if (!normalizeSearchEngines) return currentSettings;
 
   currentSettings.search_engines = normalizeSearchEngineSettings(currentSettings.search_engines);

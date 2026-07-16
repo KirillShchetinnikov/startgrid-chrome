@@ -812,6 +812,24 @@
   "search_engine_at_least_one": {
     "message": "At least one search engine must remain enabled."
   },
+  "keyboard_shortcuts_setting": { "message": "Hotkeys" },
+  "keyboard_shortcuts_description": { "message": "Configure keyboard shortcuts for actions on the StartGrid new tab page." },
+  "keyboard_shortcuts_title": { "message": "Shortcut assignments" },
+  "keyboard_shortcuts_note": { "message": "Click a shortcut and press a new key combination. Escape cancels recording; Backspace or Delete clears it. Shortcuts work only on the StartGrid page." },
+  "shortcut_change": { "message": "Change shortcut" },
+  "shortcut_not_set": { "message": "Not assigned" },
+  "shortcut_clear": { "message": "Remove shortcut" },
+  "shortcut_reset": { "message": "Restore defaults" },
+  "shortcut_press_keys": { "message": "Press shortcut…" },
+  "shortcut_conflict": { "message": "This shortcut is already assigned to another action." },
+  "shortcut_invalid": { "message": "Press a non-reserved key. Escape and Tab cannot be assigned." },
+  "shortcut_focus_search": { "message": "Focus search" },
+  "shortcut_add_bookmark": { "message": "Add bookmark" },
+  "shortcut_toggle_quick_settings": { "message": "Toggle quick settings" },
+  "shortcut_open_settings": { "message": "Open full settings" },
+  "shortcut_go_home": { "message": "Go to the default folder" },
+  "shortcut_go_back": { "message": "Go back one folder" },
+  "shortcut_update_thumbnails": { "message": "Update all thumbnails" },
   "undo": {
     "message": "Undo"
   }

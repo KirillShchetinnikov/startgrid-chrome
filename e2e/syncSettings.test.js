@@ -5,7 +5,7 @@ import {
 } from '../src/js/syncSettings';
 
 describe('split Chrome Sync settings', () => {
-  it('stores search and thumbnail settings in dedicated records', () => {
+  it('stores search, thumbnail, and shortcut settings in dedicated records', () => {
     const records = splitSyncSettings({
       color_theme: 'dark',
       dial_background_color: '#5b4fd6',
@@ -18,7 +18,8 @@ describe('split Chrome Sync settings', () => {
       home_sort_usage_tiebreaker: 'date',
       show_usage_count: true,
       show_home_folders: false,
-      navigation_sort_by: 'alphabet'
+      navigation_sort_by: 'alphabet',
+      keyboard_shortcuts: { focus_search: 'Slash' }
     });
 
     expect(records.settings).toEqual({
@@ -39,6 +40,9 @@ describe('split Chrome Sync settings', () => {
       favicon_size: 48,
       thumbnails_auto_refresh: true
     });
+    expect(records.settings_shortcuts).toEqual({
+      keyboard_shortcuts: { focus_search: 'Slash' }
+    });
   });
 
   it('merges split records and ignores categorized values in the core record', () => {
@@ -46,25 +50,29 @@ describe('split Chrome Sync settings', () => {
       settings: {
         color_theme: 'dark',
         search_engine: 'bookmarks',
-        favicon_size: 32
+        favicon_size: 32,
+        keyboard_shortcuts: { focus_search: 'KeyF' }
       },
       settings_search: { search_engine: 'google' },
-      settings_thumbnails: { favicon_size: 64 }
+      settings_thumbnails: { favicon_size: 64 },
+      settings_shortcuts: { keyboard_shortcuts: { focus_search: 'Slash' } }
     });
 
     expect(settings).toEqual({
       color_theme: 'dark',
       search_engine: 'google',
-      favicon_size: 64
+      favicon_size: 64,
+      keyboard_shortcuts: { focus_search: 'Slash' }
     });
   });
 
-  it('does not migrate search and thumbnail values from the old single record', () => {
+  it('does not migrate categorized values from the old single record', () => {
     const settings = mergeSyncSettings({
       settings: {
         color_theme: 'dark',
         search_engine: 'google',
-        favicon_size: 64
+        favicon_size: 64,
+        keyboard_shortcuts: { focus_search: 'Slash' }
       }
     });
 

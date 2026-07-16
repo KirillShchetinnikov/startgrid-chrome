@@ -135,6 +135,13 @@ function createSearchEngines(setting) {
   }).outerHTML;
 }
 
+function createKeyboardShortcuts(setting) {
+  return $createElement('div', {
+    id: setting.id,
+    class: 'shortcut-editor'
+  }).outerHTML;
+}
+
 function createBackgroundSetting() {
   return (/* html */
   `<div id="background_noimage" class="tbl__option js-background-settings js-change text-muted" hidden>${browser.i18n.getMessage('background_noimage_text')}</div>
@@ -194,6 +201,9 @@ function create(setting) {
       break;
     case 'search-engines':
       method = createSearchEngines;
+      break;
+    case 'keyboard-shortcuts':
+      method = createKeyboardShortcuts;
       break;
   }
   return method(setting);

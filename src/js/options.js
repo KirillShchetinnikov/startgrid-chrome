@@ -24,11 +24,13 @@ import { displaySettings } from './components/displaySettings';
 import { containsPermissions, removePermissions, requestPermissions } from './api/permissions';
 import { getEnabledSearchEngines } from './searchEngines';
 import initSearchEngineSettings from './components/searchEngineSettings';
+import initKeyboardShortcutSettings from './components/keyboardShortcutSettings';
 import { cssColorToHex } from './tileAppearance';
 
 let tabsSliderInstance = null;
 let backgroundImage = null;
 let searchEngineSettingsInstance = null;
+let keyboardShortcutSettingsInstance = null;
 
 async function init() {
   // Set lang attr
@@ -140,6 +142,11 @@ async function init() {
       tabsSliderInstance.recalcStyles();
     }
   });
+  keyboardShortcutSettingsInstance = initKeyboardShortcutSettings({
+    container: document.getElementById('keyboard_shortcuts'),
+    settings
+  });
+  tabsSliderInstance.recalcStyles();
   getOptions();
 
   // Delegate change settings
@@ -253,6 +260,7 @@ function getOptions() {
   generateFolderList();
   generateSearchEngineList();
   searchEngineSettingsInstance?.render();
+  keyboardShortcutSettingsInstance?.render();
   getPermissions();
 
   for (let id of Object.keys(settings.$)) {

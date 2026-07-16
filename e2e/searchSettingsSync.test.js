@@ -64,6 +64,7 @@ describe('search settings synchronization', () => {
     expect(payload.settings).not.toHaveProperty('favicon_size');
     expect(payload.settings).not.toHaveProperty('default_folder_id');
     expect(payload.settings_thumbnails.favicon_size).toBe(32);
+    expect(payload.settings_shortcuts.keyboard_shortcuts.focus_search).toBe('Slash');
     expect(localRemove).toHaveBeenCalledWith('sync_quota_error');
   });
 

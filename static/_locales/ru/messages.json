@@ -812,6 +812,24 @@
   "search_engine_at_least_one": {
     "message": "Должна остаться включённой хотя бы одна поисковая система."
   },
+  "keyboard_shortcuts_setting": { "message": "Горячие клавиши" },
+  "keyboard_shortcuts_description": { "message": "Настройте сочетания клавиш для действий на странице новой вкладки StartGrid." },
+  "keyboard_shortcuts_title": { "message": "Назначение сочетаний" },
+  "keyboard_shortcuts_note": { "message": "Нажмите на сочетание и введите новое. Escape отменяет запись, Backspace или Delete очищает сочетание. Горячие клавиши работают только на странице StartGrid." },
+  "shortcut_change": { "message": "Изменить сочетание" },
+  "shortcut_not_set": { "message": "Не назначено" },
+  "shortcut_clear": { "message": "Удалить сочетание" },
+  "shortcut_reset": { "message": "Восстановить значения по умолчанию" },
+  "shortcut_press_keys": { "message": "Нажмите сочетание…" },
+  "shortcut_conflict": { "message": "Это сочетание уже назначено другому действию." },
+  "shortcut_invalid": { "message": "Нажмите незарезервированную клавишу. Escape и Tab назначить нельзя." },
+  "shortcut_focus_search": { "message": "Перейти к поиску" },
+  "shortcut_add_bookmark": { "message": "Добавить закладку" },
+  "shortcut_toggle_quick_settings": { "message": "Открыть или закрыть быстрые настройки" },
+  "shortcut_open_settings": { "message": "Открыть полные настройки" },
+  "shortcut_go_home": { "message": "Перейти в папку по умолчанию" },
+  "shortcut_go_back": { "message": "Вернуться на одну папку назад" },
+  "shortcut_update_thumbnails": { "message": "Обновить все миниатюры" },
   "undo": {
     "message": "Отменить"
   }

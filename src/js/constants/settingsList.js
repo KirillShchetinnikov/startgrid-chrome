@@ -557,5 +557,17 @@ export default [
         type: 'switch'
       }
     ]
+  },
+  {
+    key: browser.i18n.getMessage('keyboard_shortcuts_setting'),
+    description: browser.i18n.getMessage('keyboard_shortcuts_description'),
+    list: [
+      {
+        id: 'keyboard_shortcuts',
+        title: browser.i18n.getMessage('keyboard_shortcuts_title'),
+        note: browser.i18n.getMessage('keyboard_shortcuts_note'),
+        type: 'keyboard-shortcuts'
+      }
+    ]
   }
 ];

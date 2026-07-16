@@ -41,6 +41,7 @@ import { updateMainPageScrollLock } from './mainPageScroll';
 import { storage } from './api/storage';
 import { SYNC_QUOTA_ERROR_KEY } from './syncQuota';
 import { calculateCascadeTiming } from './pageCascade';
+import { initKeyboardShortcuts } from './keyboardShortcuts';
 import { recordBookmarkUsage } from './bookmarkSorting';
 
 const container = document.getElementById('bookmarks');
@@ -76,6 +77,7 @@ let modalApi;
 let generateThumbsBtn = null;
 let pendingThumbnailBlob = null;
 let pendingThumbnailSource = null;
+let quickSettingsApi = null;
 
 function updateExtensionIconVisibility(visible) {
   extensionIconNode.hidden = !visible;
@@ -205,14 +207,13 @@ async function init() {
   document.getElementById('resetCustomImage').addEventListener('click', handleResetThumb);
   modal.addEventListener('gmodal:close', handleCloseModal);
 
-  if (settings.$.show_quick_settings_icon) {
-    initQuickDisplaySettings({
-      container: asideControlsNode,
-      onRerender: () => Bookmarks.refresh(),
-      onExtensionIconVisibilityChange: updateExtensionIconVisibility,
-      onToolbarVisibilityChange: visible => Bookmarks.setToolbarVisibility(visible)
-    });
-  }
+  quickSettingsApi = initQuickDisplaySettings({
+    container: asideControlsNode,
+    showTrigger: settings.$.show_quick_settings_icon,
+    onRerender: () => Bookmarks.refresh(),
+    onExtensionIconVisibilityChange: updateExtensionIconVisibility,
+    onToolbarVisibilityChange: visible => Bookmarks.setToolbarVisibility(visible)
+  });
 
   if (settings.$.show_settings_icon) {
     const settingsLabel = browser.i18n.getMessage('options');
@@ -288,6 +289,38 @@ async function init() {
   });
 
   initSnow(settings.$.snow_mode);
+  initKeyboardShortcuts(settings.$.keyboard_shortcuts, handleKeyboardShortcutAction);
+}
+
+async function handleKeyboardShortcutAction(action) {
+  const header = document.querySelector('vb-header');
+
+  switch (action) {
+    case 'focus_search':
+      header?.focusSearch();
+      break;
+    case 'add_bookmark':
+      await prepareModal();
+      modalApi.open();
+      break;
+    case 'toggle_quick_settings':
+      quickSettingsApi?.toggle();
+      break;
+    case 'open_settings':
+      browser.runtime.openOptionsPage();
+      break;
+    case 'go_home':
+      header?.goHome();
+      break;
+    case 'go_back':
+      header?.goBack();
+      break;
+    case 'update_thumbnails':
+      await startGenerateThumbs();
+      break;
+    default:
+      break;
+  }
 }
 
 function handleSelectBookmark(e) {
@@ -443,6 +476,10 @@ function handleUpdateStorage(e) {
 }
 
 async function handleGenerateThumbs() {
+  await startGenerateThumbs(this);
+}
+
+async function startGenerateThumbs(trigger = null) {
   if (!Bookmarks.isDefaultFolder()) return;
 
   if (!(await Bookmarks.checkHostPermissions())) {
@@ -450,7 +487,7 @@ async function handleGenerateThumbs() {
   }
 
   // method to start generating all bookmark thumbnails
-  if (this.hasAttribute('disabled') || localStorage.getItem('update_thumbnails') !== null) return;
+  if (trigger?.hasAttribute('disabled') || localStorage.getItem('update_thumbnails') !== null) return;
 
   Bookmarks.autoUpdateThumb();
 }

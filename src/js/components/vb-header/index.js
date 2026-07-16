@@ -432,6 +432,18 @@ class VbHeader extends HTMLElement {
     navigateHome(settings.defaultFolderId, forceNavigation);
   }
 
+  focusSearch() {
+    this.inputNode?.focus();
+  }
+
+  goBack() {
+    this.handleBack();
+  }
+
+  goHome() {
+    this.handleHome();
+  }
+
   clearBookmarkSearch() {
     if (!this.isBookmarksEngine || !this.inputNode.value) return;
 
@@ -488,12 +500,6 @@ class VbHeader extends HTMLElement {
   handleDocumentKeydown(e) {
     if (e.code === 'Escape' && this.suggestList.length) {
       this.closeSuggest();
-    } else if (
-      e.code === 'Slash' &&
-      this.getActiveElement()?.tagName !== 'INPUT'
-    ) {
-      e.preventDefault();
-      this.inputNode.focus();
     }
   }
 
@@ -513,14 +519,6 @@ class VbHeader extends HTMLElement {
         break;
       case 'Enter': this.handleEnterSuggest(e); break;
     }
-  }
-
-  getActiveElement() {
-    let el = document.activeElement;
-    while (el && el.shadowRoot && el.shadowRoot.activeElement) {
-      el = el.shadowRoot.activeElement;
-    }
-    return el;
   }
 
   async suggestSearch(query) {
