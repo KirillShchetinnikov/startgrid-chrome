@@ -25,6 +25,7 @@ import {
 import { containsPermissions } from './api/permissions';
 import { getBlobHash } from './api/remoteThumbnail';
 import { shouldDownloadFavicon } from './api/faviconPreferences';
+import { requestSearchSuggestions } from './searchSuggestions';
 
 function getHtmlAttribute(tag, name) {
   const match = tag.match(new RegExp(`\\s${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
@@ -452,6 +453,13 @@ browser.action.onClicked.addListener(browserActionHandler);
 browser.notifications.onClicked.addListener(browserActionHandler);
 
 browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.searchSuggestions) {
+    const { engine, query } = request.searchSuggestions;
+    requestSearchSuggestions(engine, query)
+      .then(suggestions => sendResponse({ suggestions }))
+      .catch(() => sendResponse({ suggestions: [] }));
+  }
+
   if (request.remoteThumbnail) {
     updateRemoteThumbnail(request.remoteThumbnail).then(sendResponse);
   }

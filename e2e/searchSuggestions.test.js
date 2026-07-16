@@ -2,6 +2,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import {
   getSuggestionOrigins,
   parseSuggestionResponse,
+  readSuggestionResponse,
   requestSearchSuggestions
 } from '../src/js/searchSuggestions';
 import { createDefaultSearchEngineSettings, getSearchEngines } from '../src/js/searchEngines';
@@ -31,6 +32,23 @@ describe('search suggestions', () => {
     expect(parseSuggestionResponse(
       '<toplevel><CompleteSuggestion><suggestion data="one &amp; two"/></CompleteSuggestion></toplevel>'
     )).toEqual(['one & two']);
+  });
+
+  it('decodes Baidu GBK responses before parsing suggestions', async() => {
+    const payload = Buffer.concat([
+      Buffer.from('["q",["'),
+      Buffer.from([0xb2, 0xe2, 0xca, 0xd4]),
+      Buffer.from('"]]')
+    ]);
+    const response = {
+      headers: { get: () => 'text/javascript; charset=gbk' },
+      arrayBuffer: async() => payload.buffer.slice(
+        payload.byteOffset,
+        payload.byteOffset + payload.byteLength
+      )
+    };
+
+    await expect(readSuggestionResponse(response)).resolves.toBe('["q",["测试"]]');
   });
 
   it('requests the selected provider and includes Google as fallback permission', async() => {

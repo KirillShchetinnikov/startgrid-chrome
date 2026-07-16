@@ -6,10 +6,7 @@ import { getFolders } from '../../api/bookmark';
 import { settings } from '../../settings';
 import { containsPermissions, requestPermissions } from '../../api/permissions';
 import { buildSearchUrl, getEnabledSearchEngines } from '../../searchEngines';
-import {
-  getSuggestionOrigins,
-  requestSearchSuggestions
-} from '../../searchSuggestions';
+import { getSuggestionOrigins } from '../../searchSuggestions';
 import {
   getCurrentFolderId,
   navigateBack,
@@ -40,7 +37,7 @@ class VbHeader extends HTMLElement {
 
   suggestIndex = -1;
   suggestList = [];
-  abortController = null;
+  suggestionRequestId = 0;
 
   connectedCallback() {
     this.#render();
@@ -522,13 +519,13 @@ class VbHeader extends HTMLElement {
   }
 
   async suggestSearch(query) {
+    const requestId = ++this.suggestionRequestId;
     this.suggestIndex = -1;
-    if (this.abortController) {
-      this.abortController.abort();
-    }
     if (query.length > 0) {
       try {
-        this.suggestList = await this.suggestRequest(query);
+        const suggestions = await this.suggestRequest(query);
+        if (requestId !== this.suggestionRequestId) return;
+        this.suggestList = suggestions;
       } catch (error) {}
     } else {
       this.suggestList = [];
@@ -542,9 +539,20 @@ class VbHeader extends HTMLElement {
   }
 
   suggestRequest(query) {
-    this.abortController = new AbortController();
-    const signal = this.abortController.signal;
-    return requestSearchSuggestions(this.#currentEngine(), query, signal);
+    return new Promise(resolve => {
+      browser.runtime.sendMessage({
+        searchSuggestions: {
+          engine: this.#currentEngine(),
+          query
+        }
+      }, response => {
+        if (browser.runtime.lastError) {
+          resolve([]);
+          return;
+        }
+        resolve(Array.isArray(response?.suggestions) ? response.suggestions : []);
+      });
+    });
   }
 
   gotoSuggest(e) {

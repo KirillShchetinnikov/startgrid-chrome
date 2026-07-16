@@ -59,12 +59,25 @@ export function parseSuggestionResponse(text) {
   }
 }
 
+export async function readSuggestionResponse(response) {
+  const contentType = response.headers?.get?.('content-type') || '';
+  const charset = contentType.match(/charset\s*=\s*["']?([^;\s"']+)/i)?.[1]?.toLowerCase();
+
+  if (charset && !['utf-8', 'utf8'].includes(charset) && response.arrayBuffer) {
+    try {
+      return new TextDecoder(charset).decode(await response.arrayBuffer());
+    } catch (error) {}
+  }
+
+  return response.text();
+}
+
 async function fetchSuggestions(template, query, signal, fetchImpl) {
   const url = buildSearchUrl(template, query);
   if (!url) return [];
   const response = await fetchImpl(url, { signal });
   if (!response.ok) throw new Error(`Suggestion service returned HTTP ${response.status}`);
-  return parseSuggestionResponse(await response.text());
+  return parseSuggestionResponse(await readSuggestionResponse(response));
 }
 
 export async function requestSearchSuggestions(engine, query, signal, fetchImpl = fetch) {
