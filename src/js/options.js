@@ -194,7 +194,7 @@ function handleImportSettings(e) {
         console.warn(error);
       }
     });
-    reader.readAsBinaryString(input.files[0]);
+    reader.readAsText(input.files[0], 'UTF-8');
   }
 }
 
