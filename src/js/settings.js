@@ -27,6 +27,12 @@ const DEFAULTS = Object.freeze({
   color_theme: 'os',
   background_image: 'background_noimage',
   background_external: '',
+  background_entrance_effect: 'none',
+  background_entrance_duration: 500,
+  snow_mode: 'winter',
+  page_cascade_enabled: true,
+  page_cascade_mode: 'items',
+  page_cascade_duration: 660,
   default_folder_id: DEFAULT_BOOKMARKS_FOLDER,
   sync_default_folder_id: DEFAULT_BOOKMARKS_FOLDER,
   sync_default_folder_path: null,
@@ -96,6 +102,24 @@ export function getDefaultSettings(keys = Object.keys(DEFAULTS)) {
 
 function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   DEPRECATED_SETTINGS.forEach(key => delete currentSettings[key]);
+  if (!['none', 'zoom', 'blur', 'slide'].includes(currentSettings.background_entrance_effect)) {
+    currentSettings.background_entrance_effect = DEFAULTS.background_entrance_effect;
+  }
+  const backgroundEntranceDuration = parseInt(currentSettings.background_entrance_duration);
+  currentSettings.background_entrance_duration = Number.isFinite(backgroundEntranceDuration)
+    ? Math.min(3000, Math.max(100, backgroundEntranceDuration))
+    : DEFAULTS.background_entrance_duration;
+  if (!['always', 'winter', 'off'].includes(currentSettings.snow_mode)) {
+    currentSettings.snow_mode = DEFAULTS.snow_mode;
+  }
+  currentSettings.page_cascade_enabled = currentSettings.page_cascade_enabled !== false;
+  if (!['items', 'rows'].includes(currentSettings.page_cascade_mode)) {
+    currentSettings.page_cascade_mode = DEFAULTS.page_cascade_mode;
+  }
+  const cascadeDuration = parseInt(currentSettings.page_cascade_duration);
+  currentSettings.page_cascade_duration = Number.isFinite(cascadeDuration)
+    ? Math.min(1500, Math.max(200, cascadeDuration))
+    : DEFAULTS.page_cascade_duration;
   if (!normalizeSearchEngines) return currentSettings;
 
   currentSettings.search_engines = normalizeSearchEngineSettings(currentSettings.search_engines);

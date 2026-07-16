@@ -393,6 +393,21 @@
   "background_local": {
     "message": "Obraz lub wideo z komputera"
   },
+  "background_entrance_effect": { "message": "Pojawianie się tła" },
+  "background_entrance_none": { "message": "Bez animacji" },
+  "background_entrance_zoom": { "message": "Oddalenie" },
+  "background_entrance_blur": { "message": "Z rozmycia" },
+  "background_entrance_slide": { "message": "Przesunięcie w górę" },
+  "background_entrance_duration": { "message": "Czas pojawiania się tła" },
+  "snow_mode": { "message": "Śnieg" },
+  "snow_mode_always": { "message": "Zawsze" },
+  "snow_mode_winter": { "message": "Zimą" },
+  "snow_mode_off": { "message": "Wyłączony" },
+  "page_cascade_enabled": { "message": "Animuj kafelki podczas otwierania" },
+  "page_cascade_mode": { "message": "Kolejność kaskady" },
+  "page_cascade_mode_items": { "message": "Po jednej zakładce" },
+  "page_cascade_mode_rows": { "message": "Po jednym wierszu" },
+  "page_cascade_duration": { "message": "Czas trwania kaskady" },
   "choose_file": {
     "message": "Obraz lub wideo"
   },

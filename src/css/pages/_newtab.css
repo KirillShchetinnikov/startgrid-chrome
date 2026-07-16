@@ -6,9 +6,57 @@
   animation: 0.3s ease-in-out both zoom-in;
 }
 
+@keyframes page-tile-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 body {
   overflow-y: hidden;
 }
+
+.page-loading .app,
+.page-loading .extension-icon,
+.page-loading .aside-controls {
+  opacity: 0;
+  transform: translateY(8px) scale(0.99);
+}
+
+.page-ready .app,
+.page-ready .extension-icon,
+.page-ready .aside-controls {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.36s ease, transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.page-entering .grid > * {
+  animation-name: page-tile-enter;
+  animation-duration: var(--page-cascade-item-duration, 420ms);
+  animation-delay: var(--page-cascade-delay, 0ms);
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-fill-mode: backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-ready .app,
+  .page-ready .extension-icon,
+  .page-ready .aside-controls {
+    transition-duration: 0.01ms;
+  }
+
+  .page-entering .grid > * {
+    animation: none;
+  }
+}
+
 .app {
   overflow-y: auto;
   height: 100vh;
@@ -184,29 +232,6 @@ body {
   background-image: url("/img/camera.svg");
 }
 
-.let-it-snow-btn {
-  position: relative;
-
-  & svg {
-    stroke: #fff;
-  }
-
-  &.is-active:not(.has-hat) svg {
-    stroke: greenyellow;
-  }
-  &.is-active.has-hat::after {
-    content: "";
-    position: absolute;
-    right: 2px;
-    top: -4px;
-    background-image: url("/img/hat.webp");
-    width: 30px;
-    height: 21px;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-}
-
 /* background image */
 .bg {
   position: fixed;
@@ -216,9 +241,12 @@ body {
   bottom: 0;
   left: 0;
   pointer-events: none;
-  will-change: opacity;
-  transition: opacity 0.5s linear;
+  will-change: opacity, transform, filter;
   opacity: 0;
+
+  &.is-visible {
+    opacity: 1;
+  }
 
   & img {
     width: 100%;

@@ -393,6 +393,21 @@
   "background_local": {
     "message": "Изображение или видео с компьютера"
   },
+  "background_entrance_effect": { "message": "Появление фона" },
+  "background_entrance_none": { "message": "Без анимации" },
+  "background_entrance_zoom": { "message": "Отдаление" },
+  "background_entrance_blur": { "message": "Из размытия" },
+  "background_entrance_slide": { "message": "Подъём снизу" },
+  "background_entrance_duration": { "message": "Длительность появления фона" },
+  "snow_mode": { "message": "Снег" },
+  "snow_mode_always": { "message": "Идёт всегда" },
+  "snow_mode_winter": { "message": "Идёт зимой" },
+  "snow_mode_off": { "message": "Отключён" },
+  "page_cascade_enabled": { "message": "Анимация плиток при открытии" },
+  "page_cascade_mode": { "message": "Порядок каскада" },
+  "page_cascade_mode_items": { "message": "По одной закладке" },
+  "page_cascade_mode_rows": { "message": "По одной строке" },
+  "page_cascade_duration": { "message": "Длительность каскада" },
   "choose_file": {
     "message": "Изображение или видео"
   },

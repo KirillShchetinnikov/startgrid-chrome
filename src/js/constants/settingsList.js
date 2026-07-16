@@ -176,6 +176,65 @@ export default [
         ]
       },
       {
+        id: 'background_entrance_effect',
+        title: browser.i18n.getMessage('background_entrance_effect'),
+        type: 'select',
+        options: [
+          { value: 'none', title: browser.i18n.getMessage('background_entrance_none') },
+          { value: 'zoom', title: browser.i18n.getMessage('background_entrance_zoom') },
+          { value: 'blur', title: browser.i18n.getMessage('background_entrance_blur') },
+          { value: 'slide', title: browser.i18n.getMessage('background_entrance_slide') }
+        ]
+      },
+      {
+        id: 'background_entrance_duration',
+        title: browser.i18n.getMessage('background_entrance_duration'),
+        type: 'range',
+        min: 100,
+        max: 3000,
+        step: 100,
+        data: {
+          selectorOutput: '#background_entrance_duration_value',
+          outputPostfix: ' ms'
+        }
+      },
+      {
+        id: 'snow_mode',
+        title: browser.i18n.getMessage('snow_mode'),
+        type: 'select',
+        options: [
+          { value: 'always', title: browser.i18n.getMessage('snow_mode_always') },
+          { value: 'winter', title: browser.i18n.getMessage('snow_mode_winter') },
+          { value: 'off', title: browser.i18n.getMessage('snow_mode_off') }
+        ]
+      },
+      {
+        id: 'page_cascade_enabled',
+        title: browser.i18n.getMessage('page_cascade_enabled'),
+        type: 'switch'
+      },
+      {
+        id: 'page_cascade_mode',
+        title: browser.i18n.getMessage('page_cascade_mode'),
+        type: 'select',
+        options: [
+          { value: 'items', title: browser.i18n.getMessage('page_cascade_mode_items') },
+          { value: 'rows', title: browser.i18n.getMessage('page_cascade_mode_rows') }
+        ]
+      },
+      {
+        id: 'page_cascade_duration',
+        title: browser.i18n.getMessage('page_cascade_duration'),
+        type: 'range',
+        min: 200,
+        max: 1500,
+        step: 50,
+        data: {
+          selectorOutput: '#page_cascade_duration_value',
+          outputPostfix: ' ms'
+        }
+      },
+      {
         id: 'show_toolbar',
         title: browser.i18n.getMessage('show_toolbar'),
         type: 'switch'

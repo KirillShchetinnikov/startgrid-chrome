@@ -393,6 +393,21 @@
   "background_local": {
     "message": "Kép vagy videó számítógépről"
   },
+  "background_entrance_effect": { "message": "Háttér megjelenése" },
+  "background_entrance_none": { "message": "Animáció nélkül" },
+  "background_entrance_zoom": { "message": "Távolítás" },
+  "background_entrance_blur": { "message": "Elmosásból" },
+  "background_entrance_slide": { "message": "Felcsúszás" },
+  "background_entrance_duration": { "message": "A háttér megjelenési ideje" },
+  "snow_mode": { "message": "Havazás" },
+  "snow_mode_always": { "message": "Mindig" },
+  "snow_mode_winter": { "message": "Télen" },
+  "snow_mode_off": { "message": "Kikapcsolva" },
+  "page_cascade_enabled": { "message": "Csempék animálása megnyitáskor" },
+  "page_cascade_mode": { "message": "Kaszkád sorrendje" },
+  "page_cascade_mode_items": { "message": "Egy könyvjelző egyszerre" },
+  "page_cascade_mode_rows": { "message": "Egy sor egyszerre" },
+  "page_cascade_duration": { "message": "A kaszkád időtartama" },
   "choose_file": {
     "message": "Kép vagy videó"
   },

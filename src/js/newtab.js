@@ -12,7 +12,7 @@ import { Validator } from './plugins/validator';
 import UI from './components/ui';
 import Ripple from './components/ripple';
 import confirmPopup from './plugins/confirmPopup';
-import { letItSnow } from './plugins/snow';
+import { initSnow } from './plugins/snow';
 import {
   get,
   getSubTree,
@@ -40,6 +40,7 @@ import initQuickDisplaySettings from './components/quickDisplaySettings';
 import { updateMainPageScrollLock } from './mainPageScroll';
 import { storage } from './api/storage';
 import { SYNC_QUOTA_ERROR_KEY } from './syncQuota';
+import { calculateCascadeTiming } from './pageCascade';
 
 const container = document.getElementById('bookmarks');
 const modal = document.getElementById('modal');
@@ -125,7 +126,6 @@ async function init() {
   window.addEventListener('beforeunload', handleBeforeUnload);
   window.addEventListener('pagehide', handlePagehide);
   window.addEventListener('storage', handleUpdateStorage);
-  window.addEventListener('load', handleLoad);
   document.addEventListener('changeFolder', hideControlMultiplyBookmarks);
   document.addEventListener('changeFolder', ({ detail }) => {
     updateThumbnailControls(detail.folderId);
@@ -155,7 +155,7 @@ async function init() {
    */
   Ripple.init('.md-ripple');
 
-  Bookmarks.init();
+  await Bookmarks.init();
 
   modalApi = new Gmodal(modal, {
     stickySelectors: ['.sticky'],
@@ -274,6 +274,8 @@ async function init() {
   document.addEventListener('keydown', ({ code }) => {
     code === 'Escape' && hideControlMultiplyBookmarks();
   });
+
+  initSnow(settings.$.snow_mode);
 }
 
 function handleSelectBookmark(e) {
@@ -389,10 +391,6 @@ async function updateSelectedThumbnails(multipleSelectedBookmarks) {
 
   await Bookmarks.updateSelectedThumbnails(multipleSelectedBookmarks);
   hideControlMultiplyBookmarks();
-}
-
-function handleLoad() {
-  letItSnow();
 }
 
 function handlePopstate() {
@@ -1155,4 +1153,32 @@ async function prepareModal(target) {
   }
 }
 
-init();
+function revealPage() {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      document.body.classList.remove('page-loading');
+      document.body.classList.add('page-ready');
+
+      if (!settings.$.page_cascade_enabled) return;
+
+      const duration = settings.$.page_cascade_duration;
+      const items = Array.from(document.querySelectorAll('#bookmarks > *'));
+      const { itemDuration, delays } = calculateCascadeTiming(
+        items,
+        settings.$.page_cascade_mode,
+        duration
+      );
+
+      document.documentElement.style.setProperty('--page-cascade-item-duration', `${itemDuration}ms`);
+      items.forEach((item, index) => {
+        item.style.setProperty('--page-cascade-delay', `${delays[index]}ms`);
+      });
+      document.body.classList.add('page-entering');
+      window.setTimeout(() => document.body.classList.remove('page-entering'), duration + 100);
+    });
+  });
+}
+
+init()
+  .catch(error => console.error('Could not initialize StartGrid', error))
+  .finally(revealPage);

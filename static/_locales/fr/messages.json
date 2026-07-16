@@ -393,6 +393,21 @@
   "background_local": {
     "message": "Image ou vidéo sur l'ordinateur"
   },
+  "background_entrance_effect": { "message": "Apparition de l’arrière-plan" },
+  "background_entrance_none": { "message": "Sans animation" },
+  "background_entrance_zoom": { "message": "Zoom arrière" },
+  "background_entrance_blur": { "message": "Depuis le flou" },
+  "background_entrance_slide": { "message": "Glissement vers le haut" },
+  "background_entrance_duration": { "message": "Durée d’apparition de l’arrière-plan" },
+  "snow_mode": { "message": "Neige" },
+  "snow_mode_always": { "message": "Toujours" },
+  "snow_mode_winter": { "message": "En hiver" },
+  "snow_mode_off": { "message": "Désactivée" },
+  "page_cascade_enabled": { "message": "Animer les tuiles à l’ouverture" },
+  "page_cascade_mode": { "message": "Ordre de la cascade" },
+  "page_cascade_mode_items": { "message": "Un favori à la fois" },
+  "page_cascade_mode_rows": { "message": "Une ligne à la fois" },
+  "page_cascade_duration": { "message": "Durée de la cascade" },
   "choose_file": {
     "message": "Image ou vidéo"
   },

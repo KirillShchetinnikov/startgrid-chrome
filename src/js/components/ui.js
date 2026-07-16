@@ -5,6 +5,7 @@ import ImageDB from '../api/imageDB';
 import { getBingImage } from '../api/bingImageDay';
 import { containsPermissions } from '../api/permissions';
 import { createTileBackground } from '../tileAppearance';
+import { getBackgroundEntranceKeyframes } from '../backgroundEntrance';
 
 function createBingInfo(image) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -45,6 +46,24 @@ export default {
       return;
     }
 
+    const showBackground = () => {
+      document.body.classList.add('has-image');
+      bgEl.classList.add('is-visible');
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const keyframes = getBackgroundEntranceKeyframes(settings.$.background_entrance_effect);
+      if (!keyframes || prefersReducedMotion) return;
+
+      const animation = bgEl.animate(keyframes, {
+        duration: settings.$.background_entrance_duration,
+        easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+        fill: 'both'
+      });
+      animation.finished
+        .then(() => animation.cancel())
+        .catch(() => undefined);
+    };
+
     let resource;
     let hasVideo = false;
     if (bgState === 'background_local') {
@@ -84,8 +103,7 @@ export default {
       bgEl.append(video);
 
       video.addEventListener('canplay', () => {
-        bgEl.style.opacity = 1;
-        document.body.classList.add('has-image');
+        showBackground();
       }, { once: true });
     } else {
       const image = await $imageLoaded(resource).catch(e => {
@@ -96,8 +114,7 @@ export default {
       bgEl.append(image);
 
       window.requestAnimationFrame(() => {
-        document.body.classList.add('has-image');
-        bgEl.style.opacity = 1;
+        showBackground();
       });
     }
   },

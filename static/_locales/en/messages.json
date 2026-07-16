@@ -393,6 +393,21 @@
   "background_local": {
     "message": "Image or video from computer"
   },
+  "background_entrance_effect": { "message": "Background appearance" },
+  "background_entrance_none": { "message": "No animation" },
+  "background_entrance_zoom": { "message": "Zoom out" },
+  "background_entrance_blur": { "message": "From blur" },
+  "background_entrance_slide": { "message": "Slide up" },
+  "background_entrance_duration": { "message": "Background appearance duration" },
+  "snow_mode": { "message": "Snowfall" },
+  "snow_mode_always": { "message": "Always" },
+  "snow_mode_winter": { "message": "In winter" },
+  "snow_mode_off": { "message": "Off" },
+  "page_cascade_enabled": { "message": "Animate tiles on page opening" },
+  "page_cascade_mode": { "message": "Cascade order" },
+  "page_cascade_mode_items": { "message": "One bookmark at a time" },
+  "page_cascade_mode_rows": { "message": "One row at a time" },
+  "page_cascade_duration": { "message": "Cascade duration" },
   "choose_file": {
     "message": "Image or video"
   },
