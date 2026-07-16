@@ -401,7 +401,7 @@
   "background_entrance_duration": { "message": "Durée d’apparition de l’arrière-plan" },
   "snow_mode": { "message": "Neige" },
   "snow_mode_always": { "message": "Toujours" },
-  "snow_mode_winter": { "message": "En hiver" },
+  "snow_mode_winter": { "message": "En hiver — du 1er décembre au dernier jour de février" },
   "snow_mode_off": { "message": "Désactivée" },
   "page_cascade_enabled": { "message": "Animer les tuiles à l’ouverture" },
   "page_cascade_mode": { "message": "Ordre de la cascade" },

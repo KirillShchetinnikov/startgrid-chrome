@@ -401,7 +401,7 @@
   "background_entrance_duration": { "message": "Background appearance duration" },
   "snow_mode": { "message": "Snowfall" },
   "snow_mode_always": { "message": "Always" },
-  "snow_mode_winter": { "message": "In winter" },
+  "snow_mode_winter": { "message": "In winter — December 1 through the last day of February" },
   "snow_mode_off": { "message": "Off" },
   "page_cascade_enabled": { "message": "Animate tiles on page opening" },
   "page_cascade_mode": { "message": "Cascade order" },

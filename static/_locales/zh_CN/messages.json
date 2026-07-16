@@ -401,7 +401,7 @@
   "background_entrance_duration": { "message": "背景出现时长" },
   "snow_mode": { "message": "降雪" },
   "snow_mode_always": { "message": "始终" },
-  "snow_mode_winter": { "message": "冬季" },
+  "snow_mode_winter": { "message": "冬季 — 12月1日至2月最后一天" },
   "snow_mode_off": { "message": "关闭" },
   "page_cascade_enabled": { "message": "打开页面时为磁贴添加动画" },
   "page_cascade_mode": { "message": "级联顺序" },

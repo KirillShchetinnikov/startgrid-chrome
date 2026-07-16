@@ -3,9 +3,11 @@ import { isWinterDate, shouldShowSnow } from '../src/js/plugins/snow';
 
 describe('snow display mode', () => {
   it('recognizes the configured winter period', () => {
-    expect(isWinterDate(new Date(2026, 11, 5))).toBe(true);
-    expect(isWinterDate(new Date(2027, 1, 19, 23, 59))).toBe(true);
-    expect(isWinterDate(new Date(2027, 1, 20))).toBe(false);
+    expect(isWinterDate(new Date(2026, 10, 30, 23, 59))).toBe(false);
+    expect(isWinterDate(new Date(2026, 11, 1))).toBe(true);
+    expect(isWinterDate(new Date(2027, 1, 28, 23, 59))).toBe(true);
+    expect(isWinterDate(new Date(2028, 1, 29, 23, 59))).toBe(true);
+    expect(isWinterDate(new Date(2028, 2, 1))).toBe(false);
     expect(isWinterDate(new Date(2026, 6, 16))).toBe(false);
   });
 

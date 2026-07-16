@@ -401,7 +401,7 @@
   "background_entrance_duration": { "message": "A háttér megjelenési ideje" },
   "snow_mode": { "message": "Havazás" },
   "snow_mode_always": { "message": "Mindig" },
-  "snow_mode_winter": { "message": "Télen" },
+  "snow_mode_winter": { "message": "Télen — december 1-től február utolsó napjáig" },
   "snow_mode_off": { "message": "Kikapcsolva" },
   "page_cascade_enabled": { "message": "Csempék animálása megnyitáskor" },
   "page_cascade_mode": { "message": "Kaszkád sorrendje" },

@@ -1,10 +1,6 @@
 export function isWinterDate(currentDate = new Date()) {
   const month = currentDate.getMonth();
-  const year = currentDate.getFullYear();
-  const startDate = new Date(([0, 1].includes(month) ? year - 1 : year), 11, 5); // December 5
-  const endDate = new Date((month === 11 ? year + 1 : year), 1, 20); // February 20
-
-  return currentDate >= startDate && currentDate < endDate;
+  return month === 11 || month === 0 || month === 1;
 }
 
 export function shouldShowSnow(mode, currentDate = new Date()) {

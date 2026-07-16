@@ -401,7 +401,7 @@
   "background_entrance_duration": { "message": "Czas pojawiania się tła" },
   "snow_mode": { "message": "Śnieg" },
   "snow_mode_always": { "message": "Zawsze" },
-  "snow_mode_winter": { "message": "Zimą" },
+  "snow_mode_winter": { "message": "Zimą — od 1 grudnia do ostatniego dnia lutego" },
   "snow_mode_off": { "message": "Wyłączony" },
   "page_cascade_enabled": { "message": "Animuj kafelki podczas otwierania" },
   "page_cascade_mode": { "message": "Kolejność kaskady" },

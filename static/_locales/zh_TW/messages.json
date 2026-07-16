@@ -401,7 +401,7 @@
   "background_entrance_duration": { "message": "背景出現時長" },
   "snow_mode": { "message": "降雪" },
   "snow_mode_always": { "message": "始終" },
-  "snow_mode_winter": { "message": "冬季" },
+  "snow_mode_winter": { "message": "冬季 — 12月1日至2月最後一天" },
   "snow_mode_off": { "message": "關閉" },
   "page_cascade_enabled": { "message": "開啟頁面時為圖塊加入動畫" },
   "page_cascade_mode": { "message": "級聯順序" },

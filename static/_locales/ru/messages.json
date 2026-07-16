@@ -401,7 +401,7 @@
   "background_entrance_duration": { "message": "Длительность появления фона" },
   "snow_mode": { "message": "Снег" },
   "snow_mode_always": { "message": "Идёт всегда" },
-  "snow_mode_winter": { "message": "Идёт зимой" },
+  "snow_mode_winter": { "message": "Идёт зимой — с 1 декабря по последний день февраля" },
   "snow_mode_off": { "message": "Отключён" },
   "page_cascade_enabled": { "message": "Анимация плиток при открытии" },
   "page_cascade_mode": { "message": "Порядок каскада" },
