@@ -32,7 +32,7 @@
     "message": "könyvjelzőkben"
   },
   "search_browser_default": {
-    "message": "Böngésző beállítás"
+    "message": "A böngésző keresőmotorja"
   },
   "placeholder_input_title": {
     "message": "Adja meg a könyvjelző címét"

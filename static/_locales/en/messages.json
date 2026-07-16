@@ -32,7 +32,7 @@
     "message": "bookmarks"
   },
   "search_browser_default": {
-    "message": "Browser default"
+    "message": "Browser search engine"
   },
   "placeholder_input_title": {
     "message": "Enter bookmark title"

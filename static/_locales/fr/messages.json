@@ -32,7 +32,7 @@
     "message": "favoris"
   },
   "search_browser_default": {
-    "message": "Paramètre navigateur"
+    "message": "Moteur de recherche du navigateur"
   },
   "placeholder_input_title": {
     "message": "Entrer le titre du favori"
