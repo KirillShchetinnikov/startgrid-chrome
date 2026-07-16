@@ -18,6 +18,7 @@ describe('quick settings reset', () => {
           get: jest.fn().mockResolvedValue({
             settings: {
               enable_sync: true,
+              color_theme: 'dark',
               dial_width: 95,
               show_extension_icon: false,
               show_toolbar: false,
@@ -32,6 +33,7 @@ describe('quick settings reset', () => {
         sync: {
           get: jest.fn().mockResolvedValue({
             settings: {
+              color_theme: 'dark',
               dial_width: 95,
               show_extension_icon: false,
               show_toolbar: false,
@@ -55,7 +57,9 @@ describe('quick settings reset', () => {
     const defaults = await settings.resetKeys(QUICK_SETTING_KEYS);
 
     expect(defaults).toHaveProperty('dial_width', 70);
+    expect(defaults).toHaveProperty('color_theme', 'os');
     expect(defaults).toHaveProperty('show_extension_icon', true);
+    expect(settings.$.color_theme).toBe('os');
     expect(settings.$.dial_width).toBe(70);
     expect(settings.$.show_extension_icon).toBe(true);
     expect(settings.$.show_toolbar).toBe(true);

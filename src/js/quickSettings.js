@@ -1,4 +1,5 @@
 export const QUICK_SETTING_KEYS = Object.freeze([
+  'color_theme',
   'dial_columns',
   'dial_width',
   'dial_gap',

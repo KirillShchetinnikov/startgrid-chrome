@@ -61,6 +61,14 @@ function createPanel() {
         </button>
       </div>
       <div class="quick-settings__controls">
+        <label class="quick-settings__field" for="quick_color_theme">
+          <span>${message('color_theme')}</span>
+          <select class="form-control" id="quick_color_theme" data-setting="color_theme">
+            <option value="dark">${message('dark_theme')}</option>
+            <option value="light">${message('light_theme')}</option>
+            <option value="os">${message('os_theme')}</option>
+          </select>
+        </label>
         <label class="quick-settings__field" for="quick_dial_columns">
           <span>${message('number_of_columns')}</span>
           <select class="form-control" id="quick_dial_columns" data-setting="dial_columns">${columns}</select>
@@ -228,7 +236,11 @@ export default function initQuickDisplaySettings({
       settings.$[key] = value;
     }
 
-    if (STYLE_SETTINGS.has(key)) {
+    if (key === 'color_theme') {
+      await window.vbToggleTheme();
+      UI.calculateStyles();
+      syncControls();
+    } else if (STYLE_SETTINGS.has(key)) {
       UI.calculateStyles();
     } else if (key === 'vertical_center') {
       document.getElementById('bookmarks').classList.toggle('grid--vcenter', Boolean(value));
@@ -268,6 +280,7 @@ export default function initQuickDisplaySettings({
     if (!confirmed) return;
 
     await settings.resetKeys(QUICK_SETTING_KEYS);
+    await window.vbToggleTheme();
     UI.calculateStyles();
     updateMainPageScrollLock(settings.$.disable_main_page_scroll);
     onExtensionIconVisibilityChange(settings.$.show_extension_icon);
