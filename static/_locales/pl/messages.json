@@ -456,6 +456,15 @@
   "reset_local_default_description": {
     "message": "Resets only local settings and disables synchronization. Synchronized server data is not deleted."
   },
+  "reset_quick_settings": {
+    "message": "Zresetuj szybkie ustawienia"
+  },
+  "reset_quick_settings_description": {
+    "message": "Przywraca tylko ustawienia widoczne w tym menu do wartości domyślnych rozszerzenia."
+  },
+  "confirm_reset_quick_settings": {
+    "message": "Przywrócić szybkie ustawienia do wartości domyślnych rozszerzenia?"
+  },
   "reset_sync_text": {
     "message": "Usuń zsynchronizowane dane z serwera"
   },

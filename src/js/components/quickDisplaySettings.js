@@ -3,6 +3,7 @@ import UI from './ui';
 import confirmPopup from '../plugins/confirmPopup';
 import { updateMainPageScrollLock } from '../mainPageScroll';
 import { cssColorToHex } from '../tileAppearance';
+import { QUICK_SETTING_KEYS } from '../quickSettings';
 
 const RERENDER_SETTINGS = new Set([
   'show_create_column',
@@ -149,8 +150,8 @@ function createPanel() {
       </div>
       <div class="quick-settings__reset">
         <button class="btn btn--clear quick-settings__reset-button md-ripple" type="button"
-          data-quick-settings-reset>${message('reset_local_default')}</button>
-        <small class="text-muted">${message('reset_local_default_description')}</small>
+          data-quick-settings-reset>${message('reset_quick_settings')}</button>
+        <small class="text-muted">${message('reset_quick_settings_description')}</small>
       </div>
       <a class="btn quick-settings__more" href="options.html">${message('more_settings')}</a>
     </section>`;
@@ -259,11 +260,19 @@ export default function initQuickDisplaySettings({
     });
   });
   panel.querySelector('[data-quick-settings-reset]').addEventListener('click', async() => {
-    const confirmed = await confirmPopup(message('confirm_restore_default_settings'));
+    const confirmed = await confirmPopup(message('confirm_reset_quick_settings'));
     if (!confirmed) return;
 
-    await settings.resetLocal();
-    window.location.reload();
+    await settings.resetKeys(QUICK_SETTING_KEYS);
+    UI.calculateStyles();
+    updateMainPageScrollLock(settings.$.disable_main_page_scroll);
+    onExtensionIconVisibilityChange(settings.$.show_extension_icon);
+    document.getElementById('bookmarks')
+      .classList.toggle('grid--vcenter', settings.$.vertical_center);
+    document.getElementById('content')
+      .classList.toggle('content--vcenter', settings.$.vertical_center);
+    await onRerender();
+    syncControls();
   });
   panel.querySelector('[data-quick-color-reset]').addEventListener('click', async() => {
     await settings.updateKey('dial_background_color', '');

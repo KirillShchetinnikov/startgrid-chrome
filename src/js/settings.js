@@ -83,6 +83,17 @@ const DEPRECATED_SETTINGS = [
   'auto_generate_thumbnail'
 ];
 
+export function getDefaultSettings(keys = Object.keys(DEFAULTS)) {
+  const defaults = keys.reduce((result, key) => {
+    if (Object.prototype.hasOwnProperty.call(DEFAULTS, key)) {
+      result[key] = DEFAULTS[key];
+    }
+    return result;
+  }, {});
+
+  return JSON.parse(JSON.stringify(defaults));
+}
+
 function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   DEPRECATED_SETTINGS.forEach(key => delete currentSettings[key]);
   if (!normalizeSearchEngines) return currentSettings;
@@ -266,6 +277,17 @@ const settingsStore = () => {
       if ($settings.enable_sync) {
         await this.syncToStorage();
       }
+    },
+
+    /**
+     * Restore selected settings to the extension defaults without clearing storage.
+     * @param {String[]} keys
+     * @returns {Promise<Object>}
+     */
+    async resetKeys(keys = []) {
+      const defaults = getDefaultSettings(keys);
+      await this.updateAll(defaults);
+      return defaults;
     },
 
     /**

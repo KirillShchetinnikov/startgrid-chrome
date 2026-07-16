@@ -1,0 +1,20 @@
+export const QUICK_SETTING_KEYS = Object.freeze([
+  'dial_columns',
+  'dial_width',
+  'dial_gap',
+  'dial_radius',
+  'dial_aspect_ratio',
+  'favicon_size',
+  'dial_shadow',
+  'dial_hover_lift',
+  'dial_background_opacity',
+  'dial_background_color',
+  'vertical_center',
+  'disable_main_page_scroll',
+  'show_extension_icon',
+  'show_create_column',
+  'show_back_column',
+  'show_bookmark_title',
+  'show_favicon',
+  'folder_preview'
+]);

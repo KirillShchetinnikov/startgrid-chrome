@@ -456,6 +456,15 @@
   "reset_local_default_description": {
     "message": "Сбрасывает только локальные настройки и отключает синхронизацию. Синхронизированные данные на сервере не удаляются."
   },
+  "reset_quick_settings": {
+    "message": "重設快速設定"
+  },
+  "reset_quick_settings_description": {
+    "message": "僅將此選單中顯示的設定還原為擴充功能預設值。"
+  },
+  "confirm_reset_quick_settings": {
+    "message": "要將快速設定還原為擴充功能預設值嗎？"
+  },
   "reset_sync_text": {
     "message": "刪除伺服器上以同步的資料"
   },
