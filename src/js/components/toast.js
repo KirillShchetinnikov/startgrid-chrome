@@ -66,6 +66,7 @@ const Toast = (() => {
     }, {
       html: `<div class="toast__message">${settings.message}</div>`
     });
+    if (settings.modClass) toast.classList.add(settings.modClass);
 
     function onActionClick(evt) {
       settings.action?.callback?.(evt, hideToast);

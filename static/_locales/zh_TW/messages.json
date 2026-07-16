@@ -539,6 +539,13 @@
   "search_failed": {
     "message": "Не удалось выполнить поиск по закладкам. Попробуйте ещё раз."
   },
+  "sync_quota_exceeded": {
+    "message": "已超出 Chrome 同步儲存空間限制（$used$ / $limit$）。最新變更無法同步，並保留在此裝置上。請減少同步設定的資料量。",
+    "placeholders": {
+      "used": { "content": "$1" },
+      "limit": { "content": "$2" }
+    }
+  },
   "delete_thumbnail": {
     "message": "從本機儲存空間刪除"
   },

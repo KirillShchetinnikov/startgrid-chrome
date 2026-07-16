@@ -539,6 +539,13 @@
   "search_failed": {
     "message": "Could not search bookmarks. Please try again."
   },
+  "sync_quota_exceeded": {
+    "message": "Túllépte a Chrome Sync tárhelykorlátját ($used$ / $limit$). A legutóbbi módosításokat nem sikerült szinkronizálni, ezért ezen az eszközön maradnak. Csökkentse a szinkronizált beállítások méretét.",
+    "placeholders": {
+      "used": { "content": "$1" },
+      "limit": { "content": "$2" }
+    }
+  },
   "delete_thumbnail": {
     "message": "Törlés a helyi tárhelyről"
   },

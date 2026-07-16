@@ -539,6 +539,13 @@
   "search_failed": {
     "message": "Could not search bookmarks. Please try again."
   },
+  "sync_quota_exceeded": {
+    "message": "Przekroczono limit miejsca Chrome Sync ($used$ z $limit$). Nie udało się zsynchronizować ostatnich zmian, więc pozostały na tym urządzeniu. Zmniejsz rozmiar synchronizowanych ustawień.",
+    "placeholders": {
+      "used": { "content": "$1" },
+      "limit": { "content": "$2" }
+    }
+  },
   "delete_thumbnail": {
     "message": "Usuń z pamięci lokalnej"
   },

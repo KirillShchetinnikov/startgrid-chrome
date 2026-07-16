@@ -539,6 +539,13 @@
   "search_failed": {
     "message": "Could not search bookmarks. Please try again."
   },
+  "sync_quota_exceeded": {
+    "message": "Chrome Sync storage limit exceeded ($used$ of $limit$). The latest changes could not be synchronized and remain on this device. Reduce the synchronized settings.",
+    "placeholders": {
+      "used": { "content": "$1" },
+      "limit": { "content": "$2" }
+    }
+  },
   "delete_thumbnail": {
     "message": "Delete from local storage"
   },

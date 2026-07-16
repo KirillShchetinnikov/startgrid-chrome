@@ -539,6 +539,13 @@
   "search_failed": {
     "message": "Не удалось выполнить поиск по закладкам. Попробуйте ещё раз."
   },
+  "sync_quota_exceeded": {
+    "message": "已超出 Chrome 同步存储限制（$used$ / $limit$）。最新更改无法同步，并保留在此设备上。请减少同步设置的数据量。",
+    "placeholders": {
+      "used": { "content": "$1" },
+      "limit": { "content": "$2" }
+    }
+  },
   "delete_thumbnail": {
     "message": "从本地存储中删除"
   },

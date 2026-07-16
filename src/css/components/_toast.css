@@ -78,6 +78,10 @@
   }
 }
 
+.toast--error {
+  background-color: var(--color-warning);
+}
+
 @keyframes toast-progress {
   from {
     translate: 0;

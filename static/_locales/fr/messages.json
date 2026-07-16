@@ -539,6 +539,13 @@
   "search_failed": {
     "message": "Could not search bookmarks. Please try again."
   },
+  "sync_quota_exceeded": {
+    "message": "La limite de stockage Chrome Sync est dépassée ($used$ sur $limit$). Les dernières modifications n’ont pas pu être synchronisées et restent sur cet appareil. Réduisez les paramètres synchronisés.",
+    "placeholders": {
+      "used": { "content": "$1" },
+      "limit": { "content": "$2" }
+    }
+  },
   "delete_thumbnail": {
     "message": "Supprimer du stockage local"
   },

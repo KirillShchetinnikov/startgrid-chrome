@@ -10,6 +10,18 @@ import {
   createDefaultSearchEngineSettings,
   normalizeSearchEngineSettings
 } from './searchEngines';
+import {
+  DEFAULT_SYNC_QUOTA_BYTES,
+  DEFAULT_SYNC_QUOTA_BYTES_PER_ITEM,
+  SYNC_QUOTA_ERROR_KEY,
+  checkSyncQuotaBatch,
+  isSyncStorageQuotaError
+} from './syncQuota';
+import {
+  SYNC_STORAGE_KEYS,
+  mergeSyncSettings,
+  splitSyncSettings
+} from './syncSettings';
 
 const DEFAULTS = Object.freeze({
   color_theme: 'os',
@@ -84,10 +96,71 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   return currentSettings;
 }
 
-function createSyncSettings(currentSettings) {
+function createSyncRecords(currentSettings) {
   const syncSettings = JSON.parse(JSON.stringify(currentSettings));
   SETTINGS_NOT_SYNCED.forEach(key => delete syncSettings[key]);
-  return sanitizeSettings(syncSettings);
+  return splitSyncSettings(sanitizeSettings(syncSettings));
+}
+
+async function getSyncQuotaState(records) {
+  let totalBytes = 0;
+  let currentRecordsBytes = 0;
+
+  try {
+    [totalBytes, currentRecordsBytes] = await Promise.all([
+      storage.sync.getBytesInUse(),
+      storage.sync.getBytesInUse(SYNC_STORAGE_KEYS)
+    ]);
+  } catch (error) {
+    console.warn('Could not read Chrome Sync storage usage', error);
+  }
+
+  return checkSyncQuotaBatch({
+    records,
+    totalBytes,
+    currentRecordsBytes,
+    quotaBytes: browser.storage.sync.QUOTA_BYTES || DEFAULT_SYNC_QUOTA_BYTES,
+    quotaBytesPerItem: browser.storage.sync.QUOTA_BYTES_PER_ITEM || DEFAULT_SYNC_QUOTA_BYTES_PER_ITEM
+  });
+}
+
+async function saveSyncQuotaError(quotaState, error) {
+  const errorMessage = String(error?.message || error || '');
+  const isTotalQuotaError = /QUOTA_BYTES(?!_PER_ITEM)/i.test(errorMessage);
+  const fallbackLimit = isTotalQuotaError
+    ? browser.storage.sync.QUOTA_BYTES || DEFAULT_SYNC_QUOTA_BYTES
+    : browser.storage.sync.QUOTA_BYTES_PER_ITEM || DEFAULT_SYNC_QUOTA_BYTES_PER_ITEM;
+  const fallbackUsed = isTotalQuotaError
+    ? quotaState.projectedBytes
+    : quotaState.itemBytes;
+  await storage.local.set({
+    [SYNC_QUOTA_ERROR_KEY]: {
+      reason: quotaState.reason || (isTotalQuotaError ? 'total' : 'item'),
+      storageKey: quotaState.storageKey || '',
+      usedBytes: quotaState.usedBytes || (error ? Math.max(fallbackUsed, fallbackLimit + 1) : fallbackUsed),
+      limitBytes: quotaState.limitBytes || fallbackLimit,
+      message: errorMessage,
+      createdAt: Date.now()
+    }
+  });
+}
+
+async function writeSyncSettings(syncRecords) {
+  const quotaState = await getSyncQuotaState(syncRecords);
+  if (quotaState.exceeded) {
+    await saveSyncQuotaError(quotaState);
+    return false;
+  }
+
+  try {
+    await storage.sync.set(syncRecords);
+    await storage.local.remove(SYNC_QUOTA_ERROR_KEY);
+    return true;
+  } catch (error) {
+    if (!isSyncStorageQuotaError(error)) throw error;
+    await saveSyncQuotaError(quotaState, error);
+    return false;
+  }
 }
 
 async function resolveSyncedDefaultFolder(currentSettings) {
@@ -129,16 +202,20 @@ const settingsStore = () => {
      */
     async init() {
       // read local settings
-      let { settings } = await storage.local.get('settings');
+      const localState = await storage.local.get(['settings', SYNC_QUOTA_ERROR_KEY]);
+      let { settings } = localState;
+      const hasPendingSyncQuotaError = Boolean(localState[SYNC_QUOTA_ERROR_KEY]);
       settings = Object.assign({}, DEFAULTS, settings);
       sanitizeSettings(settings);
+      let syncRecords = {};
       let syncSettings = {};
 
       // if synchronization is enabled, we take data from the cloud
       if (settings.enable_sync) {
-        ({ settings: syncSettings = {} } = await storage.sync.get('settings'));
+        syncRecords = await storage.sync.get(SYNC_STORAGE_KEYS);
+        syncSettings = mergeSyncSettings(syncRecords);
         sanitizeSettings(syncSettings, false);
-        Object.assign(settings, syncSettings);
+        if (!hasPendingSyncQuotaError) Object.assign(settings, syncSettings);
         sanitizeSettings(settings);
         await resolveSyncedDefaultFolder(settings);
       }
@@ -148,12 +225,12 @@ const settingsStore = () => {
       // write the settings to the settings.$ object
       Object.assign($settings, settings);
 
-      const currentSyncSettings = createSyncSettings($settings);
+      const currentSyncRecords = createSyncRecords($settings);
       if (
         settings.enable_sync
-        && JSON.stringify(syncSettings) !== JSON.stringify(currentSyncSettings)
+        && JSON.stringify(syncRecords) !== JSON.stringify(currentSyncRecords)
       ) {
-        await storage.sync.set({ settings: currentSyncSettings });
+        await writeSyncSettings(currentSyncRecords);
       }
     },
 
@@ -193,8 +270,8 @@ const settingsStore = () => {
      * syncToStorage - update storage cloud
      * send the current settings to the cloud previously excluding local
      */
-    async syncToStorage() {
-      await storage.sync.set({ settings: createSyncSettings($settings) });
+    syncToStorage() {
+      return writeSyncSettings(createSyncRecords($settings));
     },
 
     /**
@@ -202,11 +279,13 @@ const settingsStore = () => {
      * @returns Promise
      */
     async restoreFromSync() {
-      let { settings = {} } = await storage.sync.get('settings');
-      Object.assign($settings, sanitizeSettings(settings, false));
+      const syncRecords = await storage.sync.get(SYNC_STORAGE_KEYS);
+      const syncSettings = mergeSyncSettings(syncRecords);
+      Object.assign($settings, sanitizeSettings(syncSettings, false));
       sanitizeSettings($settings);
       await resolveSyncedDefaultFolder($settings);
       await storage.local.set({ settings: $settings });
+      await writeSyncSettings(createSyncRecords($settings));
     },
 
     /**

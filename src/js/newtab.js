@@ -38,6 +38,8 @@ import { containsPermissions } from './api/permissions';
 import { getCurrentFolderId, navigateToFolder } from './folderNavigation';
 import initQuickDisplaySettings from './components/quickDisplaySettings';
 import { updateMainPageScrollLock } from './mainPageScroll';
+import { storage } from './api/storage';
+import { SYNC_QUOTA_ERROR_KEY } from './syncQuota';
 
 const container = document.getElementById('bookmarks');
 const modal = document.getElementById('modal');
@@ -86,6 +88,27 @@ function updateThumbnailControls(folderId) {
   return enabled;
 }
 
+function formatStorageBytes(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  return `${(bytes / 1024).toFixed(1)} KB`;
+}
+
+async function showSyncQuotaError() {
+  const result = await storage.local.get(SYNC_QUOTA_ERROR_KEY);
+  const quotaError = result[SYNC_QUOTA_ERROR_KEY];
+  if (!quotaError) return;
+
+  Toast.show({
+    message: browser.i18n.getMessage('sync_quota_exceeded', [
+      formatStorageBytes(quotaError.usedBytes),
+      formatStorageBytes(quotaError.limitBytes)
+    ]),
+    position: 'top',
+    modClass: 'toast--error',
+    delay: 0
+  });
+}
+
 async function init() {
   // Set lang attr
   // Replacement underscore on the dash because underscore is not a valid language subtag
@@ -111,6 +134,7 @@ async function init() {
   await settings.init();
   updateExtensionIconVisibility(settings.$.show_extension_icon);
   updateMainPageScrollLock(settings.$.disable_main_page_scroll);
+  await showSyncQuotaError();
 
   /**
    * UI
