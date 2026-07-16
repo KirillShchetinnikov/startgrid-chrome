@@ -95,4 +95,22 @@ describe('search engine settings', () => {
       'https://example.com/?q=hello%20world'
     );
   });
+
+  it('preserves an optional suggestion URL for custom engines', () => {
+    const [engine] = normalizeSearchEngineSettings([{
+      id: 'custom:test',
+      enabled: true,
+      title: 'Example',
+      url: 'https://example.com/search?q={query}',
+      suggestUrl: 'https://example.com/suggest?q={query}'
+    }]);
+
+    expect(engine.suggestUrl).toBe('https://example.com/suggest?q={query}');
+
+    const [withoutInvalidSuggestionUrl] = normalizeSearchEngineSettings([{
+      ...engine,
+      suggestUrl: 'https://example.com/suggest'
+    }]);
+    expect(withoutInvalidSuggestionUrl).not.toHaveProperty('suggestUrl');
+  });
 });

@@ -7,6 +7,10 @@ import { settings } from '../../settings';
 import { containsPermissions, requestPermissions } from '../../api/permissions';
 import { buildSearchUrl, getEnabledSearchEngines } from '../../searchEngines';
 import {
+  getSuggestionOrigins,
+  requestSearchSuggestions
+} from '../../searchSuggestions';
+import {
   getCurrentFolderId,
   navigateBack,
   navigateHome,
@@ -154,7 +158,12 @@ class VbHeader extends HTMLElement {
         }
 
         this.hashchange();
+        this.#suggestPermissionButtonVisibility();
       });
+  }
+
+  #currentEngine() {
+    return this.searchEngines.find(engine => engine.id === settings.$.search_engine);
   }
 
   async #suggestPermissionButtonVisibility() {
@@ -165,9 +174,8 @@ class VbHeader extends HTMLElement {
       return;
     }
 
-    const hasSuggestPermission = await containsPermissions({
-      origins: ['https://google.com/*']
-    });
+    const origins = getSuggestionOrigins(this.#currentEngine());
+    const hasSuggestPermission = await containsPermissions({ origins });
 
     this.permSuggestionsNode.hidden = hasSuggestPermission;
 
@@ -259,7 +267,8 @@ class VbHeader extends HTMLElement {
 
   handleSuggestPermission = async() => {
     if (!this.isBookmarksEngine) {
-      const permissions = await requestPermissions({ origins: ['https://google.com/*'] });
+      const origins = getSuggestionOrigins(this.#currentEngine());
+      const permissions = await requestPermissions({ origins });
 
       if (permissions) {
         this.#suggestPermissionButtonVisibility();
@@ -528,31 +537,16 @@ class VbHeader extends HTMLElement {
       this.suggestIndex = -1;
     }
 
-    this.suggestNode.innerHTML = this.suggestList.map((suggest, index) => {
-      return `<div data-suggest="${index}">${suggest}</div>`;
-    }).join('');
+    this.suggestNode.replaceChildren(...this.suggestList.map((suggest, index) => {
+      return $createElement('div', { 'data-suggest': index }, suggest);
+    }));
     this.suggestNode.hidden = !this.suggestList.length;
   }
 
   suggestRequest(query) {
     this.abortController = new AbortController();
     const signal = this.abortController.signal;
-
-    return fetch(`https://google.com/complete/search?output=toolbar&q=${query}`, { signal })
-      .then(response => {
-        if (response.ok) {
-          return response.text();
-        }
-        throw new Error(response.statusText);
-      })
-      .then(str => {
-        const xmlDOM = new DOMParser().parseFromString(str, 'text/xml');
-        const suggestions = Array
-          .from(xmlDOM.querySelectorAll('[data]'))
-          .map(suggestion => suggestion.getAttribute('data'));
-
-        return suggestions;
-      });
+    return requestSearchSuggestions(this.#currentEngine(), query, signal);
   }
 
   gotoSuggest(e) {

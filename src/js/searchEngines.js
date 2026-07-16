@@ -3,6 +3,8 @@ export const MAX_SEARCH_ENGINES = 20;
 export const MAX_SEARCH_ENGINE_TITLE_LENGTH = 50;
 export const MAX_SEARCH_ENGINE_URL_LENGTH = 160;
 
+export const GOOGLE_SUGGEST_URL = 'https://www.google.com/complete/search?output=toolbar&q={query}';
+
 export const BUILT_IN_SEARCH_ENGINES = Object.freeze([
   { id: 'bookmarks', kind: 'bookmarks', titleKey: 'search_bookmarks', protected: true },
   { id: 'browser', kind: 'browser', titleKey: 'search_browser_default', protected: true },
@@ -10,43 +12,50 @@ export const BUILT_IN_SEARCH_ENGINES = Object.freeze([
     id: 'google',
     kind: 'external',
     title: 'Google',
-    defaultUrl: 'https://www.google.com/search?q={query}'
+    defaultUrl: 'https://www.google.com/search?q={query}',
+    suggestUrl: GOOGLE_SUGGEST_URL
   },
   {
     id: 'bing',
     kind: 'external',
     title: 'Bing',
-    defaultUrl: 'https://bing.com/search?q={query}'
+    defaultUrl: 'https://bing.com/search?q={query}',
+    suggestUrl: 'https://api.bing.com/osjson.aspx?query={query}'
   },
   {
     id: 'yandex',
     kind: 'external',
     title: 'Yandex',
-    defaultUrl: 'https://ya.ru/search/?text={query}'
+    defaultUrl: 'https://ya.ru/search/?text={query}',
+    suggestUrl: 'https://suggest.yandex.com/suggest-ya.cgi?v=4&part={query}'
   },
   {
     id: 'duckduckgo',
     kind: 'external',
     title: 'DuckDuckGo',
-    defaultUrl: 'https://duckduckgo.com/?q={query}'
+    defaultUrl: 'https://duckduckgo.com/?q={query}',
+    suggestUrl: 'https://duckduckgo.com/ac/?q={query}&type=list'
   },
   {
     id: 'youtube',
     kind: 'external',
     title: 'YouTube',
-    defaultUrl: 'https://www.youtube.com/results?search_query={query}'
+    defaultUrl: 'https://www.youtube.com/results?search_query={query}',
+    suggestUrl: 'https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q={query}'
   },
   {
     id: 'baidu',
     kind: 'external',
     title: 'Baidu',
-    defaultUrl: 'https://www.baidu.com/s?wd={query}'
+    defaultUrl: 'https://www.baidu.com/s?wd={query}',
+    suggestUrl: 'https://suggestion.baidu.com/su?wd={query}&action=opensearch'
   },
   {
     id: 'yahoo',
     kind: 'external',
     title: 'Yahoo',
-    defaultUrl: 'https://search.yahoo.com/search?p={query}'
+    defaultUrl: 'https://search.yahoo.com/search?p={query}',
+    suggestUrl: 'https://search.yahoo.com/sugg/gossip/gossip-us-ura/?output=sd1&command={query}'
   }
 ]);
 
@@ -79,12 +88,15 @@ function normalizeCustomEngine(engine) {
 
   const title = String(engine.title ?? '').trim().slice(0, MAX_SEARCH_ENGINE_TITLE_LENGTH);
   const url = String(engine.url ?? '').trim().slice(0, MAX_SEARCH_ENGINE_URL_LENGTH);
-  return {
+  const suggestUrl = String(engine.suggestUrl ?? '').trim().slice(0, MAX_SEARCH_ENGINE_URL_LENGTH);
+  const normalized = {
     id: engine.id.slice(0, 80),
     enabled: engine.enabled === true && Boolean(title) && isValidSearchUrlTemplate(url),
     title,
     url
   };
+  if (isValidSearchUrlTemplate(suggestUrl)) normalized.suggestUrl = suggestUrl;
+  return normalized;
 }
 
 export function createDefaultSearchEngineSettings() {
@@ -154,7 +166,8 @@ export function getSearchEngines(value, getMessage = key => key) {
       ...engine,
       kind: definition.kind,
       custom: false,
-      title: definition.titleKey ? getMessage(definition.titleKey) : definition.title
+      title: definition.titleKey ? getMessage(definition.titleKey) : definition.title,
+      ...(definition.suggestUrl && { suggestUrl: definition.suggestUrl })
     };
   });
 }

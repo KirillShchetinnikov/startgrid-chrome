@@ -711,7 +711,7 @@
     "message": "Keresés törlése"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "A keresési automatikus kiegészítésekhez hozzáférés szükséges a Google.com-hoz"
+    "message": "Hozzáférés engedélyezése a kiválasztott javaslati szolgáltatáshoz és a Google tartalékhoz"
   },
   "search": {
     "message": "Keresés"
@@ -763,7 +763,9 @@
   "search_engine_enabled": { "message": "Keresőmotor engedélyezése" },
   "search_engine_name": { "message": "Keresőmotor neve" },
   "search_engine_url": { "message": "Keresési URL" },
-  "search_engine_url_note": { "message": "Használja a {query} elemet az URL-ben ott, ahová a kódolt keresési kifejezés kerüljön." },
+  "search_engine_url_note": { "message": "A kódolt lekérdezés helyén használja a {query} elemet. Az egyéni javaslati URL nem kötelező; üresen hagyva a Google javaslatai használatosak." },
+  "search_suggestion_url": { "message": "Javaslati URL (nem kötelező)" },
+  "search_suggestion_invalid_url": { "message": "Adjon meg egy érvényes HTTP- vagy HTTPS-URL-t {query} elemmel, vagy hagyja üresen a mezőt." },
   "add_search_engine": { "message": "Keresőmotor hozzáadása" },
   "remove_search_engine": { "message": "Keresőmotor eltávolítása" },
   "custom_search_engine": { "message": "Egyéni keresőmotor" },

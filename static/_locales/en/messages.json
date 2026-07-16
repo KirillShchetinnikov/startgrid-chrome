@@ -711,7 +711,7 @@
     "message": "Clear search"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "Access to Google.com is needed for search autocomplete suggestions"
+    "message": "Allow access to the selected suggestion service and the Google fallback"
   },
   "search": {
     "message": "Search"
@@ -780,7 +780,13 @@
     "message": "Search URL"
   },
   "search_engine_url_note": {
-    "message": "Use {query} in the URL where the encoded search query should be inserted."
+    "message": "Use {query} where the encoded query should be inserted. A custom suggestion URL is optional; Google suggestions are used when it is empty."
+  },
+  "search_suggestion_url": {
+    "message": "Suggestion URL (optional)"
+  },
+  "search_suggestion_invalid_url": {
+    "message": "Enter a valid HTTP or HTTPS suggestion URL containing {query}, or leave the field empty."
   },
   "add_search_engine": {
     "message": "Add search engine"

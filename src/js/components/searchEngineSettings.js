@@ -121,6 +121,22 @@ export default function initSearchEngineSettings({ container, settings, onChange
           'data-engine-id': engine.id
         })
       ));
+
+      if (engine.custom) {
+        row.append($createElement('label', { class: 'search-engine-editor__url-field' },
+          $createElement('span', { class: 'search-engine-editor__url-label' }, message('search_suggestion_url')),
+          $createElement('input', {
+            class: 'form-control search-engine-editor__url-input',
+            type: 'url',
+            value: engine.suggestUrl || '',
+            maxlength: MAX_SEARCH_ENGINE_URL_LENGTH,
+            placeholder: `https://example.com/suggest?q={query}`,
+            spellcheck: 'false',
+            'data-action': 'suggestUrl',
+            'data-engine-id': engine.id
+          })
+        ));
+      }
     }
 
     return row;
@@ -191,6 +207,17 @@ export default function initSearchEngineSettings({ container, settings, onChange
         return;
       }
       engine.url = url;
+    }
+
+    if (target.dataset.action === 'suggestUrl') {
+      const suggestUrl = target.value.trim();
+      if (suggestUrl && !isValidSearchUrlTemplate(suggestUrl)) {
+        target.classList.add('has-error');
+        Toast.show(message('search_suggestion_invalid_url'));
+        return;
+      }
+      if (suggestUrl) engine.suggestUrl = suggestUrl;
+      else delete engine.suggestUrl;
     }
 
     await save(nextSettings);

@@ -711,7 +711,7 @@
     "message": "Wyczyść wyszukiwanie"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "Aby działały podpowiedzi wyszukiwania, wymagany jest dostęp do Google.com"
+    "message": "Zezwól na dostęp do wybranej usługi sugestii i zapasowych sugestii Google"
   },
   "search": {
     "message": "Szukaj"
@@ -763,7 +763,9 @@
   "search_engine_enabled": { "message": "Włącz wyszukiwarkę" },
   "search_engine_name": { "message": "Nazwa wyszukiwarki" },
   "search_engine_url": { "message": "Adres URL wyszukiwania" },
-  "search_engine_url_note": { "message": "Użyj {query} w miejscu adresu URL, w którym ma zostać wstawione zakodowane zapytanie." },
+  "search_engine_url_note": { "message": "Użyj {query} w miejscu zakodowanego zapytania. Adres sugestii dla własnej wyszukiwarki jest opcjonalny; puste pole oznacza sugestie Google." },
+  "search_suggestion_url": { "message": "Adres sugestii (opcjonalnie)" },
+  "search_suggestion_invalid_url": { "message": "Podaj prawidłowy adres HTTP lub HTTPS zawierający {query} albo pozostaw pole puste." },
   "add_search_engine": { "message": "Dodaj wyszukiwarkę" },
   "remove_search_engine": { "message": "Usuń wyszukiwarkę" },
   "custom_search_engine": { "message": "Własna wyszukiwarka" },

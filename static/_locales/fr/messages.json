@@ -711,7 +711,7 @@
     "message": "Effacer la recherche"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "L'accès à Google.com est nécessaire pour les suggestions de recherche automatiques"
+    "message": "Autoriser l’accès au service de suggestions sélectionné et au service de secours Google"
   },
   "search": {
     "message": "Rechercher"
@@ -763,7 +763,9 @@
   "search_engine_enabled": { "message": "Activer le moteur de recherche" },
   "search_engine_name": { "message": "Nom du moteur de recherche" },
   "search_engine_url": { "message": "URL de recherche" },
-  "search_engine_url_note": { "message": "Utilisez {query} dans l’URL à l’endroit où la requête encodée doit être insérée." },
+  "search_engine_url_note": { "message": "Utilisez {query} à l’emplacement de la requête encodée. L’URL de suggestions personnalisée est facultative ; si elle est vide, les suggestions Google sont utilisées." },
+  "search_suggestion_url": { "message": "URL des suggestions (facultatif)" },
+  "search_suggestion_invalid_url": { "message": "Saisissez une URL HTTP ou HTTPS valide contenant {query}, ou laissez le champ vide." },
   "add_search_engine": { "message": "Ajouter un moteur de recherche" },
   "remove_search_engine": { "message": "Supprimer le moteur de recherche" },
   "custom_search_engine": { "message": "Moteur de recherche personnalisé" },

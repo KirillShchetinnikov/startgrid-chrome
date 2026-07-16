@@ -711,7 +711,7 @@
     "message": "清除搜尋"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "啟用搜尋自動完成建議需要存取 Google.com"
+    "message": "允許存取所選建議服務和 Google 備用建議"
   },
   "search": {
     "message": "搜尋"
@@ -763,7 +763,9 @@
   "search_engine_enabled": { "message": "啟用搜尋引擎" },
   "search_engine_name": { "message": "搜尋引擎名稱" },
   "search_engine_url": { "message": "搜尋網址" },
-  "search_engine_url_note": { "message": "在網址中使用 {query} 表示插入編碼後搜尋內容的位置。" },
+  "search_engine_url_note": { "message": "使用 {query} 表示編碼查詢的插入位置。自訂建議 URL 為選填；留空時使用 Google 建議。" },
+  "search_suggestion_url": { "message": "建議 URL（選填）" },
+  "search_suggestion_invalid_url": { "message": "請輸入包含 {query} 的有效 HTTP 或 HTTPS 建議 URL，或將欄位留空。" },
   "add_search_engine": { "message": "新增搜尋引擎" },
   "remove_search_engine": { "message": "移除搜尋引擎" },
   "custom_search_engine": { "message": "自訂搜尋引擎" },

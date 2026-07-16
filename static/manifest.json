@@ -37,7 +37,13 @@
     "search"
   ],
   "optional_host_permissions": [
-    "https://google.com/*",
+    "https://www.google.com/*",
+    "https://api.bing.com/*",
+    "https://suggest.yandex.com/*",
+    "https://duckduckgo.com/*",
+    "https://suggestqueries.google.com/*",
+    "https://suggestion.baidu.com/*",
+    "https://search.yahoo.com/*",
     "https://www.bing.com/*",
     "<all_urls>"
   ],
