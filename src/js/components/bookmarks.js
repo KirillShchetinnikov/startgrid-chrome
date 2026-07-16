@@ -54,6 +54,25 @@ const Bookmarks = (() => {
   const dialLoading = document.getElementById('dial_loading');
   let isGeneratedThumbs = false;
   let activeSearchRequest = 0;
+  let hasSearch = false;
+  let vbHeader = null;
+
+  function resetBookmarkSearch() {
+    hasSearch = false;
+    activeSearchRequest += 1;
+    createSpeedDial(startFolder());
+    updateBookmarkSearchState(false);
+  }
+
+  function setToolbarVisibility(visible) {
+    if (!vbHeader) return;
+
+    if (!visible && hasSearch) {
+      vbHeader.clearBookmarkSearch();
+      resetBookmarkSearch();
+    }
+    vbHeader.hidden = !visible;
+  }
 
   async function init() {
     // screen sizes needed for the service worker
@@ -88,50 +107,40 @@ const Bookmarks = (() => {
 
     initFolderNavigation(configuredStartFolder());
 
-    let hasSearch = false;
-    let vbHeader = null;
+    // Keep the toolbar available so quick settings can show it without reloading the page.
+    await import(/* webpackChunkName: "webcomponents/vb-header" */'./vb-header');
+    vbHeader = document.createElement('vb-header');
+    vbHeader.setAttribute('placeholder', browser.i18n.getMessage('placeholder_input_search'));
+    vbHeader.setAttribute('initial-folder-id', settings.defaultFolderId);
+    vbHeader.setAttribute('folder-id', startFolder());
+    vbHeader.hidden = !settings.$.show_toolbar;
+    document.querySelector('header').append(vbHeader);
 
-    // Search bookmarks if toolbar enable
-    if (settings.$.show_toolbar) {
-      await import(/* webpackChunkName: "webcomponents/vb-header" */'./vb-header');
-      vbHeader = document.createElement('vb-header');
-      vbHeader.setAttribute('placeholder', browser.i18n.getMessage('placeholder_input_search'));
-      vbHeader.setAttribute('initial-folder-id', settings.defaultFolderId);
-      vbHeader.setAttribute('folder-id', startFolder());
-      document.querySelector('header').append(vbHeader);
-
-      const searchHandler = $debounce(({ detail }) => {
-        if (!detail.isBookmarksEngine) {
-          if (hasSearch) {
-            hasSearch = false;
-            activeSearchRequest += 1;
-            createSpeedDial(startFolder());
-            updateBookmarkSearchState(false);
-          }
-          return;
-        }
-
-        const query = detail.search.trim();
-        if (!query.length) {
+    const searchHandler = $debounce(({ detail }) => {
+      if (!detail.isBookmarksEngine) {
+        if (hasSearch) {
           hasSearch = false;
           activeSearchRequest += 1;
           createSpeedDial(startFolder());
-        } else {
-          hasSearch = true;
-          search(query);
+          updateBookmarkSearchState(false);
         }
-        updateBookmarkSearchState(hasSearch);
-      }, 500);
-      const searchResetHandler = () => {
+        return;
+      }
+
+      const query = detail.search.trim();
+      if (!query.length) {
         hasSearch = false;
         activeSearchRequest += 1;
         createSpeedDial(startFolder());
-        updateBookmarkSearchState(false);
-      };
+      } else {
+        hasSearch = true;
+        search(query);
+      }
+      updateBookmarkSearchState(hasSearch);
+    }, 500);
 
-      vbHeader.addEventListener('vb:search', searchHandler);
-      vbHeader.addEventListener('vb:searchreset', searchResetHandler);
-    }
+    vbHeader.addEventListener('vb:search', searchHandler);
+    vbHeader.addEventListener('vb:searchreset', resetBookmarkSearch);
 
     // Change the current dial without changing the new-tab URL.
     document.addEventListener('folderNavigate', async function({ detail }) {
@@ -1540,6 +1549,7 @@ const Bookmarks = (() => {
   return {
     init,
     refresh: () => createSpeedDial(startFolder()),
+    setToolbarVisibility,
     createBookmark,
     updateBookmark,
     removeFromBrowser,

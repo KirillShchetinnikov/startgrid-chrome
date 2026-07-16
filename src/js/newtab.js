@@ -197,7 +197,8 @@ async function init() {
     initQuickDisplaySettings({
       container: asideControlsNode,
       onRerender: () => Bookmarks.refresh(),
-      onExtensionIconVisibilityChange: updateExtensionIconVisibility
+      onExtensionIconVisibilityChange: updateExtensionIconVisibility,
+      onToolbarVisibilityChange: visible => Bookmarks.setToolbarVisibility(visible)
     });
   }
 

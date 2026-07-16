@@ -142,6 +142,7 @@ function createPanel() {
         ${createSwitch('vertical_center')}
         ${createSwitch('disable_main_page_scroll')}
         ${createSwitch('show_extension_icon')}
+        ${createSwitch('show_toolbar')}
         ${createSwitch('show_create_column')}
         ${createSwitch('show_back_column')}
         ${createSwitch('show_bookmark_title')}
@@ -162,7 +163,8 @@ function createPanel() {
 export default function initQuickDisplaySettings({
   container,
   onRerender,
-  onExtensionIconVisibilityChange
+  onExtensionIconVisibilityChange,
+  onToolbarVisibilityChange
 }) {
   const trigger = document.createElement('button');
   trigger.id = 'quick_settings_trigger';
@@ -236,6 +238,8 @@ export default function initQuickDisplaySettings({
     } else if (key === 'show_extension_icon') {
       onExtensionIconVisibilityChange(Boolean(value));
       UI.calculateStyles();
+    } else if (key === 'show_toolbar') {
+      onToolbarVisibilityChange(Boolean(value));
     } else if (RERENDER_SETTINGS.has(key)) {
       await onRerender();
     }
@@ -267,6 +271,7 @@ export default function initQuickDisplaySettings({
     UI.calculateStyles();
     updateMainPageScrollLock(settings.$.disable_main_page_scroll);
     onExtensionIconVisibilityChange(settings.$.show_extension_icon);
+    onToolbarVisibilityChange(settings.$.show_toolbar);
     document.getElementById('bookmarks')
       .classList.toggle('grid--vcenter', settings.$.vertical_center);
     document.getElementById('content')

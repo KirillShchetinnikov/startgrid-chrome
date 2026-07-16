@@ -21,6 +21,7 @@ describe('quick settings reset', () => {
               dial_width: 95,
               show_extension_icon: false,
               show_toolbar: false,
+              show_settings_icon: false,
               search_engine: 'google'
             }
           }),
@@ -33,7 +34,8 @@ describe('quick settings reset', () => {
             settings: {
               dial_width: 95,
               show_extension_icon: false,
-              show_toolbar: false
+              show_toolbar: false,
+              show_settings_icon: false
             },
             settings_search: { search_engine: 'google' }
           }),
@@ -56,7 +58,8 @@ describe('quick settings reset', () => {
     expect(defaults).toHaveProperty('show_extension_icon', true);
     expect(settings.$.dial_width).toBe(70);
     expect(settings.$.show_extension_icon).toBe(true);
-    expect(settings.$.show_toolbar).toBe(false);
+    expect(settings.$.show_toolbar).toBe(true);
+    expect(settings.$.show_settings_icon).toBe(false);
     expect(settings.$.search_engine).toBe('google');
     expect(settings.$.enable_sync).toBe(true);
     expect(localClear).not.toHaveBeenCalled();

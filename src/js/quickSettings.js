@@ -12,6 +12,7 @@ export const QUICK_SETTING_KEYS = Object.freeze([
   'vertical_center',
   'disable_main_page_scroll',
   'show_extension_icon',
+  'show_toolbar',
   'show_create_column',
   'show_back_column',
   'show_bookmark_title',
