@@ -393,6 +393,9 @@
   "background_local": {
     "message": "Изображение или видео с компьютера"
   },
+  "background_local_video_note": {
+    "message": "Локальным фоном может быть изображение или MP4-видео. Видео воспроизводится без звука и автоматически повторяется."
+  },
   "background_entrance_effect": { "message": "Появление фона" },
   "background_entrance_none": { "message": "Без анимации" },
   "background_entrance_zoom": { "message": "Отдаление" },

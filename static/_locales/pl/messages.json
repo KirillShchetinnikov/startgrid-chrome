@@ -393,6 +393,9 @@
   "background_local": {
     "message": "Obraz lub wideo z komputera"
   },
+  "background_local_video_note": {
+    "message": "Lokalnym tłem może być obraz lub wideo MP4. Wideo jest odtwarzane bez dźwięku i automatycznie zapętlane."
+  },
   "background_entrance_effect": { "message": "Pojawianie się tła" },
   "background_entrance_none": { "message": "Bez animacji" },
   "background_entrance_zoom": { "message": "Oddalenie" },

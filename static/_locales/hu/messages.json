@@ -393,6 +393,9 @@
   "background_local": {
     "message": "Kép vagy videó számítógépről"
   },
+  "background_local_video_note": {
+    "message": "A helyi háttér kép vagy MP4-videó lehet. A videó némítva, automatikusan ismétlődve játszódik le."
+  },
   "background_entrance_effect": { "message": "Háttér megjelenése" },
   "background_entrance_none": { "message": "Animáció nélkül" },
   "background_entrance_zoom": { "message": "Távolítás" },

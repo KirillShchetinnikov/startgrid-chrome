@@ -393,6 +393,9 @@
   "background_local": {
     "message": "Image ou vidéo sur l'ordinateur"
   },
+  "background_local_video_note": {
+    "message": "Un arrière-plan local peut être une image ou une vidéo MP4. La vidéo est lue sans son et en boucle automatiquement."
+  },
   "background_entrance_effect": { "message": "Apparition de l’arrière-plan" },
   "background_entrance_none": { "message": "Sans animation" },
   "background_entrance_zoom": { "message": "Zoom arrière" },

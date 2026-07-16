@@ -393,6 +393,9 @@
   "background_local": {
     "message": "Image or video from computer"
   },
+  "background_local_video_note": {
+    "message": "A local background can be an image or an MP4 video. Video plays muted and loops automatically."
+  },
   "background_entrance_effect": { "message": "Background appearance" },
   "background_entrance_none": { "message": "No animation" },
   "background_entrance_zoom": { "message": "Zoom out" },

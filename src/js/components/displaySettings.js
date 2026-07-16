@@ -147,6 +147,7 @@ function createBackgroundSetting() {
           <svg width="20" height="20" class="c-upload__icon"><use xlink:href="/img/symbol.svg#upload_outline"></use></svg>
           <span class="c-upload__name" data-locale-message="choose_file">Изображение или видео</span>
         </label>
+        <small class="c-upload__hint text-muted" data-locale-message="background_local_video_note">Локальным фоном может быть изображение или MP4-видео. Видео воспроизводится без звука и автоматически повторяется.</small>
       </form>
       <div class="c-upload__preview">
         <div class="c-upload__remove">

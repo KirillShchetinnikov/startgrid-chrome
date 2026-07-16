@@ -393,6 +393,9 @@
   "background_local": {
     "message": "背景来自本地电脑"
   },
+  "background_local_video_note": {
+    "message": "本地背景可以是图片或 MP4 视频。视频将静音播放并自动循环。"
+  },
   "background_entrance_effect": { "message": "背景出现效果" },
   "background_entrance_none": { "message": "无动画" },
   "background_entrance_zoom": { "message": "缩小" },

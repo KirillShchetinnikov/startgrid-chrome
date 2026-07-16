@@ -393,6 +393,9 @@
   "background_local": {
     "message": "背景圖來自本機電腦"
   },
+  "background_local_video_note": {
+    "message": "本機背景可以是圖片或 MP4 影片。影片將靜音播放並自動循環。"
+  },
   "background_entrance_effect": { "message": "背景出現效果" },
   "background_entrance_none": { "message": "無動畫" },
   "background_entrance_zoom": { "message": "縮小" },
