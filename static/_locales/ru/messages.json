@@ -607,7 +607,57 @@
     "message": "Перемещать закладку в начало списка внутри папки"
   },
   "bookmarks_sorting_type": {
-    "message": "Сортировка по типу"
+    "message": "Сортировка папок"
+  },
+  "home_sort_by": {
+    "message": "Сортировка плиток на главной странице"
+  },
+  "manual_sorting": {
+    "message": "Ручная сортировка"
+  },
+  "sort_by_usage": {
+    "message": "По частоте использования"
+  },
+  "sort_direction": {
+    "message": "Направление сортировки"
+  },
+  "newest_first": {
+    "message": "По убыванию — сначала новые"
+  },
+  "oldest_first": {
+    "message": "По возрастанию — сначала старые"
+  },
+  "alphabet_descending": {
+    "message": "По убыванию — от Я до А"
+  },
+  "alphabet_ascending": {
+    "message": "По возрастанию — от А до Я"
+  },
+  "usage_tiebreaker": {
+    "message": "При одинаковой частоте сортировать"
+  },
+  "show_home_folders": {
+    "message": "Показывать папки на главной странице"
+  },
+  "show_usage_count": {
+    "message": "Отображать счётчик на закладке"
+  },
+  "usage_count_label": {
+    "message": "Количество переходов: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "Сортировать папки вместе с закладками"
+  },
+  "navigation_sort_by": {
+    "message": "Сортировка внутри папок и в поиске"
+  },
+  "browser_default_order": {
+    "message": "По умолчанию"
   },
   "sort_by": {
     "message": "Сортировать по"

@@ -41,6 +41,7 @@ import { updateMainPageScrollLock } from './mainPageScroll';
 import { storage } from './api/storage';
 import { SYNC_QUOTA_ERROR_KEY } from './syncQuota';
 import { calculateCascadeTiming } from './pageCascade';
+import { recordBookmarkUsage } from './bookmarkSorting';
 
 const container = document.getElementById('bookmarks');
 const modal = document.getElementById('modal');
@@ -87,6 +88,17 @@ function updateThumbnailControls(folderId) {
     generateThumbsBtn.hidden = !enabled;
   }
   return enabled;
+}
+
+function incrementBookmarkUsage(bookmark) {
+  const count = recordBookmarkUsage(bookmark.id);
+  const badge = bookmark.querySelector?.('.bookmark__usage-count');
+  if (!badge) return;
+
+  const label = browser.i18n.getMessage('usage_count_label', String(count));
+  badge.textContent = String(count);
+  badge.title = label;
+  badge.setAttribute('aria-label', label);
 }
 
 function formatStorageBytes(bytes) {
@@ -473,6 +485,8 @@ async function handleDelegateClick(evt) {
       return;
     }
 
+    if (!bookmark.isFolder) incrementBookmarkUsage(bookmark);
+
     if (checkLocalProtocol(url) && !evt.shiftKey) {
       evt.preventDefault();
       openLocalProtocol(url);
@@ -482,7 +496,10 @@ async function handleDelegateClick(evt) {
 
 function handleOpenMousemiddle(evt) {
   if (evt.target.closest('.bookmark') && evt.button === 1) {
-    const url = evt.target.closest('.bookmark').href;
+    const bookmark = evt.target.closest('.bookmark');
+    const url = bookmark.href;
+
+    if (!bookmark.isFolder) incrementBookmarkUsage(bookmark);
 
     if (checkLocalProtocol(url)) {
       evt.preventDefault();
@@ -525,6 +542,7 @@ async function handleMenuSelection(evt) {
   switch (action) {
     case 'new_window':
     case 'new_window_incognito':
+      if (!target.isFolder) incrementBookmarkUsage(target);
       openWindow(target.href, action);
       break;
     case 'open_all':
@@ -532,6 +550,7 @@ async function handleMenuSelection(evt) {
       openAll(target.id, action);
       break;
     case 'new_tab':
+      if (!target.isFolder) incrementBookmarkUsage(target);
       openTab(target.href);
       break;
     case 'edit':
@@ -826,6 +845,7 @@ function openSelectedBookmarks(multipleSelectedBookmarks, action) {
     })
       .then(win => {
         multipleSelectedBookmarks.forEach(bookmark => {
+          if (!bookmark.isFolder) incrementBookmarkUsage(bookmark);
           openTab(bookmark.url, { windowId: win.id });
         });
       })
@@ -834,6 +854,7 @@ function openSelectedBookmarks(multipleSelectedBookmarks, action) {
       });
   } else if (action === 'open_all') {
     multipleSelectedBookmarks.forEach(bookmark => {
+      if (!bookmark.isFolder) incrementBookmarkUsage(bookmark);
       openTab(bookmark.url);
     });
   }
@@ -856,10 +877,16 @@ function openAll(id, action) {
           focused: true
         })
           .then(win => {
-            bookmarks.forEach(bookmark => openTab(bookmark.url, { windowId: win.id }));
+            bookmarks.forEach(bookmark => {
+              incrementBookmarkUsage(bookmark);
+              openTab(bookmark.url, { windowId: win.id });
+            });
           });
       } else {
-        bookmarks.forEach(bookmark => openTab(bookmark.url));
+        bookmarks.forEach(bookmark => {
+          incrementBookmarkUsage(bookmark);
+          openTab(bookmark.url);
+        });
       }
     });
 }

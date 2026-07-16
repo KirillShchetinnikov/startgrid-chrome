@@ -42,6 +42,11 @@ import {
   initFolderNavigation
 } from '../folderNavigation';
 import { updateBookmarkSearchState } from '../mainPageScroll';
+import {
+  getBookmarkUsageCounts,
+  sortHomeBookmarks,
+  sortNestedBookmarks
+} from '../bookmarkSorting';
 
 /**
  * Bookmarks module
@@ -90,10 +95,7 @@ const Bookmarks = (() => {
     }
 
     // Dragging option
-    if (
-      settings.$.drag_and_drop &&
-      !settings.$.sort_by_newest
-    ) {
+    if (settings.$.drag_and_drop) {
       initDrag(container);
     }
 
@@ -264,13 +266,17 @@ const Bookmarks = (() => {
           ghost = null;
         }
       },
-      onUpdate() {
-        Array.from(container.querySelectorAll('.bookmark')).forEach(async(item, index) => {
+      async onUpdate() {
+        const bookmarks = Array.from(container.querySelectorAll('.bookmark'));
+        for (const [index, item] of bookmarks.entries()) {
           await move(item.getAttribute('data-id'), {
             'parentId': container.dataset.folder,
             'index': index
           }).catch(console.warn);
-        });
+        }
+        if (isDefaultFolder() && !settings.$.home_manual_sort_initialized) {
+          await settings.updateKey('home_manual_sort_initialized', true);
+        }
       },
       onAdd({ item, target }) {
         const id = item.dataset.id;
@@ -348,7 +354,7 @@ const Bookmarks = (() => {
     return getThumbnailSizeOverride(thumbnail?.thumbnailSize ?? thumbnail?.faviconSize);
   }
 
-  function genBookmark(bookmark) {
+  function genBookmark(bookmark, usageCount = null) {
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
     const thumbnailSource = thumbnail?.source
       || (thumbnail?.blob ? (thumbnail.custom ? 'local' : 'site') : 'favicon');
@@ -369,6 +375,7 @@ const Bookmarks = (() => {
       openNewTab: settings.$.open_link_newtab,
       thumbnailSource,
       thumbnailSize,
+      usageCount,
       hasTitle: settings.$.show_bookmark_title,
       hasFavicon: settings.$.show_favicon
     });
@@ -503,8 +510,8 @@ const Bookmarks = (() => {
     return paths;
   }
 
-  function createSearchResult(bookmark, folderLabel = '') {
-    const result = bookmark.url ? genBookmark(bookmark) : genFolder(bookmark);
+  function createSearchResult(bookmark, folderLabel = '', usageCount = null) {
+    const result = bookmark.url ? genBookmark(bookmark, usageCount) : genFolder(bookmark);
     result.searchFolderLabel = folderLabel;
     return result;
   }
@@ -570,11 +577,18 @@ const Bookmarks = (() => {
     dialLoading.hidden = false;
     clearContainer();
 
-    const bookamrksArr = arr;
     const isHomeFolder = isDefaultFolder();
+    const usageCounts = getBookmarkUsageCounts();
+    const showUsageCount = isHomeFolder
+      && !options.isSearch
+      && settings.$.home_sort_by === 'usage'
+      && settings.$.show_usage_count;
+    const bookmarksArr = isHomeFolder && !options.isSearch
+      ? sortHomeBookmarks(arr, settings.$, usageCounts)
+      : sortNestedBookmarks(arr, settings.$.navigation_sort_by);
 
     // Only direct children of the configured home folder may have thumbnails.
-    const bookmarksIds = bookamrksArr
+    const bookmarksIds = bookmarksArr
       .filter(canUseThumbnail)
       .map(child => child.id);
     let childrenBookmarks;
@@ -584,7 +598,7 @@ const Bookmarks = (() => {
     // Folder previews on the home page use bookmark icons, never nested thumbnails.
     if (isHomeFolder && settings.$.folder_preview) {
       // get children bookmarks for folders
-      childrenBookmarks = getChildrenBookmarks(bookamrksArr);
+      childrenBookmarks = getChildrenBookmarks(bookmarksArr);
     }
 
     // clear local thumbnail map
@@ -602,40 +616,25 @@ const Bookmarks = (() => {
       setChildrenThumbnails([], childrenBookmarks);
     }
 
-    if (settings.$.sort_by === 'date') {
-      bookamrksArr.sort((a, b) => b.dateAdded - a.dateAdded);
-    } else if (settings.$.sort_by === 'alphabet') {
-      bookamrksArr.sort((a, b) => a.title.localeCompare(b.title, undefined, {
-        sensitivity: 'base',
-        numeric: true
-      }));
-    }
-
-    // sorting by type folders
-    if (settings.$.bookmarks_sorting_type === 'folders_top') {
-      // folders at the top
-      bookamrksArr.sort((a, b) => Object.hasOwn(b, 'children') - Object.hasOwn(a, 'children'));
-    } else if (settings.$.bookmarks_sorting_type === 'folders_bottom') {
-      // folders at the bottom
-      bookamrksArr.sort((a, b) => Object.hasOwn(a, 'children') - Object.hasOwn(b, 'children'));
-    }
-
     const fragment = document.createDocumentFragment();
 
     if (options.searchDisplay === 'grouped') {
-      appendGroupedSearchResults(fragment, bookamrksArr, options.folderPaths);
+      appendGroupedSearchResults(fragment, bookmarksArr, options.folderPaths);
     } else {
-      for (let bookmark of bookamrksArr) {
+      for (let bookmark of bookmarksArr) {
         const folderLabel = ['folder_name', 'folder_path'].includes(options.searchDisplay)
           ? getSearchFolderLabel(bookmark, options.folderPaths, options.searchDisplay)
           : '';
-        fragment.appendChild(createSearchResult(bookmark, folderLabel));
+        const usageCount = showUsageCount && bookmark.url
+          ? parseInt(usageCounts[bookmark.id]) || 0
+          : null;
+        fragment.appendChild(createSearchResult(bookmark, folderLabel, usageCount));
       }
     }
 
     container.appendChild(fragment);
     if (isHomeFolder) {
-      downloadMissingFavicons(bookamrksArr).catch(error => console.warn(error));
+      downloadMissingFavicons(bookmarksArr).catch(error => console.warn(error));
     }
 
     if (isHomeFolder && settings.$.thumbnails_auto_refresh) {
@@ -683,12 +682,12 @@ const Bookmarks = (() => {
    * @returns {Promise}
    */
   function createSpeedDial(id) {
-    if (settings.$.drag_and_drop) {
-      // if dnd instance exist and disabled(after search) turn it on
-      if (container.sortInstance?.isDisabled) {
-        container.sortInstance?.toggleDisable(false);
-      }
-    }
+    const canDrag = settings.$.drag_and_drop && (
+      isDefaultFolder(id)
+        ? settings.$.home_sort_by === 'manual'
+        : settings.$.navigation_sort_by === ''
+    );
+    container.sortInstance?.toggleDisable(!canDrag);
 
     return getSubTree(id)
       .then(item => {
@@ -849,11 +848,6 @@ const Bookmarks = (() => {
     getSubTree(id)
       .then((items) => {
         const children = items[0].children.filter(item => item.url);
-
-        // sort by newest
-        if (settings.$.sort_by_newest) {
-          children.sort((a, b) => b.dateAdded - a.dateAdded);
-        }
 
         captureMultipleBookmarks(children);
       });
@@ -1316,6 +1310,7 @@ const Bookmarks = (() => {
           container.sortInstance?.toggleDisable(true);
         }
         await render(match, false, {
+          isSearch: true,
           searchDisplay,
           folderPaths: createFolderPathMap(tree)
         });

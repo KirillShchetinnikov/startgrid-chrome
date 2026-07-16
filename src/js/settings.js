@@ -73,8 +73,15 @@ const DEFAULTS = Object.freeze({
   search_engines: createDefaultSearchEngineSettings(),
   search_results_display: 'folder_name',
   move_to_start: false,
-  sort_by: '', // '' | date | alphabet
-  bookmarks_sorting_type: '',
+  home_sort_by: 'manual', // manual | date | alphabet | usage
+  home_sort_date_direction: 'desc',
+  home_sort_alphabet_direction: 'desc',
+  home_sort_usage_tiebreaker: 'alphabet',
+  show_usage_count: true,
+  home_manual_sort_initialized: false,
+  show_home_folders: true,
+  bookmarks_sorting_type: 'together',
+  navigation_sort_by: '', // '' | date | alphabet
   search_autofocus: false
 });
 
@@ -89,6 +96,27 @@ const DEPRECATED_SETTINGS = [
   'background_effect'
 ];
 
+function migrateSettings(currentSettings = {}) {
+  const migrated = { ...currentSettings };
+
+  if (!Object.hasOwn(migrated, 'home_sort_by') && Object.hasOwn(migrated, 'sort_by')) {
+    migrated.home_sort_by = ['date', 'alphabet'].includes(migrated.sort_by)
+      ? migrated.sort_by
+      : 'manual';
+    // Existing profiles already have a browser-managed bookmark order that may
+    // contain a manual arrangement, even if an automatic view was selected.
+    migrated.home_manual_sort_initialized = true;
+  }
+
+  if (migrated.bookmarks_sorting_type === '') {
+    migrated.bookmarks_sorting_type = 'together';
+  }
+
+  delete migrated.sort_by;
+  delete migrated.sort_by_newest;
+  return migrated;
+}
+
 export function getDefaultSettings(keys = Object.keys(DEFAULTS)) {
   const defaults = keys.reduce((result, key) => {
     if (Object.prototype.hasOwnProperty.call(DEFAULTS, key)) {
@@ -102,6 +130,29 @@ export function getDefaultSettings(keys = Object.keys(DEFAULTS)) {
 
 function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   DEPRECATED_SETTINGS.forEach(key => delete currentSettings[key]);
+  delete currentSettings.sort_by;
+  delete currentSettings.sort_by_newest;
+  if (!['manual', 'date', 'alphabet', 'usage'].includes(currentSettings.home_sort_by)) {
+    currentSettings.home_sort_by = DEFAULTS.home_sort_by;
+  }
+  if (!['asc', 'desc'].includes(currentSettings.home_sort_date_direction)) {
+    currentSettings.home_sort_date_direction = DEFAULTS.home_sort_date_direction;
+  }
+  if (!['asc', 'desc'].includes(currentSettings.home_sort_alphabet_direction)) {
+    currentSettings.home_sort_alphabet_direction = DEFAULTS.home_sort_alphabet_direction;
+  }
+  if (!['alphabet', 'date'].includes(currentSettings.home_sort_usage_tiebreaker)) {
+    currentSettings.home_sort_usage_tiebreaker = DEFAULTS.home_sort_usage_tiebreaker;
+  }
+  currentSettings.show_usage_count = currentSettings.show_usage_count !== false;
+  currentSettings.home_manual_sort_initialized = currentSettings.home_manual_sort_initialized === true;
+  currentSettings.show_home_folders = currentSettings.show_home_folders !== false;
+  if (!['together', 'folders_top', 'folders_bottom'].includes(currentSettings.bookmarks_sorting_type)) {
+    currentSettings.bookmarks_sorting_type = DEFAULTS.bookmarks_sorting_type;
+  }
+  if (!['', 'date', 'alphabet'].includes(currentSettings.navigation_sort_by)) {
+    currentSettings.navigation_sort_by = DEFAULTS.navigation_sort_by;
+  }
   if (!['none', 'zoom', 'blur', 'slide'].includes(currentSettings.background_entrance_effect)) {
     currentSettings.background_entrance_effect = DEFAULTS.background_entrance_effect;
   }
@@ -242,7 +293,7 @@ const settingsStore = () => {
       const localState = await storage.local.get(['settings', SYNC_QUOTA_ERROR_KEY]);
       let { settings } = localState;
       const hasPendingSyncQuotaError = Boolean(localState[SYNC_QUOTA_ERROR_KEY]);
-      settings = Object.assign({}, DEFAULTS, settings);
+      settings = Object.assign({}, DEFAULTS, migrateSettings(settings));
       sanitizeSettings(settings);
       let syncRecords = {};
       let syncSettings = {};
@@ -250,7 +301,7 @@ const settingsStore = () => {
       // if synchronization is enabled, we take data from the cloud
       if (settings.enable_sync) {
         syncRecords = await storage.sync.get(SYNC_STORAGE_KEYS);
-        syncSettings = mergeSyncSettings(syncRecords);
+        syncSettings = migrateSettings(mergeSyncSettings(syncRecords));
         sanitizeSettings(syncSettings, false);
         if (!hasPendingSyncQuotaError) Object.assign(settings, syncSettings);
         sanitizeSettings(settings);
@@ -296,7 +347,7 @@ const settingsStore = () => {
     },
 
     async updateAll(settings = {}) {
-      $settings = sanitizeSettings(Object.assign({}, $settings, settings));
+      $settings = sanitizeSettings(Object.assign({}, $settings, migrateSettings(settings)));
       await storage.local.set({ settings: $settings });
       if ($settings.enable_sync) {
         await this.syncToStorage();
@@ -328,7 +379,7 @@ const settingsStore = () => {
      */
     async restoreFromSync() {
       const syncRecords = await storage.sync.get(SYNC_STORAGE_KEYS);
-      const syncSettings = mergeSyncSettings(syncRecords);
+      const syncSettings = migrateSettings(mergeSyncSettings(syncRecords));
       Object.assign($settings, sanitizeSettings(syncSettings, false));
       sanitizeSettings($settings);
       await resolveSyncedDefaultFolder($settings);

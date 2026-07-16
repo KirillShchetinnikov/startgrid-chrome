@@ -607,7 +607,57 @@
     "message": "將書籤移至資料夾內清單的頂部"
   },
   "bookmarks_sorting_type": {
-    "message": "依照類別排序"
+    "message": "資料夾排序"
+  },
+  "home_sort_by": {
+    "message": "首頁圖塊排序"
+  },
+  "manual_sorting": {
+    "message": "手動排序"
+  },
+  "sort_by_usage": {
+    "message": "使用頻率"
+  },
+  "sort_direction": {
+    "message": "排序方向"
+  },
+  "newest_first": {
+    "message": "遞減 — 最新優先"
+  },
+  "oldest_first": {
+    "message": "遞增 — 最舊優先"
+  },
+  "alphabet_descending": {
+    "message": "遞減 — Z 到 A"
+  },
+  "alphabet_ascending": {
+    "message": "遞增 — A 到 Z"
+  },
+  "usage_tiebreaker": {
+    "message": "使用次數相同時排序依據"
+  },
+  "show_home_folders": {
+    "message": "在首頁顯示資料夾"
+  },
+  "show_usage_count": {
+    "message": "在書籤上顯示使用次數"
+  },
+  "usage_count_label": {
+    "message": "開啟次數：$COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "資料夾與書籤一起排序"
+  },
+  "navigation_sort_by": {
+    "message": "資料夾內與搜尋結果排序"
+  },
+  "browser_default_order": {
+    "message": "預設順序"
   },
   "sort_by": {
     "message": "排序依據"

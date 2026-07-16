@@ -607,7 +607,57 @@
     "message": "Przenieś zakładkę na początek listy w folderze"
   },
   "bookmarks_sorting_type": {
-    "message": "Sortuj według typu"
+    "message": "Sortowanie folderów"
+  },
+  "home_sort_by": {
+    "message": "Sortowanie kafelków na stronie głównej"
+  },
+  "manual_sorting": {
+    "message": "Sortowanie ręczne"
+  },
+  "sort_by_usage": {
+    "message": "Częstotliwość użycia"
+  },
+  "sort_direction": {
+    "message": "Kierunek sortowania"
+  },
+  "newest_first": {
+    "message": "Malejąco — najnowsze najpierw"
+  },
+  "oldest_first": {
+    "message": "Rosnąco — najstarsze najpierw"
+  },
+  "alphabet_descending": {
+    "message": "Malejąco — od Z do A"
+  },
+  "alphabet_ascending": {
+    "message": "Rosnąco — od A do Z"
+  },
+  "usage_tiebreaker": {
+    "message": "Przy równej częstotliwości sortuj według"
+  },
+  "show_home_folders": {
+    "message": "Pokazuj foldery na stronie głównej"
+  },
+  "show_usage_count": {
+    "message": "Pokazuj licznik użycia na zakładkach"
+  },
+  "usage_count_label": {
+    "message": "Liczba otwarć: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "Sortuj foldery razem z zakładkami"
+  },
+  "navigation_sort_by": {
+    "message": "Sortowanie w folderach i wyszukiwaniu"
+  },
+  "browser_default_order": {
+    "message": "Kolejność domyślna"
   },
   "sort_by": {
     "message": "Sortuj według"

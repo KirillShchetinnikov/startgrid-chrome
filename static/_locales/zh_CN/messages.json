@@ -607,7 +607,57 @@
     "message": "将书签移至文件夹内列表的顶部"
   },
   "bookmarks_sorting_type": {
-    "message": "按类别排序"
+    "message": "文件夹排序"
+  },
+  "home_sort_by": {
+    "message": "主页磁贴排序"
+  },
+  "manual_sorting": {
+    "message": "手动排序"
+  },
+  "sort_by_usage": {
+    "message": "使用频率"
+  },
+  "sort_direction": {
+    "message": "排序方向"
+  },
+  "newest_first": {
+    "message": "降序 — 最新优先"
+  },
+  "oldest_first": {
+    "message": "升序 — 最旧优先"
+  },
+  "alphabet_descending": {
+    "message": "降序 — Z 到 A"
+  },
+  "alphabet_ascending": {
+    "message": "升序 — A 到 Z"
+  },
+  "usage_tiebreaker": {
+    "message": "使用次数相同时排序依据"
+  },
+  "show_home_folders": {
+    "message": "在主页显示文件夹"
+  },
+  "show_usage_count": {
+    "message": "在书签上显示使用次数"
+  },
+  "usage_count_label": {
+    "message": "打开次数：$COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "文件夹与书签一起排序"
+  },
+  "navigation_sort_by": {
+    "message": "文件夹内和搜索结果排序"
+  },
+  "browser_default_order": {
+    "message": "默认顺序"
   },
   "sort_by": {
     "message": "排序依据"

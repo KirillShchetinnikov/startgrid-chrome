@@ -274,6 +274,24 @@ function getOptions() {
       }
     }
   }
+  syncSortingControls();
+}
+
+function syncSortingControls() {
+  const sortMode = document.getElementById('home_sort_by')?.value;
+  const conditionalRows = {
+    home_sort_date_direction: sortMode === 'date',
+    home_sort_alphabet_direction: sortMode === 'alphabet',
+    home_sort_usage_tiebreaker: sortMode === 'usage',
+    show_usage_count: sortMode === 'usage',
+    bookmarks_sorting_type: document.getElementById('show_home_folders')?.checked
+  };
+
+  Object.entries(conditionalRows).forEach(([id, visible]) => {
+    const row = document.getElementById(`setting_${id}`);
+    if (row) row.hidden = !visible;
+  });
+  tabsSliderInstance?.recalcStyles();
 }
 
 /**
@@ -385,6 +403,10 @@ async function handleSetOptions(e) {
   }
 
   relationToggleOption(target);
+
+  if (['home_sort_by', 'show_home_folders'].includes(id)) {
+    syncSortingControls();
+  }
 
   // dark theme
   if (target.id === 'color_theme') {

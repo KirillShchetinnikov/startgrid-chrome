@@ -607,7 +607,57 @@
     "message": "Move a bookmark to the top of the list inside a folder"
   },
   "bookmarks_sorting_type": {
-    "message": "Sort by type"
+    "message": "Folder sorting"
+  },
+  "home_sort_by": {
+    "message": "Home page tile sorting"
+  },
+  "manual_sorting": {
+    "message": "Manual sorting"
+  },
+  "sort_by_usage": {
+    "message": "Usage frequency"
+  },
+  "sort_direction": {
+    "message": "Sort direction"
+  },
+  "newest_first": {
+    "message": "Descending — newest first"
+  },
+  "oldest_first": {
+    "message": "Ascending — oldest first"
+  },
+  "alphabet_descending": {
+    "message": "Descending — Z to A"
+  },
+  "alphabet_ascending": {
+    "message": "Ascending — A to Z"
+  },
+  "usage_tiebreaker": {
+    "message": "When usage is equal, sort by"
+  },
+  "show_home_folders": {
+    "message": "Show folders on the home page"
+  },
+  "show_usage_count": {
+    "message": "Show usage count on bookmarks"
+  },
+  "usage_count_label": {
+    "message": "Open count: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "Sort folders together with bookmarks"
+  },
+  "navigation_sort_by": {
+    "message": "Sorting inside folders and search"
+  },
+  "browser_default_order": {
+    "message": "Default order"
   },
   "sort_by": {
     "message": "Sort by"

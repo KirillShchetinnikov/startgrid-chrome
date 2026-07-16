@@ -13,13 +13,23 @@ describe('split Chrome Sync settings', () => {
       search_engine: 'google',
       search_autofocus: true,
       favicon_size: 48,
-      thumbnails_auto_refresh: true
+      thumbnails_auto_refresh: true,
+      home_sort_by: 'usage',
+      home_sort_usage_tiebreaker: 'date',
+      show_usage_count: true,
+      show_home_folders: false,
+      navigation_sort_by: 'alphabet'
     });
 
     expect(records.settings).toEqual({
       color_theme: 'dark',
       dial_background_color: '#5b4fd6',
-      dial_background_opacity: 70
+      dial_background_opacity: 70,
+      home_sort_by: 'usage',
+      home_sort_usage_tiebreaker: 'date',
+      show_usage_count: true,
+      show_home_folders: false,
+      navigation_sort_by: 'alphabet'
     });
     expect(records.settings_search).toEqual({
       search_engine: 'google',

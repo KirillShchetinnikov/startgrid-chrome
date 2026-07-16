@@ -607,7 +607,57 @@
     "message": "Helyezzen át egy könyvjelzőt a lista elejére egy mappán belül"
   },
   "bookmarks_sorting_type": {
-    "message": "Rendezés típus szerint"
+    "message": "Mappák rendezése"
+  },
+  "home_sort_by": {
+    "message": "Kezdőlap csempéinek rendezése"
+  },
+  "manual_sorting": {
+    "message": "Kézi rendezés"
+  },
+  "sort_by_usage": {
+    "message": "Használati gyakoriság"
+  },
+  "sort_direction": {
+    "message": "Rendezési irány"
+  },
+  "newest_first": {
+    "message": "Csökkenő — legújabb elöl"
+  },
+  "oldest_first": {
+    "message": "Növekvő — legrégebbi elöl"
+  },
+  "alphabet_descending": {
+    "message": "Csökkenő — Z-től A-ig"
+  },
+  "alphabet_ascending": {
+    "message": "Növekvő — A-tól Z-ig"
+  },
+  "usage_tiebreaker": {
+    "message": "Azonos használat esetén rendezés"
+  },
+  "show_home_folders": {
+    "message": "Mappák megjelenítése a kezdőlapon"
+  },
+  "show_usage_count": {
+    "message": "Használati számláló megjelenítése a könyvjelzőkön"
+  },
+  "usage_count_label": {
+    "message": "Megnyitások száma: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "Mappák rendezése a könyvjelzőkkel együtt"
+  },
+  "navigation_sort_by": {
+    "message": "Rendezés mappákban és kereséskor"
+  },
+  "browser_default_order": {
+    "message": "Alapértelmezett sorrend"
   },
   "sort_by": {
     "message": "Rendezés"

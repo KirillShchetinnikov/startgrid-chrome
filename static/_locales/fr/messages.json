@@ -607,7 +607,57 @@
     "message": "Déplacer un favori en tête de liste dans un dossier"
   },
   "bookmarks_sorting_type": {
-    "message": "Trier par type"
+    "message": "Tri des dossiers"
+  },
+  "home_sort_by": {
+    "message": "Tri des tuiles de la page d’accueil"
+  },
+  "manual_sorting": {
+    "message": "Tri manuel"
+  },
+  "sort_by_usage": {
+    "message": "Fréquence d’utilisation"
+  },
+  "sort_direction": {
+    "message": "Sens du tri"
+  },
+  "newest_first": {
+    "message": "Décroissant — plus récents d’abord"
+  },
+  "oldest_first": {
+    "message": "Croissant — plus anciens d’abord"
+  },
+  "alphabet_descending": {
+    "message": "Décroissant — Z à A"
+  },
+  "alphabet_ascending": {
+    "message": "Croissant — A à Z"
+  },
+  "usage_tiebreaker": {
+    "message": "À fréquence égale, trier par"
+  },
+  "show_home_folders": {
+    "message": "Afficher les dossiers sur la page d’accueil"
+  },
+  "show_usage_count": {
+    "message": "Afficher le compteur sur les favoris"
+  },
+  "usage_count_label": {
+    "message": "Nombre d’ouvertures : $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "Trier les dossiers avec les favoris"
+  },
+  "navigation_sort_by": {
+    "message": "Tri dans les dossiers et la recherche"
+  },
+  "browser_default_order": {
+    "message": "Ordre par défaut"
   },
   "sort_by": {
     "message": "Trier par"

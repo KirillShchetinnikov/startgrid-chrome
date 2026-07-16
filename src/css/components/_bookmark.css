@@ -232,6 +232,26 @@
   opacity: 1;
 }
 
+.bookmark__usage-count {
+  position: absolute;
+  z-index: 102;
+  top: 6px;
+  right: 6px;
+  min-width: 24px;
+  padding: 4px 7px;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 999px;
+  background: rgb(31 27 49 / 82%);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 18%);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
 .bookmark__caption {
   position: relative;
   z-index: 100;

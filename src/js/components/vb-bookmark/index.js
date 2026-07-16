@@ -131,6 +131,14 @@ class VbBookmark extends HTMLAnchorElement {
     });
   }
 
+  #createUsageCount() {
+    return $createElement('span', {
+      class: 'bookmark__usage-count',
+      title: browser.i18n.getMessage('usage_count_label', String(this.usageCount)),
+      'aria-label': browser.i18n.getMessage('usage_count_label', String(this.usageCount))
+    }, String(this.usageCount));
+  }
+
   #createBookmarkCaption() {
     const caption = $createElement('div', {
       class: 'bookmark__caption'
@@ -196,6 +204,10 @@ class VbBookmark extends HTMLAnchorElement {
       this.#createContextButton(),
       this.#createBookmarkThumbnail()
     );
+
+    if (this.usageCount !== null && !this.isFolder) {
+      this.append(this.#createUsageCount());
+    }
 
     if (this.hasTitle) {
       this.append(this.#createBookmarkCaption());
@@ -319,6 +331,19 @@ class VbBookmark extends HTMLAnchorElement {
   get thumbnailSize() {
     const value = Number.parseInt(this.style.getPropertyValue('--bookmark-thumbnail-size'), 10);
     return Number.isFinite(value) ? value : null;
+  }
+
+  get usageCount() {
+    const value = Number.parseInt(this.getAttribute('usage-count'), 10);
+    return Number.isFinite(value) ? value : null;
+  }
+  set usageCount(value) {
+    const count = Number.parseInt(value, 10);
+    if (Number.isFinite(count)) {
+      this.setAttribute('usage-count', String(Math.max(0, count)));
+    } else {
+      this.removeAttribute('usage-count');
+    }
   }
   set thumbnailSize(value) {
     const size = Number.parseInt(value, 10);

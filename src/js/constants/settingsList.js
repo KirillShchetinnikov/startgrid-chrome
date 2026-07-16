@@ -280,6 +280,76 @@ export default [
             }
           }
         ]
+      },
+      {
+        group: [
+          {
+            id: 'home_sort_by',
+            title: browser.i18n.getMessage('home_sort_by'),
+            type: 'select',
+            options: [
+              { value: 'manual', title: browser.i18n.getMessage('manual_sorting') },
+              { value: 'date', title: browser.i18n.getMessage('sort_by_date') },
+              { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') },
+              { value: 'usage', title: browser.i18n.getMessage('sort_by_usage') }
+            ]
+          },
+          {
+            id: 'home_sort_date_direction',
+            title: browser.i18n.getMessage('sort_direction'),
+            type: 'select',
+            hidden: true,
+            options: [
+              { value: 'desc', title: browser.i18n.getMessage('newest_first') },
+              { value: 'asc', title: browser.i18n.getMessage('oldest_first') }
+            ]
+          },
+          {
+            id: 'home_sort_alphabet_direction',
+            title: browser.i18n.getMessage('sort_direction'),
+            type: 'select',
+            hidden: true,
+            options: [
+              { value: 'desc', title: browser.i18n.getMessage('alphabet_descending') },
+              { value: 'asc', title: browser.i18n.getMessage('alphabet_ascending') }
+            ]
+          },
+          {
+            id: 'home_sort_usage_tiebreaker',
+            title: browser.i18n.getMessage('usage_tiebreaker'),
+            type: 'select',
+            hidden: true,
+            options: [
+              { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') },
+              { value: 'date', title: browser.i18n.getMessage('sort_by_date') }
+            ]
+          },
+          {
+            id: 'show_usage_count',
+            title: browser.i18n.getMessage('show_usage_count'),
+            type: 'switch',
+            hidden: true
+          }
+        ]
+      },
+      {
+        group: [
+          {
+            id: 'show_home_folders',
+            title: browser.i18n.getMessage('show_home_folders'),
+            type: 'switch'
+          },
+          {
+            id: 'bookmarks_sorting_type',
+            title: browser.i18n.getMessage('bookmarks_sorting_type'),
+            type: 'select',
+            options: [
+              { value: 'together', title: browser.i18n.getMessage('folders_together') },
+              { value: 'folders_top', title: browser.i18n.getMessage('folders_on_top') },
+              { value: 'folders_bottom', title: browser.i18n.getMessage('folders_at_the_bottom') }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -345,43 +415,16 @@ export default [
       {
         id: 'drag_and_drop',
         title: browser.i18n.getMessage('drag_and_drop'),
-        type: 'switch',
-        data: {
-          relationToggleId: 'sort_by,bookmarks_sorting_type'
-        }
+        type: 'switch'
       },
       {
-        group: [
-          {
-            id: 'sort_by',
-            title: browser.i18n.getMessage('sort_by'),
-            note: browser.i18n.getMessage('bookmarks_sorting_warning'),
-            type: 'select',
-            options: [
-              { value: '', title: browser.i18n.getMessage('not_sorting') },
-              { value: 'date', title: browser.i18n.getMessage('sort_by_date') },
-              { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') }
-            ],
-            data: {
-              relationToggleId: 'drag_and_drop',
-              relationToggleValues: 'date,alphabet'
-            }
-          },
-          {
-            id: 'bookmarks_sorting_type',
-            title: browser.i18n.getMessage('bookmarks_sorting_type'),
-            note: browser.i18n.getMessage('bookmarks_sorting_warning'),
-            type: 'select',
-            data: {
-              relationToggleId: 'drag_and_drop',
-              relationToggleValues: 'folders_top,folders_bottom'
-            },
-            options: [
-              { value: '', title: browser.i18n.getMessage('not_sorting') },
-              { value: 'folders_top', title: browser.i18n.getMessage('folders_on_top') },
-              { value: 'folders_bottom', title: browser.i18n.getMessage('folders_at_the_bottom') }
-            ]
-          }
+        id: 'navigation_sort_by',
+        title: browser.i18n.getMessage('navigation_sort_by'),
+        type: 'select',
+        options: [
+          { value: '', title: browser.i18n.getMessage('browser_default_order') },
+          { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') },
+          { value: 'date', title: browser.i18n.getMessage('sort_by_date') }
         ]
       },
       {
