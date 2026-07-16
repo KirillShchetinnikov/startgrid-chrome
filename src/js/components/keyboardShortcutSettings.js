@@ -4,6 +4,7 @@ import {
   DEFAULT_KEYBOARD_SHORTCUTS,
   KEYBOARD_SHORTCUT_ACTIONS,
   formatShortcut,
+  modifierShortcutFromEvent,
   normalizeKeyboardShortcuts,
   shortcutFromEvent
 } from '../keyboardShortcuts';
@@ -103,6 +104,16 @@ export default function initKeyboardShortcutSettings({ container, settings }) {
     const hasModifier = event.ctrlKey || event.altKey || event.shiftKey || event.metaKey;
     if (['Backspace', 'Delete'].includes(event.code) && !hasModifier) {
       await save(recordingAction, '');
+      return;
+    }
+
+    if (recordingAction === 'select_multiple_bookmarks') {
+      const modifier = modifierShortcutFromEvent(event);
+      if (!modifier) {
+        Toast.show(message('shortcut_modifier_invalid'));
+        return;
+      }
+      await save(recordingAction, modifier);
       return;
     }
 

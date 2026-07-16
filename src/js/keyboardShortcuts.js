@@ -5,6 +5,7 @@ export const KEYBOARD_SHORTCUT_ACTIONS = Object.freeze([
   'open_settings',
   'go_home',
   'go_back',
+  'select_multiple_bookmarks',
   'select_all_bookmarks',
   'update_thumbnails'
 ]);
@@ -16,6 +17,7 @@ export const DEFAULT_KEYBOARD_SHORTCUTS = Object.freeze({
   open_settings: '',
   go_home: '',
   go_back: '',
+  select_multiple_bookmarks: 'Shift',
   select_all_bookmarks: '',
   update_thumbnails: ''
 });
@@ -28,6 +30,16 @@ const MODIFIER_CODES = new Set([
   'MetaLeft', 'MetaRight'
 ]);
 const RESERVED_CODES = new Set(['Escape', 'Tab']);
+const MODIFIER_BY_CODE = Object.freeze({
+  ControlLeft: 'Ctrl',
+  ControlRight: 'Ctrl',
+  AltLeft: 'Alt',
+  AltRight: 'Alt',
+  ShiftLeft: 'Shift',
+  ShiftRight: 'Shift',
+  MetaLeft: 'Meta',
+  MetaRight: 'Meta'
+});
 
 export function shortcutFromEvent(event) {
   if (!event?.code || MODIFIER_CODES.has(event.code) || RESERVED_CODES.has(event.code)) return '';
@@ -50,6 +62,25 @@ export function normalizeShortcut(value) {
   return [...MODIFIERS.filter(modifier => modifiers.includes(modifier)), code].join('+');
 }
 
+export function modifierShortcutFromEvent(event) {
+  return MODIFIER_BY_CODE[event?.code] || '';
+}
+
+export function normalizeSelectionModifier(value) {
+  const shortcut = normalizeShortcut(value);
+  return MODIFIERS.includes(shortcut) ? shortcut : '';
+}
+
+export function eventMatchesSelectionModifier(event, shortcut) {
+  switch (normalizeSelectionModifier(shortcut)) {
+    case 'Ctrl': return Boolean(event.ctrlKey);
+    case 'Alt': return Boolean(event.altKey);
+    case 'Shift': return Boolean(event.shiftKey);
+    case 'Meta': return Boolean(event.metaKey);
+    default: return false;
+  }
+}
+
 export function normalizeKeyboardShortcuts(value = {}) {
   const source = value && typeof value === 'object' ? value : {};
   const used = new Set();
@@ -57,7 +88,9 @@ export function normalizeKeyboardShortcuts(value = {}) {
     const configured = Object.prototype.hasOwnProperty.call(source, action)
       ? source[action]
       : DEFAULT_KEYBOARD_SHORTCUTS[action];
-    const shortcut = normalizeShortcut(configured);
+    const shortcut = action === 'select_multiple_bookmarks'
+      ? normalizeSelectionModifier(configured)
+      : normalizeShortcut(configured);
     shortcuts[action] = shortcut && !used.has(shortcut) ? shortcut : '';
     if (shortcuts[action]) used.add(shortcuts[action]);
     return shortcuts;
@@ -82,7 +115,8 @@ export function initKeyboardShortcuts(shortcuts, onAction, target = document) {
     if (event.defaultPrevented || event.repeat || isEditableTarget(event)) return;
 
     const action = KEYBOARD_SHORTCUT_ACTIONS.find(actionName => (
-      eventMatchesShortcut(event, normalized[actionName])
+      actionName !== 'select_multiple_bookmarks'
+      && eventMatchesShortcut(event, normalized[actionName])
     ));
     if (!action) return;
 

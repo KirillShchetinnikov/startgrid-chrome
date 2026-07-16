@@ -41,7 +41,11 @@ import { updateMainPageScrollLock } from './mainPageScroll';
 import { storage } from './api/storage';
 import { SYNC_QUOTA_ERROR_KEY } from './syncQuota';
 import { calculateCascadeTiming } from './pageCascade';
-import { initKeyboardShortcuts } from './keyboardShortcuts';
+import {
+  eventMatchesSelectionModifier,
+  initKeyboardShortcuts,
+  normalizeSelectionModifier
+} from './keyboardShortcuts';
 import { recordBookmarkUsage } from './bookmarkSorting';
 
 const container = document.getElementById('bookmarks');
@@ -343,14 +347,20 @@ function handleSelectBookmark(e) {
   const bookmark = e.target.closest('.bookmark');
   if (!bookmark) return true;
 
-  if (!e.shiftKey) return true;
+  const selectionModifier = normalizeSelectionModifier(
+    settings.$.keyboard_shortcuts.select_multiple_bookmarks
+  );
+  if (!eventMatchesSelectionModifier(e, selectionModifier)) return true;
 
   e.preventDefault();
 
   let rangeBookmarks = [];
   const isSelected = bookmark.hasAttribute('data-selected');
 
-  if (e.ctrlKey || e.metaKey) {
+  const rangeModifierPressed = selectionModifier === 'Shift'
+    ? e.ctrlKey || e.metaKey
+    : e.shiftKey;
+  if (rangeModifierPressed) {
     const bookmarkNodes = Array.from(document.querySelectorAll('.bookmark'));
     // find a range of bookmarks
     const startIndex = bookmarkNodes.findIndex(bookmarkNode => bookmarkNode === bookmark);
