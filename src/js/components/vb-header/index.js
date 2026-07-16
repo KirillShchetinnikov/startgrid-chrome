@@ -281,11 +281,13 @@ class VbHeader extends HTMLElement {
 
     if (isNestedFolder) {
       if (!this.backNode) {
+        const backLabel = browser.i18n.getMessage('history_back');
         this.backNode = $createElement(
           'button',
           {
             class: 'back',
-            'aria-label': browser.i18n.getMessage('history_back')
+            'aria-label': backLabel,
+            title: backLabel
           },
           {
             html: `<svg width="20" height="20"><use xlink:href="/img/symbol.svg#arrow_back"/></svg>`
@@ -303,11 +305,13 @@ class VbHeader extends HTMLElement {
 
     if (isNestedFolder || isBookmarkSearch) {
       if (!this.homeNode) {
+        const homeLabel = browser.i18n.getMessage('default_folder_home');
         this.homeNode = $createElement(
           'button',
           {
             class: 'back',
-            'aria-label': browser.i18n.getMessage('default_folder_home')
+            'aria-label': homeLabel,
+            title: homeLabel
           },
           {
             html: `<svg width="20" height="20"><use xlink:href="/img/symbol.svg#home"/></svg>`

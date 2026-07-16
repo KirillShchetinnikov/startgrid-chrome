@@ -173,10 +173,12 @@ async function init() {
   }
 
   if (settings.$.show_settings_icon) {
+    const settingsLabel = browser.i18n.getMessage('options');
     asideControlsNode.append($createElement('a', {
       id: 'settings_icon',
       class: 'circ-btn settings-link md-ripple',
-      ariaLabel: browser.i18n.getMessage('options'),
+      'aria-label': settingsLabel,
+      title: settingsLabel,
       href: 'options.html'
     }, {
       html: '<svg width="20" height="20"><use xlink:href="/img/symbol.svg#settings"/></svg>'
@@ -191,9 +193,11 @@ async function init() {
 
   // If thumbnail generation button
   if (settings.$.thumbnails_update_button) {
+    const thumbnailsUpdateLabel = browser.i18n.getMessage('thumbnails_update');
     generateThumbsBtn = $createElement('button', {
       class: 'circ-btn update-thumbnails',
-      'aria-label': browser.i18n.getMessage('thumbnails_update')
+      'aria-label': thumbnailsUpdateLabel,
+      title: thumbnailsUpdateLabel
     }, {
       html: `<svg width="20" height="20"><use xlink:href="/img/symbol.svg#capture_fill"/></svg>`
     });

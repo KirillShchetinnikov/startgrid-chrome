@@ -145,7 +145,9 @@ export default function initQuickDisplaySettings({
   trigger.id = 'quick_settings_trigger';
   trigger.className = 'circ-btn display-settings-link md-ripple';
   trigger.type = 'button';
-  trigger.setAttribute('aria-label', message('quick_display_settings'));
+  const triggerLabel = message('quick_display_settings');
+  trigger.setAttribute('aria-label', triggerLabel);
+  trigger.title = triggerLabel;
   trigger.setAttribute('aria-expanded', 'false');
   trigger.innerHTML = '<svg width="20" height="20"><use xlink:href="/img/symbol.svg#palette"></use></svg>';
 
