@@ -249,6 +249,27 @@ dl {
   gap: 10px;
 }
 
+.tile-color-setting {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tile-color-setting__input {
+  width: 52px;
+  height: 40px;
+  padding: 3px;
+  background: var(--input-bg);
+  border: var(--input-border);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.tile-color-setting__reset:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .search-engine-editor__item {
   padding: 12px;
   background: var(--theme-background-2);

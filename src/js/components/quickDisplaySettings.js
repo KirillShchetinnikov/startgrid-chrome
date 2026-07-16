@@ -2,6 +2,7 @@ import { settings } from '../settings';
 import UI from './ui';
 import confirmPopup from '../plugins/confirmPopup';
 import { updateMainPageScrollLock } from '../mainPageScroll';
+import { cssColorToHex } from '../tileAppearance';
 
 const RERENDER_SETTINGS = new Set([
   'show_create_column',
@@ -19,6 +20,8 @@ const STYLE_SETTINGS = new Set([
   'dial_aspect_ratio',
   'dial_shadow',
   'dial_hover_lift',
+  'dial_background_color',
+  'dial_background_opacity',
   'favicon_size'
 ]);
 
@@ -118,6 +121,23 @@ function createPanel() {
             <output id="quick_dial_hover_lift_value" for="quick_dial_hover_lift"></output>
           </span>
         </label>
+        <label class="quick-settings__field" for="quick_dial_background_opacity">
+          <span>${message('dial_background_opacity')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_dial_background_opacity" type="range" min="0" max="100" step="1"
+              data-setting="dial_background_opacity" data-unit="%">
+            <output id="quick_dial_background_opacity_value" for="quick_dial_background_opacity"></output>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_background_color">
+          <span>${message('dial_background_color')}</span>
+          <span class="quick-settings__color">
+            <input id="quick_dial_background_color" type="color" data-setting="dial_background_color">
+            <button type="button" data-quick-color-reset
+              title="${message('reset_tile_background_color')}"
+              aria-label="${message('reset_tile_background_color')}">↺</button>
+          </span>
+        </label>
         ${createSwitch('vertical_center')}
         ${createSwitch('disable_main_page_scroll')}
         ${createSwitch('show_extension_icon')}
@@ -157,11 +177,21 @@ export default function initQuickDisplaySettings({
   document.body.append(panel);
   container.append(trigger);
 
+  function getThemeTileColor() {
+    return cssColorToHex(window.getComputedStyle(document.documentElement)
+      .getPropertyValue('--theme-background-2'));
+  }
+
   function syncControls() {
     panel.querySelectorAll('[data-setting]').forEach(control => {
       const key = control.dataset.setting;
       if (control.type === 'checkbox') {
         control.checked = Boolean(settings.$[key]);
+      } else if (control.type === 'color') {
+        const themeColor = getThemeTileColor();
+        control.value = settings.$[key]
+          ? cssColorToHex(settings.$[key], themeColor)
+          : themeColor;
       } else {
         control.value = settings.$[key];
       }
@@ -170,6 +200,7 @@ export default function initQuickDisplaySettings({
         output.textContent = `${settings.$[key]}${control.dataset.unit}`;
       }
     });
+    panel.querySelector('[data-quick-color-reset]').disabled = !settings.$.dial_background_color;
   }
 
   function togglePanel(force, restoreFocus = true) {
@@ -213,7 +244,12 @@ export default function initQuickDisplaySettings({
   panel.querySelector('[data-quick-settings-close]').addEventListener('click', () => togglePanel(false));
   panel.addEventListener('change', event => {
     const control = event.target.closest('[data-setting]');
-    if (control) applySetting(control);
+    if (control) {
+      applySetting(control);
+      if (control.type === 'color') {
+        panel.querySelector('[data-quick-color-reset]').disabled = false;
+      }
+    }
   });
   panel.querySelectorAll('input[type="range"][data-setting]').forEach(control => {
     control.addEventListener('input', event => {
@@ -228,6 +264,11 @@ export default function initQuickDisplaySettings({
 
     await settings.resetLocal();
     window.location.reload();
+  });
+  panel.querySelector('[data-quick-color-reset]').addEventListener('click', async() => {
+    await settings.updateKey('dial_background_color', '');
+    UI.calculateStyles();
+    syncControls();
   });
   document.addEventListener('click', event => {
     if (!panel.hidden && !panel.contains(event.target) && !trigger.contains(event.target)) {

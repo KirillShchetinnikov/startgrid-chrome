@@ -24,6 +24,7 @@ import { displaySettings } from './components/displaySettings';
 import { containsPermissions, removePermissions, requestPermissions } from './api/permissions';
 import { getEnabledSearchEngines } from './searchEngines';
 import initSearchEngineSettings from './components/searchEngineSettings';
+import { cssColorToHex } from './tileAppearance';
 
 let tabsSliderInstance = null;
 let backgroundImage = null;
@@ -41,7 +42,7 @@ async function init() {
 
   await settings.init();
 
-  window.vbToggleTheme();
+  await window.vbToggleTheme();
 
   Localization();
 
@@ -155,6 +156,8 @@ async function init() {
   document.getElementById('import').addEventListener('change', handleImportSettings);
   document.getElementById('bgFile').addEventListener('change', handleUploadFile);
   document.getElementById('back_to_main').addEventListener('click', handleBackToMain);
+  document.querySelector('[data-reset-color="dial_background_color"]')
+    .addEventListener('click', handleResetTileBackgroundColor);
 
   // TODO until full support is available https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker
   document.getElementById('bgFile').setAttribute(
@@ -225,6 +228,27 @@ function handleExportSettings() {
   a.remove();
 }
 
+function getThemeTileColor() {
+  const themeColor = window.getComputedStyle(document.documentElement)
+    .getPropertyValue('--theme-background-2');
+  return cssColorToHex(themeColor);
+}
+
+function syncTileColorControl() {
+  const colorInput = document.getElementById('dial_background_color');
+  const resetButton = document.querySelector('[data-reset-color="dial_background_color"]');
+  const customColor = settings.$.dial_background_color;
+  const themeColor = getThemeTileColor();
+  colorInput.value = customColor ? cssColorToHex(customColor, themeColor) : themeColor;
+  resetButton.disabled = !customColor;
+}
+
+async function handleResetTileBackgroundColor(e) {
+  e.preventDefault();
+  await settings.updateKey('dial_background_color', '');
+  syncTileColorControl();
+}
+
 function getOptions() {
   generateFolderList();
   generateSearchEngineList();
@@ -237,7 +261,9 @@ function getOptions() {
     // goto next if element not type
     if (!elOption || !elOption.type) continue;
 
-    if (/checkbox|radio/.test(elOption.type)) {
+    if (elOption.type === 'color') {
+      syncTileColorControl();
+    } else if (/checkbox|radio/.test(elOption.type)) {
       elOption.checked = settings.$[id];
     } else {
       elOption.value = settings.$[id];
@@ -365,7 +391,10 @@ async function handleSetOptions(e) {
 
   // dark theme
   if (target.id === 'color_theme') {
-    window.vbToggleTheme();
+    await window.vbToggleTheme();
+    if (!settings.$.dial_background_color) syncTileColorControl();
+  } else if (target.id === 'dial_background_color') {
+    document.querySelector('[data-reset-color="dial_background_color"]').disabled = false;
   }
 }
 
@@ -472,7 +501,7 @@ async function handleResetLocalSettings() {
 
   await settings.resetLocal();
 
-  window.vbToggleTheme();
+  await window.vbToggleTheme();
   getOptions();
   toggleBackgroundControls(settings.$.background_image);
   updateDefaultFolderControl();
@@ -536,8 +565,8 @@ async function handleChangeSync() {
 
     await settings.updateKey('enable_sync', true);
     await settings.restoreFromSync();
+    await window.vbToggleTheme();
     getOptions();
-    window.vbToggleTheme();
   } else {
     const localFolderId = settings.$.default_folder_id;
     await settings.updateKey('enable_sync', true);

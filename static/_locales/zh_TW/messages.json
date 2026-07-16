@@ -330,6 +330,21 @@
   "dial_hover_lift": {
     "message": "Подъём плитки при наведении"
   },
+  "dial_background_color": {
+    "message": "圖塊背景顏色"
+  },
+  "dial_background_color_note": {
+    "message": "選擇自訂顏色前使用目前的主題顏色。"
+  },
+  "dial_background_opacity": {
+    "message": "圖塊背景不透明度"
+  },
+  "dial_background_opacity_note": {
+    "message": "0% 完全透明，100% 完全不透明。"
+  },
+  "reset_tile_background_color": {
+    "message": "使用主題顏色"
+  },
   "number_of_columns": {
     "message": "畫面寬度(左到右的數量)"
   },

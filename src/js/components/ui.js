@@ -4,6 +4,7 @@ import Toast from '../components/toast';
 import ImageDB from '../api/imageDB';
 import { getBingImage } from '../api/bingImageDay';
 import { containsPermissions } from '../api/permissions';
+import { createTileBackground } from '../tileAppearance';
 
 function createBingInfo(image) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -122,6 +123,7 @@ export default {
     const shadow = clamp(settings.$.dial_shadow, 0, 30, 8);
     const thumbnailSize = clamp(settings.$.favicon_size, 16, 128, 32);
     const hoverLift = clamp(settings.$.dial_hover_lift, 0, 12, 4);
+    const backgroundOpacity = clamp(settings.$.dial_background_opacity, 0, 100, 100);
     const aspectRatios = new Set(['1 / 1', '4 / 3', '3 / 2', '16 / 9']);
     const aspectRatio = aspectRatios.has(settings.$.dial_aspect_ratio)
       ? settings.$.dial_aspect_ratio
@@ -134,6 +136,12 @@ export default {
     doc.style.setProperty('--bookmark-shadow-opacity', `${shadow}%`);
     doc.style.setProperty('--bookmark-hover-shadow-opacity', `${Math.min(45, shadow * 1.875)}%`);
     doc.style.setProperty('--bookmark-hover-lift', `${hoverLift}px`);
+    const themeBackground = window.getComputedStyle(doc).getPropertyValue('--theme-background-2');
+    doc.style.setProperty('--bookmark-bg', createTileBackground(
+      settings.$.dial_background_color,
+      backgroundOpacity,
+      themeBackground
+    ));
 
     const mediaQuery = window.matchMedia('(width > 480px)');
     const containerWidth = mediaQuery.matches ? lsGridWidth : 100;

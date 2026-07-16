@@ -100,6 +100,38 @@
   }
 }
 
+.quick-settings__color {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  & input {
+    width: 48px;
+    height: 36px;
+    padding: 2px;
+    background: var(--input-bg);
+    border: var(--input-border);
+    border-radius: 9px;
+    cursor: pointer;
+  }
+
+  & button {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    color: var(--theme-text-color);
+    background: var(--theme-background-3);
+    border: var(--surface-border);
+    border-radius: 9px;
+    cursor: pointer;
+  }
+
+  & button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
 .quick-settings__switch-row {
   cursor: pointer;
 

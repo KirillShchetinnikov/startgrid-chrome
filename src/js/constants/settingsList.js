@@ -94,6 +94,26 @@ const appearanceSettings = [
     }
   },
   {
+    id: 'dial_background_color',
+    title: browser.i18n.getMessage('dial_background_color'),
+    note: browser.i18n.getMessage('dial_background_color_note'),
+    resetText: browser.i18n.getMessage('reset_tile_background_color'),
+    type: 'color'
+  },
+  {
+    id: 'dial_background_opacity',
+    title: browser.i18n.getMessage('dial_background_opacity'),
+    note: browser.i18n.getMessage('dial_background_opacity_note'),
+    type: 'range',
+    min: 0,
+    max: 100,
+    step: 1,
+    data: {
+      selectorOutput: '#dial_background_opacity_value',
+      outputPostfix: '%'
+    }
+  },
+  {
     id: 'vertical_center',
     title: browser.i18n.getMessage('vertical_center'),
     type: 'switch'

@@ -330,6 +330,21 @@
   "dial_hover_lift": {
     "message": "Подъём плитки при наведении"
   },
+  "dial_background_color": {
+    "message": "磁贴背景颜色"
+  },
+  "dial_background_color_note": {
+    "message": "选择自定义颜色前使用当前主题颜色。"
+  },
+  "dial_background_opacity": {
+    "message": "磁贴背景不透明度"
+  },
+  "dial_background_opacity_note": {
+    "message": "0% 完全透明，100% 完全不透明。"
+  },
+  "reset_tile_background_color": {
+    "message": "使用主题颜色"
+  },
   "number_of_columns": {
     "message": "屏幕面宽(从左到右的数量)"
   },

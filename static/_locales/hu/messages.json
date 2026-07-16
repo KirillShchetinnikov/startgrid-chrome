@@ -330,6 +330,21 @@
   "dial_hover_lift": {
     "message": "Tile lift on hover"
   },
+  "dial_background_color": {
+    "message": "Csempék háttérszíne"
+  },
+  "dial_background_color_note": {
+    "message": "Egyéni szín kiválasztásáig az aktuális témaszínt használja."
+  },
+  "dial_background_opacity": {
+    "message": "Csempék hátterének átlátszatlansága"
+  },
+  "dial_background_opacity_note": {
+    "message": "A 0% teljesen átlátszó, a 100% átlátszatlan."
+  },
+  "reset_tile_background_color": {
+    "message": "Témaszín használata"
+  },
   "number_of_columns": {
     "message": "Oszlopok száma"
   },

@@ -330,6 +330,21 @@
   "dial_hover_lift": {
     "message": "Tile lift on hover"
   },
+  "dial_background_color": {
+    "message": "Couleur d’arrière-plan des vignettes"
+  },
+  "dial_background_color_note": {
+    "message": "Utilise la couleur du thème actuel tant qu’aucune couleur personnalisée n’est sélectionnée."
+  },
+  "dial_background_opacity": {
+    "message": "Opacité de l’arrière-plan des vignettes"
+  },
+  "dial_background_opacity_note": {
+    "message": "0 % est entièrement transparent ; 100 % est opaque."
+  },
+  "reset_tile_background_color": {
+    "message": "Utiliser la couleur du thème"
+  },
   "number_of_columns": {
     "message": "Nombre de colonnes"
   },

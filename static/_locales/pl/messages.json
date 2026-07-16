@@ -330,6 +330,21 @@
   "dial_hover_lift": {
     "message": "Tile lift on hover"
   },
+  "dial_background_color": {
+    "message": "Kolor tła kafelków"
+  },
+  "dial_background_color_note": {
+    "message": "Do czasu wybrania własnego koloru używany jest kolor bieżącego motywu."
+  },
+  "dial_background_opacity": {
+    "message": "Krycie tła kafelków"
+  },
+  "dial_background_opacity_note": {
+    "message": "0% oznacza pełną przezroczystość, a 100% pełne krycie."
+  },
+  "reset_tile_background_color": {
+    "message": "Użyj koloru motywu"
+  },
   "number_of_columns": {
     "message": "Liczba kolumn"
   },

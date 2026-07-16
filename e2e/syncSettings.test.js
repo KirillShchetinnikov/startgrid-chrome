@@ -8,13 +8,19 @@ describe('split Chrome Sync settings', () => {
   it('stores search and thumbnail settings in dedicated records', () => {
     const records = splitSyncSettings({
       color_theme: 'dark',
+      dial_background_color: '#5b4fd6',
+      dial_background_opacity: 70,
       search_engine: 'google',
       search_autofocus: true,
       favicon_size: 48,
       thumbnails_auto_refresh: true
     });
 
-    expect(records.settings).toEqual({ color_theme: 'dark' });
+    expect(records.settings).toEqual({
+      color_theme: 'dark',
+      dial_background_color: '#5b4fd6',
+      dial_background_opacity: 70
+    });
     expect(records.settings_search).toEqual({
       search_engine: 'google',
       search_autofocus: true

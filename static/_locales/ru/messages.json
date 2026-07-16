@@ -330,6 +330,21 @@
   "dial_hover_lift": {
     "message": "Подъём плитки при наведении"
   },
+  "dial_background_color": {
+    "message": "Цвет фона плиток"
+  },
+  "dial_background_color_note": {
+    "message": "По умолчанию используется цвет текущей темы."
+  },
+  "dial_background_opacity": {
+    "message": "Непрозрачность фона плиток"
+  },
+  "dial_background_opacity_note": {
+    "message": "0% — полностью прозрачный фон; 100% — непрозрачный."
+  },
+  "reset_tile_background_color": {
+    "message": "Использовать цвет темы"
+  },
   "number_of_columns": {
     "message": "Кол-во колонок в ряду"
   },

@@ -91,6 +91,15 @@ function createRange(setting) {
   return rangeElement.outerHTML;
 }
 
+function createColor(setting) {
+  return /* html */`<div class="tile-color-setting">
+    <input type="color" class="tile-color-setting__input js-change" id="${setting.id}"
+      name="${setting.id}" aria-label="${setting.title}">
+    <button type="button" class="btn btn--clear tile-color-setting__reset"
+      data-reset-color="${setting.id}">${setting.resetText}</button>
+  </div>`;
+}
+
 function createButton(setting) {
   return $createElement(
     'button',
@@ -166,6 +175,9 @@ function create(setting) {
       break;
     case 'range':
       method = createRange;
+      break;
+    case 'color':
+      method = createColor;
       break;
     case 'textarea':
       method = createTextarea;

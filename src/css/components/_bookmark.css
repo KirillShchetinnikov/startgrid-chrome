@@ -243,26 +243,11 @@
   padding-right: 10px;
   line-height: 1;
   white-space: nowrap;
-  text-overflow: ellipsis;
   text-align: center;
   overflow: hidden;
-  background: var(--bookmark-caption-bg);
+  background: transparent;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 50px;
-    background:
-      linear-gradient(
-        to left,
-        var(--bookmark-caption-bg) 20%,
-        var(--bookmark-caption-after-transparent) 100%
-      );
-  }
 }
 
 .bookmark__favicon {
@@ -272,6 +257,9 @@
 
 .bookmark__title {
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--bookmark-caption-color);

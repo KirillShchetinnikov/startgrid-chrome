@@ -118,6 +118,9 @@ async function init() {
   );
 
   window.addEventListener('resize', () => UI.calculateStyles());
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    window.requestAnimationFrame(() => UI.calculateStyles());
+  });
   window.addEventListener('popstate', handlePopstate);
   window.addEventListener('beforeunload', handleBeforeUnload);
   window.addEventListener('pagehide', handlePagehide);

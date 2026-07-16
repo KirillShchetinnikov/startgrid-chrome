@@ -330,6 +330,21 @@
   "dial_hover_lift": {
     "message": "Tile lift on hover"
   },
+  "dial_background_color": {
+    "message": "Tile background color"
+  },
+  "dial_background_color_note": {
+    "message": "Uses the current theme color until a custom color is selected."
+  },
+  "dial_background_opacity": {
+    "message": "Tile background opacity"
+  },
+  "dial_background_opacity_note": {
+    "message": "0% is fully transparent; 100% is opaque."
+  },
+  "reset_tile_background_color": {
+    "message": "Use theme color"
+  },
   "number_of_columns": {
     "message": "Number of Columns"
   },
