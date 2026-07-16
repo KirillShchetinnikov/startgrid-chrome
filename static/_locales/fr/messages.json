@@ -662,6 +662,23 @@
   "host_permissions_info": {
     "message": "<p>Cette autorisation est nécessaire pour générer les aperçus des sites web. Vos données sur les sites ne sont ni collectées, ni pistées, ni modifiées par cette extension. La seule modification ayant lieu après l'ouverture d'une fenêtre séparée avec le site web est le masquage de la barre de défilement avant la capture d'écran (pour obtenir un aperçu dépourvu de barre de défilement dans la mesure du possible). Le code de l'extension est disponible sur <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. Si vous avez des réserves quant à cette autorisation, vous pouvez refuser, l'extension fonctionnera quand même mais la génération d'aperçus des sites web pour les favoris ne sera pas disponible.</p><p>Cette autorisation sera demandée lors d'une tentative de prise d'écran d'un site web (si désactivée). Vous pouvez également gérer ce droit dans les paramètres du navigateur en ouvrant une fenêtre avec les informations détaillées de l'extension.</p>"
   },
+  "search_bookmarks": { "message": "Favoris" },
+  "search_settings": { "message": "Recherche" },
+  "search_settings_description": { "message": "Choisissez le moteur de recherche par défaut et configurez ceux qui apparaissent dans le menu de recherche." },
+  "search_engines": { "message": "Moteurs de recherche" },
+  "search_engines_description": { "message": "Activez, configurez, réorganisez ou supprimez les moteurs de recherche. La liste peut contenir jusqu’à 20 moteurs au total." },
+  "search_engine_enabled": { "message": "Activer le moteur de recherche" },
+  "search_engine_name": { "message": "Nom du moteur de recherche" },
+  "search_engine_url": { "message": "URL de recherche" },
+  "search_engine_url_note": { "message": "Utilisez {query} dans l’URL à l’endroit où la requête encodée doit être insérée." },
+  "add_search_engine": { "message": "Ajouter un moteur de recherche" },
+  "remove_search_engine": { "message": "Supprimer le moteur de recherche" },
+  "custom_search_engine": { "message": "Moteur de recherche personnalisé" },
+  "move_search_engine_up": { "message": "Déplacer vers le haut" },
+  "move_search_engine_down": { "message": "Déplacer vers le bas" },
+  "search_engine_invalid_url": { "message": "Saisissez une URL HTTP ou HTTPS valide contenant {query}." },
+  "search_engine_name_required": { "message": "Saisissez le nom du moteur de recherche." },
+  "search_engine_at_least_one": { "message": "Au moins un moteur de recherche doit rester activé." },
   "undo": {
     "message": "Annuler"
   }

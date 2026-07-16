@@ -662,6 +662,57 @@
   "host_permissions_info": {
     "message": "<p>This permission is necessary for generating website screenshots. The extension does not collect, track, or modify your data on websites. The only modification that occurs after opening a separate window with the website is hiding the scroll bar on the site before generating the screenshot (to make the screenshot as scroll-bar-free as possible). The extension code is available on <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. If you are concerned about this permission, you can choose not to grant it, the extension will still function without it, but generating website screenshots for bookmarks will not be available.</p><p>This permission will be requested when attempting to take a website screenshot (if it is disabled). You can also manage this right in the browser settings by opening a window with detailed information about the extension.</p>"
   },
+  "search_bookmarks": {
+    "message": "Bookmarks"
+  },
+  "search_settings": {
+    "message": "Search"
+  },
+  "search_settings_description": {
+    "message": "Choose the default search engine and configure which engines appear in the search menu."
+  },
+  "search_engines": {
+    "message": "Search engines"
+  },
+  "search_engines_description": {
+    "message": "Enable, configure, reorder, or remove search engines. The list can contain up to 20 engines in total."
+  },
+  "search_engine_enabled": {
+    "message": "Enable search engine"
+  },
+  "search_engine_name": {
+    "message": "Search engine name"
+  },
+  "search_engine_url": {
+    "message": "Search URL"
+  },
+  "search_engine_url_note": {
+    "message": "Use {query} in the URL where the encoded search query should be inserted."
+  },
+  "add_search_engine": {
+    "message": "Add search engine"
+  },
+  "remove_search_engine": {
+    "message": "Remove search engine"
+  },
+  "custom_search_engine": {
+    "message": "Custom search engine"
+  },
+  "move_search_engine_up": {
+    "message": "Move up"
+  },
+  "move_search_engine_down": {
+    "message": "Move down"
+  },
+  "search_engine_invalid_url": {
+    "message": "Enter a valid HTTP or HTTPS URL containing {query}."
+  },
+  "search_engine_name_required": {
+    "message": "Enter a search engine name."
+  },
+  "search_engine_at_least_one": {
+    "message": "At least one search engine must remain enabled."
+  },
   "undo": {
     "message": "Undo"
   }

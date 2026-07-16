@@ -78,59 +78,6 @@ export const CONTEXT_MENU = [
   }
 ];
 
-export const SEARCH_ENGINES = [
-  {
-    title: 'Bookmarks',
-    value: 'bookmarks'
-  },
-  {
-    title: browser.i18n.getMessage('search_browser_default'),
-    value: 'browser'
-  },
-  {
-    title: 'Google',
-    url: 'https://www.google.com/search',
-    name: 'q',
-    value: 'google'
-  },
-  {
-    title: 'Bing',
-    url: 'https://bing.com/search',
-    name: 'q',
-    value: 'bing'
-  },
-  {
-    title: 'Yandex',
-    url: 'https://ya.ru/search/',
-    name: 'text',
-    value: 'yandex'
-  },
-  {
-    title: 'DuckDuckGo',
-    url: 'https://duckduckgo.com/',
-    name: 'q',
-    value: 'duckduckgo'
-  },
-  {
-    title: 'YouTube',
-    url: 'https://www.youtube.com/results',
-    name: 'search_query',
-    value: 'youtube'
-  },
-  {
-    title: 'Baidu',
-    url: 'https://www.baidu.com/s',
-    name: 'wd',
-    value: 'baidu'
-  },
-  {
-    title: 'Yahoo',
-    url: 'https://search.yahoo.com/search',
-    name: 'p',
-    value: 'yahoo'
-  }
-];
-
 export const NEWTAB_URLS = [
   'edge://newtab/',
   'chrome://newtab/',

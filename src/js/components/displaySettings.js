@@ -119,6 +119,13 @@ function createBackup(setting) {
     </div>`;
 }
 
+function createSearchEngines(setting) {
+  return $createElement('div', {
+    id: setting.id,
+    class: 'search-engine-editor'
+  }).outerHTML;
+}
+
 function createBackgroundSetting() {
   return (/* html */
   `<div id="background_noimage" class="tbl__option js-background-settings js-change text-muted" hidden>${browser.i18n.getMessage('background_noimage_text')}</div>
@@ -172,14 +179,18 @@ function create(setting) {
     case 'backup':
       method = createBackup;
       break;
+    case 'search-engines':
+      method = createSearchEngines;
+      break;
   }
   return method(setting);
 }
 
 function createRow(setting, row = false) {
   const classRow = row ? 'tbl__row' : 'tbl';
+  const classSearchEngines = setting.type === 'search-engines' ? ' tbl--search-engines' : '';
   const hidden = setting.hidden ? ' hidden' : '';
-  return /* html */ `<div id="setting_${setting.id}" class="${classRow}"${hidden}>
+  return /* html */ `<div id="setting_${setting.id}" class="${classRow}${classSearchEngines}"${hidden}>
     <div class="tbl__setting">
       ${setting.title}
       ${

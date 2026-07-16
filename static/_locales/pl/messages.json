@@ -662,6 +662,23 @@
   "host_permissions_info": {
     "message": "<p>Ta zgoda jest konieczna do generowania zrzutów ekranu stron internetowych. Rozszerzenie nie zbiera, nie śledzi ani nie modyfikuje twoich danych na stronach internetowych. Jedyną modyfikacją, która następuje po otwarciu nowego okna ze stroną internetową, jest ukrycie paska przewijania przed wygenerowaniem zrzutu ekranu (aby zrzut ekranu był pozbawiony paska przewijania). Kod rozszerzenia jest dostępny na <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. Jeśli obawiasz się tego uprawnienia, możesz zdecydować się nie udzielać go. Rozszerzenie nadal będzie działać bez niego, ale generowanie zrzutów ekranu strony internetowej dla zakładek nie będzie dostępne.</p><p>Ta zgoda będzie żądana podczas próby zrobienia zrzutu ekranu strony internetowej (jeśli jest wyłączona). Możesz także zarządzać tym prawem w ustawieniach przeglądarki, otwierając okno z szczegółowymi informacjami na temat rozszerzenia.</p>"
   },
+  "search_bookmarks": { "message": "Zakładki" },
+  "search_settings": { "message": "Wyszukiwanie" },
+  "search_settings_description": { "message": "Wybierz domyślną wyszukiwarkę i skonfiguruj wyszukiwarki widoczne w menu wyszukiwania." },
+  "search_engines": { "message": "Wyszukiwarki" },
+  "search_engines_description": { "message": "Włączaj, konfiguruj, zmieniaj kolejność lub usuwaj wyszukiwarki. Lista może zawierać łącznie maksymalnie 20 pozycji." },
+  "search_engine_enabled": { "message": "Włącz wyszukiwarkę" },
+  "search_engine_name": { "message": "Nazwa wyszukiwarki" },
+  "search_engine_url": { "message": "Adres URL wyszukiwania" },
+  "search_engine_url_note": { "message": "Użyj {query} w miejscu adresu URL, w którym ma zostać wstawione zakodowane zapytanie." },
+  "add_search_engine": { "message": "Dodaj wyszukiwarkę" },
+  "remove_search_engine": { "message": "Usuń wyszukiwarkę" },
+  "custom_search_engine": { "message": "Własna wyszukiwarka" },
+  "move_search_engine_up": { "message": "Przenieś wyżej" },
+  "move_search_engine_down": { "message": "Przenieś niżej" },
+  "search_engine_invalid_url": { "message": "Wprowadź prawidłowy adres HTTP lub HTTPS zawierający {query}." },
+  "search_engine_name_required": { "message": "Wprowadź nazwę wyszukiwarki." },
+  "search_engine_at_least_one": { "message": "Co najmniej jedna wyszukiwarka musi pozostać włączona." },
   "undo": {
     "message": "Cofnij"
   }

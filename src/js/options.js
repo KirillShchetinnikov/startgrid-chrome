@@ -17,15 +17,17 @@ import Range from './components/range';
 import ImageDB from './api/imageDB';
 import {
   FILES_ALLOWED_EXTENSIONS,
-  MAX_FILE_SIZE_BYTES,
-  SEARCH_ENGINES
+  MAX_FILE_SIZE_BYTES
 } from './constants';
 import settingsList from './constants/settingsList';
 import { displaySettings } from './components/displaySettings';
 import { containsPermissions, removePermissions, requestPermissions } from './api/permissions';
+import { getEnabledSearchEngines } from './searchEngines';
+import initSearchEngineSettings from './components/searchEngineSettings';
 
 let tabsSliderInstance = null;
 let backgroundImage = null;
+let searchEngineSettingsInstance = null;
 
 async function init() {
   // Set lang attr
@@ -116,15 +118,26 @@ async function init() {
   document.getElementById('ext_version').textContent = `${browser.i18n.getMessage('version')} ${manifest.version}`;
 
   tabs.addEventListener('tabChange', function(evt) {
-    const { currentIndex } = evt.detail;
+    const { currentIndex, prevIndex } = evt.detail;
     localStorage['option_tab_slide'] = currentIndex;
     syncTabHeaderState(currentIndex);
+    if (currentIndex === prevIndex) return;
+
     tabsViewport.classList.add('is-switching');
     clearTimeout(scrollbarRestoreTimer);
     scrollbarRestoreTimer = setTimeout(() => {
       tabsViewport.classList.remove('is-switching');
     }, 400);
     tabsViewport.scrollTop = 0;
+  });
+
+  searchEngineSettingsInstance = initSearchEngineSettings({
+    container: document.getElementById('search_engines'),
+    settings,
+    onChange: () => {
+      generateSearchEngineList();
+      tabsSliderInstance.recalcStyles();
+    }
   });
   getOptions();
 
@@ -215,6 +228,7 @@ function handleExportSettings() {
 function getOptions() {
   generateFolderList();
   generateSearchEngineList();
+  searchEngineSettingsInstance?.render();
   getPermissions();
 
   for (let id of Object.keys(settings.$)) {
@@ -578,9 +592,14 @@ async function generateFolderList() {
 
 function generateSearchEngineList() {
   const select = document.getElementById('search_engine');
-  select.innerHTML = SEARCH_ENGINES.map(engine => {
-    return `<option value="${engine.value}">${engine.title}</option>`;
-  }).join('');
+  const engines = getEnabledSearchEngines(
+    settings.$.search_engines,
+    key => browser.i18n.getMessage(key)
+  );
+  select.replaceChildren(...engines.map(engine => {
+    return new Option(engine.title, engine.id);
+  }));
+  select.value = settings.$.search_engine;
 }
 
 init();

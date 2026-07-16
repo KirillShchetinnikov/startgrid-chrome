@@ -3,9 +3,9 @@ import '../vb-popup';
 import html from './template.html';
 import { $createElement } from '../../utils';
 import { getFolders } from '../../api/bookmark';
-import { SEARCH_ENGINES } from '../../constants';
 import { settings } from '../../settings';
 import { containsPermissions, requestPermissions } from '../../api/permissions';
+import { buildSearchUrl, getEnabledSearchEngines } from '../../searchEngines';
 import {
   getCurrentFolderId,
   navigateBack,
@@ -28,6 +28,7 @@ class VbHeader extends HTMLElement {
   vbPopupBtn = null;
   vbPopupContent = null;
   vbPopupActive = false;
+  searchEngines = [];
   engineNodes = [];
   engineIndex = 0;
   prevEngineIndex = 0;
@@ -92,52 +93,48 @@ class VbHeader extends HTMLElement {
     return settings.$.search_engine === 'browser';
   }
 
-  set engine(engine) {
-    this.engineNodes[this.prevEngineIndex].classList.remove('is-active');
-    const engineObject = SEARCH_ENGINES.find((searchEngine, index) => {
-      if (searchEngine.value === engine) {
+  set engine(engineId) {
+    this.engineNodes[this.prevEngineIndex]?.classList.remove('is-active');
+    const engineObject = this.searchEngines.find((searchEngine, index) => {
+      if (searchEngine.id === engineId) {
         this.engineIndex = index;
         return true;
       }
       return false;
     });
+    if (!engineObject) return;
     this.engineNodes[this.engineIndex].classList.add('is-active');
 
-    const symbol = engineObject.value === 'browser' ? 'web_search' : engineObject.value;
+    const symbol = engineObject.kind === 'bookmarks'
+      ? 'bookmarks'
+      : engineObject.kind === 'browser' ? 'web_search' : 'search';
     this.vbPopupSlotBtn.innerHTML = /* html */`<svg width="16" height="16"><use xlink:href="/img/symbol.svg#${symbol}"/></svg>`;
 
-    const placeholderEngine = engineObject.value === 'bookmarks'
+    const placeholderEngine = engineObject.kind === 'bookmarks'
       ? browser.i18n.getMessage('placeholder_input_search_bookmarks')
       : engineObject.title;
 
     settings
-      .updateKey('search_engine', engine)
+      .updateKey('search_engine', engineId)
       .then(() => {
-        this.inputNode.placeholder = engine !== 'browser'
+        this.inputNode.placeholder = engineObject.kind !== 'browser'
           ? browser.i18n.getMessage('placeholder_input_search', [placeholderEngine])
           : browser.i18n.getMessage('search');
-
-        this.inputNode.name = engineObject.name ?? 'bookmarks';
-        this.formNode.action = engineObject.url ?? '';
 
         this.buttonSubmitNode.hidden = this.isBookmarksEngine;
 
         if (!this.isBookmarksEngine) {
-          this.suggestNode = $createElement('div', {
-            id: 'suggest',
-            class: 'suggest',
-            hidden: 'hidden'
-          });
-          this.formNode.append(this.suggestNode);
+          if (!this.suggestNode) {
+            this.suggestNode = $createElement('div', {
+              id: 'suggest',
+              class: 'suggest',
+              hidden: 'hidden'
+            });
+            this.formNode.append(this.suggestNode);
+          }
         } else {
           this.suggestNode?.remove();
           this.suggestNode = null;
-        }
-
-        if (settings.$.open_link_newtab) {
-          !this.isBookmarksEngine
-            ? this.formNode.setAttribute('target', '_blank')
-            : this.formNode.removeAttribute('target');
         }
 
         // when switching engines
@@ -178,16 +175,23 @@ class VbHeader extends HTMLElement {
   }
 
   #setSearchEngines() {
-    this.vbPopupContent.innerHTML = SEARCH_ENGINES.map(engine => {
-      const isActive = engine.value === settings.$.search_engine ? ' is-active' : '';
-      return (/* html */
-        `<div class="header__engine-item${isActive}" data-engine="${engine.value}">
-          ${engine.title}
-        </div>`
+    this.searchEngines = getEnabledSearchEngines(
+      settings.$.search_engines,
+      key => browser.i18n.getMessage(key)
+    );
+    this.vbPopupContent.replaceChildren(...this.searchEngines.map(engine => {
+      const className = 'header__engine-item' + (
+        engine.id === settings.$.search_engine ? ' is-active' : ''
       );
-    }).join('');
+      return $createElement('div', {
+        class: className,
+        'data-engine': engine.id
+      }, engine.title);
+    }));
     this.engineNodes = Array.from(this.vbPopupContent.children);
-    this.engine = settings.$.search_engine;
+    this.engine = this.searchEngines.some(engine => engine.id === settings.$.search_engine)
+      ? settings.$.search_engine
+      : this.searchEngines[0].id;
   }
 
   #attachEvents() {
@@ -347,13 +351,13 @@ class VbHeader extends HTMLElement {
         if (this.engineIndex < 0) {
           this.engineIndex = this.engineNodes.length - 1;
         }
-        this.engine = SEARCH_ENGINES[this.engineIndex].value;
+        this.engine = this.searchEngines[this.engineIndex].id;
         break;
       case 'ArrowDown':
         e.preventDefault();
         this.prevEngineIndex = this.engineIndex;
         this.engineIndex = (this.engineIndex + 1) % this.engineNodes.length;
-        this.engine = SEARCH_ENGINES[this.engineIndex].value;
+        this.engine = this.searchEngines[this.engineIndex].id;
         break;
       case 'Enter':
       case 'Space':
@@ -382,7 +386,14 @@ class VbHeader extends HTMLElement {
       return;
     }
 
-    this.formNode.submit();
+    const engine = this.searchEngines.find(item => item.id === settings.$.search_engine);
+    const url = buildSearchUrl(engine?.url, this.inputNode.value.trim());
+    if (!url) return;
+
+    const openSearch = settings.$.open_link_newtab
+      ? browser.tabs.create
+      : browser.tabs.update;
+    openSearch({ url });
   }
 
   handleClickEngine(e) {

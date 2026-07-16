@@ -662,6 +662,23 @@
   "host_permissions_info": {
     "message": "<p>Ez az engedély szükséges a webhelyek képernyőképeinek generálásához. A bővítmény nem gyűjt, követ, vagy módosítja az adataidat a webhelyeken. Az egyetlen módosítás, ami történik a weboldal külön ablakban történő megnyitása után, az a görgetősáv elrejtése a webhelyen a képernyőkép generálása előtt (hogy a képernyőkép lehetőleg ne tartalmazzon görgetősávot). A bővítmény kódja elérhető a <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. Ha aggódsz emiatt a jogosultság miatt, választhatod, hogy nem adsz hozzá engedélyt, az alkalmazás még mindig működni fog nélküle, de az internetes oldalakról készített képernyőképek mentése könyvjelzőkhöz nem lesz elérhető.</p><p>Ezt az engedélyt kérni fogják, amikor megpróbálod a webhely képernyőképét elkészíteni (ha letiltva van). Ezt a jogot a böngészőbeállításokban is kezelheted egy ablak megnyitásával, amely részletes információkat tartalmaz a bővítményről.</p>"
   },
+  "search_bookmarks": { "message": "Könyvjelzők" },
+  "search_settings": { "message": "Keresés" },
+  "search_settings_description": { "message": "Válassza ki az alapértelmezett keresőmotort, és állítsa be a keresési menüben megjelenő keresőmotorokat." },
+  "search_engines": { "message": "Keresőmotorok" },
+  "search_engines_description": { "message": "Engedélyezze, állítsa be, rendezze át vagy távolítsa el a keresőmotorokat. A lista összesen legfeljebb 20 elemet tartalmazhat." },
+  "search_engine_enabled": { "message": "Keresőmotor engedélyezése" },
+  "search_engine_name": { "message": "Keresőmotor neve" },
+  "search_engine_url": { "message": "Keresési URL" },
+  "search_engine_url_note": { "message": "Használja a {query} elemet az URL-ben ott, ahová a kódolt keresési kifejezés kerüljön." },
+  "add_search_engine": { "message": "Keresőmotor hozzáadása" },
+  "remove_search_engine": { "message": "Keresőmotor eltávolítása" },
+  "custom_search_engine": { "message": "Egyéni keresőmotor" },
+  "move_search_engine_up": { "message": "Mozgatás felfelé" },
+  "move_search_engine_down": { "message": "Mozgatás lefelé" },
+  "search_engine_invalid_url": { "message": "Adjon meg egy érvényes, {query} elemet tartalmazó HTTP- vagy HTTPS-URL-t." },
+  "search_engine_name_required": { "message": "Adja meg a keresőmotor nevét." },
+  "search_engine_at_least_one": { "message": "Legalább egy keresőmotornak engedélyezve kell maradnia." },
   "undo": {
     "message": "Visszavonás"
   }

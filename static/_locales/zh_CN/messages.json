@@ -662,6 +662,23 @@
   "host_permissions_info": {
     "message": "<p>此权限对于生成网站截图是必需的. 但扩展程序不会收集, 跟踪或修改您在网站上的数据. 打开网站的单独窗口后发生的唯一变化是在生成截图之前隐藏网站上的滚动条 (尽量让截图中不出现滚动条). 扩展代码可在 <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. 如果对此权限有疑虑, 可以选择不同意授权, 网站截图功能将不可用, 但扩展程序仍然可以正常运行. </p><p>尝试截取网站截图时会请求此权限 (如果已停用)。您也可以通过打开包含扩展程序详细信息的窗口, 在浏览器设置中管理此权限. </p>"
   },
+  "search_bookmarks": { "message": "书签" },
+  "search_settings": { "message": "搜索" },
+  "search_settings_description": { "message": "选择默认搜索引擎，并配置搜索菜单中显示的搜索引擎。" },
+  "search_engines": { "message": "搜索引擎" },
+  "search_engines_description": { "message": "启用、配置、排序或删除搜索引擎。列表中最多可包含 20 个搜索引擎。" },
+  "search_engine_enabled": { "message": "启用搜索引擎" },
+  "search_engine_name": { "message": "搜索引擎名称" },
+  "search_engine_url": { "message": "搜索网址" },
+  "search_engine_url_note": { "message": "在网址中使用 {query} 表示插入编码后搜索内容的位置。" },
+  "add_search_engine": { "message": "添加搜索引擎" },
+  "remove_search_engine": { "message": "删除搜索引擎" },
+  "custom_search_engine": { "message": "自定义搜索引擎" },
+  "move_search_engine_up": { "message": "上移" },
+  "move_search_engine_down": { "message": "下移" },
+  "search_engine_invalid_url": { "message": "请输入包含 {query} 的有效 HTTP 或 HTTPS 网址。" },
+  "search_engine_name_required": { "message": "请输入搜索引擎名称。" },
+  "search_engine_at_least_one": { "message": "必须至少保留一个已启用的搜索引擎。" },
   "undo": {
     "message": "恢复"
   }

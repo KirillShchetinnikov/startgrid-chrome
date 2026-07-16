@@ -6,6 +6,10 @@
 import { storage } from './api/storage';
 import { getFolders, resolveFolderSyncPath } from './api/bookmark';
 import { DEFAULT_BOOKMARKS_FOLDER } from './constants';
+import {
+  createDefaultSearchEngineSettings,
+  normalizeSearchEngineSettings
+} from './searchEngines';
 
 const DEFAULTS = Object.freeze({
   color_theme: 'os',
@@ -45,6 +49,7 @@ const DEFAULTS = Object.freeze({
   folder_preview: false,
   close_tab_after_adding_bookmark: false,
   search_engine: 'bookmarks',
+  search_engines: createDefaultSearchEngineSettings(),
   search_results_display: 'folder_name',
   move_to_start: false,
   sort_by: '', // '' | date | alphabet
@@ -63,8 +68,18 @@ const DEPRECATED_SETTINGS = [
   'auto_generate_thumbnail'
 ];
 
-function sanitizeSettings(currentSettings) {
+function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   DEPRECATED_SETTINGS.forEach(key => delete currentSettings[key]);
+  if (!normalizeSearchEngines) return currentSettings;
+
+  currentSettings.search_engines = normalizeSearchEngineSettings(currentSettings.search_engines);
+
+  const enabledSearchEngineIds = currentSettings.search_engines
+    .filter(engine => engine.enabled)
+    .map(engine => engine.id);
+  if (!enabledSearchEngineIds.includes(currentSettings.search_engine)) {
+    [currentSettings.search_engine] = enabledSearchEngineIds;
+  }
   return currentSettings;
 }
 
@@ -121,8 +136,9 @@ const settingsStore = () => {
       // if synchronization is enabled, we take data from the cloud
       if (settings.enable_sync) {
         ({ settings: syncSettings = {} } = await storage.sync.get('settings'));
-        sanitizeSettings(syncSettings);
+        sanitizeSettings(syncSettings, false);
         Object.assign(settings, syncSettings);
+        sanitizeSettings(settings);
         await resolveSyncedDefaultFolder(settings);
       }
 
@@ -165,7 +181,7 @@ const settingsStore = () => {
     },
 
     async updateAll(settings = {}) {
-      Object.assign($settings, sanitizeSettings(settings));
+      $settings = sanitizeSettings(Object.assign({}, $settings, settings));
       await storage.local.set({ settings: $settings });
       if ($settings.enable_sync) {
         await this.syncToStorage();
@@ -186,7 +202,8 @@ const settingsStore = () => {
      */
     async restoreFromSync() {
       let { settings = {} } = await storage.sync.get('settings');
-      Object.assign($settings, sanitizeSettings(settings));
+      Object.assign($settings, sanitizeSettings(settings, false));
+      sanitizeSettings($settings);
       await resolveSyncedDefaultFolder($settings);
       await storage.local.set({ settings: $settings });
     },
@@ -196,7 +213,7 @@ const settingsStore = () => {
      * @returns Promise
      */
     async resetLocal() {
-      $settings = Object.assign({}, DEFAULTS, { enable_sync: false });
+      $settings = sanitizeSettings(Object.assign({}, DEFAULTS, { enable_sync: false }));
       await storage.local.set({ settings: $settings });
       localStorage.clear();
     },

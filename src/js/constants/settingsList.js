@@ -167,18 +167,9 @@ export default [
         ]
       },
       {
-        group: [
-          {
-            id: 'show_toolbar',
-            title: browser.i18n.getMessage('show_toolbar'),
-            type: 'switch'
-          },
-          {
-            id: 'search_autofocus',
-            title: browser.i18n.getMessage('search_autofocus'),
-            type: 'switch'
-          }
-        ]
+        id: 'show_toolbar',
+        title: browser.i18n.getMessage('show_toolbar'),
+        type: 'switch'
       },
       {
         id: 'show_settings_icon',
@@ -215,12 +206,24 @@ export default [
             }
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    key: browser.i18n.getMessage('search_settings'),
+    description: browser.i18n.getMessage('search_settings_description'),
+    list: [
       {
         id: 'search_engine',
         title: browser.i18n.getMessage('search_engine'),
         type: 'select',
         options: []
+      },
+      {
+        id: 'search_engines',
+        title: browser.i18n.getMessage('search_engines'),
+        note: browser.i18n.getMessage('search_engines_description'),
+        type: 'search-engines'
       },
       {
         id: 'search_results_display',
@@ -248,6 +251,11 @@ export default [
       {
         id: 'open_link_newtab',
         title: browser.i18n.getMessage('open_link_newtab'),
+        type: 'switch'
+      },
+      {
+        id: 'search_autofocus',
+        title: browser.i18n.getMessage('search_autofocus'),
         type: 'switch'
       }
     ]
