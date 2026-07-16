@@ -336,6 +336,12 @@
   "vertical_center": {
     "message": "Centrage vertical"
   },
+  "disable_main_page_scroll": {
+    "message": "Désactiver le défilement sur la page principale"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "Masque la barre et empêche le défilement en dehors des résultats de recherche dans les favoris."
+  },
   "default_folder_id": {
     "message": "Dossier par défaut"
   },

@@ -41,6 +41,7 @@ import {
   getCurrentFolderId,
   initFolderNavigation
 } from '../folderNavigation';
+import { updateBookmarkSearchState } from '../mainPageScroll';
 
 /**
  * Bookmarks module
@@ -66,6 +67,7 @@ const Bookmarks = (() => {
     // Vertical center
     if (settings.$.vertical_center) {
       container.classList.add('grid--vcenter');
+      container.parentElement.classList.add('content--vcenter');
     }
 
     // Dragging option
@@ -104,7 +106,7 @@ const Bookmarks = (() => {
             hasSearch = false;
             activeSearchRequest += 1;
             createSpeedDial(startFolder());
-            document.body.classList.remove('has-search');
+            updateBookmarkSearchState(false);
           }
           return;
         }
@@ -118,13 +120,13 @@ const Bookmarks = (() => {
           hasSearch = true;
           search(query);
         }
-        document.body.classList.toggle('has-search', hasSearch);
+        updateBookmarkSearchState(hasSearch);
       }, 500);
       const searchResetHandler = () => {
         hasSearch = false;
         activeSearchRequest += 1;
         createSpeedDial(startFolder());
-        document.body.classList.remove('has-search');
+        updateBookmarkSearchState(false);
       };
 
       vbHeader.addEventListener('vb:search', searchHandler);
@@ -137,7 +139,7 @@ const Bookmarks = (() => {
       activeSearchRequest += 1;
       if (hasSearch) {
         hasSearch = false;
-        document.body.classList.remove('has-search');
+        updateBookmarkSearchState(false);
       }
       vbHeader?.clearBookmarkSearch();
 

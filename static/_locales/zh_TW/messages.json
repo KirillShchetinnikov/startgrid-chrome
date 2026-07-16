@@ -336,6 +336,12 @@
   "vertical_center": {
     "message": "垂直居中"
   },
+  "disable_main_page_scroll": {
+    "message": "停用首頁捲動"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "隱藏捲動條，並在書籤搜尋結果以外的頁面停用捲動。"
+  },
   "default_folder_id": {
     "message": "預設資料夾"
   },

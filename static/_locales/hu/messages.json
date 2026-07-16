@@ -336,6 +336,12 @@
   "vertical_center": {
     "message": "Függőlegesen középre igazítás"
   },
+  "disable_main_page_scroll": {
+    "message": "Görgetés letiltása a főoldalon"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "Elrejti a görgetősávot, és letiltja a görgetést a könyvjelző-keresési találatokon kívül."
+  },
   "default_folder_id": {
     "message": "Alapértelmezett mappa"
   },

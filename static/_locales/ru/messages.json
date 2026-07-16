@@ -336,6 +336,12 @@
   "vertical_center": {
     "message": "Вертикальное центрирование"
   },
+  "disable_main_page_scroll": {
+    "message": "Отключить прокрутку на главной странице"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "Скрывает полосу и блокирует прокрутку вне результатов поиска по закладкам."
+  },
   "default_folder_id": {
     "message": "Папка по умолчанию"
   },

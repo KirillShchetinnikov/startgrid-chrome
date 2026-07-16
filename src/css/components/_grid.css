@@ -20,11 +20,10 @@
 }
 
 .grid--vcenter {
-  /* content padding + header height (+ top padding) */
-  min-height: calc(100vh - 115px);
+  flex: 1;
   align-content: center;
+}
 
-  @nest .hidden-toolbar & {
-    min-height: calc(100vh - 60px);
-  }
+.has-search .grid--vcenter {
+  align-content: start;
 }

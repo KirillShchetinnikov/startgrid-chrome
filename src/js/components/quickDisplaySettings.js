@@ -1,6 +1,7 @@
 import { settings } from '../settings';
 import UI from './ui';
 import confirmPopup from '../plugins/confirmPopup';
+import { updateMainPageScrollLock } from '../mainPageScroll';
 
 const RERENDER_SETTINGS = new Set([
   'show_create_column',
@@ -118,6 +119,7 @@ function createPanel() {
           </span>
         </label>
         ${createSwitch('vertical_center')}
+        ${createSwitch('disable_main_page_scroll')}
         ${createSwitch('show_extension_icon')}
         ${createSwitch('show_create_column')}
         ${createSwitch('show_back_column')}
@@ -196,6 +198,9 @@ export default function initQuickDisplaySettings({
       UI.calculateStyles();
     } else if (key === 'vertical_center') {
       document.getElementById('bookmarks').classList.toggle('grid--vcenter', Boolean(value));
+      document.getElementById('content').classList.toggle('content--vcenter', Boolean(value));
+    } else if (key === 'disable_main_page_scroll') {
+      updateMainPageScrollLock(value);
     } else if (key === 'show_extension_icon') {
       onExtensionIconVisibilityChange(Boolean(value));
       UI.calculateStyles();

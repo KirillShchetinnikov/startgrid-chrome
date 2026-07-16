@@ -10,8 +10,19 @@ body {
   overflow-y: hidden;
 }
 .app {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 100vh;
+}
+
+.app > .container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.disable-main-page-scroll:not(.has-search) .app {
+  overflow-y: hidden;
+  overscroll-behavior: none;
 }
 
 .extension-icon {
@@ -83,6 +94,12 @@ body {
 
 .content {
   padding: 12px 0 96px;
+}
+
+.content--vcenter {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .thumb-upload {

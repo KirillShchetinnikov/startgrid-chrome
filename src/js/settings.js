@@ -27,6 +27,7 @@ const DEFAULTS = Object.freeze({
   dial_shadow: 8,
   dial_hover_lift: 4,
   vertical_center: false,
+  disable_main_page_scroll: false,
   drag_and_drop: true,
   download_favicons_by_default: false,
   favicon_size: 32,

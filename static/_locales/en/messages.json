@@ -336,6 +336,12 @@
   "vertical_center": {
     "message": "Vertical centering"
   },
+  "disable_main_page_scroll": {
+    "message": "Disable scrolling on the main page"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "Hides the scrollbar and prevents scrolling outside bookmark search results."
+  },
   "default_folder_id": {
     "message": "Default Folder"
   },

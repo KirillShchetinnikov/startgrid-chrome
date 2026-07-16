@@ -336,6 +336,12 @@
   "vertical_center": {
     "message": "Wyrównanie w pionie"
   },
+  "disable_main_page_scroll": {
+    "message": "Wyłącz przewijanie na stronie głównej"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "Ukrywa pasek i blokuje przewijanie poza wynikami wyszukiwania zakładek."
+  },
   "default_folder_id": {
     "message": "Folder domyślny"
   },

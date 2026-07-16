@@ -37,6 +37,7 @@ import Toast from './components/toast';
 import { containsPermissions } from './api/permissions';
 import { getCurrentFolderId, navigateToFolder } from './folderNavigation';
 import initQuickDisplaySettings from './components/quickDisplaySettings';
+import { updateMainPageScrollLock } from './mainPageScroll';
 
 const container = document.getElementById('bookmarks');
 const modal = document.getElementById('modal');
@@ -109,6 +110,7 @@ async function init() {
    */
   await settings.init();
   updateExtensionIconVisibility(settings.$.show_extension_icon);
+  updateMainPageScrollLock(settings.$.disable_main_page_scroll);
 
   /**
    * UI

@@ -172,6 +172,12 @@ export default [
         type: 'switch'
       },
       {
+        id: 'disable_main_page_scroll',
+        title: browser.i18n.getMessage('disable_main_page_scroll'),
+        note: browser.i18n.getMessage('disable_main_page_scroll_description'),
+        type: 'switch'
+      },
+      {
         id: 'show_settings_icon',
         title: browser.i18n.getMessage('show_settings_icon'),
         type: 'switch'

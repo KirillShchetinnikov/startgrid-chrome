@@ -336,6 +336,12 @@
   "vertical_center": {
     "message": "垂直居中"
   },
+  "disable_main_page_scroll": {
+    "message": "禁用主页滚动"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "隐藏滚动条，并在书签搜索结果以外的页面禁用滚动。"
+  },
   "default_folder_id": {
     "message": "默认文件夹"
   },
