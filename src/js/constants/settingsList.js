@@ -284,6 +284,11 @@ export default [
       {
         group: [
           {
+            id: 'drag_and_drop',
+            title: browser.i18n.getMessage('drag_and_drop'),
+            type: 'switch'
+          },
+          {
             id: 'home_sort_by',
             title: browser.i18n.getMessage('home_sort_by'),
             type: 'select',
@@ -387,6 +392,16 @@ export default [
         ]
       },
       {
+        id: 'navigation_sort_by',
+        title: browser.i18n.getMessage('navigation_sort_by'),
+        type: 'select',
+        options: [
+          { value: '', title: browser.i18n.getMessage('browser_default_order') },
+          { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') },
+          { value: 'date', title: browser.i18n.getMessage('sort_by_date') }
+        ]
+      },
+      {
         id: 'open_link_newtab',
         title: browser.i18n.getMessage('open_link_newtab'),
         type: 'switch'
@@ -411,21 +426,6 @@ export default [
         id: 'move_to_start',
         title: browser.i18n.getMessage('move_to_start'),
         type: 'switch'
-      },
-      {
-        id: 'drag_and_drop',
-        title: browser.i18n.getMessage('drag_and_drop'),
-        type: 'switch'
-      },
-      {
-        id: 'navigation_sort_by',
-        title: browser.i18n.getMessage('navigation_sort_by'),
-        type: 'select',
-        options: [
-          { value: '', title: browser.i18n.getMessage('browser_default_order') },
-          { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') },
-          { value: 'date', title: browser.i18n.getMessage('sort_by_date') }
-        ]
       },
       {
         id: 'show_contextmenu_item',
