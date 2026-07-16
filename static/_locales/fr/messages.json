@@ -791,6 +791,7 @@
   "shortcut_open_settings": { "message": "Ouvrir tous les paramètres" },
   "shortcut_go_home": { "message": "Aller au dossier par défaut" },
   "shortcut_go_back": { "message": "Revenir au dossier précédent" },
+  "shortcut_select_all_bookmarks": { "message": "Sélectionner tous les favoris" },
   "shortcut_update_thumbnails": { "message": "Mettre à jour toutes les vignettes" },
   "undo": {
     "message": "Annuler"

@@ -1,6 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import {
   DEFAULT_KEYBOARD_SHORTCUTS,
+  KEYBOARD_SHORTCUT_ACTIONS,
   eventMatchesShortcut,
   formatShortcut,
   initKeyboardShortcuts,
@@ -18,6 +19,8 @@ describe('keyboard shortcuts', () => {
 
   it('keeps the search shortcut by default and rejects reserved keys', () => {
     expect(normalizeKeyboardShortcuts({})).toEqual(DEFAULT_KEYBOARD_SHORTCUTS);
+    expect(KEYBOARD_SHORTCUT_ACTIONS).toContain('select_all_bookmarks');
+    expect(DEFAULT_KEYBOARD_SHORTCUTS.select_all_bookmarks).toBe('');
     expect(shortcutFromEvent({ code: 'Escape' })).toBe('');
     expect(shortcutFromEvent({ code: 'Tab' })).toBe('');
     expect(normalizeKeyboardShortcuts({

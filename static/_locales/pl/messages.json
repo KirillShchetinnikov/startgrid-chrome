@@ -791,6 +791,7 @@
   "shortcut_open_settings": { "message": "Otwórz pełne ustawienia" },
   "shortcut_go_home": { "message": "Przejdź do folderu domyślnego" },
   "shortcut_go_back": { "message": "Wróć o jeden folder" },
+  "shortcut_select_all_bookmarks": { "message": "Zaznacz wszystkie zakładki" },
   "shortcut_update_thumbnails": { "message": "Odśwież wszystkie miniatury" },
   "undo": {
     "message": "Cofnij"

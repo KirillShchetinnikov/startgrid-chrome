@@ -791,6 +791,7 @@
   "shortcut_open_settings": { "message": "打开完整设置" },
   "shortcut_go_home": { "message": "转到默认文件夹" },
   "shortcut_go_back": { "message": "返回上一级文件夹" },
+  "shortcut_select_all_bookmarks": { "message": "选择所有书签" },
   "shortcut_update_thumbnails": { "message": "更新所有缩略图" },
   "undo": {
     "message": "恢复"

@@ -791,6 +791,7 @@
   "shortcut_open_settings": { "message": "開啟完整設定" },
   "shortcut_go_home": { "message": "前往預設資料夾" },
   "shortcut_go_back": { "message": "返回上一層資料夾" },
+  "shortcut_select_all_bookmarks": { "message": "選取所有書籤" },
   "shortcut_update_thumbnails": { "message": "更新所有縮圖" },
   "undo": {
     "message": "復原"

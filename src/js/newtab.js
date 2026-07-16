@@ -315,12 +315,27 @@ async function handleKeyboardShortcutAction(action) {
     case 'go_back':
       header?.goBack();
       break;
+    case 'select_all_bookmarks':
+      await selectAllBookmarks();
+      break;
     case 'update_thumbnails':
       await startGenerateThumbs();
       break;
     default:
       break;
   }
+}
+
+async function selectAllBookmarks() {
+  if (isGenerateThumbs) return;
+
+  const bookmarks = Array.from(container.querySelectorAll('.bookmark'));
+  if (!bookmarks.length) return;
+
+  bookmarks.forEach(bookmark => bookmark.setAttribute('data-selected', ''));
+  multipleSelectedBookmarks = bookmarks;
+  lastSelectedBookmark = bookmarks.at(-1);
+  await showControlMultiplyBookmarks();
 }
 
 function handleSelectBookmark(e) {

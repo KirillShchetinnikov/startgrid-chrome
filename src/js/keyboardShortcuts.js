@@ -5,6 +5,7 @@ export const KEYBOARD_SHORTCUT_ACTIONS = Object.freeze([
   'open_settings',
   'go_home',
   'go_back',
+  'select_all_bookmarks',
   'update_thumbnails'
 ]);
 
@@ -15,6 +16,7 @@ export const DEFAULT_KEYBOARD_SHORTCUTS = Object.freeze({
   open_settings: '',
   go_home: '',
   go_back: '',
+  select_all_bookmarks: '',
   update_thumbnails: ''
 });
 

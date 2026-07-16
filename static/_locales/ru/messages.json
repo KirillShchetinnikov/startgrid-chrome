@@ -829,6 +829,7 @@
   "shortcut_open_settings": { "message": "Открыть полные настройки" },
   "shortcut_go_home": { "message": "Перейти в папку по умолчанию" },
   "shortcut_go_back": { "message": "Вернуться на одну папку назад" },
+  "shortcut_select_all_bookmarks": { "message": "Выделить все закладки" },
   "shortcut_update_thumbnails": { "message": "Обновить все миниатюры" },
   "undo": {
     "message": "Отменить"

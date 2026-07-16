@@ -829,6 +829,7 @@
   "shortcut_open_settings": { "message": "Open full settings" },
   "shortcut_go_home": { "message": "Go to the default folder" },
   "shortcut_go_back": { "message": "Go back one folder" },
+  "shortcut_select_all_bookmarks": { "message": "Select all bookmarks" },
   "shortcut_update_thumbnails": { "message": "Update all thumbnails" },
   "undo": {
     "message": "Undo"

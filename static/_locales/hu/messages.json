@@ -791,6 +791,7 @@
   "shortcut_open_settings": { "message": "Teljes beállítások megnyitása" },
   "shortcut_go_home": { "message": "Ugrás az alapértelmezett mappába" },
   "shortcut_go_back": { "message": "Vissza egy mappával" },
+  "shortcut_select_all_bookmarks": { "message": "Összes könyvjelző kijelölése" },
   "shortcut_update_thumbnails": { "message": "Összes bélyegkép frissítése" },
   "undo": {
     "message": "Visszavonás"
