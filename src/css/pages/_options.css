@@ -32,25 +32,6 @@
   padding: 82px 32px 32px;
 }
 
-.options .tabs__section {
-  padding: 15px;
-}
-
-.settings-section__description {
-  margin-bottom: 20px;
-  padding: 12px 15px;
-  color: var(--theme-text-color);
-  background: var(--theme-background-3);
-  border-left: 4px solid var(--color-accent);
-  border-radius: 12px;
-}
-
-@media (min-width: 450px) {
-  .options .tabs__section {
-    padding: 30px;
-  }
-}
-
 .options-back-btn {
   position: fixed;
   z-index: 20;

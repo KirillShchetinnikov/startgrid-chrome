@@ -435,8 +435,11 @@
   "show_favicon": {
     "message": "Afficher la favicône à côté du titre"
   },
-  "open_link_newtab": {
-    "message": "Ouvrir les favoris et la recherche dans un nouvel onglet"
+  "open_bookmarks_newtab": {
+    "message": "Ouvrir les favoris dans un nouvel onglet"
+  },
+  "open_search_newtab": {
+    "message": "Ouvrir la recherche dans un nouvel onglet"
   },
   "show_contextmenu_item": {
     "message": "Afficher dans le menu contextuel"
@@ -795,6 +798,33 @@
   "shortcut_select_multiple_bookmarks": { "message": "Sélectionner plusieurs favoris" },
   "shortcut_select_all_bookmarks": { "message": "Sélectionner tous les favoris" },
   "shortcut_update_thumbnails": { "message": "Mettre à jour toutes les vignettes" },
+  "settings_appearance": { "message": "Apparence" },
+  "settings_controls": { "message": "Commandes" },
+  "settings_group_page": { "message": "Page et arrière-plan" },
+  "settings_group_animations": { "message": "Animations et effets" },
+  "settings_group_grid": { "message": "Grille des tuiles" },
+  "settings_group_tile_style": { "message": "Apparence des tuiles" },
+  "settings_group_tile_content": { "message": "Contenu des tuiles" },
+  "settings_group_start": { "message": "Page de démarrage" },
+  "settings_group_sorting": { "message": "Tri" },
+  "settings_group_navigation": { "message": "Navigation" },
+  "settings_group_opening": { "message": "Ouverture et ajout" },
+  "settings_group_search_behavior": { "message": "Comportement de la recherche" },
+  "settings_group_thumbnail_generation": { "message": "Vignettes et favicons" },
+  "settings_group_auto_refresh": { "message": "Actualisation automatique" },
+  "settings_group_thumbnail_storage": { "message": "Images locales" },
+  "settings_group_interface": { "message": "Commandes de l’interface" },
+  "settings_group_sync": { "message": "Synchronisation" },
+  "settings_group_backup": { "message": "Sauvegarde" },
+  "settings_group_storage": { "message": "Données locales" },
+  "settings_group_permissions": { "message": "Autorisations" },
+  "settings_group_reset": { "message": "Réinitialiser les paramètres" },
+  "settings_group_reset_description": { "message": "Ces actions nécessitent une confirmation et peuvent modifier ou supprimer les paramètres enregistrés." },
+  "settings_mobile_section": { "message": "Section" },
+  "settings_search_label": { "message": "Rechercher dans les paramètres" },
+  "settings_search_placeholder": { "message": "Rechercher un paramètre" },
+  "settings_autosave": { "message": "Les modifications sont enregistrées automatiquement" },
+  "settings_no_results": { "message": "Aucun paramètre trouvé" },
   "undo": {
     "message": "Annuler"
   }

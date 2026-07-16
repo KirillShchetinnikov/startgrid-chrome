@@ -386,7 +386,7 @@ class VbHeader extends HTMLElement {
       if (searchPermission) {
         browser.search.query({
           text: this.inputNode.value.trim(),
-          disposition: settings.$.open_link_newtab ? 'NEW_TAB' : 'CURRENT_TAB'
+          disposition: settings.$.open_search_newtab ? 'NEW_TAB' : 'CURRENT_TAB'
         });
       }
       return;
@@ -396,7 +396,7 @@ class VbHeader extends HTMLElement {
     const url = buildSearchUrl(engine?.url, this.inputNode.value.trim());
     if (!url) return;
 
-    const openSearch = settings.$.open_link_newtab
+    const openSearch = settings.$.open_search_newtab
       ? browser.tabs.create
       : browser.tabs.update;
     openSearch({ url });

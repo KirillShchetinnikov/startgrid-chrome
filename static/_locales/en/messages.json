@@ -435,8 +435,11 @@
   "show_favicon": {
     "message": "Show the Favicon next to the title"
   },
-  "open_link_newtab": {
-    "message": "Open bookmarks and search in a new tab"
+  "open_bookmarks_newtab": {
+    "message": "Open bookmarks in a new tab"
+  },
+  "open_search_newtab": {
+    "message": "Open search in a new tab"
   },
   "show_contextmenu_item": {
     "message": "Show in context menu"
@@ -833,6 +836,33 @@
   "shortcut_select_multiple_bookmarks": { "message": "Select multiple bookmarks" },
   "shortcut_select_all_bookmarks": { "message": "Select all bookmarks" },
   "shortcut_update_thumbnails": { "message": "Update all thumbnails" },
+  "settings_appearance": { "message": "Appearance" },
+  "settings_controls": { "message": "Controls" },
+  "settings_group_page": { "message": "Page and background" },
+  "settings_group_animations": { "message": "Animations and effects" },
+  "settings_group_grid": { "message": "Tile grid" },
+  "settings_group_tile_style": { "message": "Tile appearance" },
+  "settings_group_tile_content": { "message": "Tile content" },
+  "settings_group_start": { "message": "Start page" },
+  "settings_group_sorting": { "message": "Sorting" },
+  "settings_group_navigation": { "message": "Navigation" },
+  "settings_group_opening": { "message": "Opening and adding" },
+  "settings_group_search_behavior": { "message": "Search behavior" },
+  "settings_group_thumbnail_generation": { "message": "Thumbnails and favicons" },
+  "settings_group_auto_refresh": { "message": "Automatic refresh" },
+  "settings_group_thumbnail_storage": { "message": "Local images" },
+  "settings_group_interface": { "message": "Interface controls" },
+  "settings_group_sync": { "message": "Synchronization" },
+  "settings_group_backup": { "message": "Backup" },
+  "settings_group_storage": { "message": "Local data" },
+  "settings_group_permissions": { "message": "Permissions" },
+  "settings_group_reset": { "message": "Reset settings" },
+  "settings_group_reset_description": { "message": "These actions require confirmation and can change or remove saved settings." },
+  "settings_mobile_section": { "message": "Section" },
+  "settings_search_label": { "message": "Search settings" },
+  "settings_search_placeholder": { "message": "Find a setting" },
+  "settings_autosave": { "message": "Changes are saved automatically" },
+  "settings_no_results": { "message": "No settings found" },
   "undo": {
     "message": "Undo"
   }

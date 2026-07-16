@@ -575,7 +575,7 @@ function checkLocalProtocol(url) {
 }
 
 function openLocalProtocol(url) {
-  const open = settings.$.open_link_newtab ? browser.tabs.create : browser.tabs.update;
+  const open = settings.$.open_bookmarks_newtab ? browser.tabs.create : browser.tabs.update;
 
   open({
     url

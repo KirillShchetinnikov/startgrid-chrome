@@ -435,8 +435,11 @@
   "show_favicon": {
     "message": "在标题旁显示网站图标"
   },
-  "open_link_newtab": {
-    "message": "搜索结果在新标签页打开"
+  "open_bookmarks_newtab": {
+    "message": "在新标签页中打开书签"
+  },
+  "open_search_newtab": {
+    "message": "在新标签页中打开搜索"
   },
   "show_contextmenu_item": {
     "message": "显示在右键菜单"
@@ -795,6 +798,33 @@
   "shortcut_select_multiple_bookmarks": { "message": "选择多个书签" },
   "shortcut_select_all_bookmarks": { "message": "选择所有书签" },
   "shortcut_update_thumbnails": { "message": "更新所有缩略图" },
+  "settings_appearance": { "message": "外观" },
+  "settings_controls": { "message": "控制" },
+  "settings_group_page": { "message": "页面和背景" },
+  "settings_group_animations": { "message": "动画和效果" },
+  "settings_group_grid": { "message": "磁贴网格" },
+  "settings_group_tile_style": { "message": "磁贴外观" },
+  "settings_group_tile_content": { "message": "磁贴内容" },
+  "settings_group_start": { "message": "起始页" },
+  "settings_group_sorting": { "message": "排序" },
+  "settings_group_navigation": { "message": "导航" },
+  "settings_group_opening": { "message": "打开和添加" },
+  "settings_group_search_behavior": { "message": "搜索行为" },
+  "settings_group_thumbnail_generation": { "message": "缩略图和网站图标" },
+  "settings_group_auto_refresh": { "message": "自动刷新" },
+  "settings_group_thumbnail_storage": { "message": "本地图像" },
+  "settings_group_interface": { "message": "界面控件" },
+  "settings_group_sync": { "message": "同步" },
+  "settings_group_backup": { "message": "备份" },
+  "settings_group_storage": { "message": "本地数据" },
+  "settings_group_permissions": { "message": "权限" },
+  "settings_group_reset": { "message": "重置设置" },
+  "settings_group_reset_description": { "message": "这些操作需要确认，并可能更改或删除已保存的设置。" },
+  "settings_mobile_section": { "message": "分区" },
+  "settings_search_label": { "message": "搜索设置" },
+  "settings_search_placeholder": { "message": "查找设置" },
+  "settings_autosave": { "message": "更改会自动保存" },
+  "settings_no_results": { "message": "未找到设置" },
   "undo": {
     "message": "恢复"
   }

@@ -435,8 +435,11 @@
   "show_favicon": {
     "message": "Pokaż ikonę ulubionych obok tytułu"
   },
-  "open_link_newtab": {
-    "message": "Otwieraj zakładki i wyniki wyszukiwania w nowej karcie"
+  "open_bookmarks_newtab": {
+    "message": "Otwieraj zakładki w nowej karcie"
+  },
+  "open_search_newtab": {
+    "message": "Otwieraj wyszukiwanie w nowej karcie"
   },
   "show_contextmenu_item": {
     "message": "Pokaż w menu kontekstowym"
@@ -795,6 +798,33 @@
   "shortcut_select_multiple_bookmarks": { "message": "Zaznacz wiele zakładek" },
   "shortcut_select_all_bookmarks": { "message": "Zaznacz wszystkie zakładki" },
   "shortcut_update_thumbnails": { "message": "Odśwież wszystkie miniatury" },
+  "settings_appearance": { "message": "Wygląd" },
+  "settings_controls": { "message": "Sterowanie" },
+  "settings_group_page": { "message": "Strona i tło" },
+  "settings_group_animations": { "message": "Animacje i efekty" },
+  "settings_group_grid": { "message": "Siatka kafelków" },
+  "settings_group_tile_style": { "message": "Wygląd kafelków" },
+  "settings_group_tile_content": { "message": "Zawartość kafelków" },
+  "settings_group_start": { "message": "Strona startowa" },
+  "settings_group_sorting": { "message": "Sortowanie" },
+  "settings_group_navigation": { "message": "Nawigacja" },
+  "settings_group_opening": { "message": "Otwieranie i dodawanie" },
+  "settings_group_search_behavior": { "message": "Działanie wyszukiwania" },
+  "settings_group_thumbnail_generation": { "message": "Miniatury i favikony" },
+  "settings_group_auto_refresh": { "message": "Automatyczne odświeżanie" },
+  "settings_group_thumbnail_storage": { "message": "Obrazy lokalne" },
+  "settings_group_interface": { "message": "Elementy interfejsu" },
+  "settings_group_sync": { "message": "Synchronizacja" },
+  "settings_group_backup": { "message": "Kopia zapasowa" },
+  "settings_group_storage": { "message": "Dane lokalne" },
+  "settings_group_permissions": { "message": "Uprawnienia" },
+  "settings_group_reset": { "message": "Resetowanie ustawień" },
+  "settings_group_reset_description": { "message": "Te działania wymagają potwierdzenia i mogą zmienić lub usunąć zapisane ustawienia." },
+  "settings_mobile_section": { "message": "Sekcja" },
+  "settings_search_label": { "message": "Wyszukiwanie ustawień" },
+  "settings_search_placeholder": { "message": "Znajdź ustawienie" },
+  "settings_autosave": { "message": "Zmiany są zapisywane automatycznie" },
+  "settings_no_results": { "message": "Nie znaleziono ustawień" },
   "undo": {
     "message": "Cofnij"
   }

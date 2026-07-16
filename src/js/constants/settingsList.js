@@ -146,7 +146,7 @@ const appearanceSettings = [
   }
 ];
 
-export default [
+const legacySettings = [
   {
     key: browser.i18n.getMessage('bookmark_appearance_setting'),
     list: appearanceSettings
@@ -402,8 +402,13 @@ export default [
         ]
       },
       {
-        id: 'open_link_newtab',
-        title: browser.i18n.getMessage('open_link_newtab'),
+        id: 'open_bookmarks_newtab',
+        title: browser.i18n.getMessage('open_bookmarks_newtab'),
+        type: 'switch'
+      },
+      {
+        id: 'open_search_newtab',
+        title: browser.i18n.getMessage('open_search_newtab'),
         type: 'switch'
       },
       {
@@ -567,6 +572,203 @@ export default [
         title: browser.i18n.getMessage('keyboard_shortcuts_title'),
         note: browser.i18n.getMessage('keyboard_shortcuts_note'),
         type: 'keyboard-shortcuts'
+      }
+    ]
+  }
+];
+
+const settingsById = new Map();
+
+legacySettings.forEach(section => {
+  section.list.forEach(item => {
+    const items = item.group || [item];
+    items.forEach(setting => settingsById.set(setting.id, setting));
+  });
+});
+
+function pickSettings(...ids) {
+  return ids.map(id => {
+    const setting = settingsById.get(id);
+    if (!setting) throw new Error(`Unknown option setting: ${id}`);
+    return setting;
+  });
+}
+
+export default [
+  {
+    id: 'appearance',
+    key: browser.i18n.getMessage('settings_appearance'),
+    sections: [
+      {
+        key: browser.i18n.getMessage('settings_group_page'),
+        list: pickSettings('color_theme', 'background_image')
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_interface'),
+        list: pickSettings(
+          'show_toolbar',
+          'show_settings_icon',
+          'show_quick_settings_icon',
+          'show_extension_icon',
+          'show_create_column',
+          'show_back_column'
+        )
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_animations'),
+        list: pickSettings(
+          'background_entrance_effect',
+          'background_entrance_duration',
+          'snow_mode',
+          'page_cascade_enabled',
+          'page_cascade_mode',
+          'page_cascade_duration'
+        )
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_grid'),
+        list: pickSettings(
+          'dial_columns',
+          'dial_width',
+          'dial_gap',
+          'dial_aspect_ratio',
+          'vertical_center',
+          'disable_main_page_scroll'
+        )
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_tile_style'),
+        list: pickSettings(
+          'dial_radius',
+          'dial_shadow',
+          'dial_hover_lift',
+          'dial_background_color',
+          'dial_background_opacity'
+        )
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_tile_content'),
+        list: pickSettings('show_bookmark_title', 'show_favicon', 'folder_preview')
+      }
+    ]
+  },
+  {
+    id: 'bookmarks',
+    key: browser.i18n.getMessage('bookmark_appearance_setting'),
+    sections: [
+      {
+        key: browser.i18n.getMessage('settings_group_start'),
+        list: pickSettings('default_folder_id', 'show_last_opened_folder')
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_sorting'),
+        list: pickSettings(
+          'drag_and_drop',
+          'home_sort_by',
+          'home_sort_date_direction',
+          'home_sort_alphabet_direction',
+          'home_sort_usage_tiebreaker',
+          'show_usage_count',
+          'show_home_folders',
+          'bookmarks_sorting_type'
+        )
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_navigation'),
+        list: pickSettings('open_bookmarks_newtab')
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_opening'),
+        list: pickSettings(
+          'move_to_start',
+          'show_contextmenu_item',
+          'close_tab_after_adding_bookmark',
+          'without_confirmation'
+        )
+      }
+    ]
+  },
+  {
+    id: 'search',
+    key: browser.i18n.getMessage('search_settings'),
+    sections: [
+      {
+        key: browser.i18n.getMessage('settings_group_search_behavior'),
+        list: pickSettings(
+          'search_engine',
+          'search_results_display',
+          'navigation_sort_by',
+          'open_search_newtab',
+          'search_autofocus'
+        )
+      },
+      {
+        key: browser.i18n.getMessage('search_engines'),
+        description: browser.i18n.getMessage('search_settings_description'),
+        list: pickSettings('search_engines')
+      }
+    ]
+  },
+  {
+    id: 'thumbnails',
+    key: browser.i18n.getMessage('thumbnails_setting'),
+    sections: [
+      {
+        key: browser.i18n.getMessage('settings_group_thumbnail_generation'),
+        description: browser.i18n.getMessage('thumbnails_setting_description'),
+        list: pickSettings(
+          'thumbnails_update_button',
+          'download_favicons_by_default',
+          'favicon_size',
+          'thumbnails_update_delay'
+        )
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_auto_refresh'),
+        list: pickSettings('thumbnails_auto_refresh', 'thumbnails_auto_refresh_interval')
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_thumbnail_storage'),
+        list: pickSettings('clear_images')
+      }
+    ]
+  },
+  {
+    id: 'controls',
+    key: browser.i18n.getMessage('settings_controls'),
+    sections: [
+      {
+        key: browser.i18n.getMessage('keyboard_shortcuts_setting'),
+        description: browser.i18n.getMessage('keyboard_shortcuts_description'),
+        list: pickSettings('keyboard_shortcuts')
+      }
+    ]
+  },
+  {
+    id: 'data',
+    key: browser.i18n.getMessage('data_privacy_setting'),
+    sections: [
+      {
+        key: browser.i18n.getMessage('settings_group_sync'),
+        list: pickSettings('enable_sync')
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_backup'),
+        list: pickSettings('backup')
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_storage'),
+        list: pickSettings('clear_cache')
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_permissions'),
+        list: pickSettings('toggle_clipboard_access')
+      },
+      {
+        key: browser.i18n.getMessage('settings_group_reset'),
+        description: browser.i18n.getMessage('settings_group_reset_description'),
+        danger: true,
+        list: pickSettings('restore_local', 'restore_sync')
       }
     ]
   }

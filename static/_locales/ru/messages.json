@@ -435,8 +435,11 @@
   "show_favicon": {
     "message": "Показывать иконки сайтов рядом с названием"
   },
-  "open_link_newtab": {
-    "message": "Открывать закладки и поиск в новой вкладке"
+  "open_bookmarks_newtab": {
+    "message": "Открывать закладки в новой вкладке"
+  },
+  "open_search_newtab": {
+    "message": "Открывать поиск в новой вкладке"
   },
   "show_contextmenu_item": {
     "message": "Показывать в контекстном меню"
@@ -833,6 +836,33 @@
   "shortcut_select_multiple_bookmarks": { "message": "Выделять несколько закладок" },
   "shortcut_select_all_bookmarks": { "message": "Выделить все закладки" },
   "shortcut_update_thumbnails": { "message": "Обновить все миниатюры" },
+  "settings_appearance": { "message": "Внешний вид" },
+  "settings_controls": { "message": "Управление" },
+  "settings_group_page": { "message": "Страница и фон" },
+  "settings_group_animations": { "message": "Анимации и эффекты" },
+  "settings_group_grid": { "message": "Сетка плиток" },
+  "settings_group_tile_style": { "message": "Оформление плиток" },
+  "settings_group_tile_content": { "message": "Содержимое плиток" },
+  "settings_group_start": { "message": "Стартовая страница" },
+  "settings_group_sorting": { "message": "Сортировка" },
+  "settings_group_navigation": { "message": "Навигация" },
+  "settings_group_opening": { "message": "Открытие и добавление" },
+  "settings_group_search_behavior": { "message": "Поведение поиска" },
+  "settings_group_thumbnail_generation": { "message": "Миниатюры и фавиконы" },
+  "settings_group_auto_refresh": { "message": "Автоматическое обновление" },
+  "settings_group_thumbnail_storage": { "message": "Локальные изображения" },
+  "settings_group_interface": { "message": "Элементы интерфейса" },
+  "settings_group_sync": { "message": "Синхронизация" },
+  "settings_group_backup": { "message": "Резервная копия" },
+  "settings_group_storage": { "message": "Локальные данные" },
+  "settings_group_permissions": { "message": "Разрешения" },
+  "settings_group_reset": { "message": "Сброс настроек" },
+  "settings_group_reset_description": { "message": "Эти действия требуют подтверждения и могут изменить или удалить сохранённые настройки." },
+  "settings_mobile_section": { "message": "Раздел" },
+  "settings_search_label": { "message": "Поиск по настройкам" },
+  "settings_search_placeholder": { "message": "Найти настройку" },
+  "settings_autosave": { "message": "Изменения сохраняются автоматически" },
+  "settings_no_results": { "message": "Настройки не найдены" },
   "undo": {
     "message": "Отменить"
   }

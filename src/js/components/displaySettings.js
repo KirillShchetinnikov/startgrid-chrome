@@ -213,7 +213,9 @@ function createRow(setting, row = false) {
   const classRow = row ? 'tbl__row' : 'tbl';
   const classSearchEngines = setting.type === 'search-engines' ? ' tbl--search-engines' : '';
   const hidden = setting.hidden ? ' hidden' : '';
-  return /* html */ `<div id="setting_${setting.id}" class="${classRow}${classSearchEngines}"${hidden}>
+  const conditionHidden = setting.hidden ? 'true' : 'false';
+  return /* html */ `<div id="setting_${setting.id}" class="${classRow}${classSearchEngines}"
+    data-condition-hidden="${conditionHidden}" data-search-hidden="false"${hidden}>
     <div class="tbl__setting">
       ${setting.title}
       ${
@@ -227,46 +229,86 @@ function createRow(setting, row = false) {
 }
 
 export function displaySettings(settings) {
-  const tabs = [];
-  const sections = [];
+  const navigation = [];
+  const mobileNavigation = [];
+  const panels = [];
 
   settings.forEach((setting, index) => {
-    const tabId = `settings-tab-${index}`;
-    const panelId = `settings-panel-${index}`;
-    tabs.push(`<button class="tabs__controls" id="${tabId}" type="button" role="tab"
-      aria-selected="false" aria-controls="${panelId}" tabindex="-1">
-      <span class="tabs__label">${setting.key}</span>
+    const navigationId = `settings-nav-${setting.id}`;
+    const panelId = `settings-panel-${setting.id}`;
+    navigation.push(`<button class="settings-nav__item" id="${navigationId}" type="button"
+      role="tab" data-section-id="${setting.id}" aria-selected="false"
+      aria-controls="${panelId}" tabindex="-1">
+      <span class="settings-nav__label">${setting.key}</span>
     </button>`);
+    mobileNavigation.push(`<option value="${setting.id}">${setting.key}</option>`);
 
-    const list = setting?.list?.map((item) => {
-      if (item.group) {
-        return `<div class="tbl">
-            ${item.group.map((settingItem) => createRow(settingItem, 'row')).join('')}
-          </div>`;
-      } else {
+    const sectionCards = setting.sections.map((section, sectionIndex) => {
+      const list = section.list.map(item => {
+        if (item.group) {
+          return `<div class="tbl settings-row-group">
+              ${item.group.map(settingItem => createRow(settingItem, 'row')).join('')}
+            </div>`;
+        }
         return createRow(item);
-      }
+      }).join('');
+
+      const dangerClass = section.danger ? ' settings-card--danger' : '';
+      return `<section class="settings-card${dangerClass}"
+        data-card-id="${setting.id}-${sectionIndex}">
+        <header class="settings-card__header">
+          <h3 class="settings-card__title">${section.key}</h3>
+          ${section.description
+            ? `<p class="settings-card__description">${section.description}</p>`
+            : ''}
+        </header>
+        <div class="settings-card__content">${list}</div>
+      </section>`;
     }).join('');
 
-    sections.push(`<div class="tabs__section" id="${panelId}" role="tabpanel"
-      aria-labelledby="${tabId}">
-      ${setting.description ? `<p class="settings-section__description">${setting.description}</p>` : ''}
-      ${list ?? ''}
-    </div>`);
+    panels.push(`<section class="settings-panel" id="${panelId}" role="tabpanel"
+      data-section-id="${setting.id}" aria-labelledby="${navigationId}"${index ? ' hidden' : ''}>
+      <h2 class="settings-panel__title">${setting.key}</h2>
+      ${sectionCards}
+    </section>`);
   });
 
   return (/* html*/
-  `<div class="tabs">
-      <div class="tabs__bar-wrap">
-        <div class="tabs__bar" role="tablist">
-          ${tabs.join('')}
+  `<div class="settings-shell">
+      <aside class="settings-sidebar">
+        <h1 class="settings-sidebar__title">${browser.i18n.getMessage('options')}</h1>
+        <nav class="settings-nav" role="tablist" aria-orientation="vertical">
+          ${navigation.join('')}
+        </nav>
+        <label class="settings-mobile-nav">
+          <span class="settings-mobile-nav__label">${browser.i18n.getMessage('settings_mobile_section')}</span>
+          <select class="form-control" id="settings_section_select">
+            ${mobileNavigation.join('')}
+          </select>
+        </label>
+      </aside>
+      <main class="settings-main">
+        <header class="settings-toolbar">
+          <label class="settings-search">
+            <svg class="settings-search__icon" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+            </svg>
+            <input class="form-control settings-search__input" id="settings_search" type="search"
+              aria-label="${browser.i18n.getMessage('settings_search_label')}"
+              placeholder="${browser.i18n.getMessage('settings_search_placeholder')}" autocomplete="off">
+          </label>
+          <p class="settings-autosave">${browser.i18n.getMessage('settings_autosave')}</p>
+        </header>
+        <div class="settings-viewport">
+          <div class="settings-panels">
+            ${panels.join('')}
+            <p class="settings-empty" id="settings_empty" hidden>
+              ${browser.i18n.getMessage('settings_no_results')}
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="tabs__viewport">
-        <div class="tabs__content">
-          ${sections.join('')}
-        </div>
-      </div>
+      </main>
     </div>
   `);
 }

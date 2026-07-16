@@ -435,8 +435,11 @@
   "show_favicon": {
     "message": "在標題旁顯示網站圖示"
   },
-  "open_link_newtab": {
-    "message": "搜尋結果在新分頁開啟"
+  "open_bookmarks_newtab": {
+    "message": "在新分頁中開啟書籤"
+  },
+  "open_search_newtab": {
+    "message": "在新分頁中開啟搜尋"
   },
   "show_contextmenu_item": {
     "message": "顯示在右鍵選單"
@@ -795,6 +798,33 @@
   "shortcut_select_multiple_bookmarks": { "message": "選取多個書籤" },
   "shortcut_select_all_bookmarks": { "message": "選取所有書籤" },
   "shortcut_update_thumbnails": { "message": "更新所有縮圖" },
+  "settings_appearance": { "message": "外觀" },
+  "settings_controls": { "message": "控制" },
+  "settings_group_page": { "message": "頁面和背景" },
+  "settings_group_animations": { "message": "動畫和效果" },
+  "settings_group_grid": { "message": "磚塊網格" },
+  "settings_group_tile_style": { "message": "磚塊外觀" },
+  "settings_group_tile_content": { "message": "磚塊內容" },
+  "settings_group_start": { "message": "起始頁" },
+  "settings_group_sorting": { "message": "排序" },
+  "settings_group_navigation": { "message": "導覽" },
+  "settings_group_opening": { "message": "開啟和新增" },
+  "settings_group_search_behavior": { "message": "搜尋行為" },
+  "settings_group_thumbnail_generation": { "message": "縮圖和網站圖示" },
+  "settings_group_auto_refresh": { "message": "自動重新整理" },
+  "settings_group_thumbnail_storage": { "message": "本機圖片" },
+  "settings_group_interface": { "message": "介面控制項" },
+  "settings_group_sync": { "message": "同步" },
+  "settings_group_backup": { "message": "備份" },
+  "settings_group_storage": { "message": "本機資料" },
+  "settings_group_permissions": { "message": "權限" },
+  "settings_group_reset": { "message": "重設設定" },
+  "settings_group_reset_description": { "message": "這些操作需要確認，並可能變更或刪除已儲存的設定。" },
+  "settings_mobile_section": { "message": "區段" },
+  "settings_search_label": { "message": "搜尋設定" },
+  "settings_search_placeholder": { "message": "尋找設定" },
+  "settings_autosave": { "message": "變更會自動儲存" },
+  "settings_no_results": { "message": "找不到設定" },
   "undo": {
     "message": "復原"
   }

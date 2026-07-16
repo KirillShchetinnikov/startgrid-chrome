@@ -372,7 +372,7 @@ const Bookmarks = (() => {
       parentId: bookmark.parentId,
       image,
       isCustomImage: custom,
-      openNewTab: settings.$.open_link_newtab,
+      openNewTab: settings.$.open_bookmarks_newtab,
       thumbnailSource,
       thumbnailSize,
       usageCount,
@@ -397,7 +397,7 @@ const Bookmarks = (() => {
       hasFolderPreview: folderPreview,
       folderChidlren: folderPreview ? renderFolderChildren(bookmark) : [],
       image,
-      openNewTab: settings.$.open_link_newtab,
+      openNewTab: settings.$.open_bookmarks_newtab,
       hasTitle: settings.$.show_bookmark_title,
       hasFavicon: settings.$.show_favicon,
       isDND: settings.$.drag_and_drop

@@ -65,7 +65,8 @@ const DEFAULTS = Object.freeze({
   show_create_column: true,
   show_bookmark_title: true,
   show_favicon: true,
-  open_link_newtab: false,
+  open_bookmarks_newtab: false,
+  open_search_newtab: false,
   thumbnails_update_button: true,
   thumbnails_update_delay: 0.5,
   thumbnails_auto_refresh: false,
@@ -104,6 +105,16 @@ const DEPRECATED_SETTINGS = [
 function migrateSettings(currentSettings = {}) {
   const migrated = { ...currentSettings };
 
+  if (Object.hasOwn(migrated, 'open_link_newtab')) {
+    const openInNewTab = Boolean(migrated.open_link_newtab);
+    if (!Object.hasOwn(migrated, 'open_bookmarks_newtab')) {
+      migrated.open_bookmarks_newtab = openInNewTab;
+    }
+    if (!Object.hasOwn(migrated, 'open_search_newtab')) {
+      migrated.open_search_newtab = openInNewTab;
+    }
+  }
+
   if (!Object.hasOwn(migrated, 'home_sort_by') && Object.hasOwn(migrated, 'sort_by')) {
     migrated.home_sort_by = ['date', 'alphabet'].includes(migrated.sort_by)
       ? migrated.sort_by
@@ -119,6 +130,7 @@ function migrateSettings(currentSettings = {}) {
 
   delete migrated.sort_by;
   delete migrated.sort_by_newest;
+  delete migrated.open_link_newtab;
   return migrated;
 }
 

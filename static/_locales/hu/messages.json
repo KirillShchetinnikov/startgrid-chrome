@@ -435,8 +435,11 @@
   "show_favicon": {
     "message": "A kedvencek ikon megjelenítése a cím mellett"
   },
-  "open_link_newtab": {
-    "message": "Nyissa meg a könyvjelzőket, és keressen egy új lapon"
+  "open_bookmarks_newtab": {
+    "message": "Könyvjelzők megnyitása új lapon"
+  },
+  "open_search_newtab": {
+    "message": "Keresés megnyitása új lapon"
   },
   "show_contextmenu_item": {
     "message": "Megjelenítés a helyi menüben"
@@ -795,6 +798,33 @@
   "shortcut_select_multiple_bookmarks": { "message": "Több könyvjelző kijelölése" },
   "shortcut_select_all_bookmarks": { "message": "Összes könyvjelző kijelölése" },
   "shortcut_update_thumbnails": { "message": "Összes bélyegkép frissítése" },
+  "settings_appearance": { "message": "Megjelenés" },
+  "settings_controls": { "message": "Vezérlés" },
+  "settings_group_page": { "message": "Oldal és háttér" },
+  "settings_group_animations": { "message": "Animációk és effektek" },
+  "settings_group_grid": { "message": "Csemperács" },
+  "settings_group_tile_style": { "message": "Csempék megjelenése" },
+  "settings_group_tile_content": { "message": "Csempék tartalma" },
+  "settings_group_start": { "message": "Kezdőoldal" },
+  "settings_group_sorting": { "message": "Rendezés" },
+  "settings_group_navigation": { "message": "Navigáció" },
+  "settings_group_opening": { "message": "Megnyitás és hozzáadás" },
+  "settings_group_search_behavior": { "message": "Keresés működése" },
+  "settings_group_thumbnail_generation": { "message": "Bélyegképek és webhelyikonok" },
+  "settings_group_auto_refresh": { "message": "Automatikus frissítés" },
+  "settings_group_thumbnail_storage": { "message": "Helyi képek" },
+  "settings_group_interface": { "message": "Felületi vezérlők" },
+  "settings_group_sync": { "message": "Szinkronizálás" },
+  "settings_group_backup": { "message": "Biztonsági mentés" },
+  "settings_group_storage": { "message": "Helyi adatok" },
+  "settings_group_permissions": { "message": "Engedélyek" },
+  "settings_group_reset": { "message": "Beállítások visszaállítása" },
+  "settings_group_reset_description": { "message": "Ezek a műveletek megerősítést igényelnek, és módosíthatják vagy törölhetik a mentett beállításokat." },
+  "settings_mobile_section": { "message": "Szakasz" },
+  "settings_search_label": { "message": "Keresés a beállításokban" },
+  "settings_search_placeholder": { "message": "Beállítás keresése" },
+  "settings_autosave": { "message": "A módosítások automatikusan mentésre kerülnek" },
+  "settings_no_results": { "message": "Nem található beállítás" },
   "undo": {
     "message": "Visszavonás"
   }

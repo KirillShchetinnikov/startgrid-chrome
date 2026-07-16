@@ -6,6 +6,37 @@ describe('search settings synchronization', () => {
     jest.resetModules();
   });
 
+  it('migrates the shared new-tab option to separate bookmark and search options', async() => {
+    const localSet = jest.fn().mockResolvedValue();
+    global.browser = {
+      i18n: { getMessage: key => key },
+      runtime: { getURL: path => `chrome-extension://test/${path}` },
+      storage: {
+        local: {
+          get: jest.fn().mockResolvedValue({
+            settings: { enable_sync: false, open_link_newtab: true }
+          }),
+          set: localSet,
+          remove: jest.fn().mockResolvedValue(),
+          clear: jest.fn().mockResolvedValue()
+        },
+        sync: {
+          get: jest.fn().mockResolvedValue({}),
+          set: jest.fn().mockResolvedValue(),
+          clear: jest.fn().mockResolvedValue()
+        }
+      }
+    };
+
+    const { settings } = await import('../src/js/settings');
+    await settings.init();
+
+    expect(settings.$.open_bookmarks_newtab).toBe(true);
+    expect(settings.$.open_search_newtab).toBe(true);
+    expect(settings.$).not.toHaveProperty('open_link_newtab');
+    expect(localSet.mock.calls.at(-1)[0].settings).not.toHaveProperty('open_link_newtab');
+  });
+
   it('writes the search configuration, default engine, and order to sync storage', async() => {
     const localSet = jest.fn().mockResolvedValue();
     const localRemove = jest.fn().mockResolvedValue();

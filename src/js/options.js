@@ -1,6 +1,5 @@
 import '../css/options.css';
 import './components/vb-select';
-import TabsSlider from 'tabs-slider';
 import { settings } from './settings';
 import Localization from './plugins/localization';
 import Ripple from './components/ripple';
@@ -27,10 +26,11 @@ import initSearchEngineSettings from './components/searchEngineSettings';
 import initKeyboardShortcutSettings from './components/keyboardShortcutSettings';
 import { cssColorToHex } from './tileAppearance';
 
-let tabsSliderInstance = null;
 let backgroundImage = null;
 let searchEngineSettingsInstance = null;
 let keyboardShortcutSettingsInstance = null;
+let activeSettingsSection = null;
+let sectionBeforeSearch = null;
 
 async function init() {
   // Set lang attr
@@ -73,84 +73,28 @@ async function init() {
     });
   });
 
-  // Tabs
-  const tabs = document.querySelector('.tabs');
-  const tabsBar = tabs.querySelector('.tabs__bar');
-  const tabsViewport = tabs.querySelector('.tabs__viewport');
-  const tabControls = [...tabs.querySelectorAll('.tabs__controls')];
-  const tabSections = [...tabs.querySelectorAll('.tabs__section')];
-  let scrollbarRestoreTimer;
-  const tabsCount = tabSections.length;
-  const savedTabIndex = parseInt(localStorage['option_tab_slide']) || 0;
-  const initialTabIndex = Math.min(savedTabIndex, tabsCount - 1);
-  const syncTabHeaderState = currentIndex => {
-    tabControls.forEach((control, index) => {
-      const isActive = index === currentIndex;
-      control.setAttribute('aria-selected', String(isActive));
-      control.tabIndex = isActive ? 0 : -1;
-      tabSections[index].setAttribute('aria-hidden', String(!isActive));
-    });
-  };
-
-  tabsSliderInstance = new TabsSlider(tabs, {
-    draggable: false,
-    slide: initialTabIndex
-  });
-  syncTabHeaderState(initialTabIndex);
-  localStorage['option_tab_slide'] = initialTabIndex;
-
-  tabsBar.addEventListener('keydown', event => {
-    const currentControl = event.target.closest('.tabs__controls');
-    if (!currentControl) return;
-
-    const currentIndex = tabControls.indexOf(currentControl);
-    let nextIndex = currentIndex;
-    if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + tabsCount) % tabsCount;
-    else if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabsCount;
-    else if (event.key === 'Home') nextIndex = 0;
-    else if (event.key === 'End') nextIndex = tabsCount - 1;
-    else return;
-
-    event.preventDefault();
-    tabsSliderInstance.show(nextIndex);
-    tabControls[nextIndex].focus();
-  });
+  initSettingsNavigation();
 
   const manifest = browser.runtime.getManifest();
   document.getElementById('ext_name').textContent = manifest.name;
   document.getElementById('ext_version').textContent = `${browser.i18n.getMessage('version')} ${manifest.version}`;
-
-  tabs.addEventListener('tabChange', function(evt) {
-    const { currentIndex, prevIndex } = evt.detail;
-    localStorage['option_tab_slide'] = currentIndex;
-    syncTabHeaderState(currentIndex);
-    if (currentIndex === prevIndex) return;
-
-    tabsViewport.classList.add('is-switching');
-    clearTimeout(scrollbarRestoreTimer);
-    scrollbarRestoreTimer = setTimeout(() => {
-      tabsViewport.classList.remove('is-switching');
-    }, 400);
-    tabsViewport.scrollTop = 0;
-  });
 
   searchEngineSettingsInstance = initSearchEngineSettings({
     container: document.getElementById('search_engines'),
     settings,
     onChange: () => {
       generateSearchEngineList();
-      tabsSliderInstance.recalcStyles();
+      applySettingsFilter();
     }
   });
   keyboardShortcutSettingsInstance = initKeyboardShortcutSettings({
     container: document.getElementById('keyboard_shortcuts'),
     settings
   });
-  tabsSliderInstance.recalcStyles();
   getOptions();
 
   // Delegate change settings
-  document.querySelector('.tabs').addEventListener('change', handleSetOptions);
+  document.querySelector('.settings-shell').addEventListener('change', handleSetOptions);
   document.getElementById('background_local').addEventListener('click', handleRemoveFile);
   document.getElementById('restore_local').addEventListener('click', handleResetLocalSettings);
   document.getElementById('restore_sync').addEventListener('click', handleResetSyncSettings);
@@ -171,6 +115,168 @@ async function init() {
     'accept',
     FILES_ALLOWED_EXTENSIONS.map(ext => `.${ext}`).join(', ')
   );
+}
+
+function activateSettingsSection(
+  sectionId,
+  { focus = false, persist = true, resetScroll = true } = {}
+) {
+  const navigationItems = [...document.querySelectorAll('.settings-nav__item')];
+  const panels = [...document.querySelectorAll('.settings-panel')];
+  const targetNavigation = navigationItems.find(item => {
+    return item.dataset.sectionId === sectionId && !item.hidden;
+  });
+  if (!targetNavigation) return;
+
+  activeSettingsSection = sectionId;
+  navigationItems.forEach(item => {
+    const isActive = item.dataset.sectionId === sectionId;
+    item.setAttribute('aria-selected', String(isActive));
+    item.tabIndex = isActive ? 0 : -1;
+  });
+  panels.forEach(panel => {
+    const isActive = panel.dataset.sectionId === sectionId;
+    const isFiltered = panel.dataset.filterHidden === 'true';
+    panel.hidden = !isActive || isFiltered;
+    panel.setAttribute('aria-hidden', String(!isActive || isFiltered));
+  });
+
+  const mobileSelect = document.getElementById('settings_section_select');
+  if (mobileSelect) mobileSelect.value = sectionId;
+  if (persist) localStorage.options_section = sectionId;
+  if (focus) targetNavigation.focus();
+
+  const viewport = document.querySelector('.settings-viewport');
+  if (viewport && resetScroll) viewport.scrollTop = 0;
+}
+
+function updateSettingsRowVisibility(row, reason, hidden) {
+  row.dataset[reason] = String(hidden);
+  row.hidden = row.dataset.conditionHidden === 'true' || row.dataset.searchHidden === 'true';
+}
+
+function applySettingsFilter() {
+  const searchInput = document.getElementById('settings_search');
+  const query = searchInput.value.trim().toLocaleLowerCase();
+  const matchingSections = [];
+
+  document.querySelectorAll('.settings-panel').forEach(panel => {
+    const panelTitle = panel.querySelector('.settings-panel__title').textContent.toLocaleLowerCase();
+    const panelMatches = Boolean(query) && panelTitle.includes(query);
+    let panelHasMatches = false;
+
+    panel.querySelectorAll('.settings-card').forEach(card => {
+      const cardHeader = card.querySelector('.settings-card__header').textContent.toLocaleLowerCase();
+      const cardMatches = panelMatches || (Boolean(query) && cardHeader.includes(query));
+      let cardHasMatches = false;
+
+      card.querySelectorAll('.settings-card__content > .tbl').forEach(row => {
+        const rowMatches = !query || cardMatches || row.textContent.toLocaleLowerCase().includes(query);
+        updateSettingsRowVisibility(row, 'searchHidden', !rowMatches);
+        if (!row.hidden) cardHasMatches = true;
+      });
+
+      card.hidden = !cardHasMatches;
+      if (cardHasMatches) panelHasMatches = true;
+    });
+
+    panel.dataset.filterHidden = String(!panelHasMatches);
+    const sectionId = panel.dataset.sectionId;
+    const navigationItem = document.querySelector(`.settings-nav__item[data-section-id="${sectionId}"]`);
+    const mobileOption = document.querySelector(`#settings_section_select option[value="${sectionId}"]`);
+    navigationItem.hidden = !panelHasMatches;
+    if (mobileOption) {
+      mobileOption.hidden = !panelHasMatches;
+      mobileOption.disabled = !panelHasMatches;
+    }
+    if (panelHasMatches) matchingSections.push(sectionId);
+  });
+
+  const emptyState = document.getElementById('settings_empty');
+  emptyState.hidden = matchingSections.length > 0;
+  if (!matchingSections.includes(activeSettingsSection)) {
+    activeSettingsSection = matchingSections[0] || null;
+  }
+  if (activeSettingsSection) {
+    activateSettingsSection(activeSettingsSection, {
+      persist: !query,
+      resetScroll: false
+    });
+  } else {
+    document.querySelectorAll('.settings-panel').forEach(panel => {
+      panel.hidden = true;
+    });
+  }
+}
+
+function initSettingsNavigation() {
+  const navigation = document.querySelector('.settings-nav');
+  const navigationItems = [...navigation.querySelectorAll('.settings-nav__item')];
+  const sectionIds = navigationItems.map(item => item.dataset.sectionId);
+  const legacyIndex = Number.parseInt(localStorage.option_tab_slide, 10);
+  const legacySectionIds = [
+    'appearance',
+    'appearance',
+    'search',
+    'bookmarks',
+    'thumbnails',
+    'data',
+    'controls'
+  ];
+  const legacySection = Number.isFinite(legacyIndex) ? legacySectionIds[legacyIndex] : null;
+  const initialSection = sectionIds.includes(localStorage.options_section)
+    ? localStorage.options_section
+    : legacySection || sectionIds[0];
+  localStorage.removeItem('option_tab_slide');
+
+  navigation.addEventListener('click', event => {
+    const item = event.target.closest('.settings-nav__item');
+    if (item) activateSettingsSection(item.dataset.sectionId);
+  });
+  navigation.addEventListener('keydown', event => {
+    const currentItem = event.target.closest('.settings-nav__item');
+    if (!currentItem) return;
+
+    const visibleItems = navigationItems.filter(item => !item.hidden);
+    const currentIndex = visibleItems.indexOf(currentItem);
+    let nextIndex = currentIndex;
+    if (['ArrowUp', 'ArrowLeft'].includes(event.key)) {
+      nextIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    } else if (['ArrowDown', 'ArrowRight'].includes(event.key)) {
+      nextIndex = (currentIndex + 1) % visibleItems.length;
+    } else if (event.key === 'Home') {
+      nextIndex = 0;
+    } else if (event.key === 'End') {
+      nextIndex = visibleItems.length - 1;
+    } else {
+      return;
+    }
+
+    event.preventDefault();
+    activateSettingsSection(visibleItems[nextIndex].dataset.sectionId, { focus: true });
+  });
+
+  document.getElementById('settings_section_select').addEventListener('change', event => {
+    activateSettingsSection(event.target.value);
+  });
+
+  const searchInput = document.getElementById('settings_search');
+  searchInput.addEventListener('input', () => {
+    const hasQuery = Boolean(searchInput.value.trim());
+    if (hasQuery && !sectionBeforeSearch) sectionBeforeSearch = activeSettingsSection;
+    if (!hasQuery && sectionBeforeSearch) {
+      activeSettingsSection = sectionBeforeSearch;
+      sectionBeforeSearch = null;
+    }
+    applySettingsFilter();
+  });
+  searchInput.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !searchInput.value) return;
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+  });
+
+  activateSettingsSection(initialSection);
 }
 
 function handleBackToMain(e) {
@@ -282,24 +388,28 @@ function getOptions() {
       }
     }
   }
-  syncSortingControls();
+  syncConditionalControls();
 }
 
-function syncSortingControls() {
+function syncConditionalControls() {
   const sortMode = document.getElementById('home_sort_by')?.value;
   const conditionalRows = {
     home_sort_date_direction: sortMode === 'date',
     home_sort_alphabet_direction: sortMode === 'alphabet',
     home_sort_usage_tiebreaker: sortMode === 'usage',
     show_usage_count: sortMode === 'usage',
-    bookmarks_sorting_type: document.getElementById('show_home_folders')?.checked
+    bookmarks_sorting_type: document.getElementById('show_home_folders')?.checked,
+    background_entrance_duration: document.getElementById('background_entrance_effect')?.value !== 'none',
+    page_cascade_mode: document.getElementById('page_cascade_enabled')?.checked,
+    page_cascade_duration: document.getElementById('page_cascade_enabled')?.checked,
+    thumbnails_auto_refresh_interval: document.getElementById('thumbnails_auto_refresh')?.checked
   };
 
   Object.entries(conditionalRows).forEach(([id, visible]) => {
     const row = document.getElementById(`setting_${id}`);
-    if (row) row.hidden = !visible;
+    if (row) updateSettingsRowVisibility(row, 'conditionHidden', !visible);
   });
-  tabsSliderInstance?.recalcStyles();
+  applySettingsFilter();
 }
 
 /**
@@ -320,8 +430,6 @@ function toggleBackgroundControls(value) {
     document.querySelector('.c-upload__preview').hidden = !backgroundImage;
   }
   document.getElementById(value).hidden = false;
-
-  tabsSliderInstance.recalcStyles();
 }
 
 function relationToggleOption(target) {
@@ -412,8 +520,14 @@ async function handleSetOptions(e) {
 
   relationToggleOption(target);
 
-  if (['home_sort_by', 'show_home_folders'].includes(id)) {
-    syncSortingControls();
+  if ([
+    'home_sort_by',
+    'show_home_folders',
+    'background_entrance_effect',
+    'page_cascade_enabled',
+    'thumbnails_auto_refresh'
+  ].includes(id)) {
+    syncConditionalControls();
   }
 
   // dark theme
@@ -475,7 +589,6 @@ async function handleUploadFile() {
           <div>`;
 
   Toast.show(browser.i18n.getMessage('notice_bg_image_updated'));
-  tabsSliderInstance.recalcStyles();
 }
 
 async function handleRemoveFile(evt) {
@@ -497,7 +610,6 @@ async function handleRemoveFile(evt) {
 
   preview.innerHTML = '';
   previewParent.hidden = true;
-  tabsSliderInstance.recalcStyles();
   Toast.show(browser.i18n.getMessage('notice_image_removed'));
 }
 

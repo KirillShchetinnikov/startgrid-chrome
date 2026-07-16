@@ -19,6 +19,8 @@ describe('split Chrome Sync settings', () => {
       show_usage_count: true,
       show_home_folders: false,
       navigation_sort_by: 'alphabet',
+      open_bookmarks_newtab: true,
+      open_search_newtab: true,
       keyboard_shortcuts: { focus_search: 'Slash' }
     });
 
@@ -30,11 +32,13 @@ describe('split Chrome Sync settings', () => {
       home_sort_usage_tiebreaker: 'date',
       show_usage_count: true,
       show_home_folders: false,
-      navigation_sort_by: 'alphabet'
+      open_bookmarks_newtab: true
     });
     expect(records.settings_search).toEqual({
       search_engine: 'google',
-      search_autofocus: true
+      search_autofocus: true,
+      navigation_sort_by: 'alphabet',
+      open_search_newtab: true
     });
     expect(records.settings_thumbnails).toEqual({
       favicon_size: 48,

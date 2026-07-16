@@ -9,7 +9,8 @@ export const SEARCH_SETTINGS_KEYS = new Set([
   'search_engine',
   'search_engines',
   'search_results_display',
-  'open_link_newtab',
+  'navigation_sort_by',
+  'open_search_newtab',
   'search_autofocus'
 ]);
 
