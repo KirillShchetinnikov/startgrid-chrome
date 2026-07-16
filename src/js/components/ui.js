@@ -93,13 +93,7 @@ export default {
       });
       if (!image) return;
 
-      if (settings.$.background_effect === 'distortion') {
-        const { default: DistortionEffect } = await import('../plugins/effects/distortion');
-        const instance = new DistortionEffect(image);
-        bgEl.append(instance.canvas);
-      } else {
-        bgEl.append(image);
-      }
+      bgEl.append(image);
 
       window.requestAnimationFrame(() => {
         document.body.classList.add('has-image');

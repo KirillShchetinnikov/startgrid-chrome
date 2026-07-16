@@ -176,17 +176,6 @@ export default [
         ]
       },
       {
-        id: 'background_effect',
-        title: browser.i18n.getMessage('background_effect'),
-        note: browser.i18n.getMessage('background_effect_note'),
-        type: 'select',
-        hidden: true,
-        options: [
-          { value: 'none', title: browser.i18n.getMessage('background_effect_none') },
-          { value: 'distortion', title: browser.i18n.getMessage('background_effect_distortion') }
-        ]
-      },
-      {
         id: 'show_toolbar',
         title: browser.i18n.getMessage('show_toolbar'),
         type: 'switch'

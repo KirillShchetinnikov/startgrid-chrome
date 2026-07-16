@@ -69,8 +69,7 @@ const DEFAULTS = Object.freeze({
   move_to_start: false,
   sort_by: '', // '' | date | alphabet
   bookmarks_sorting_type: '',
-  search_autofocus: false,
-  background_effect: 'none' // none | distortion
+  search_autofocus: false
 });
 
 const SETTINGS_NOT_SYNCED = ['default_folder_id', 'sync_default_folder_id', 'enable_sync'];
@@ -80,7 +79,8 @@ const DEPRECATED_SETTINGS = [
   'services_list',
   'enable_virtual_pagination',
   'thumbnails_update_recursive',
-  'auto_generate_thumbnail'
+  'auto_generate_thumbnail',
+  'background_effect'
 ];
 
 export function getDefaultSettings(keys = Object.keys(DEFAULTS)) {

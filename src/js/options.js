@@ -295,9 +295,6 @@ function toggleBackgroundControls(value) {
   }
   document.getElementById(value).hidden = false;
 
-  const showImageEffectSetting = ['background_local', 'background_external', 'background_bing'].includes(value);
-  document.getElementById('setting_background_effect').hidden = !showImageEffectSetting;
-
   tabsSliderInstance.recalcStyles();
 }
 
