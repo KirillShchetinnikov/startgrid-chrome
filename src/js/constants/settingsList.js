@@ -246,12 +246,6 @@ export default [
         options: []
       },
       {
-        id: 'search_engines',
-        title: browser.i18n.getMessage('search_engines'),
-        note: browser.i18n.getMessage('search_engines_description'),
-        type: 'search-engines'
-      },
-      {
         id: 'search_results_display',
         title: browser.i18n.getMessage('search_results_display'),
         type: 'select',
@@ -283,6 +277,12 @@ export default [
         id: 'search_autofocus',
         title: browser.i18n.getMessage('search_autofocus'),
         type: 'switch'
+      },
+      {
+        id: 'search_engines',
+        title: browser.i18n.getMessage('search_engines'),
+        note: browser.i18n.getMessage('search_engines_description'),
+        type: 'search-engines'
       }
     ]
   },
