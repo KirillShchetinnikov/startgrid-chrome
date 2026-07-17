@@ -19,6 +19,7 @@
   --theme-background-3-alpha-95: rgb(239 237 247 / 96%);
   --theme-background-input: var(--theme-background);
   --theme-text-color: rgb(39 37 57);
+  --theme-muted-color: rgb(96 92 116);
   --theme-invert-alpha-10: rgba(0 0 0 / 10%);
   --theme-invert-alpha-20: rgba(0 0 0 / 20%);
   --theme-invert-alpha-50: rgba(0 0 0 / 50%);
@@ -161,6 +162,7 @@
   /* body */
   --body-background: var(--theme-background);
   --theme-text-color: rgb(244 242 250);
+  --theme-muted-color: rgb(184 179 201);
 
   /* Colors */
   --filter-invert-image: invert(1);

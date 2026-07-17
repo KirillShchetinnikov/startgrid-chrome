@@ -204,7 +204,7 @@ body.gmodal-open {
 .gmodal__tip {
   display: none;
   font-size: 0.75rem;
-  color: #999;
+  color: var(--theme-muted-color);
 }
 
 .gmodal.has-add .gmodal__tip {
@@ -246,7 +246,7 @@ body.gmodal-open {
 .gmodal__thumbnail-note {
   display: block;
   margin-top: 5px;
-  color: #999;
+  color: var(--theme-muted-color);
   font-size: 0.75rem;
 }
 

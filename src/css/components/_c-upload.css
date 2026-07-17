@@ -35,7 +35,7 @@
   font-weight: 500;
   letter-spacing: 0.05rem;
   color: var(--btn-color);
-  background-color: var(--btn);
+  background: var(--btn);
   border-radius: var(--btn-radius);
   cursor: pointer;
 }

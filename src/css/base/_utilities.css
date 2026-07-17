@@ -4,7 +4,7 @@
 }
 
 .text-muted {
-  color: #999;
+  color: var(--theme-muted-color);
 }
 
 .text-warning {
