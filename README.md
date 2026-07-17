@@ -4,7 +4,7 @@
 
 StartGrid replaces Chrome's default new tab page with a clean, customizable space for visual bookmarks. Organize the browser bookmark tree, search the web and your saved pages, group links into folders, customize thumbnails, and tune the layout to match the way you browse.
 
-![StartGrid dark new tab page](docs/screenshots/chrome-web-store/dark-new-tab.png)
+![StartGrid visual bookmarks for Chrome](docs/screenshots/chrome-web-store/Market_big.png)
 
 ## Features
 
@@ -17,22 +17,6 @@ StartGrid replaces Chrome's default new tab page with a clean, customizable spac
 - import and export settings;
 - select the interface language independently from Chrome;
 - use English, Russian, German, Spanish, French, Hungarian, Japanese, Korean, Polish, Brazilian Portuguese, Simplified Chinese, or Traditional Chinese.
-
-## Screenshots
-
-### Themes and backgrounds
-
-![StartGrid light theme with a custom background](docs/screenshots/chrome-web-store/light-new-tab-background.png)
-
-![StartGrid custom background and large tiles](docs/screenshots/chrome-web-store/custom-background-large-tiles.png)
-
-### Settings
-
-![StartGrid appearance settings](docs/screenshots/chrome-web-store/appearance-settings.png)
-
-| Bookmark editor | Quick appearance settings |
-| --- | --- |
-| <img src="docs/screenshots/chrome-web-store/bookmark-editor.png" alt="StartGrid bookmark editor" width="420"> | <img src="docs/screenshots/chrome-web-store/quick-appearance-settings.png" alt="StartGrid quick appearance settings" width="320"> |
 
 ## Installation
 

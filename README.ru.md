@@ -4,7 +4,7 @@
 
 StartGrid заменяет стандартную страницу новой вкладки Chrome на аккуратное пространство для визуальных закладок. Здесь можно управлять деревом закладок, искать страницы, собирать папки, менять миниатюры и настраивать внешний вид панели.
 
-![Тёмная страница новой вкладки StartGrid](docs/screenshots/chrome-web-store/dark-new-tab.png)
+![Визуальные закладки StartGrid для Chrome](docs/screenshots/chrome-web-store/Market_big.png)
 
 ## Возможности
 
@@ -16,22 +16,6 @@ StartGrid заменяет стандартную страницу новой в
 - настройка сетки, подписей, фавиконов и превью папок;
 - импорт и экспорт настроек;
 - выбор языка интерфейса независимо от языка Chrome: русский, английский, французский, польский, венгерский, испанский, немецкий, бразильский португальский, японский, корейский, упрощённый и традиционный китайский.
-
-## Скриншоты
-
-### Темы и фон
-
-![Светлая тема StartGrid с пользовательским фоном](docs/screenshots/chrome-web-store/light-new-tab-background.png)
-
-![Пользовательский фон StartGrid и крупные плитки](docs/screenshots/chrome-web-store/custom-background-large-tiles.png)
-
-### Настройки
-
-![Настройки внешнего вида StartGrid](docs/screenshots/chrome-web-store/appearance-settings.png)
-
-| Редактор закладки | Быстрые настройки внешнего вида |
-| --- | --- |
-| <img src="docs/screenshots/chrome-web-store/bookmark-editor.png" alt="Редактор закладки StartGrid" width="420"> | <img src="docs/screenshots/chrome-web-store/quick-appearance-settings.png" alt="Быстрые настройки внешнего вида StartGrid" width="320"> |
 
 ## Установка
 
