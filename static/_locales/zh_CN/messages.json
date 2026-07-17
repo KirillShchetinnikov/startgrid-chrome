@@ -3,25 +3,31 @@
     "message": "StartGrid"
   },
   "ext_desc": {
-    "message": "简单的快速访问书签页面, 包括搜索, 新建, 编辑, 删除和拖拽书签."
+    "message": "可自定义的新标签页，集可视化书签、文件夹、搜索、缩略图、主题和可选同步于一体。"
   },
   "default_title": {
     "message": "StartGrid"
   },
+  "language": {
+    "message": "语言"
+  },
+  "language_browser": {
+    "message": "使用浏览器语言"
+  },
   "color_theme": {
-    "message": "颜色主题"
+    "message": "色彩主题"
   },
   "dark_theme": {
-    "message": "深色模式"
+    "message": "黑暗的"
   },
   "light_theme": {
-    "message": "浅色模式"
+    "message": "光"
   },
   "os_theme": {
-    "message": "跟随系统设置"
+    "message": "操作系统主题"
   },
   "placeholder_input_search": {
-    "message": "在 $engine$ 中搜索",
+    "message": "在$engine$中搜索",
     "placeholders": {
       "engine": {
         "content": "$1"
@@ -41,7 +47,7 @@
     "message": "标题"
   },
   "label_url": {
-    "message": "地址"
+    "message": "网址"
   },
   "label_folder": {
     "message": "文件夹"
@@ -59,73 +65,73 @@
     "message": "从网站创建"
   },
   "thumbnail_source_url": {
-    "message": "来自 URL"
+    "message": "来自网址"
   },
   "thumbnail_source_favicon": {
-    "message": "网站图标"
+    "message": "网站图标（默认）"
   },
   "favicon_download_preference": {
-    "message": "Источник favicon"
+    "message": "图标来源"
   },
   "favicon_download_inherit": {
-    "message": "Использовать общую настройку"
+    "message": "使用全局设置"
   },
   "favicon_download_site": {
-    "message": "Скачивать с сайта"
+    "message": "从网站下载"
   },
   "favicon_download_chrome": {
-    "message": "Использовать кэш Chrome"
+    "message": "使用 Chrome 缓存"
   },
   "favicon_size_individual": {
-    "message": "Индивидуальный размер изображения миниатюры"
+    "message": "单独缩略图尺寸"
   },
   "favicon_size_individual_placeholder": {
     "message": "32"
   },
   "favicon_size_individual_note": {
-    "message": "Оставьте поле пустым, чтобы использовать общий размер изображения миниатюры."
+    "message": "留空以使用全局缩略图大小。"
   },
   "download_favicons_by_default": {
-    "message": "Скачивать favicon с сайтов по умолчанию"
+    "message": "默认从网站下载图标"
   },
   "download_favicons_by_default_note": {
-    "message": "Если favicon отсутствует в локальном хранилище, скачивать его в фоне при открытии стартовой страницы."
+    "message": "如果本地缺少图标缩略图，请在起始页打开时在后台下载它。"
   },
   "favicon_size": {
-    "message": "Размер изображения миниатюры"
+    "message": "缩略图尺寸"
   },
   "favicon_size_note": {
-    "message": "Общий размер изображения для всех типов миниатюр. Индивидуальная настройка плитки имеет приоритет."
+    "message": "所有缩略图类型的默认图像大小。单独的图块设置优先。"
   },
   "thumbnail_url": {
-    "message": "缩略图 URL"
+    "message": "缩略图网址"
   },
   "thumbnail_url_note": {
-    "message": "图像缓存在本地，并定期检查更新。"
+    "message": "图像在本地缓存并定期检查更新。"
   },
   "notice_thumbnail_url_failed": {
     "message": "无法从 URL 下载缩略图"
   },
   "url_field_tip": {
-    "message": "输入地址, 如果要创建文件夹, 请留空"
+    "message": "输入 URL，或将此字段留空以创建文件夹。"
   },
   "btn_close": {
     "message": "取消"
   },
   "btn_save": {
-    "message": "保存"
+    "message": "节省"
   },
   "btn_back": {
-    "message": "完成"
+    "message": "完毕"
   },
   "back_to_main": {
     "message": "返回书签"
   },
   "btn_apply": {
-    "message": "应用"
+    "message": "申请"
   },
   "contextmenu_tab": {
-    "message": "在新标签页中打开"
+    "message": "在新选项卡中打开"
   },
   "contextmenu_window": {
     "message": "在新窗口中打开"
@@ -137,7 +143,7 @@
     "message": "全部在新窗口中打开"
   },
   "contextmenu_incognito": {
-    "message": "以无痕模式打开"
+    "message": "以隐身模式打开"
   },
   "contextmenu_copy_link": {
     "message": "复制链接地址"
@@ -146,7 +152,7 @@
     "message": "编辑"
   },
   "contextmenu_capture": {
-    "message": "更新缩略图"
+    "message": "刷新缩略图"
   },
   "contextmenu_upload": {
     "message": "从电脑上传"
@@ -155,31 +161,31 @@
     "message": "从剪贴板上传"
   },
   "contextmenu_remove": {
-    "message": "删除"
+    "message": "消除"
   },
   "confirm_delete_image": {
-    "message": "删除图片?"
+    "message": "删除此图像？"
   },
   "confirm_delete_images": {
-    "message": "你确定吗? 所有本地的图片将被删除"
+    "message": "你确定吗？所有本地缩略图都将被删除。"
   },
   "confirm_clear_local_cache": {
-    "message": "Вы уверены? Все временные локальные данные будут удалены. Настройки и локальные изображения сохранятся."
+    "message": "你确定吗？所有临时本地数据将被删除。设置和本地图像将被保留。"
   },
   "confirm_delete_bookmark": {
-    "message": "你确定要删除这个书签吗?"
+    "message": "删除此书签吗？"
   },
   "confirm_delete_folder": {
-    "message": "你确定要删除该文件夹及其所有内容吗?"
+    "message": "删除该文件夹以及其中的所有内容？"
   },
   "confirm_restore_default_settings": {
-    "message": "你确定要恢复成默认设置吗?"
+    "message": "仅将本地设置重置为默认值并禁用同步？服务器上的同步数据将被保留。"
   },
   "confirm_clear_sync_settings": {
-    "message": "你确定要删除之前同步的所有数据, 重新开始吗?"
+    "message": "从服务器删除同步设置并禁用同步？本地设置、图像和缓存将被保留。"
   },
   "confirm_sync_remote_settings": {
-    "message": "你之前已经同步过设置!\n 你想用之前在服务器上备份的设置来覆盖当前的本地设置吗?"
+    "message": "同步设置已存在。\n将当前本地设置替换为同步版本？"
   },
   "notice_image_removed": {
     "message": "图片已删除"
@@ -197,7 +203,7 @@
     "message": "书签已更新"
   },
   "notice_bookmark_removed": {
-    "message": "书签 \"<span data-title>$title$</span>\" 已删除",
+    "message": "已删除书签“<span data-title>$title$</span>”",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -205,7 +211,7 @@
     }
   },
   "notice_folder_removed": {
-    "message": "文件夹 \"<span data-title>$title$</span>\" 已删除",
+    "message": "已删除文件夹“<span data-title>$title$</span>”",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -213,34 +219,34 @@
     }
   },
   "notice_selected_bookmarks_removed": {
-    "message": "已删除所选书签."
+    "message": "选定的书签已删除"
   },
   "notice_images_removed": {
-    "message": "所有缩略图已删除"
+    "message": "所有本地缩略图已删除"
   },
   "notice_local_cache_cleared": {
-    "message": "Локальный кэш очищен"
+    "message": "本地缓存已清除"
   },
   "notice_cant_find_id": {
-    "message": "无法按 ID 找到文件夹, 也许你还没有同步过书签"
+    "message": "找不到文件夹。它可能在此 Chrome 配置文件中不可用。"
   },
   "notice_reset_default_settings": {
-    "message": "本地的设置已清除, 恢复为程序默认"
+    "message": "本地设置重置；同步已禁用"
   },
   "notice_sync_settings_cleared": {
-    "message": "清除已同步的数据"
+    "message": "同步服务器数据删除；同步已禁用"
   },
   "notice_bg_image_updated": {
-    "message": "背景图已更新"
+    "message": "背景更新"
   },
   "notice_thumbnails_update_complete": {
-    "message": "按钮缩略图更新完成"
+    "message": "缩略图更新完成"
   },
   "notice_link_copied": {
     "message": "链接已复制"
   },
   "alert_file_type_fail_type": {
-    "message": "文件类型错误\n 有效文件类型: ($type$)",
+    "message": "不支持的文件类型\n允许的文件类型：$type$",
     "placeholders": {
       "type": {
         "content": "$1"
@@ -248,7 +254,7 @@
     }
   },
   "alert_file_type_fail_size": {
-    "message": "最大上传文件大小: $filesize$ MB",
+    "message": "文件太大。最大大小：$filesize$ MB",
     "placeholders": {
       "filesize": {
         "content": "$1"
@@ -256,7 +262,7 @@
     }
   },
   "not_found_text": {
-    "message": "无法通过 ID 找到该文件夹. 您可能没有同步书签, 或者您 “删除” 或 “移动” 了这个文件夹."
+    "message": "找不到文件夹。它可能已被移动或删除，或者您的书签可能未在此设备上同步。"
   },
   "not_found_link_text": {
     "message": "书签栏"
@@ -271,91 +277,91 @@
     "message": "编辑书签"
   },
   "options": {
-    "message": "选项"
+    "message": "设置"
   },
   "quick_display_settings": {
-    "message": "Быстрый вид закладок"
+    "message": "快速外观设置"
   },
   "quick_display_settings_description": {
-    "message": "Изменения применяются сразу"
+    "message": "更改立即应用"
   },
   "more_settings": {
-    "message": "Все настройки"
+    "message": "所有设置"
   },
   "bookmark_appearance_setting": {
-    "message": "Закладки"
+    "message": "书签"
   },
   "page_appearance_setting": {
-    "message": "Страница"
+    "message": "主页"
   },
   "bookmark_behavior_setting": {
-    "message": "Поведение"
+    "message": "行为"
   },
   "thumbnails_setting": {
-    "message": "Миниатюры"
+    "message": "缩略图"
   },
   "thumbnails_setting_description": {
-    "message": "Настройки этого раздела применяются ко всем поддерживаемым источникам миниатюр: снимкам сайтов, изображениям по URL и favicon. Загруженные вручную изображения автоматически не заменяются."
+    "message": "本部分中的设置适用于所有支持的缩略图源：网站屏幕截图、图像 URL 和网站图标。本地上传的图像永远不会自动替换。"
   },
   "data_privacy_setting": {
-    "message": "Данные и приватность"
+    "message": "数据和隐私"
   },
   "dial_width": {
-    "message": "宽度比例"
+    "message": "网格宽度"
   },
   "dial_gap": {
-    "message": "Расстояние между плитками"
+    "message": "瓷砖之间的距离"
   },
   "dial_radius": {
-    "message": "Скругление углов плитки"
+    "message": "瓷砖圆角半径"
   },
   "dial_aspect_ratio": {
-    "message": "Пропорции плитки"
+    "message": "瓷砖比例"
   },
   "dial_aspect_ratio_square": {
-    "message": "Квадратные (1:1)"
+    "message": "正方形 (1:1)"
   },
   "dial_aspect_ratio_standard": {
-    "message": "Стандартные (4:3)"
+    "message": "标准 (4:3)"
   },
   "dial_aspect_ratio_photo": {
-    "message": "Фото (3:2)"
+    "message": "照片 (3:2)"
   },
   "dial_aspect_ratio_wide": {
-    "message": "Широкие (16:9)"
+    "message": "宽屏 (16:9)"
   },
   "dial_shadow": {
-    "message": "Интенсивность тени плитки"
+    "message": "平铺阴影强度"
   },
   "dial_hover_lift": {
-    "message": "Подъём плитки при наведении"
+    "message": "悬停时瓷砖升降机"
   },
   "dial_background_color": {
-    "message": "磁贴背景颜色"
+    "message": "平铺背景颜色"
   },
   "dial_background_color_note": {
-    "message": "选择自定义颜色前使用当前主题颜色。"
+    "message": "使用当前主题颜色，直到选择自定义颜色。"
   },
   "dial_background_opacity": {
-    "message": "磁贴背景不透明度"
+    "message": "平铺背景不透明度"
   },
   "dial_background_opacity_note": {
-    "message": "0% 完全透明，100% 完全不透明。"
+    "message": "0%完全透明； 100% 是不透明的。"
   },
   "reset_tile_background_color": {
     "message": "使用主题颜色"
   },
   "number_of_columns": {
-    "message": "屏幕面宽(从左到右的数量)"
+    "message": "列数"
   },
   "vertical_center": {
     "message": "垂直居中"
   },
   "disable_main_page_scroll": {
-    "message": "禁用主页滚动"
+    "message": "禁用主页上的滚动"
   },
   "disable_main_page_scroll_description": {
-    "message": "隐藏滚动条，并在书签搜索结果以外的页面禁用滚动。"
+    "message": "隐藏滚动条并防止滚动到书签搜索结果之外。"
   },
   "default_folder_id": {
     "message": "默认文件夹"
@@ -364,127 +370,157 @@
     "message": "同步已启用。此设置将保存到 Chrome 同步。"
   },
   "default_folder_local_note": {
-    "message": "同步已关闭。此设置将保存在此设备上。"
+    "message": "同步已禁用。此设置保存在此设备上。"
   },
   "background": {
-    "message": "底图"
+    "message": "背景"
   },
   "color": {
     "message": "颜色"
   },
   "background_noimage": {
-    "message": "没有背景图片"
+    "message": "无背景图片"
   },
   "background_noimage_text": {
-    "message": "无背景图片的主题"
+    "message": "使用主题背景颜色"
   },
   "background_bing": {
-    "message": "必应每日图片"
+    "message": "必应今日图片"
   },
   "background_bing_text": {
-    "message": "必应每日图片是显示在必应首页上的每日背景照片. 微软每天都会展示来自世界各地的自然, 建筑或文化的惊艳或有趣的图片"
+    "message": "使用 Bing 主页上的每日照片作为 StartGrid 背景。"
   },
   "bing_permission_toast": {
-    "message": "必应每日图片需要对 bing.com 的访问权限. 您可以在<a href=\"/options.html\">设置页面</a>中启用此权限，选择“Bing 每日图片”选项并确认权限"
+    "message": "Bing 每日图片需要访问 bing.com。在<a href=\"/options.html\">设置页面</a>上选择它并确认权限请求。"
   },
   "background_external": {
-    "message": "使用网络图片作为背景"
+    "message": "图片来自网址"
   },
   "background_local": {
-    "message": "背景来自本地电脑"
+    "message": "来自计算机的图像或视频"
   },
   "background_local_video_note": {
-    "message": "本地背景可以是图片或 MP4 视频。视频将静音播放并自动循环。"
+    "message": "本地背景可以是图片或MP4视频。视频静音播放并自动循环播放。"
   },
-  "background_entrance_effect": { "message": "背景出现效果" },
-  "background_entrance_none": { "message": "无动画" },
-  "background_entrance_zoom": { "message": "缩小" },
-  "background_entrance_blur": { "message": "从模糊显示" },
-  "background_entrance_slide": { "message": "向上滑入" },
-  "background_entrance_duration": { "message": "背景出现时长" },
-  "snow_mode": { "message": "降雪" },
-  "snow_mode_always": { "message": "始终" },
-  "snow_mode_winter": { "message": "冬季 — 12月1日至2月最后一天" },
-  "snow_mode_off": { "message": "关闭" },
-  "page_cascade_enabled": { "message": "打开页面时为磁贴添加动画" },
-  "page_cascade_mode": { "message": "级联顺序" },
-  "page_cascade_mode_items": { "message": "逐个书签" },
-  "page_cascade_mode_rows": { "message": "逐行" },
-  "page_cascade_duration": { "message": "级联动画时长" },
+  "background_entrance_effect": {
+    "message": "背景外观"
+  },
+  "background_entrance_none": {
+    "message": "无动画"
+  },
+  "background_entrance_zoom": {
+    "message": "缩小"
+  },
+  "background_entrance_blur": {
+    "message": "从模糊淡入"
+  },
+  "background_entrance_slide": {
+    "message": "从底部滑入"
+  },
+  "background_entrance_duration": {
+    "message": "背景出现持续时间"
+  },
+  "snow_mode": {
+    "message": "降雪"
+  },
+  "snow_mode_always": {
+    "message": "总是"
+  },
+  "snow_mode_winter": {
+    "message": "冬季 — 12 月 1 日至 2 月最后一天"
+  },
+  "snow_mode_off": {
+    "message": "离开"
+  },
+  "page_cascade_enabled": {
+    "message": "在页面打开时对图块进行动画处理"
+  },
+  "page_cascade_mode": {
+    "message": "级联顺序"
+  },
+  "page_cascade_mode_items": {
+    "message": "一次一个书签"
+  },
+  "page_cascade_mode_rows": {
+    "message": "一次一行"
+  },
+  "page_cascade_duration": {
+    "message": "级联持续时间"
+  },
   "choose_file": {
-    "message": "图片或视频"
+    "message": "选择图像或视频"
   },
   "show_settings_icon": {
     "message": "显示设置图标"
   },
   "show_quick_settings_icon": {
-    "message": "Показывать иконку быстрых настроек"
+    "message": "显示快速设置图标"
   },
   "show_extension_icon": {
-    "message": "显示 StartGrid 图标"
+    "message": "显示开始网格图标"
   },
   "show_toolbar": {
-    "message": "显示搜索栏和文件夹选择"
+    "message": "显示搜索栏和文件夹选择器"
   },
   "show_create_column": {
-    "message": "显示用于新建书签的栏"
+    "message": "显示添加书签图块"
   },
   "show_bookmark_title": {
     "message": "显示书签标题"
   },
   "show_favicon": {
-    "message": "在标题旁显示网站图标"
+    "message": "显示标题旁边的图标"
   },
   "open_bookmarks_newtab": {
-    "message": "在新标签页中打开书签"
+    "message": "在新选项卡中打开书签"
   },
   "open_search_newtab": {
-    "message": "在新标签页中打开搜索"
+    "message": "在新选项卡中打开搜索"
   },
   "show_contextmenu_item": {
-    "message": "显示在右键菜单"
+    "message": "在上下文菜单中显示"
   },
   "drag_and_drop": {
     "message": "启用拖放"
   },
   "auto_generate_thumbnail": {
-    "message": "创建书签时生成缩略图"
+    "message": "自动将网站图标添加到新书签"
   },
   "enable_sync": {
-    "message": "开启同步功能"
+    "message": "启用同步"
   },
   "clear_background_locals": {
-    "message": "清除本地文件夹内的图标"
+    "message": "删除所有本地存储的缩略图"
   },
   "clear_local_cache": {
-    "message": "Очистить локальный кэш"
+    "message": "清除本地缓存"
   },
   "reset_local_default": {
-    "message": "将本地的设置恢复到默认值"
+    "message": "将设置重置为默认值"
   },
   "reset_local_default_description": {
-    "message": "Сбрасывает только локальные настройки и отключает синхронизацию. Синхронизированные данные на сервере не удаляются."
+    "message": "仅重置本地设置并禁用同步。同步的服务器数据不会被删除。"
   },
   "reset_quick_settings": {
     "message": "重置快速设置"
   },
   "reset_quick_settings_description": {
-    "message": "仅将此菜单中显示的设置恢复为扩展程序默认值。"
+    "message": "仅将此菜单中显示的设置恢复为扩展默认设置。"
   },
   "confirm_reset_quick_settings": {
-    "message": "将快速设置恢复为扩展程序默认值吗？"
+    "message": "将快速设置重置为扩展默认值？"
   },
   "reset_sync_text": {
-    "message": "删除服务器上已同步的数据"
+    "message": "从 Chrome 同步中删除同步设置"
   },
   "reset_sync_description": {
-    "message": "Удаляет только синхронизированные настройки с сервера и отключает синхронизацию. Локальные настройки, изображения и кэш сохраняются."
+    "message": "仅从服务器删除同步设置并禁用同步。保留本地设置、图像和缓存。"
   },
   "version": {
     "message": "版本"
   },
   "thumbnails_creation": {
-    "message": "正在生成缩略图: $start$，共 $total$",
+    "message": "生成缩略图：$start$ / $total$",
     "placeholders": {
       "start": {
         "content": "$1"
@@ -495,128 +531,132 @@
     }
   },
   "thumbnails_update_warn": {
-    "message": "更新缩略图会影响你电脑的性能\n(这取决于你有多少书签, 以及电脑的速度)"
+    "message": "每个缩略图均从其选定的来源刷新：网站、图像 URL 或网站图标。本地上传的图像将被保留。更新会影响性能。"
   },
   "thumbnails_update_button": {
-    "message": "更新的按钮缩略图"
+    "message": "更新所有缩略图"
   },
   "thumbnails_auto_refresh": {
-    "message": "Автоматически обновлять миниатюры"
+    "message": "自动刷新缩略图"
   },
   "thumbnails_auto_refresh_note": {
-    "message": "Проверяет и обновляет устаревшие миниатюры при открытии главной страницы"
+    "message": "打开主页时检查并刷新过时的缩略图"
   },
   "thumbnails_auto_refresh_interval": {
-    "message": "Интервал автоматического обновления"
+    "message": "自动刷新间隔"
   },
   "thumbnails_auto_refresh_interval_note": {
-    "message": "Время между обновлениями миниатюр: от 1 часа до 7 дней"
+    "message": "缩略图刷新之间的时间，从 1 小时到 7 天"
   },
   "hours_short": {
-    "message": " ч"
+    "message": "小时"
   },
   "folder_preview": {
-    "message": "使用网站缩略图替代目录图标"
+    "message": "在文件夹上显示站点缩略图"
   },
   "folder_preview_description": {
-    "message": "启用此设置后, 将显示文件夹中 4 个随机网站的缩略图, 而不是图标或自定义图片."
+    "message": "显示文件夹中四个随机选择的站点的缩略图，而不是文件夹图标或自定义图像。"
   },
   "backup_settings": {
-    "message": "导入, 导出设置"
+    "message": "导入或导出设置"
   },
   "backup_settings_description": {
-    "message": "只备份 StartGrid 的设置, 但不包括书签和缩略图的图标"
+    "message": "仅备份扩展设置；不包括书签和图像。"
   },
   "import": {
-    "message": "设置导入"
+    "message": "进口"
   },
   "export": {
-    "message": "设置导出"
+    "message": "出口"
   },
   "import_settings_success": {
-    "message": "设置已导入"
+    "message": "导入的设置"
   },
   "import_settings_failed": {
-    "message": "无法正常读取配置文件"
+    "message": "无法读取设置文件"
   },
   "without_confirmation": {
-    "message": "删除时不确认"
+    "message": "删除而不确认"
   },
   "toggle_clipboard_access": {
-    "message": "从剪贴板读取的权限"
+    "message": "允许剪贴板访问"
   },
   "toggle_clipboard_access_description": {
-    "message": "允许扩展程序从剪贴板中读取数据以上传书签缩略图。在书签编辑窗口中会出现“从剪贴板上传”操作。如果您对此权限感到担心，只需不启用即可。"
+    "message": "允许扩展从剪贴板读取数据以上传书签缩略图。 “从剪贴板上传”操作将在书签编辑窗口中可用。如果您担心此权限，请不要启用它。"
   },
   "error_input_required": {
-    "message": "必须输入字符串"
+    "message": "必填字段"
   },
   "error_input_url": {
-    "message": "地址无效"
+    "message": "网址无效"
   },
   "thumbnails_update_delay": {
-    "message": "创建缩略图时, 先做一些延迟"
+    "message": "捕获缩略图之前请等待"
   },
   "thumbnails_update_delay_note": {
-    "message": "当页面更新有延迟时很有用, 可以捕捉到网站的缩略图. \n\n 但延迟时间越长, 等待时间就越久"
+    "message": "增加需要更多时间完成加载的网站的延迟。"
   },
   "close_tab_after_adding_bookmark": {
-    "message": "如果您已将选项添加到书签, 则自动关闭该标签页"
+    "message": "添加到书签后关闭选项卡"
   },
   "close_tab_after_adding_bookmark_note": {
-    "message": "仅当通过右键菜单添加时"
+    "message": "仅当从上下文菜单添加书签时适用。"
   },
   "empty_search": {
-    "message": "未找到书签"
+    "message": "没有找到书签"
   },
   "search_failed": {
-    "message": "Не удалось выполнить поиск по закладкам. Попробуйте ещё раз."
+    "message": "无法搜索书签。请再试一次。"
   },
   "sync_quota_exceeded": {
-    "message": "已超出 Chrome 同步存储限制（$used$ / $limit$）。最新更改无法同步，并保留在此设备上。请减少同步设置的数据量。",
+    "message": "Chrome 同步存储超出限制（$used$ 共 $limit$）。最新更改无法同步并保留在此设备上。减少同步设置。",
     "placeholders": {
-      "used": { "content": "$1" },
-      "limit": { "content": "$2" }
+      "used": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
     }
   },
   "delete_thumbnail": {
     "message": "从本地存储中删除"
   },
   "show_back_column": {
-    "message": "在书签栏中显示返回上层的图标"
+    "message": "显示文件夹内的后磁贴"
   },
   "search_engine": {
     "message": "默认搜索引擎"
   },
   "search_results_display": {
-    "message": "Отображение результатов поиска по закладкам"
+    "message": "为搜索结果添加书签"
   },
   "search_results_display_flat": {
-    "message": "Только плитки"
+    "message": "仅瓷砖"
   },
   "search_results_display_folder_name": {
-    "message": "Родительская папка на плитке"
+    "message": "磁贴上的父文件夹"
   },
   "search_results_display_folder_path": {
-    "message": "Полный путь к папке на плитке"
+    "message": "磁贴上的完整文件夹路径"
   },
   "search_results_display_grouped": {
-    "message": "Группировать по папкам"
+    "message": "按文件夹分组"
   },
   "search_results_root_folder": {
-    "message": "Корневая папка закладок"
+    "message": "根书签文件夹"
   },
   "move_to_start": {
-    "message": "将书签移至文件夹内列表的顶部"
+    "message": "将新书签移至文件夹顶部"
   },
   "bookmarks_sorting_type": {
     "message": "文件夹排序"
   },
   "home_sort_by": {
-    "message": "主页磁贴排序"
+    "message": "首页图块排序"
   },
   "manual_sorting": {
-    "message": "手动排序"
+    "message": "人工分拣"
   },
   "sort_by_usage": {
     "message": "使用频率"
@@ -625,10 +665,10 @@
     "message": "排序方向"
   },
   "newest_first": {
-    "message": "降序 — 最新优先"
+    "message": "降序 — 最新的在前"
   },
   "oldest_first": {
-    "message": "升序 — 最旧优先"
+    "message": "升序——最老的在前"
   },
   "alphabet_descending": {
     "message": "降序 — Z 到 A"
@@ -637,16 +677,16 @@
     "message": "升序 — A 到 Z"
   },
   "usage_tiebreaker": {
-    "message": "使用次数相同时排序依据"
+    "message": "当使用量相等时，按"
   },
   "show_home_folders": {
-    "message": "在主页显示文件夹"
+    "message": "在主页上显示文件夹"
   },
   "show_usage_count": {
-    "message": "在书签上显示使用次数"
+    "message": "显示书签的使用次数"
   },
   "usage_count_label": {
-    "message": "打开次数：$COUNT$",
+    "message": "未结数量：$COUNT$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -654,43 +694,43 @@
     }
   },
   "folders_together": {
-    "message": "文件夹与书签一起排序"
+    "message": "将文件夹与书签一起排序"
   },
   "navigation_sort_by": {
-    "message": "文件夹内和搜索结果排序"
+    "message": "文件夹内排序和搜索"
   },
   "browser_default_order": {
-    "message": "默认顺序"
+    "message": "默认订单"
   },
   "sort_by": {
-    "message": "排序依据"
+    "message": "排序方式"
   },
   "sort_by_date": {
     "message": "日期"
   },
   "sort_by_alphabet": {
-    "message": "字母顺序"
+    "message": "按字母顺序"
   },
   "not_sorting": {
-    "message": "不排序"
+    "message": "未排序"
   },
   "folders_on_top": {
-    "message": "文件夹在最上面"
+    "message": "文件夹在顶部"
   },
   "folders_at_the_bottom": {
-    "message": "文件夹在最下方"
+    "message": "文件夹在底部"
   },
   "bookmarks_sorting_warning": {
-    "message": "如果选择启用排序的任一选项, 拖放时仍会按照排序设置来排序"
+    "message": "启用自动排序时，拖放排序不可用。"
   },
   "search_autofocus": {
-    "message": "自动将输入光标放在搜索栏上"
+    "message": "专注于搜索栏"
   },
   "confirm_delete_selected_bookmarks": {
-    "message": "你确定要删除选定的书签吗?"
+    "message": "删除选定的书签？"
   },
   "button_action_move": {
-    "message": "移动文件夹"
+    "message": "移至文件夹"
   },
   "parent_folder": {
     "message": "父文件夹"
@@ -699,133 +739,267 @@
     "message": "新书签"
   },
   "modal_dismiss": {
-    "message": "解除分组"
+    "message": "关闭对话框"
   },
   "remove_thumbnail": {
     "message": "删除缩略图"
   },
   "thumbnails_update": {
-    "message": "缩略图更新"
+    "message": "更新缩略图"
   },
   "bookmark_context": {
-    "message": "书签右键菜单"
+    "message": "为操作添加书签"
   },
   "clear_search": {
     "message": "清除搜索"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "允许访问所选建议服务和 Google 备用建议"
+    "message": "允许访问所选建议服务和 Google 后备服务"
   },
   "search": {
     "message": "搜索"
   },
   "toggle_selected_bookmarks_popup": {
-    "message": "打开网址时切换到新的弹出窗口"
+    "message": "显示或隐藏选定的书签操作"
   },
   "toggle_search_popup": {
-    "message": "搜索结果在弹出的新窗口中显示"
+    "message": "显示或隐藏搜索选项"
   },
   "open_selected": {
-    "message": "打开选择"
+    "message": "打开选定的"
   },
   "delete_selected": {
-    "message": "删除选择"
+    "message": "删除所选内容"
   },
   "select_folder": {
-    "message": "选择一个目录"
+    "message": "选择一个文件夹"
   },
   "show_last_opened_folder": {
     "message": "显示上次打开的文件夹"
   },
   "history_back": {
-    "message": "历史回顾"
+    "message": "回去"
   },
   "default_folder_home": {
     "message": "转到默认文件夹"
   },
   "incognito_access_note": {
-    "message": "你必须允许在隐私模式下运行"
+    "message": "在使用此操作之前，允许 StartGrid 以隐身模式运行。"
   },
   "notice_host_permissions": {
-    "message": "要创建网站缩略图, 扩展程序需要能够访问网站, 才能捕捉缩略图"
+    "message": "创建网站缩略图需要访问所选网站的权限。"
   },
   "learn_more": {
     "message": "了解更多"
   },
   "why_use_host_permissions": {
-    "message": "为什么要使用这个权限?"
+    "message": "为什么要使用这个权限？"
   },
   "host_permissions_info": {
-    "message": "<p>此权限对于生成网站截图是必需的. 但扩展程序不会收集, 跟踪或修改您在网站上的数据. 打开网站的单独窗口后发生的唯一变化是在生成截图之前隐藏网站上的滚动条 (尽量让截图中不出现滚动条). 扩展代码可在 <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. 如果对此权限有疑虑, 可以选择不同意授权, 网站截图功能将不可用, 但扩展程序仍然可以正常运行. </p><p>尝试截取网站截图时会请求此权限 (如果已停用)。您也可以通过打开包含扩展程序详细信息的窗口, 在浏览器设置中管理此权限. </p>"
+    "message": "<p>StartGrid 仅在为书签缩略图创建屏幕截图时才需要访问网站。它不会收集或跟踪您的浏览数据。捕获屏幕截图时，StartGrid 会暂时将网站滚动条隐藏在单独的窗口中。</p><p>您可以拒绝此可选权限并使用除网站屏幕截图之外的所有功能。当您首次创建网站屏幕截图时，Chrome 会请求访问权限。您可以稍后在 Chrome 的扩展程序设置中更改权限。源代码可在 <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a> 上获取。</p>"
   },
-  "search_bookmarks": { "message": "书签" },
-  "search_settings": { "message": "搜索" },
-  "search_settings_description": { "message": "选择默认搜索引擎，并配置搜索菜单中显示的搜索引擎。" },
-  "search_engines": { "message": "搜索引擎" },
-  "search_engines_description": { "message": "启用、配置、排序或删除搜索引擎。列表中最多可包含 20 个搜索引擎。" },
-  "search_engine_enabled": { "message": "启用搜索引擎" },
-  "search_engine_name": { "message": "搜索引擎名称" },
-  "search_engine_url": { "message": "搜索网址" },
-  "search_engine_url_note": { "message": "使用 {query} 表示编码查询的插入位置。自定义建议 URL 为可选项；留空时使用 Google 建议。" },
-  "search_suggestion_url": { "message": "建议 URL（可选）" },
-  "search_suggestion_invalid_url": { "message": "请输入包含 {query} 的有效 HTTP 或 HTTPS 建议 URL，或将该字段留空。" },
-  "add_search_engine": { "message": "添加搜索引擎" },
-  "remove_search_engine": { "message": "删除搜索引擎" },
-  "custom_search_engine": { "message": "自定义搜索引擎" },
-  "move_search_engine_up": { "message": "上移" },
-  "move_search_engine_down": { "message": "下移" },
-  "search_engine_invalid_url": { "message": "请输入包含 {query} 的有效 HTTP 或 HTTPS 网址。" },
-  "search_engine_name_required": { "message": "请输入搜索引擎名称。" },
-  "search_engine_at_least_one": { "message": "必须至少保留一个已启用的搜索引擎。" },
-  "keyboard_shortcuts_setting": { "message": "快捷键" },
-  "keyboard_shortcuts_description": { "message": "配置 StartGrid 新标签页操作的键盘快捷键。" },
-  "keyboard_shortcuts_title": { "message": "快捷键分配" },
-  "keyboard_shortcuts_note": { "message": "点击快捷键后按下新的组合键。Escape 取消录制，Backspace 或 Delete 清除。快捷键仅在 StartGrid 页面生效。" },
-  "shortcut_change": { "message": "更改快捷键" },
-  "shortcut_not_set": { "message": "未分配" },
-  "shortcut_clear": { "message": "删除快捷键" },
-  "shortcut_reset": { "message": "恢复默认值" },
-  "shortcut_press_keys": { "message": "请按快捷键…" },
-  "shortcut_conflict": { "message": "此快捷键已分配给其他操作。" },
-  "shortcut_invalid": { "message": "请按非保留键。不能分配 Escape 和 Tab。" },
-  "shortcut_modifier_invalid": { "message": "请选择 Ctrl、Alt、Shift 或 Meta 来选择多个书签。" },
-  "shortcut_focus_search": { "message": "聚焦搜索框" },
-  "shortcut_add_bookmark": { "message": "添加书签" },
-  "shortcut_toggle_quick_settings": { "message": "打开或关闭快速设置" },
-  "shortcut_open_settings": { "message": "打开完整设置" },
-  "shortcut_go_home": { "message": "转到默认文件夹" },
-  "shortcut_go_back": { "message": "返回上一级文件夹" },
-  "shortcut_select_multiple_bookmarks": { "message": "选择多个书签" },
-  "shortcut_select_all_bookmarks": { "message": "选择所有书签" },
-  "shortcut_update_thumbnails": { "message": "更新所有缩略图" },
-  "settings_appearance": { "message": "外观" },
-  "settings_controls": { "message": "控制" },
-  "settings_group_page": { "message": "页面和背景" },
-  "settings_group_animations": { "message": "动画和效果" },
-  "settings_group_grid": { "message": "磁贴网格" },
-  "settings_group_tile_style": { "message": "磁贴外观" },
-  "settings_group_tile_content": { "message": "磁贴内容" },
-  "settings_group_start": { "message": "起始页" },
-  "settings_group_sorting": { "message": "排序" },
-  "settings_group_navigation": { "message": "导航" },
-  "settings_group_opening": { "message": "打开和添加" },
-  "settings_group_search_behavior": { "message": "搜索行为" },
-  "settings_group_thumbnail_generation": { "message": "缩略图和网站图标" },
-  "settings_group_auto_refresh": { "message": "自动刷新" },
-  "settings_group_thumbnail_storage": { "message": "本地图像" },
-  "settings_group_interface": { "message": "界面控件" },
-  "settings_group_sync": { "message": "同步" },
-  "settings_group_backup": { "message": "备份" },
-  "settings_group_storage": { "message": "本地数据" },
-  "settings_group_permissions": { "message": "权限" },
-  "settings_group_reset": { "message": "重置设置" },
-  "settings_group_reset_description": { "message": "这些操作需要确认，并可能更改或删除已保存的设置。" },
-  "settings_mobile_section": { "message": "分区" },
-  "settings_search_label": { "message": "搜索设置" },
-  "settings_search_placeholder": { "message": "查找设置" },
-  "settings_autosave": { "message": "更改会自动保存" },
-  "settings_no_results": { "message": "未找到设置" },
+  "search_bookmarks": {
+    "message": "书签"
+  },
+  "search_settings": {
+    "message": "搜索"
+  },
+  "search_settings_description": {
+    "message": "选择默认搜索引擎并配置搜索菜单中显示的引擎。"
+  },
+  "search_engines": {
+    "message": "搜索引擎"
+  },
+  "search_engines_description": {
+    "message": "启用、配置、重新排序或删除搜索引擎。该列表总共最多可以包含 20 个引擎。"
+  },
+  "search_engine_enabled": {
+    "message": "启用搜索引擎"
+  },
+  "search_engine_name": {
+    "message": "搜索引擎名称"
+  },
+  "search_engine_url": {
+    "message": "搜索网址"
+  },
+  "search_engine_url_note": {
+    "message": "在应插入编码查询的位置使用 {query}。自定义建议 URL 是可选的；当它为空时，将使用 Google 建议。"
+  },
+  "search_suggestion_url": {
+    "message": "建议 URL（可选）"
+  },
+  "search_suggestion_invalid_url": {
+    "message": "输入包含 {query} 的有效 HTTP 或 HTTPS 建议 URL，或将该字段留空。"
+  },
+  "add_search_engine": {
+    "message": "添加搜索引擎"
+  },
+  "remove_search_engine": {
+    "message": "删除搜索引擎"
+  },
+  "custom_search_engine": {
+    "message": "自定义搜索引擎"
+  },
+  "move_search_engine_up": {
+    "message": "向上移动"
+  },
+  "move_search_engine_down": {
+    "message": "下移"
+  },
+  "search_engine_invalid_url": {
+    "message": "输入包含 {query} 的有效 HTTP 或 HTTPS URL。"
+  },
+  "search_engine_name_required": {
+    "message": "输入搜索引擎名称。"
+  },
+  "search_engine_at_least_one": {
+    "message": "至少一个搜索引擎必须保持启用状态。"
+  },
+  "keyboard_shortcuts_setting": {
+    "message": "键盘快捷键"
+  },
+  "keyboard_shortcuts_description": {
+    "message": "配置 StartGrid 新选项卡页上操作的键盘快捷键。"
+  },
+  "keyboard_shortcuts_title": {
+    "message": "快捷方式分配"
+  },
+  "keyboard_shortcuts_note": {
+    "message": "选择一个快捷键，然后按下新的组合键。按 Esc 取消。按 Backspace 或 Delete 删除快捷键。快捷键仅在 StartGrid 页面中生效。"
+  },
+  "shortcut_change": {
+    "message": "更改快捷方式"
+  },
+  "shortcut_not_set": {
+    "message": "未分配"
+  },
+  "shortcut_clear": {
+    "message": "删除快捷方式"
+  },
+  "shortcut_reset": {
+    "message": "恢复默认设置"
+  },
+  "shortcut_press_keys": {
+    "message": "按快捷键..."
+  },
+  "shortcut_conflict": {
+    "message": "该快捷方式已分配给另一个操作。"
+  },
+  "shortcut_invalid": {
+    "message": "按非保留键。无法分配 Escape 和 Tab。"
+  },
+  "shortcut_modifier_invalid": {
+    "message": "指定 Ctrl、Alt、Shift 或 Meta 来选择多个书签。"
+  },
+  "shortcut_focus_search": {
+    "message": "焦点搜索"
+  },
+  "shortcut_add_bookmark": {
+    "message": "添加书签"
+  },
+  "shortcut_toggle_quick_settings": {
+    "message": "切换快速设置"
+  },
+  "shortcut_open_settings": {
+    "message": "打开完整设置"
+  },
+  "shortcut_go_home": {
+    "message": "转到默认文件夹"
+  },
+  "shortcut_go_back": {
+    "message": "返回上一个文件夹"
+  },
+  "shortcut_select_multiple_bookmarks": {
+    "message": "选择多个书签"
+  },
+  "shortcut_select_all_bookmarks": {
+    "message": "选择所有书签"
+  },
+  "shortcut_update_thumbnails": {
+    "message": "更新所有缩略图"
+  },
+  "settings_appearance": {
+    "message": "外貌"
+  },
+  "settings_controls": {
+    "message": "控制"
+  },
+  "settings_group_page": {
+    "message": "页面和背景"
+  },
+  "settings_group_animations": {
+    "message": "动画和效果"
+  },
+  "settings_group_grid": {
+    "message": "瓷砖网格"
+  },
+  "settings_group_tile_style": {
+    "message": "瓷砖外观"
+  },
+  "settings_group_tile_content": {
+    "message": "平铺内容"
+  },
+  "settings_group_start": {
+    "message": "起始页"
+  },
+  "settings_group_sorting": {
+    "message": "排序"
+  },
+  "settings_group_navigation": {
+    "message": "导航"
+  },
+  "settings_group_opening": {
+    "message": "打开并添加"
+  },
+  "settings_group_search_behavior": {
+    "message": "搜索行为"
+  },
+  "settings_group_thumbnail_generation": {
+    "message": "缩略图和图标"
+  },
+  "settings_group_auto_refresh": {
+    "message": "自动刷新"
+  },
+  "settings_group_thumbnail_storage": {
+    "message": "本地图片"
+  },
+  "settings_group_interface": {
+    "message": "界面控制"
+  },
+  "settings_group_sync": {
+    "message": "同步"
+  },
+  "settings_group_backup": {
+    "message": "备份"
+  },
+  "settings_group_storage": {
+    "message": "本地数据"
+  },
+  "settings_group_permissions": {
+    "message": "权限"
+  },
+  "settings_group_reset": {
+    "message": "重置设置"
+  },
+  "settings_group_reset_description": {
+    "message": "这些操作需要确认，并且可以更改或删除已保存的设置。"
+  },
+  "settings_mobile_section": {
+    "message": "部分"
+  },
+  "settings_search_label": {
+    "message": "搜索设置"
+  },
+  "settings_search_placeholder": {
+    "message": "找到一个设置"
+  },
+  "settings_autosave": {
+    "message": "更改会自动保存"
+  },
+  "settings_no_results": {
+    "message": "没有找到设置"
+  },
   "undo": {
-    "message": "恢复"
+    "message": "撤消"
   }
 }

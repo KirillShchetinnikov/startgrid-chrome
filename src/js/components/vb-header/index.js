@@ -2,6 +2,7 @@ import '../vb-select';
 import '../vb-popup';
 import html from './template.html';
 import { $createElement } from '../../utils';
+import { getMessage } from '../../i18n';
 import { getFolders } from '../../api/bookmark';
 import { settings } from '../../settings';
 import { containsPermissions, requestPermissions } from '../../api/permissions';
@@ -69,7 +70,7 @@ class VbHeader extends HTMLElement {
 
     // get vb-popup
     this.vbPopup = this.querySelector('vb-popup');
-    this.vbPopup.setAttribute('label', browser.i18n.getMessage('toggle_search_popup'));
+    this.vbPopup.setAttribute('label', getMessage('toggle_search_popup'));
     this.vbPopupBtn = this.vbPopup.popupTriger;
     this.vbPopupSlotBtn = this.vbPopup.querySelector('[slot="button"]');
     this.vbPopupContent = this.vbPopup.querySelector('[slot="content"]');
@@ -82,7 +83,7 @@ class VbHeader extends HTMLElement {
       this.inputNode.focus();
     }
 
-    this.permSuggestionsNode.dataset.tooltip = browser.i18n.getMessage('search_suggestions_permission_tooltip');
+    this.permSuggestionsNode.dataset.tooltip = getMessage('search_suggestions_permission_tooltip');
     this.#suggestPermissionButtonVisibility();
   }
 
@@ -112,15 +113,15 @@ class VbHeader extends HTMLElement {
     this.vbPopupSlotBtn.innerHTML = /* html */`<svg width="16" height="16"><use xlink:href="/img/symbol.svg#${symbol}"/></svg>`;
 
     const placeholderEngine = engineObject.kind === 'bookmarks'
-      ? browser.i18n.getMessage('placeholder_input_search_bookmarks')
+      ? getMessage('placeholder_input_search_bookmarks')
       : engineObject.title;
 
     settings
       .updateKey('search_engine', engineId)
       .then(() => {
         this.inputNode.placeholder = engineObject.kind !== 'browser'
-          ? browser.i18n.getMessage('placeholder_input_search', [placeholderEngine])
-          : browser.i18n.getMessage('search');
+          ? getMessage('placeholder_input_search', [placeholderEngine])
+          : getMessage('search');
 
         this.buttonSubmitNode.hidden = this.isBookmarksEngine;
 
@@ -182,7 +183,7 @@ class VbHeader extends HTMLElement {
   #setSearchEngines() {
     this.searchEngines = getEnabledSearchEngines(
       settings.$.search_engines,
-      key => browser.i18n.getMessage(key)
+      key => getMessage(key)
     );
     this.vbPopupContent.replaceChildren(...this.searchEngines.map(engine => {
       const className = 'header__engine-item' + (
@@ -291,7 +292,7 @@ class VbHeader extends HTMLElement {
 
     if (isNestedFolder) {
       if (!this.backNode) {
-        const backLabel = browser.i18n.getMessage('history_back');
+        const backLabel = getMessage('history_back');
         this.backNode = $createElement(
           'button',
           {
@@ -315,7 +316,7 @@ class VbHeader extends HTMLElement {
 
     if (isNestedFolder || isBookmarkSearch) {
       if (!this.homeNode) {
-        const homeLabel = browser.i18n.getMessage('default_folder_home');
+        const homeLabel = getMessage('default_folder_home');
         this.homeNode = $createElement(
           'button',
           {

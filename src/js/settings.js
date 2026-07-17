@@ -26,8 +26,10 @@ import {
   DEFAULT_KEYBOARD_SHORTCUTS,
   normalizeKeyboardShortcuts
 } from './keyboardShortcuts';
+import { SUPPORTED_LANGUAGES } from './i18n';
 
 const DEFAULTS = Object.freeze({
+  language: 'auto',
   color_theme: 'os',
   background_image: 'background_noimage',
   background_external: '',
@@ -91,7 +93,12 @@ const DEFAULTS = Object.freeze({
   keyboard_shortcuts: DEFAULT_KEYBOARD_SHORTCUTS
 });
 
-const SETTINGS_NOT_SYNCED = ['default_folder_id', 'sync_default_folder_id', 'enable_sync'];
+const SETTINGS_NOT_SYNCED = [
+  'language',
+  'default_folder_id',
+  'sync_default_folder_id',
+  'enable_sync'
+];
 const DEPRECATED_SETTINGS = [
   'custom_style',
   'services_enable',
@@ -101,6 +108,11 @@ const DEPRECATED_SETTINGS = [
   'auto_generate_thumbnail',
   'background_effect'
 ];
+
+function removeNotSyncedSettings(currentSettings) {
+  SETTINGS_NOT_SYNCED.forEach(key => delete currentSettings[key]);
+  return currentSettings;
+}
 
 function migrateSettings(currentSettings = {}) {
   const migrated = { ...currentSettings };
@@ -149,6 +161,9 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   DEPRECATED_SETTINGS.forEach(key => delete currentSettings[key]);
   delete currentSettings.sort_by;
   delete currentSettings.sort_by_newest;
+  if (!SUPPORTED_LANGUAGES.includes(currentSettings.language)) {
+    currentSettings.language = DEFAULTS.language;
+  }
   if (!['manual', 'date', 'alphabet', 'usage'].includes(currentSettings.home_sort_by)) {
     currentSettings.home_sort_by = DEFAULTS.home_sort_by;
   }
@@ -203,9 +218,8 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
 }
 
 function createSyncRecords(currentSettings) {
-  const syncSettings = JSON.parse(JSON.stringify(currentSettings));
-  SETTINGS_NOT_SYNCED.forEach(key => delete syncSettings[key]);
-  return splitSyncSettings(sanitizeSettings(syncSettings));
+  const syncSettings = sanitizeSettings(JSON.parse(JSON.stringify(currentSettings)));
+  return splitSyncSettings(removeNotSyncedSettings(syncSettings));
 }
 
 async function getSyncQuotaState(records) {
@@ -321,6 +335,7 @@ const settingsStore = () => {
         syncRecords = await storage.sync.get(SYNC_STORAGE_KEYS);
         syncSettings = migrateSettings(mergeSyncSettings(syncRecords));
         sanitizeSettings(syncSettings, false);
+        removeNotSyncedSettings(syncSettings);
         if (!hasPendingSyncQuotaError) Object.assign(settings, syncSettings);
         sanitizeSettings(settings);
         await resolveSyncedDefaultFolder(settings);
@@ -398,7 +413,8 @@ const settingsStore = () => {
     async restoreFromSync() {
       const syncRecords = await storage.sync.get(SYNC_STORAGE_KEYS);
       const syncSettings = migrateSettings(mergeSyncSettings(syncRecords));
-      Object.assign($settings, sanitizeSettings(syncSettings, false));
+      sanitizeSettings(syncSettings, false);
+      Object.assign($settings, removeNotSyncedSettings(syncSettings));
       sanitizeSettings($settings);
       await resolveSyncedDefaultFolder($settings);
       await storage.local.set({ settings: $settings });

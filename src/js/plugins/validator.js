@@ -1,3 +1,5 @@
+import { getMessage } from '../i18n';
+
 export function Validator(form, options = {
   onError: null,
   onSuccess: null
@@ -35,7 +37,7 @@ export function Validator(form, options = {
       if (target.errorNode) return;
       target.errorNode = Object.assign(document.createElement('div'), {
         className: 'error-hint',
-        textContent: browser.i18n.getMessage(target.dataset.errorI18n)
+        textContent: getMessage(target.dataset.errorI18n)
       });
       target.classList.add('has-error');
       target.after(target.errorNode);

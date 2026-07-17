@@ -1,4 +1,5 @@
 import { settings } from '../settings';
+import { getMessage } from '../i18n';
 import UI from './ui';
 import confirmPopup from '../plugins/confirmPopup';
 import { updateMainPageScrollLock } from '../mainPageScroll';
@@ -27,7 +28,7 @@ const STYLE_SETTINGS = new Set([
 ]);
 
 function message(id) {
-  return browser.i18n.getMessage(id);
+  return getMessage(id);
 }
 
 function createSwitch(id) {

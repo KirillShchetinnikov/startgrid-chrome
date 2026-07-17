@@ -1,0 +1,1005 @@
+{
+  "ext_name": {
+    "message": "StartGrid"
+  },
+  "ext_desc": {
+    "message": "시각적 북마크, 폴더, 검색, 미리보기 이미지, 테마 및 선택적 동기화를 제공하는 맞춤형 새 탭입니다."
+  },
+  "default_title": {
+    "message": "StartGrid"
+  },
+  "language": {
+    "message": "언어"
+  },
+  "language_browser": {
+    "message": "브라우저 언어 사용"
+  },
+  "color_theme": {
+    "message": "색상 테마"
+  },
+  "dark_theme": {
+    "message": "어두운"
+  },
+  "light_theme": {
+    "message": "빛"
+  },
+  "os_theme": {
+    "message": "OS 테마"
+  },
+  "placeholder_input_search": {
+    "message": "$engine$에서 검색",
+    "placeholders": {
+      "engine": {
+        "content": "$1"
+      }
+    }
+  },
+  "placeholder_input_search_bookmarks": {
+    "message": "북마크"
+  },
+  "search_browser_default": {
+    "message": "브라우저 검색 엔진"
+  },
+  "placeholder_input_title": {
+    "message": "북마크 제목을 입력하세요"
+  },
+  "label_title": {
+    "message": "제목"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "label_folder": {
+    "message": "접는 사람"
+  },
+  "thumbnail_source": {
+    "message": "썸네일 소스"
+  },
+  "thumbnail_actions": {
+    "message": "썸네일 액션"
+  },
+  "thumbnail_source_local": {
+    "message": "로컬 저장소"
+  },
+  "thumbnail_source_site": {
+    "message": "웹사이트에서 만들기"
+  },
+  "thumbnail_source_url": {
+    "message": "URL에서"
+  },
+  "thumbnail_source_favicon": {
+    "message": "웹사이트 파비콘(기본값)"
+  },
+  "favicon_download_preference": {
+    "message": "파비콘 소스"
+  },
+  "favicon_download_inherit": {
+    "message": "전역 설정 사용"
+  },
+  "favicon_download_site": {
+    "message": "웹사이트에서 다운로드"
+  },
+  "favicon_download_chrome": {
+    "message": "Chrome 캐시 사용"
+  },
+  "favicon_size_individual": {
+    "message": "개별 썸네일 이미지 크기"
+  },
+  "favicon_size_individual_placeholder": {
+    "message": "32"
+  },
+  "favicon_size_individual_note": {
+    "message": "전역 축소판 이미지 크기를 사용하려면 비워 두세요."
+  },
+  "download_favicons_by_default": {
+    "message": "기본적으로 웹사이트에서 파비콘 다운로드"
+  },
+  "download_favicons_by_default_note": {
+    "message": "파비콘 썸네일이 로컬에서 누락된 경우 시작 페이지가 열릴 때 백그라운드에서 다운로드하세요."
+  },
+  "favicon_size": {
+    "message": "썸네일 이미지 크기"
+  },
+  "favicon_size_note": {
+    "message": "모든 썸네일 유형의 기본 이미지 크기입니다. 개별 타일 설정이 우선적으로 적용됩니다."
+  },
+  "thumbnail_url": {
+    "message": "썸네일 URL"
+  },
+  "thumbnail_url_note": {
+    "message": "이미지는 로컬로 캐시되고 정기적으로 업데이트를 확인합니다."
+  },
+  "notice_thumbnail_url_failed": {
+    "message": "URL에서 미리보기 이미지를 다운로드하지 못했습니다."
+  },
+  "url_field_tip": {
+    "message": "URL을 입력하거나 이 필드를 비워 두어 폴더를 생성하세요."
+  },
+  "btn_close": {
+    "message": "취소"
+  },
+  "btn_save": {
+    "message": "구하다"
+  },
+  "btn_back": {
+    "message": "완료"
+  },
+  "back_to_main": {
+    "message": "북마크로 돌아가기"
+  },
+  "btn_apply": {
+    "message": "적용하다"
+  },
+  "contextmenu_tab": {
+    "message": "새 탭에서 열기"
+  },
+  "contextmenu_window": {
+    "message": "새 창에서 열기"
+  },
+  "contextmenu_open_all": {
+    "message": "모두 열기"
+  },
+  "contextmenu_open_all_window": {
+    "message": "새 창에서 모두 열기"
+  },
+  "contextmenu_incognito": {
+    "message": "시크릿 모드로 열기"
+  },
+  "contextmenu_copy_link": {
+    "message": "링크 주소 복사"
+  },
+  "contextmenu_edit": {
+    "message": "편집하다"
+  },
+  "contextmenu_capture": {
+    "message": "썸네일 새로고침"
+  },
+  "contextmenu_upload": {
+    "message": "컴퓨터에서 업로드"
+  },
+  "contextmenu_upload_paste": {
+    "message": "클립보드에서 업로드"
+  },
+  "contextmenu_remove": {
+    "message": "제거하다"
+  },
+  "confirm_delete_image": {
+    "message": "이 이미지를 삭제하시겠습니까?"
+  },
+  "confirm_delete_images": {
+    "message": "확실합니까? 모든 로컬 미리보기 이미지가 삭제됩니다."
+  },
+  "confirm_clear_local_cache": {
+    "message": "확실합니까? 모든 임시 로컬 데이터가 삭제됩니다. 설정과 로컬 이미지는 유지됩니다."
+  },
+  "confirm_delete_bookmark": {
+    "message": "이 북마크를 삭제하시겠습니까?"
+  },
+  "confirm_delete_folder": {
+    "message": "이 폴더와 그 안의 모든 항목을 삭제하시겠습니까?"
+  },
+  "confirm_restore_default_settings": {
+    "message": "로컬 설정만 기본값으로 재설정하고 동기화를 비활성화하시겠습니까? 서버의 동기화된 데이터는 보존됩니다."
+  },
+  "confirm_clear_sync_settings": {
+    "message": "서버에서 동기화된 설정을 삭제하고 동기화를 비활성화하시겠습니까? 로컬 설정, 이미지, 캐시는 유지됩니다."
+  },
+  "confirm_sync_remote_settings": {
+    "message": "동기화된 설정이 이미 존재합니다.\n현재 로컬 설정을 동기화된 버전으로 바꾸시겠습니까?"
+  },
+  "notice_image_removed": {
+    "message": "이미지가 삭제되었습니다."
+  },
+  "notice_thumb_image_updated": {
+    "message": "북마크 미리보기 이미지가 업데이트되었습니다."
+  },
+  "notice_bookmark_exist": {
+    "message": "북마크가 이미 존재합니다."
+  },
+  "notice_bookmark_created": {
+    "message": "북마크가 생성되었습니다."
+  },
+  "notice_bookmark_updated": {
+    "message": "북마크가 업데이트되었습니다."
+  },
+  "notice_bookmark_removed": {
+    "message": "'<span data-title>$title$</span>' 북마크가 삭제되었습니다.",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_folder_removed": {
+    "message": "'<span data-title>$title$</span>' 폴더가 삭제되었습니다.",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_selected_bookmarks_removed": {
+    "message": "선택한 북마크가 삭제되었습니다."
+  },
+  "notice_images_removed": {
+    "message": "모든 로컬 미리보기 이미지가 삭제되었습니다."
+  },
+  "notice_local_cache_cleared": {
+    "message": "로컬 캐시가 지워졌습니다."
+  },
+  "notice_cant_find_id": {
+    "message": "폴더를 찾을 수 없습니다. 이 Chrome 프로필에서는 사용하지 못할 수도 있습니다."
+  },
+  "notice_reset_default_settings": {
+    "message": "로컬 설정 재설정; 동기화 비활성화됨"
+  },
+  "notice_sync_settings_cleared": {
+    "message": "동기화된 서버 데이터가 삭제되었습니다. 동기화 비활성화됨"
+  },
+  "notice_bg_image_updated": {
+    "message": "배경이 업데이트되었습니다."
+  },
+  "notice_thumbnails_update_complete": {
+    "message": "썸네일 업데이트 완료"
+  },
+  "notice_link_copied": {
+    "message": "링크가 복사되었습니다"
+  },
+  "alert_file_type_fail_type": {
+    "message": "지원되지 않는 파일 형식\n허용되는 파일 형식: $type$",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert_file_type_fail_size": {
+    "message": "파일이 너무 큽니다. 최대 크기: $filesize$MB",
+    "placeholders": {
+      "filesize": {
+        "content": "$1"
+      }
+    }
+  },
+  "not_found_text": {
+    "message": "폴더를 찾을 수 없습니다. 이동 또는 삭제되었거나 북마크가 이 기기에서 동기화되지 않았을 수 있습니다."
+  },
+  "not_found_link_text": {
+    "message": "북마크바"
+  },
+  "add_bookmark": {
+    "message": "북마크에 추가"
+  },
+  "save_to_current_folder": {
+    "message": "현재 폴더에 저장"
+  },
+  "edit_bookmark": {
+    "message": "북마크 수정"
+  },
+  "options": {
+    "message": "설정"
+  },
+  "quick_display_settings": {
+    "message": "빠른 모양 설정"
+  },
+  "quick_display_settings_description": {
+    "message": "변경사항은 즉시 적용됩니다."
+  },
+  "more_settings": {
+    "message": "모든 설정"
+  },
+  "bookmark_appearance_setting": {
+    "message": "북마크"
+  },
+  "page_appearance_setting": {
+    "message": "홈페이지"
+  },
+  "bookmark_behavior_setting": {
+    "message": "행동"
+  },
+  "thumbnails_setting": {
+    "message": "썸네일"
+  },
+  "thumbnails_setting_description": {
+    "message": "이 섹션의 설정은 웹사이트 스크린샷, 이미지 URL, 파비콘 등 지원되는 모든 썸네일 소스에 적용됩니다. 로컬로 업로드된 이미지는 자동으로 교체되지 않습니다."
+  },
+  "data_privacy_setting": {
+    "message": "데이터 및 개인정보 보호"
+  },
+  "dial_width": {
+    "message": "그리드 너비"
+  },
+  "dial_gap": {
+    "message": "타일 ​​사이의 거리"
+  },
+  "dial_radius": {
+    "message": "타일 ​​코너 반경"
+  },
+  "dial_aspect_ratio": {
+    "message": "타일 ​​비율"
+  },
+  "dial_aspect_ratio_square": {
+    "message": "정사각형(1:1)"
+  },
+  "dial_aspect_ratio_standard": {
+    "message": "표준(4:3)"
+  },
+  "dial_aspect_ratio_photo": {
+    "message": "사진(3:2)"
+  },
+  "dial_aspect_ratio_wide": {
+    "message": "와이드(16:9)"
+  },
+  "dial_shadow": {
+    "message": "타일 ​​그림자 강도"
+  },
+  "dial_hover_lift": {
+    "message": "호버에서 타일 리프트"
+  },
+  "dial_background_color": {
+    "message": "타일 ​​배경색"
+  },
+  "dial_background_color_note": {
+    "message": "사용자 정의 색상이 선택될 때까지 현재 테마 색상을 사용합니다."
+  },
+  "dial_background_opacity": {
+    "message": "타일 ​​배경 불투명도"
+  },
+  "dial_background_opacity_note": {
+    "message": "0%는 완전히 투명합니다. 100%는 불투명합니다."
+  },
+  "reset_tile_background_color": {
+    "message": "테마 색상 사용"
+  },
+  "number_of_columns": {
+    "message": "열 수"
+  },
+  "vertical_center": {
+    "message": "수직 센터링"
+  },
+  "disable_main_page_scroll": {
+    "message": "메인 페이지에서 스크롤 비활성화"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "스크롤바를 숨기고 북마크 검색 결과 외부로 스크롤되는 것을 방지합니다."
+  },
+  "default_folder_id": {
+    "message": "기본 폴더"
+  },
+  "default_folder_sync_note": {
+    "message": "동기화가 활성화되었습니다. 이 설정은 Chrome 동기화에 저장됩니다."
+  },
+  "default_folder_local_note": {
+    "message": "동기화가 비활성화되었습니다. 이 설정은 이 기기에 저장됩니다."
+  },
+  "background": {
+    "message": "배경"
+  },
+  "color": {
+    "message": "색상"
+  },
+  "background_noimage": {
+    "message": "배경 이미지 없음"
+  },
+  "background_noimage_text": {
+    "message": "테마 배경색 사용"
+  },
+  "background_bing": {
+    "message": "오늘의 Bing 이미지"
+  },
+  "background_bing_text": {
+    "message": "Bing 홈페이지에 있는 일상 사진을 StartGrid 배경으로 사용하세요."
+  },
+  "bing_permission_toast": {
+    "message": "오늘의 Bing 이미지에는 bing.com에 대한 액세스가 필요합니다. <a href=\"/options.html\">설정 페이지</a>에서 이를 선택하고 권한 요청을 확인하세요."
+  },
+  "background_external": {
+    "message": "URL의 이미지"
+  },
+  "background_local": {
+    "message": "컴퓨터의 이미지 또는 비디오"
+  },
+  "background_local_video_note": {
+    "message": "로컬 배경은 이미지 또는 MP4 비디오일 수 있습니다. 비디오는 음소거 상태로 재생되며 자동으로 반복됩니다."
+  },
+  "background_entrance_effect": {
+    "message": "배경 모양"
+  },
+  "background_entrance_none": {
+    "message": "애니메이션 없음"
+  },
+  "background_entrance_zoom": {
+    "message": "축소"
+  },
+  "background_entrance_blur": {
+    "message": "흐림 효과에서 페이드 인"
+  },
+  "background_entrance_slide": {
+    "message": "아래쪽에서 밀어 넣기"
+  },
+  "background_entrance_duration": {
+    "message": "배경 표시 기간"
+  },
+  "snow_mode": {
+    "message": "강설량"
+  },
+  "snow_mode_always": {
+    "message": "언제나"
+  },
+  "snow_mode_winter": {
+    "message": "겨울 – 12월 1일부터 2월 말일까지"
+  },
+  "snow_mode_off": {
+    "message": "끄다"
+  },
+  "page_cascade_enabled": {
+    "message": "페이지를 열 때 타일에 애니메이션 적용"
+  },
+  "page_cascade_mode": {
+    "message": "계단식 순서"
+  },
+  "page_cascade_mode_items": {
+    "message": "한 번에 하나의 북마크"
+  },
+  "page_cascade_mode_rows": {
+    "message": "한 번에 한 행씩"
+  },
+  "page_cascade_duration": {
+    "message": "캐스케이드 기간"
+  },
+  "choose_file": {
+    "message": "이미지 또는 비디오를 선택하세요"
+  },
+  "show_settings_icon": {
+    "message": "설정 아이콘 표시"
+  },
+  "show_quick_settings_icon": {
+    "message": "빠른 설정 아이콘 표시"
+  },
+  "show_extension_icon": {
+    "message": "StartGrid 아이콘 표시"
+  },
+  "show_toolbar": {
+    "message": "검색창 및 폴더 선택기 표시"
+  },
+  "show_create_column": {
+    "message": "북마크 추가 타일 표시"
+  },
+  "show_bookmark_title": {
+    "message": "북마크 제목 표시"
+  },
+  "show_favicon": {
+    "message": "제목 옆에 파비콘 표시"
+  },
+  "open_bookmarks_newtab": {
+    "message": "새 탭에서 북마크 열기"
+  },
+  "open_search_newtab": {
+    "message": "새 탭에서 검색 열기"
+  },
+  "show_contextmenu_item": {
+    "message": "상황에 맞는 메뉴에 표시"
+  },
+  "drag_and_drop": {
+    "message": "드래그 앤 드롭 활성화"
+  },
+  "auto_generate_thumbnail": {
+    "message": "새 북마크에 파비콘을 자동으로 추가합니다."
+  },
+  "enable_sync": {
+    "message": "동기화 활성화"
+  },
+  "clear_background_locals": {
+    "message": "로컬에 저장된 모든 축소판 이미지 삭제"
+  },
+  "clear_local_cache": {
+    "message": "로컬 캐시 지우기"
+  },
+  "reset_local_default": {
+    "message": "설정을 기본값으로 재설정"
+  },
+  "reset_local_default_description": {
+    "message": "로컬 설정만 재설정하고 동기화를 비활성화합니다. 동기화된 서버 데이터는 삭제되지 않습니다."
+  },
+  "reset_quick_settings": {
+    "message": "빠른 설정 재설정"
+  },
+  "reset_quick_settings_description": {
+    "message": "이 메뉴에 표시된 설정만 확장 기본값으로 복원합니다."
+  },
+  "confirm_reset_quick_settings": {
+    "message": "빠른 설정을 확장 프로그램 기본값으로 재설정하시겠습니까?"
+  },
+  "reset_sync_text": {
+    "message": "Chrome 동기화에서 동기화된 설정 삭제"
+  },
+  "reset_sync_description": {
+    "message": "서버에서 동기화된 설정만 삭제하고 동기화를 비활성화합니다. 로컬 설정, 이미지, 캐시는 유지됩니다."
+  },
+  "version": {
+    "message": "버전"
+  },
+  "thumbnails_creation": {
+    "message": "썸네일 생성: $start$ / $total$",
+    "placeholders": {
+      "start": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "thumbnails_update_warn": {
+    "message": "각 썸네일은 선택한 소스(웹 사이트, 이미지 URL 또는 파비콘)에서 새로 고쳐집니다. 로컬로 업로드된 이미지는 보존됩니다. 업데이트하면 성능에 영향을 미칠 수 있습니다."
+  },
+  "thumbnails_update_button": {
+    "message": "모든 미리보기 이미지 업데이트"
+  },
+  "thumbnails_auto_refresh": {
+    "message": "축소판 자동 새로 고침"
+  },
+  "thumbnails_auto_refresh_note": {
+    "message": "홈 페이지가 열릴 때 오래된 썸네일을 확인하고 새로 고칩니다."
+  },
+  "thumbnails_auto_refresh_interval": {
+    "message": "자동 새로 고침 간격"
+  },
+  "thumbnails_auto_refresh_interval_note": {
+    "message": "미리보기 이미지 새로고침 간격(1시간~7일)"
+  },
+  "hours_short": {
+    "message": "시간"
+  },
+  "folder_preview": {
+    "message": "폴더에 사이트 축소판 표시"
+  },
+  "folder_preview_description": {
+    "message": "폴더 아이콘이나 사용자 정의 이미지 대신 폴더에서 무작위로 선택된 4개 사이트의 축소판을 표시합니다."
+  },
+  "backup_settings": {
+    "message": "설정 가져오기 또는 내보내기"
+  },
+  "backup_settings_description": {
+    "message": "확장 설정만 백업합니다. 북마크와 이미지는 포함되지 않습니다."
+  },
+  "import": {
+    "message": "수입"
+  },
+  "export": {
+    "message": "내보내다"
+  },
+  "import_settings_success": {
+    "message": "가져온 설정"
+  },
+  "import_settings_failed": {
+    "message": "설정 파일을 읽을 수 없습니다."
+  },
+  "without_confirmation": {
+    "message": "확인 없이 삭제"
+  },
+  "toggle_clipboard_access": {
+    "message": "클립보드 액세스 허용"
+  },
+  "toggle_clipboard_access_description": {
+    "message": "확장 프로그램이 클립보드에서 데이터를 읽어 북마크 썸네일을 업로드할 수 있도록 허용합니다. 북마크 편집 창에서 '클립보드에서 업로드' 작업을 사용할 수 있게 됩니다. 이 권한이 걱정된다면 활성화하지 마세요."
+  },
+  "error_input_required": {
+    "message": "필수항목"
+  },
+  "error_input_url": {
+    "message": "URL이 유효하지 않습니다"
+  },
+  "thumbnails_update_delay": {
+    "message": "썸네일을 캡처하기 전에 기다리세요"
+  },
+  "thumbnails_update_delay_note": {
+    "message": "로딩을 완료하는 데 더 많은 시간이 필요한 웹사이트의 지연 시간을 늘립니다."
+  },
+  "close_tab_after_adding_bookmark": {
+    "message": "북마크에 추가한 후 탭을 닫으세요."
+  },
+  "close_tab_after_adding_bookmark_note": {
+    "message": "컨텍스트 메뉴에서 북마크를 추가한 경우에만 적용됩니다."
+  },
+  "empty_search": {
+    "message": "북마크를 찾을 수 없습니다."
+  },
+  "search_failed": {
+    "message": "북마크를 검색할 수 없습니다. 다시 시도해 주세요."
+  },
+  "sync_quota_exceeded": {
+    "message": "Chrome 동기화 저장용량 한도를 초과했습니다($used$ 중 $limit$). 최신 변경사항을 동기화할 수 없으며 이 기기에 남아 있습니다. 동기화된 설정을 줄이세요.",
+    "placeholders": {
+      "used": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "delete_thumbnail": {
+    "message": "로컬 저장소에서 삭제"
+  },
+  "show_back_column": {
+    "message": "폴더 내부에 뒷면 타일 표시"
+  },
+  "search_engine": {
+    "message": "기본 검색 엔진"
+  },
+  "search_results_display": {
+    "message": "북마크 검색결과"
+  },
+  "search_results_display_flat": {
+    "message": "타일만"
+  },
+  "search_results_display_folder_name": {
+    "message": "타일의 상위 폴더"
+  },
+  "search_results_display_folder_path": {
+    "message": "타일의 전체 폴더 경로"
+  },
+  "search_results_display_grouped": {
+    "message": "폴더별로 그룹화"
+  },
+  "search_results_root_folder": {
+    "message": "루트 북마크 폴더"
+  },
+  "move_to_start": {
+    "message": "새 북마크를 폴더 상단으로 이동"
+  },
+  "bookmarks_sorting_type": {
+    "message": "폴더 정렬"
+  },
+  "home_sort_by": {
+    "message": "홈페이지 타일 정렬"
+  },
+  "manual_sorting": {
+    "message": "수동 정렬"
+  },
+  "sort_by_usage": {
+    "message": "사용빈도"
+  },
+  "sort_direction": {
+    "message": "정렬 방향"
+  },
+  "newest_first": {
+    "message": "내림차순 — 최신순"
+  },
+  "oldest_first": {
+    "message": "오름차순 — 오래된 것부터"
+  },
+  "alphabet_descending": {
+    "message": "내림차순 — Z에서 A로"
+  },
+  "alphabet_ascending": {
+    "message": "오름차순 - A부터 Z까지"
+  },
+  "usage_tiebreaker": {
+    "message": "사용량이 동일한 경우 정렬 기준"
+  },
+  "show_home_folders": {
+    "message": "홈 페이지에 폴더 표시"
+  },
+  "show_usage_count": {
+    "message": "북마크에 사용 횟수 표시"
+  },
+  "usage_count_label": {
+    "message": "공개 횟수: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "북마크와 함께 폴더 정렬"
+  },
+  "navigation_sort_by": {
+    "message": "폴더 내부 정렬 및 검색"
+  },
+  "browser_default_order": {
+    "message": "기본 순서"
+  },
+  "sort_by": {
+    "message": "정렬 기준"
+  },
+  "sort_by_date": {
+    "message": "날짜"
+  },
+  "sort_by_alphabet": {
+    "message": "알파벳순"
+  },
+  "not_sorting": {
+    "message": "정렬되지 않음"
+  },
+  "folders_on_top": {
+    "message": "상단에 폴더"
+  },
+  "folders_at_the_bottom": {
+    "message": "하단의 폴더"
+  },
+  "bookmarks_sorting_warning": {
+    "message": "자동 정렬이 활성화된 동안에는 끌어서 놓기 순서를 사용할 수 없습니다."
+  },
+  "search_autofocus": {
+    "message": "검색창에 집중하세요"
+  },
+  "confirm_delete_selected_bookmarks": {
+    "message": "선택한 북마크를 삭제하시겠습니까?"
+  },
+  "button_action_move": {
+    "message": "폴더로 이동"
+  },
+  "parent_folder": {
+    "message": "상위 폴더"
+  },
+  "new_bookmark": {
+    "message": "새 북마크"
+  },
+  "modal_dismiss": {
+    "message": "대화상자 닫기"
+  },
+  "remove_thumbnail": {
+    "message": "미리보기 이미지 삭제"
+  },
+  "thumbnails_update": {
+    "message": "썸네일 업데이트"
+  },
+  "bookmark_context": {
+    "message": "북마크 작업"
+  },
+  "clear_search": {
+    "message": "검색 지우기"
+  },
+  "search_suggestions_permission_tooltip": {
+    "message": "선택한 제안 서비스 및 Google 대체에 대한 액세스를 허용합니다."
+  },
+  "search": {
+    "message": "찾다"
+  },
+  "toggle_selected_bookmarks_popup": {
+    "message": "선택한 북마크 작업 표시 또는 숨기기"
+  },
+  "toggle_search_popup": {
+    "message": "검색 옵션 표시 또는 숨기기"
+  },
+  "open_selected": {
+    "message": "선택 항목 열기"
+  },
+  "delete_selected": {
+    "message": "선택 항목 삭제"
+  },
+  "select_folder": {
+    "message": "폴더 선택"
+  },
+  "show_last_opened_folder": {
+    "message": "마지막으로 연 폴더 표시"
+  },
+  "history_back": {
+    "message": "돌아가기"
+  },
+  "default_folder_home": {
+    "message": "기본 폴더로 이동"
+  },
+  "incognito_access_note": {
+    "message": "이 작업을 사용하기 전에 StartGrid가 시크릿 모드에서 실행되도록 허용하세요."
+  },
+  "notice_host_permissions": {
+    "message": "웹사이트 축소판을 만들려면 선택한 웹사이트에 액세스할 수 있는 권한이 필요합니다."
+  },
+  "learn_more": {
+    "message": "자세히 알아보기"
+  },
+  "why_use_host_permissions": {
+    "message": "이 권한을 사용하는 이유는 무엇입니까?"
+  },
+  "host_permissions_info": {
+    "message": "<p>StartGrid는 북마크 썸네일에 대한 스크린샷을 생성할 때만 웹사이트 액세스가 필요합니다. 귀하의 검색 데이터를 수집하거나 추적하지 않습니다. 스크린샷을 캡처하는 동안 StartGrid는 일시적으로 웹사이트 스크롤바를 별도의 창에 숨깁니다.</p><p>이 선택적 권한을 거부하고 웹사이트 스크린샷을 제외한 모든 기능을 사용할 수 있습니다. 웹사이트 스크린샷을 처음 만들 때 Chrome에서 액세스 권한을 요청합니다. 나중에 Chrome 확장 프로그램 설정에서 권한을 변경할 수 있습니다. 소스 코드는 <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a>에서 확인할 수 있습니다.</p>"
+  },
+  "search_bookmarks": {
+    "message": "북마크"
+  },
+  "search_settings": {
+    "message": "찾다"
+  },
+  "search_settings_description": {
+    "message": "기본 검색 엔진을 선택하고 검색 메뉴에 표시되는 엔진을 구성합니다."
+  },
+  "search_engines": {
+    "message": "검색 엔진"
+  },
+  "search_engines_description": {
+    "message": "검색 엔진을 활성화, 구성, 재정렬 또는 제거합니다. 목록에는 총 최대 20개의 엔진이 포함될 수 있습니다."
+  },
+  "search_engine_enabled": {
+    "message": "검색 엔진 활성화"
+  },
+  "search_engine_name": {
+    "message": "검색 엔진 이름"
+  },
+  "search_engine_url": {
+    "message": "검색 URL"
+  },
+  "search_engine_url_note": {
+    "message": "인코딩된 쿼리를 삽입해야 하는 곳에 {query}를 사용하세요. 맞춤 제안 URL은 선택사항입니다. 비어 있으면 Google 제안이 사용됩니다."
+  },
+  "search_suggestion_url": {
+    "message": "제안 URL(선택사항)"
+  },
+  "search_suggestion_invalid_url": {
+    "message": "{query}가 포함된 유효한 HTTP 또는 HTTPS 제안 URL을 입력하거나 필드를 비워 두세요."
+  },
+  "add_search_engine": {
+    "message": "검색 엔진 추가"
+  },
+  "remove_search_engine": {
+    "message": "검색 엔진 제거"
+  },
+  "custom_search_engine": {
+    "message": "맞춤 검색 엔진"
+  },
+  "move_search_engine_up": {
+    "message": "위로 이동"
+  },
+  "move_search_engine_down": {
+    "message": "아래로 이동"
+  },
+  "search_engine_invalid_url": {
+    "message": "{query}가 포함된 유효한 HTTP 또는 HTTPS URL을 입력하세요."
+  },
+  "search_engine_name_required": {
+    "message": "검색 엔진 이름을 입력하세요."
+  },
+  "search_engine_at_least_one": {
+    "message": "하나 이상의 검색 엔진이 활성화된 상태로 유지되어야 합니다."
+  },
+  "keyboard_shortcuts_setting": {
+    "message": "키보드 단축키"
+  },
+  "keyboard_shortcuts_description": {
+    "message": "StartGrid 새 탭 페이지에서 작업에 대한 키보드 단축키를 구성합니다."
+  },
+  "keyboard_shortcuts_title": {
+    "message": "바로가기 할당"
+  },
+  "keyboard_shortcuts_note": {
+    "message": "단축키를 선택하고 새 키 조합을 누르세요. 취소하려면 Esc를 누르세요. 단축키를 삭제하려면 Backspace 또는 Delete를 누르세요. 단축키는 StartGrid 페이지에서만 작동합니다."
+  },
+  "shortcut_change": {
+    "message": "바로가기 변경"
+  },
+  "shortcut_not_set": {
+    "message": "할당되지 않음"
+  },
+  "shortcut_clear": {
+    "message": "바로가기 삭제"
+  },
+  "shortcut_reset": {
+    "message": "기본값 복원"
+  },
+  "shortcut_press_keys": {
+    "message": "단축키를 누르세요…"
+  },
+  "shortcut_conflict": {
+    "message": "이 바로가기는 이미 다른 작업에 할당되어 있습니다."
+  },
+  "shortcut_invalid": {
+    "message": "예약되지 않은 키를 누르세요. Escape와 Tab은 할당할 수 없습니다."
+  },
+  "shortcut_modifier_invalid": {
+    "message": "여러 책갈피를 선택하려면 Ctrl, Alt, Shift 또는 Meta를 할당하세요."
+  },
+  "shortcut_focus_search": {
+    "message": "집중검색"
+  },
+  "shortcut_add_bookmark": {
+    "message": "북마크 추가"
+  },
+  "shortcut_toggle_quick_settings": {
+    "message": "빠른 설정 전환"
+  },
+  "shortcut_open_settings": {
+    "message": "전체 설정 열기"
+  },
+  "shortcut_go_home": {
+    "message": "기본 폴더로 이동"
+  },
+  "shortcut_go_back": {
+    "message": "한 폴더 뒤로 이동"
+  },
+  "shortcut_select_multiple_bookmarks": {
+    "message": "여러 북마크 선택"
+  },
+  "shortcut_select_all_bookmarks": {
+    "message": "모든 북마크 선택"
+  },
+  "shortcut_update_thumbnails": {
+    "message": "모든 미리보기 이미지 업데이트"
+  },
+  "settings_appearance": {
+    "message": "모습"
+  },
+  "settings_controls": {
+    "message": "통제 수단"
+  },
+  "settings_group_page": {
+    "message": "페이지 및 배경"
+  },
+  "settings_group_animations": {
+    "message": "애니메이션 및 효과"
+  },
+  "settings_group_grid": {
+    "message": "타일 ​​그리드"
+  },
+  "settings_group_tile_style": {
+    "message": "타일 ​​외관"
+  },
+  "settings_group_tile_content": {
+    "message": "타일 ​​콘텐츠"
+  },
+  "settings_group_start": {
+    "message": "시작 페이지"
+  },
+  "settings_group_sorting": {
+    "message": "정렬"
+  },
+  "settings_group_navigation": {
+    "message": "항해"
+  },
+  "settings_group_opening": {
+    "message": "열기 및 추가"
+  },
+  "settings_group_search_behavior": {
+    "message": "검색 행동"
+  },
+  "settings_group_thumbnail_generation": {
+    "message": "썸네일 및 파비콘"
+  },
+  "settings_group_auto_refresh": {
+    "message": "자동 새로고침"
+  },
+  "settings_group_thumbnail_storage": {
+    "message": "로컬 이미지"
+  },
+  "settings_group_interface": {
+    "message": "인터페이스 제어"
+  },
+  "settings_group_sync": {
+    "message": "동기화"
+  },
+  "settings_group_backup": {
+    "message": "지원"
+  },
+  "settings_group_storage": {
+    "message": "로컬 데이터"
+  },
+  "settings_group_permissions": {
+    "message": "권한"
+  },
+  "settings_group_reset": {
+    "message": "설정 재설정"
+  },
+  "settings_group_reset_description": {
+    "message": "이러한 작업에는 확인이 필요하며 저장된 설정을 변경하거나 제거할 수 있습니다."
+  },
+  "settings_mobile_section": {
+    "message": "부분"
+  },
+  "settings_search_label": {
+    "message": "검색 설정"
+  },
+  "settings_search_placeholder": {
+    "message": "설정 찾기"
+  },
+  "settings_autosave": {
+    "message": "변경사항이 자동으로 저장됩니다."
+  },
+  "settings_no_results": {
+    "message": "설정을 찾을 수 없습니다."
+  },
+  "undo": {
+    "message": "끄르다"
+  }
+}

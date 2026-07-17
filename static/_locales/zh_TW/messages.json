@@ -3,25 +3,31 @@
     "message": "StartGrid"
   },
   "ext_desc": {
-    "message": "簡單的快速存取書籤頁面，包括搜尋、新增、編輯、刪除和拖曳書籤。"
+    "message": "可自訂的新分頁，整合視覺化書籤、資料夾、搜尋、縮圖、佈景主題與選用同步功能。"
   },
   "default_title": {
     "message": "StartGrid"
   },
+  "language": {
+    "message": "語言"
+  },
+  "language_browser": {
+    "message": "使用瀏覽器語言"
+  },
   "color_theme": {
-    "message": "佈景主題"
+    "message": "色彩主題"
   },
   "dark_theme": {
-    "message": "暗黑模式"
+    "message": "黑暗的"
   },
   "light_theme": {
-    "message": "明亮模式"
+    "message": "光"
   },
   "os_theme": {
-    "message": "依照系統設定"
+    "message": "作業系統主題"
   },
   "placeholder_input_search": {
-    "message": "在 $engine$ 中搜尋",
+    "message": "在$engine$中搜尋",
     "placeholders": {
       "engine": {
         "content": "$1"
@@ -53,76 +59,76 @@
     "message": "縮圖操作"
   },
   "thumbnail_source_local": {
-    "message": "本機儲存空間"
+    "message": "本地儲存"
   },
   "thumbnail_source_site": {
-    "message": "從網站建立"
+    "message": "從網站創建"
   },
   "thumbnail_source_url": {
-    "message": "來自 URL"
+    "message": "來自網址"
   },
   "thumbnail_source_favicon": {
-    "message": "網站圖示"
+    "message": "網站圖示（預設）"
   },
   "favicon_download_preference": {
-    "message": "Источник favicon"
+    "message": "圖標來源"
   },
   "favicon_download_inherit": {
-    "message": "Использовать общую настройку"
+    "message": "使用全域設定"
   },
   "favicon_download_site": {
-    "message": "Скачивать с сайта"
+    "message": "從網站下載"
   },
   "favicon_download_chrome": {
-    "message": "Использовать кэш Chrome"
+    "message": "使用 Chrome 快取"
   },
   "favicon_size_individual": {
-    "message": "Индивидуальный размер изображения миниатюры"
+    "message": "單獨縮圖尺寸"
   },
   "favicon_size_individual_placeholder": {
     "message": "32"
   },
   "favicon_size_individual_note": {
-    "message": "Оставьте поле пустым, чтобы использовать общий размер изображения миниатюры."
+    "message": "留空以使用全域縮圖大小。"
   },
   "download_favicons_by_default": {
-    "message": "Скачивать favicon с сайтов по умолчанию"
+    "message": "預設從網站下載圖標"
   },
   "download_favicons_by_default_note": {
-    "message": "Если favicon отсутствует в локальном хранилище, скачивать его в фоне при открытии стартовой страницы."
+    "message": "如果本機缺少圖示縮圖，請在起始頁開啟時在背景下載它。"
   },
   "favicon_size": {
-    "message": "Размер изображения миниатюры"
+    "message": "縮圖尺寸"
   },
   "favicon_size_note": {
-    "message": "Общий размер изображения для всех типов миниатюр. Индивидуальная настройка плитки имеет приоритет."
+    "message": "所有縮圖類型的預設圖像大小。單獨的圖塊設定優先。"
   },
   "thumbnail_url": {
-    "message": "縮圖 URL"
+    "message": "縮圖網址"
   },
   "thumbnail_url_note": {
-    "message": "圖片會快取在本機，並定期檢查更新。"
+    "message": "圖像在本地緩存並定期檢查更新。"
   },
   "notice_thumbnail_url_failed": {
     "message": "無法從 URL 下載縮圖"
   },
   "url_field_tip": {
-    "message": "輸入網址，如果要建立資料夾，請保留空白"
+    "message": "輸入 URL，或將此欄位留空以建立資料夾。"
   },
   "btn_close": {
     "message": "取消"
   },
   "btn_save": {
-    "message": "儲存"
+    "message": "節省"
   },
   "btn_back": {
-    "message": "完成"
+    "message": "完畢"
   },
   "back_to_main": {
     "message": "返回書籤"
   },
   "btn_apply": {
-    "message": "套用"
+    "message": "申請"
   },
   "contextmenu_tab": {
     "message": "在新分頁中開啟"
@@ -131,7 +137,7 @@
     "message": "在新視窗中開啟"
   },
   "contextmenu_open_all": {
-    "message": "全部開啟"
+    "message": "全部打開"
   },
   "contextmenu_open_all_window": {
     "message": "全部在新視窗中開啟"
@@ -140,13 +146,13 @@
     "message": "以隱身模式打開"
   },
   "contextmenu_copy_link": {
-    "message": "複製網址連結"
+    "message": "複製連結地址"
   },
   "contextmenu_edit": {
     "message": "編輯"
   },
   "contextmenu_capture": {
-    "message": "更新縮圖"
+    "message": "刷新縮圖"
   },
   "contextmenu_upload": {
     "message": "從電腦上傳"
@@ -155,31 +161,31 @@
     "message": "從剪貼簿上傳"
   },
   "contextmenu_remove": {
-    "message": "移除"
+    "message": "消除"
   },
   "confirm_delete_image": {
-    "message": "刪除圖片？"
+    "message": "刪除此圖片？"
   },
   "confirm_delete_images": {
-    "message": "你確定嗎？所有本機的圖片將被刪除"
+    "message": "你確定嗎？所有本地縮圖都將被刪除。"
   },
   "confirm_clear_local_cache": {
-    "message": "Вы уверены? Все временные локальные данные будут удалены. Настройки и локальные изображения сохранятся."
+    "message": "你確定嗎？所有臨時本地資料將被刪除。設定和本地圖像將被保留。"
   },
   "confirm_delete_bookmark": {
-    "message": "你確定要刪除這個書籤嗎？"
+    "message": "刪除此書籤嗎？"
   },
   "confirm_delete_folder": {
-    "message": "你確定要刪除該資料夾及其所有內容嗎？"
+    "message": "刪除該資料夾以及其中的所有內容？"
   },
   "confirm_restore_default_settings": {
-    "message": "你確定要復原成原始設定嗎？"
+    "message": "僅將本地設定重設為預設值並停用同步？伺服器上的同步資料將被保留。"
   },
   "confirm_clear_sync_settings": {
-    "message": "你確定要刪除之前同步的所有資料，重新開始嗎？"
+    "message": "從伺服器刪除同步設定並停用同步？本地設定、圖像和快取將被保留。"
   },
   "confirm_sync_remote_settings": {
-    "message": "你之前已經同步過設定！\n 你想用之前備份在伺服器上的設定來覆蓋目前的本機設定嗎？"
+    "message": "同步設定已存在。\n將當前本地設定替換為同步版本？"
   },
   "notice_image_removed": {
     "message": "圖片已刪除"
@@ -188,16 +194,16 @@
     "message": "書籤縮圖已更新"
   },
   "notice_bookmark_exist": {
-    "message": "書籤已經存在"
+    "message": "書籤已存在"
   },
   "notice_bookmark_created": {
-    "message": "書籤已建立"
+    "message": "書籤已創建"
   },
   "notice_bookmark_updated": {
     "message": "書籤已更新"
   },
   "notice_bookmark_removed": {
-    "message": "書籤 \"<span data-title>$title$</span>\" 已刪除",
+    "message": "已刪除書籤“<span data-title>$title$</span>”",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -205,7 +211,7 @@
     }
   },
   "notice_folder_removed": {
-    "message": "資料夾 \"<span data-title>$title$</span>\" 已刪除",
+    "message": "已刪除資料夾“<span data-title>$title$</span>”",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -213,34 +219,34 @@
     }
   },
   "notice_selected_bookmarks_removed": {
-    "message": "已刪除所選書籤。"
+    "message": "選定的書籤已刪除"
   },
   "notice_images_removed": {
-    "message": "所有縮圖已刪除"
+    "message": "所有本地縮圖已刪除"
   },
   "notice_local_cache_cleared": {
-    "message": "Локальный кэш очищен"
+    "message": "本機快取已清除"
   },
   "notice_cant_find_id": {
-    "message": "無法按照 ID 找到資料夾。或許你還沒有同步過書籤"
+    "message": "找不到資料夾。它可能在此 Chrome 設定檔中不可用。"
   },
   "notice_reset_default_settings": {
-    "message": "本機的設定已清除，復原為程式預設"
+    "message": "本地設定重置；同步已停用"
   },
   "notice_sync_settings_cleared": {
-    "message": "清除已同步的資料"
+    "message": "同步伺服器資料刪除；同步已停用"
   },
   "notice_bg_image_updated": {
-    "message": "背景圖已被更新"
+    "message": "背景更新"
   },
   "notice_thumbnails_update_complete": {
-    "message": "按鈕縮圖更新完成"
+    "message": "縮圖更新完成"
   },
   "notice_link_copied": {
     "message": "連結已複製"
   },
   "alert_file_type_fail_type": {
-    "message": "檔案類型錯誤\n 有效檔案類型：($type$)",
+    "message": "不支援的文件類型\n允許的檔案類型：$type$",
     "placeholders": {
       "type": {
         "content": "$1"
@@ -248,7 +254,7 @@
     }
   },
   "alert_file_type_fail_size": {
-    "message": "最大上傳檔案大小：$filesize$ MB",
+    "message": "文件太大。最大大小：$filesize$ MB",
     "placeholders": {
       "filesize": {
         "content": "$1"
@@ -256,115 +262,115 @@
     }
   },
   "not_found_text": {
-    "message": "無法透過 ID 找到該資料夾。您可能沒有同步書籤，或者您『刪除』或『移動』了這個資料夾。"
+    "message": "找不到資料夾。它可能已被移動或刪除，或者您的書籤可能未在此裝置上同步。"
   },
   "not_found_link_text": {
-    "message": "書籤列"
+    "message": "書籤欄"
   },
   "add_bookmark": {
-    "message": "加到書籤"
+    "message": "加入書籤"
   },
   "save_to_current_folder": {
-    "message": "儲存到目前的資料夾"
+    "message": "儲存到目前資料夾"
   },
   "edit_bookmark": {
     "message": "編輯書籤"
   },
   "options": {
-    "message": "選項"
+    "message": "設定"
   },
   "quick_display_settings": {
-    "message": "Быстрый вид закладок"
+    "message": "快速外觀設定"
   },
   "quick_display_settings_description": {
-    "message": "Изменения применяются сразу"
+    "message": "變更立即套用"
   },
   "more_settings": {
-    "message": "Все настройки"
+    "message": "所有設定"
   },
   "bookmark_appearance_setting": {
-    "message": "Закладки"
+    "message": "書籤"
   },
   "page_appearance_setting": {
-    "message": "Страница"
+    "message": "首頁"
   },
   "bookmark_behavior_setting": {
-    "message": "Поведение"
+    "message": "行為"
   },
   "thumbnails_setting": {
-    "message": "Миниатюры"
+    "message": "縮圖"
   },
   "thumbnails_setting_description": {
-    "message": "Настройки этого раздела применяются ко всем поддерживаемым источникам миниатюр: снимкам сайтов, изображениям по URL и favicon. Загруженные вручную изображения автоматически не заменяются."
+    "message": "本部分中的設定適用於所有支援的縮圖來源：網站螢幕截圖、圖像 URL 和網站圖示。本地上傳的圖像永遠不會自動替換。"
   },
   "data_privacy_setting": {
-    "message": "Данные и приватность"
+    "message": "資料和隱私"
   },
   "dial_width": {
-    "message": "寬度比例"
+    "message": "網格寬度"
   },
   "dial_gap": {
-    "message": "Расстояние между плитками"
+    "message": "磁磚之間的距離"
   },
   "dial_radius": {
-    "message": "Скругление углов плитки"
+    "message": "磁磚圓角半徑"
   },
   "dial_aspect_ratio": {
-    "message": "Пропорции плитки"
+    "message": "瓷磚比例"
   },
   "dial_aspect_ratio_square": {
-    "message": "Квадратные (1:1)"
+    "message": "正方形 (1:1)"
   },
   "dial_aspect_ratio_standard": {
-    "message": "Стандартные (4:3)"
+    "message": "標準 (4:3)"
   },
   "dial_aspect_ratio_photo": {
-    "message": "Фото (3:2)"
+    "message": "照片 (3:2)"
   },
   "dial_aspect_ratio_wide": {
-    "message": "Широкие (16:9)"
+    "message": "寬螢幕 (16:9)"
   },
   "dial_shadow": {
-    "message": "Интенсивность тени плитки"
+    "message": "平鋪陰影強度"
   },
   "dial_hover_lift": {
-    "message": "Подъём плитки при наведении"
+    "message": "懸停時瓷磚升降機"
   },
   "dial_background_color": {
-    "message": "圖塊背景顏色"
+    "message": "平鋪背景顏色"
   },
   "dial_background_color_note": {
-    "message": "選擇自訂顏色前使用目前的主題顏色。"
+    "message": "使用目前主題顏色，直到選擇自訂顏色。"
   },
   "dial_background_opacity": {
-    "message": "圖塊背景不透明度"
+    "message": "平鋪背景不透明度"
   },
   "dial_background_opacity_note": {
-    "message": "0% 完全透明，100% 完全不透明。"
+    "message": "0%完全透明； 100% 是不透明的。"
   },
   "reset_tile_background_color": {
     "message": "使用主題顏色"
   },
   "number_of_columns": {
-    "message": "畫面寬度(左到右的數量)"
+    "message": "列數"
   },
   "vertical_center": {
     "message": "垂直居中"
   },
   "disable_main_page_scroll": {
-    "message": "停用首頁捲動"
+    "message": "禁用主頁上的滾動"
   },
   "disable_main_page_scroll_description": {
-    "message": "隱藏捲動條，並在書籤搜尋結果以外的頁面停用捲動。"
+    "message": "隱藏滾動條並防止滾動到書籤搜尋結果之外。"
   },
   "default_folder_id": {
     "message": "預設資料夾"
   },
   "default_folder_sync_note": {
-    "message": "同步已啟用。此設定會儲存至 Chrome 同步。"
+    "message": "同步已啟用。此設定將儲存到 Chrome 同步。"
   },
   "default_folder_local_note": {
-    "message": "同步已關閉。此設定會儲存在此裝置上。"
+    "message": "同步已停用。此設定保存在此裝置上。"
   },
   "background": {
     "message": "背景"
@@ -373,67 +379,97 @@
     "message": "顏色"
   },
   "background_noimage": {
-    "message": "沒有背景圖片"
+    "message": "無背景圖片"
   },
   "background_noimage_text": {
-    "message": "沒有背景圖片的主題"
+    "message": "使用主題背景顏色"
   },
   "background_bing": {
-    "message": "Bing 每日圖片"
+    "message": "必應今日圖片"
   },
   "background_bing_text": {
-    "message": "Bing 每日圖片是顯示在 Bing 首頁上的每日背景照片。Microsoft 每天都會展示來自世界各地的自然、建築或文化的驚艷或有趣的圖片"
+    "message": "使用 Bing 主頁上的每日照片作為 StartGrid 背景。"
   },
   "bing_permission_toast": {
-    "message": "Bing 每日圖片需要對 bing.com 的存取權限。您可以在<a href=\"/options.html\">設定頁面</a>中啟用此權限，選取「Bing 每日圖片」選項並確認權限"
+    "message": "Bing 每日圖片需要造訪 bing.com。在<a href=\"/options.html\">設定頁面</a>上選擇它並確認權限請求。"
   },
   "background_external": {
-    "message": "使用網路圖片當作背景圖"
+    "message": "圖片來自網址"
   },
   "background_local": {
-    "message": "背景圖來自本機電腦"
+    "message": "來自電腦的圖像或視頻"
   },
   "background_local_video_note": {
-    "message": "本機背景可以是圖片或 MP4 影片。影片將靜音播放並自動循環。"
+    "message": "本地背景可以是圖片或MP4影片。影片靜音播放並自動循環播放。"
   },
-  "background_entrance_effect": { "message": "背景出現效果" },
-  "background_entrance_none": { "message": "無動畫" },
-  "background_entrance_zoom": { "message": "縮小" },
-  "background_entrance_blur": { "message": "從模糊顯示" },
-  "background_entrance_slide": { "message": "向上滑入" },
-  "background_entrance_duration": { "message": "背景出現時長" },
-  "snow_mode": { "message": "降雪" },
-  "snow_mode_always": { "message": "始終" },
-  "snow_mode_winter": { "message": "冬季 — 12月1日至2月最後一天" },
-  "snow_mode_off": { "message": "關閉" },
-  "page_cascade_enabled": { "message": "開啟頁面時為圖塊加入動畫" },
-  "page_cascade_mode": { "message": "級聯順序" },
-  "page_cascade_mode_items": { "message": "逐個書籤" },
-  "page_cascade_mode_rows": { "message": "逐列" },
-  "page_cascade_duration": { "message": "級聯動畫時長" },
+  "background_entrance_effect": {
+    "message": "背景外觀"
+  },
+  "background_entrance_none": {
+    "message": "無動畫"
+  },
+  "background_entrance_zoom": {
+    "message": "縮小"
+  },
+  "background_entrance_blur": {
+    "message": "從模糊淡入"
+  },
+  "background_entrance_slide": {
+    "message": "從底部滑入"
+  },
+  "background_entrance_duration": {
+    "message": "背景出現持續時間"
+  },
+  "snow_mode": {
+    "message": "降雪"
+  },
+  "snow_mode_always": {
+    "message": "總是"
+  },
+  "snow_mode_winter": {
+    "message": "冬季 — 12 月 1 日至 2 月最後一天"
+  },
+  "snow_mode_off": {
+    "message": "離開"
+  },
+  "page_cascade_enabled": {
+    "message": "在頁面開啟時對圖塊進行動畫處理"
+  },
+  "page_cascade_mode": {
+    "message": "級聯順序"
+  },
+  "page_cascade_mode_items": {
+    "message": "一次一個書籤"
+  },
+  "page_cascade_mode_rows": {
+    "message": "一次一行"
+  },
+  "page_cascade_duration": {
+    "message": "級聯持續時間"
+  },
   "choose_file": {
-    "message": "圖片或影片"
+    "message": "選擇圖像或視頻"
   },
   "show_settings_icon": {
     "message": "顯示設定圖示"
   },
   "show_quick_settings_icon": {
-    "message": "Показывать иконку быстрых настроек"
+    "message": "顯示快速設定圖標"
   },
   "show_extension_icon": {
-    "message": "顯示 StartGrid 圖示"
+    "message": "顯示開始網格圖標"
   },
   "show_toolbar": {
-    "message": "顯示搜尋列和資料夾選擇"
+    "message": "顯示搜尋列和資料夾選擇器"
   },
   "show_create_column": {
-    "message": "顯示用於新增書籤的列"
+    "message": "顯示新增書籤圖塊"
   },
   "show_bookmark_title": {
     "message": "顯示書籤標題"
   },
   "show_favicon": {
-    "message": "在標題旁顯示網站圖示"
+    "message": "顯示標題旁的圖標"
   },
   "open_bookmarks_newtab": {
     "message": "在新分頁中開啟書籤"
@@ -442,49 +478,49 @@
     "message": "在新分頁中開啟搜尋"
   },
   "show_contextmenu_item": {
-    "message": "顯示在右鍵選單"
+    "message": "在上下文選單中顯示"
   },
   "drag_and_drop": {
     "message": "啟用拖放"
   },
   "auto_generate_thumbnail": {
-    "message": "建立書籤時產生縮圖"
+    "message": "自動將網站圖示新增至新書籤"
   },
   "enable_sync": {
-    "message": "開啟同步功能"
+    "message": "啟用同步"
   },
   "clear_background_locals": {
-    "message": "清除本機機料夾內的圖示"
+    "message": "刪除所有本地儲存的縮圖"
   },
   "clear_local_cache": {
-    "message": "Очистить локальный кэш"
+    "message": "清除本地快取"
   },
   "reset_local_default": {
-    "message": "將本機的設定回復到預設值"
+    "message": "將設定重設為預設值"
   },
   "reset_local_default_description": {
-    "message": "Сбрасывает только локальные настройки и отключает синхронизацию. Синхронизированные данные на сервере не удаляются."
+    "message": "僅重置本地設定並停用同步。同步的伺服器資料不會被刪除。"
   },
   "reset_quick_settings": {
-    "message": "重設快速設定"
+    "message": "重置快速設定"
   },
   "reset_quick_settings_description": {
-    "message": "僅將此選單中顯示的設定還原為擴充功能預設值。"
+    "message": "僅將此選單中顯示的設定恢復為擴展預設設定。"
   },
   "confirm_reset_quick_settings": {
-    "message": "要將快速設定還原為擴充功能預設值嗎？"
+    "message": "將快速設定重設為擴展預設值？"
   },
   "reset_sync_text": {
-    "message": "刪除伺服器上以同步的資料"
+    "message": "從 Chrome 同步中刪除同步設定"
   },
   "reset_sync_description": {
-    "message": "Удаляет только синхронизированные настройки с сервера и отключает синхронизацию. Локальные настройки, изображения и кэш сохраняются."
+    "message": "僅從伺服器刪除同步設定並停用同步。保留本地設定、圖像和快取。"
   },
   "version": {
     "message": "版本"
   },
   "thumbnails_creation": {
-    "message": "正在建立縮圖：$start$，共 $total$",
+    "message": "產生縮圖：$start$ / $total$",
     "placeholders": {
       "start": {
         "content": "$1"
@@ -495,119 +531,123 @@
     }
   },
   "thumbnails_update_warn": {
-    "message": "更新縮圖會影響你電腦的效能\n(這跟你有多少書籤、以及你的電腦的速度有關)"
+    "message": "每個縮圖均從其選定的來源刷新：網站、圖像 URL 或網站圖示。本地上傳的圖像將被保留。更新會影響效能。"
   },
   "thumbnails_update_button": {
-    "message": "更新的按鈕縮圖"
+    "message": "更新所有縮圖"
   },
   "thumbnails_auto_refresh": {
-    "message": "Автоматически обновлять миниатюры"
+    "message": "自動刷新縮圖"
   },
   "thumbnails_auto_refresh_note": {
-    "message": "Проверяет и обновляет устаревшие миниатюры при открытии главной страницы"
+    "message": "打開主頁時檢查並刷新過時的縮圖"
   },
   "thumbnails_auto_refresh_interval": {
-    "message": "Интервал автоматического обновления"
+    "message": "自動刷新間隔"
   },
   "thumbnails_auto_refresh_interval_note": {
-    "message": "Время между обновлениями миниатюр: от 1 часа до 7 дней"
+    "message": "縮圖刷新之間的時間，從 1 小時到 7 天"
   },
   "hours_short": {
-    "message": " ч"
+    "message": "小時"
   },
   "folder_preview": {
-    "message": "使用網站縮圖替代資料夾圖示"
+    "message": "在資料夾上顯示網站縮圖"
   },
   "folder_preview_description": {
-    "message": "啟用此設定後，將顯示資料夾中 4 個隨機網站的縮圖，而不是圖示或自訂圖片。"
+    "message": "顯示資料夾中四個隨機選擇的網站的縮圖，而不是資料夾圖示或自訂圖像。"
   },
   "backup_settings": {
-    "message": "匯入 / 匯出設定"
+    "message": "匯入或匯出設定"
   },
   "backup_settings_description": {
-    "message": "只有備份 StartGrid 的設定，但不包括書籤和縮圖的圖示"
+    "message": "僅備份擴充設定；不包括書籤和圖片。"
   },
   "import": {
-    "message": "設定匯入"
+    "message": "進口"
   },
   "export": {
-    "message": "設定匯出"
+    "message": "出口"
   },
   "import_settings_success": {
-    "message": "設定已匯入"
+    "message": "導入的設定"
   },
   "import_settings_failed": {
-    "message": "無法正常讀取設定檔"
+    "message": "無法讀取設定文件"
   },
   "without_confirmation": {
-    "message": "刪除時不確認"
+    "message": "刪除而不確認"
   },
   "toggle_clipboard_access": {
-    "message": "從剪貼簿讀取的權限"
+    "message": "允許剪貼簿訪問"
   },
   "toggle_clipboard_access_description": {
-    "message": "允許擴充功能從剪貼簿中讀取資料以上傳書籤縮圖。在書籤編輯視窗中會出現「從剪貼簿上傳」操作。如果您對此權限感到擔心，只需不啟用它即可。"
+    "message": "允許擴展從剪貼簿讀取資料以上傳書籤縮圖。 「從剪貼簿上傳」操作將在書籤編輯視窗中可用。如果您擔心此權限，請不要啟用它。"
   },
   "error_input_required": {
-    "message": "必須輸入字串"
+    "message": "必填字段"
   },
   "error_input_url": {
-    "message": "網址是無效的"
+    "message": "網址無效"
   },
   "thumbnails_update_delay": {
-    "message": "建立縮圖時，先做一些延遲"
+    "message": "捕捉縮圖之前請等待"
   },
   "thumbnails_update_delay_note": {
-    "message": "當頁面更新延遲是很有用的，可以抓出網站的縮圖。 \n\n 但延遲時間越久，等待時間就會越長"
+    "message": "增加需要更多時間完成載入的網站的延遲。"
   },
   "close_tab_after_adding_bookmark": {
-    "message": "如果您已將選項新增到書籤，則自動關閉這分頁"
+    "message": "新增到書籤後關閉選項卡"
   },
   "close_tab_after_adding_bookmark_note": {
-    "message": "僅當透過右鍵選單新增時"
+    "message": "僅當從上下文選單新增書籤時適用。"
   },
   "empty_search": {
     "message": "沒有找到書籤"
   },
   "search_failed": {
-    "message": "Не удалось выполнить поиск по закладкам. Попробуйте ещё раз."
+    "message": "無法搜尋書籤。請再試一次。"
   },
   "sync_quota_exceeded": {
-    "message": "已超出 Chrome 同步儲存空間限制（$used$ / $limit$）。最新變更無法同步，並保留在此裝置上。請減少同步設定的資料量。",
+    "message": "Chrome 同步儲存超出限制（$used$ 共 $limit$）。最新變更無法同步並保留在此裝置上。減少同步設定。",
     "placeholders": {
-      "used": { "content": "$1" },
-      "limit": { "content": "$2" }
+      "used": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
     }
   },
   "delete_thumbnail": {
-    "message": "從本機儲存空間刪除"
+    "message": "從本機儲存中刪除"
   },
   "show_back_column": {
-    "message": "在書籤列中顯示回到上層的圖示"
+    "message": "顯示資料夾內的後磁貼"
   },
   "search_engine": {
-    "message": "預設的搜尋引擎"
+    "message": "預設搜尋引擎"
   },
   "search_results_display": {
-    "message": "Отображение результатов поиска по закладкам"
+    "message": "為搜尋結果添加書籤"
   },
   "search_results_display_flat": {
-    "message": "Только плитки"
+    "message": "僅瓷磚"
   },
   "search_results_display_folder_name": {
-    "message": "Родительская папка на плитке"
+    "message": "磁貼上的父資料夾"
   },
   "search_results_display_folder_path": {
-    "message": "Полный путь к папке на плитке"
+    "message": "磁貼上的完整資料夾路徑"
   },
   "search_results_display_grouped": {
-    "message": "Группировать по папкам"
+    "message": "按資料夾分組"
   },
   "search_results_root_folder": {
-    "message": "Корневая папка закладок"
+    "message": "根書籤資料夾"
   },
   "move_to_start": {
-    "message": "將書籤移至資料夾內清單的頂部"
+    "message": "將新書籤移至資料夾頂部"
   },
   "bookmarks_sorting_type": {
     "message": "資料夾排序"
@@ -616,7 +656,7 @@
     "message": "首頁圖塊排序"
   },
   "manual_sorting": {
-    "message": "手動排序"
+    "message": "人工分類"
   },
   "sort_by_usage": {
     "message": "使用頻率"
@@ -625,28 +665,28 @@
     "message": "排序方向"
   },
   "newest_first": {
-    "message": "遞減 — 最新優先"
+    "message": "降序 — 最新的在前"
   },
   "oldest_first": {
-    "message": "遞增 — 最舊優先"
+    "message": "升序－最老的在前"
   },
   "alphabet_descending": {
-    "message": "遞減 — Z 到 A"
+    "message": "降序 — Z 到 A"
   },
   "alphabet_ascending": {
-    "message": "遞增 — A 到 Z"
+    "message": "升序 — A 到 Z"
   },
   "usage_tiebreaker": {
-    "message": "使用次數相同時排序依據"
+    "message": "當使用量相等時，按"
   },
   "show_home_folders": {
-    "message": "在首頁顯示資料夾"
+    "message": "在主頁上顯示資料夾"
   },
   "show_usage_count": {
-    "message": "在書籤上顯示使用次數"
+    "message": "顯示書籤的使用次數"
   },
   "usage_count_label": {
-    "message": "開啟次數：$COUNT$",
+    "message": "未結數：$COUNT$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -654,82 +694,82 @@
     }
   },
   "folders_together": {
-    "message": "資料夾與書籤一起排序"
+    "message": "將資料夾與書籤一起排序"
   },
   "navigation_sort_by": {
-    "message": "資料夾內與搜尋結果排序"
+    "message": "資料夾內排序和搜尋"
   },
   "browser_default_order": {
-    "message": "預設順序"
+    "message": "預設訂單"
   },
   "sort_by": {
-    "message": "排序依據"
+    "message": "排序方式"
   },
   "sort_by_date": {
     "message": "日期"
   },
   "sort_by_alphabet": {
-    "message": "字母順序"
+    "message": "按字母順序"
   },
   "not_sorting": {
-    "message": "不排序"
+    "message": "未排序"
   },
   "folders_on_top": {
-    "message": "資料夾在最上面"
+    "message": "資料夾在頂部"
   },
   "folders_at_the_bottom": {
-    "message": "資料夾在最下方"
+    "message": "資料夾在底部"
   },
   "bookmarks_sorting_warning": {
-    "message": "如果選擇啟用排序的任何一個選項，拖放時，還是會依照排序的設定來排序"
+    "message": "啟用自動排序時，拖放排序不可用。"
   },
   "search_autofocus": {
-    "message": "自動將輸入游標放在搜尋列上"
+    "message": "專注於搜尋欄"
   },
   "confirm_delete_selected_bookmarks": {
-    "message": "你確定要刪除選定的書籤嗎？"
+    "message": "刪除選定的書籤？"
   },
   "button_action_move": {
-    "message": "移動資料夾"
+    "message": "移至資料夾"
   },
   "parent_folder": {
-    "message": "主資料夾"
+    "message": "父資料夾"
   },
   "new_bookmark": {
     "message": "新書籤"
   },
   "modal_dismiss": {
-    "message": "解除群組"
+    "message": "關閉對話框"
   },
   "remove_thumbnail": {
     "message": "刪除縮圖"
   },
   "thumbnails_update": {
-    "message": "縮圖更新"
+    "message": "更新縮圖"
   },
   "bookmark_context": {
-    "message": "書籤右鍵選單"
+    "message": "為操作添加書籤"
   },
   "clear_search": {
     "message": "清除搜尋"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "允許存取所選建議服務和 Google 備用建議"
+    "message": "允許存取所選建議服務和 Google 後備服務"
   },
   "search": {
     "message": "搜尋"
   },
   "toggle_selected_bookmarks_popup": {
-    "message": "開啟網址時切換到新的彈出視窗"
+    "message": "顯示或隱藏選定的書籤操作"
   },
   "toggle_search_popup": {
-    "message": "搜尋結果在彈出的新視窗內顯示"
+    "message": "顯示或隱藏搜尋選項"
   },
   "open_selected": {
-    "message": "開啟選擇"
+    "message": "打開選定的"
   },
   "delete_selected": {
-    "message": "刪除選擇"
+    "message": "刪除所選內容"
   },
   "select_folder": {
     "message": "選擇一個資料夾"
@@ -738,16 +778,16 @@
     "message": "顯示上次開啟的資料夾"
   },
   "history_back": {
-    "message": "歷史回顧"
+    "message": "回去"
   },
   "default_folder_home": {
-    "message": "前往預設資料夾"
+    "message": "轉到預設資料夾"
   },
   "incognito_access_note": {
-    "message": "你必須允許在私人模式下執行"
+    "message": "在使用此操作之前，允許 StartGrid 以隱身模式運作。"
   },
   "notice_host_permissions": {
-    "message": "要建立網站縮圖，你必須允許外掛功能 StartGrid 能存取網站，才能抓縮圖"
+    "message": "建立網站縮圖需要存取所選網站的權限。"
   },
   "learn_more": {
     "message": "了解更多"
@@ -756,76 +796,210 @@
     "message": "為什麼要使用這個權限？"
   },
   "host_permissions_info": {
-    "message": "<p>此權限對於產生網站螢幕截圖是必需的。但 StartGrid 不會收集、追蹤或修改您在網站上的資料。打開網站的單獨視窗後發生的唯一變動是在產生螢幕截圖之前隱藏網站上的捲軸 (盡量讓螢幕截圖不會有捲軸). 擴充代碼可在 <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. 如果對此此權限有疑慮，可以選擇不同意授權，網站的截圖功能將無法使用，但 StartGrid 仍然可以正常執行。</p><p>嘗試截取網站螢幕截圖時將請求此權限 (如果已停用)。你也可以透過開啟包含有關擴充功能的詳細資訊的視窗來在瀏覽器設定中管理此權限。</p>"
+    "message": "<p>StartGrid 僅在為書籤縮圖建立螢幕截圖時才需要存取網站。它不會收集或追蹤您的瀏覽數據。擷取螢幕截圖時，StartGrid 會暫時將網站捲軸隱藏在單獨的視窗中。 </p><p>您可以拒絕此可選權限並使用網站螢幕截圖以外的所有功能。當您首次建立網站螢幕截圖時，Chrome 會要求存取權限。您可以稍後在 Chrome 的擴充功能設定中變更權限。原始碼可在 <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a> 上取得。 </p>"
   },
-  "search_bookmarks": { "message": "書籤" },
-  "search_settings": { "message": "搜尋" },
-  "search_settings_description": { "message": "選擇預設搜尋引擎，並設定搜尋選單中顯示的搜尋引擎。" },
-  "search_engines": { "message": "搜尋引擎" },
-  "search_engines_description": { "message": "啟用、設定、排序或移除搜尋引擎。清單中最多可包含 20 個搜尋引擎。" },
-  "search_engine_enabled": { "message": "啟用搜尋引擎" },
-  "search_engine_name": { "message": "搜尋引擎名稱" },
-  "search_engine_url": { "message": "搜尋網址" },
-  "search_engine_url_note": { "message": "使用 {query} 表示編碼查詢的插入位置。自訂建議 URL 為選填；留空時使用 Google 建議。" },
-  "search_suggestion_url": { "message": "建議 URL（選填）" },
-  "search_suggestion_invalid_url": { "message": "請輸入包含 {query} 的有效 HTTP 或 HTTPS 建議 URL，或將欄位留空。" },
-  "add_search_engine": { "message": "新增搜尋引擎" },
-  "remove_search_engine": { "message": "移除搜尋引擎" },
-  "custom_search_engine": { "message": "自訂搜尋引擎" },
-  "move_search_engine_up": { "message": "上移" },
-  "move_search_engine_down": { "message": "下移" },
-  "search_engine_invalid_url": { "message": "請輸入包含 {query} 的有效 HTTP 或 HTTPS 網址。" },
-  "search_engine_name_required": { "message": "請輸入搜尋引擎名稱。" },
-  "search_engine_at_least_one": { "message": "必須至少保留一個已啟用的搜尋引擎。" },
-  "keyboard_shortcuts_setting": { "message": "快捷鍵" },
-  "keyboard_shortcuts_description": { "message": "設定 StartGrid 新分頁操作的鍵盤快捷鍵。" },
-  "keyboard_shortcuts_title": { "message": "快捷鍵指派" },
-  "keyboard_shortcuts_note": { "message": "點擊快捷鍵後按下新的組合鍵。Escape 取消錄製，Backspace 或 Delete 清除。快捷鍵僅在 StartGrid 頁面生效。" },
-  "shortcut_change": { "message": "變更快捷鍵" },
-  "shortcut_not_set": { "message": "未指派" },
-  "shortcut_clear": { "message": "移除快捷鍵" },
-  "shortcut_reset": { "message": "恢復預設值" },
-  "shortcut_press_keys": { "message": "請按快捷鍵…" },
-  "shortcut_conflict": { "message": "此快捷鍵已指派給其他操作。" },
-  "shortcut_invalid": { "message": "請按非保留鍵。不能指派 Escape 和 Tab。" },
-  "shortcut_modifier_invalid": { "message": "請指定 Ctrl、Alt、Shift 或 Meta 以選取多個書籤。" },
-  "shortcut_focus_search": { "message": "聚焦搜尋框" },
-  "shortcut_add_bookmark": { "message": "新增書籤" },
-  "shortcut_toggle_quick_settings": { "message": "開啟或關閉快速設定" },
-  "shortcut_open_settings": { "message": "開啟完整設定" },
-  "shortcut_go_home": { "message": "前往預設資料夾" },
-  "shortcut_go_back": { "message": "返回上一層資料夾" },
-  "shortcut_select_multiple_bookmarks": { "message": "選取多個書籤" },
-  "shortcut_select_all_bookmarks": { "message": "選取所有書籤" },
-  "shortcut_update_thumbnails": { "message": "更新所有縮圖" },
-  "settings_appearance": { "message": "外觀" },
-  "settings_controls": { "message": "控制" },
-  "settings_group_page": { "message": "頁面和背景" },
-  "settings_group_animations": { "message": "動畫和效果" },
-  "settings_group_grid": { "message": "磚塊網格" },
-  "settings_group_tile_style": { "message": "磚塊外觀" },
-  "settings_group_tile_content": { "message": "磚塊內容" },
-  "settings_group_start": { "message": "起始頁" },
-  "settings_group_sorting": { "message": "排序" },
-  "settings_group_navigation": { "message": "導覽" },
-  "settings_group_opening": { "message": "開啟和新增" },
-  "settings_group_search_behavior": { "message": "搜尋行為" },
-  "settings_group_thumbnail_generation": { "message": "縮圖和網站圖示" },
-  "settings_group_auto_refresh": { "message": "自動重新整理" },
-  "settings_group_thumbnail_storage": { "message": "本機圖片" },
-  "settings_group_interface": { "message": "介面控制項" },
-  "settings_group_sync": { "message": "同步" },
-  "settings_group_backup": { "message": "備份" },
-  "settings_group_storage": { "message": "本機資料" },
-  "settings_group_permissions": { "message": "權限" },
-  "settings_group_reset": { "message": "重設設定" },
-  "settings_group_reset_description": { "message": "這些操作需要確認，並可能變更或刪除已儲存的設定。" },
-  "settings_mobile_section": { "message": "區段" },
-  "settings_search_label": { "message": "搜尋設定" },
-  "settings_search_placeholder": { "message": "尋找設定" },
-  "settings_autosave": { "message": "變更會自動儲存" },
-  "settings_no_results": { "message": "找不到設定" },
+  "search_bookmarks": {
+    "message": "書籤"
+  },
+  "search_settings": {
+    "message": "搜尋"
+  },
+  "search_settings_description": {
+    "message": "選擇預設搜尋引擎並配置搜尋選單中顯示的引擎。"
+  },
+  "search_engines": {
+    "message": "搜尋引擎"
+  },
+  "search_engines_description": {
+    "message": "啟用、設定、重新排序或刪除搜尋引擎。此清單總共最多可以包含 20 個引擎。"
+  },
+  "search_engine_enabled": {
+    "message": "啟用搜尋引擎"
+  },
+  "search_engine_name": {
+    "message": "搜尋引擎名稱"
+  },
+  "search_engine_url": {
+    "message": "搜尋網址"
+  },
+  "search_engine_url_note": {
+    "message": "在應插入編碼查詢的位置使用 {query}。自訂建議 URL 是可選的；當它為空時，將使用 Google 建議。"
+  },
+  "search_suggestion_url": {
+    "message": "建議 URL（可選）"
+  },
+  "search_suggestion_invalid_url": {
+    "message": "輸入包含 {query} 的有效 HTTP 或 HTTPS 建議 URL，或將該欄位留空。"
+  },
+  "add_search_engine": {
+    "message": "添加搜尋引擎"
+  },
+  "remove_search_engine": {
+    "message": "刪除搜尋引擎"
+  },
+  "custom_search_engine": {
+    "message": "自訂搜尋引擎"
+  },
+  "move_search_engine_up": {
+    "message": "向上移動"
+  },
+  "move_search_engine_down": {
+    "message": "下移"
+  },
+  "search_engine_invalid_url": {
+    "message": "輸入包含 {query} 的有效 HTTP 或 HTTPS URL。"
+  },
+  "search_engine_name_required": {
+    "message": "輸入搜尋引擎名稱。"
+  },
+  "search_engine_at_least_one": {
+    "message": "至少一個搜尋引擎必須保持啟用狀態。"
+  },
+  "keyboard_shortcuts_setting": {
+    "message": "鍵盤快速鍵"
+  },
+  "keyboard_shortcuts_description": {
+    "message": "配置 StartGrid 新選項卡頁上操作的鍵盤快速鍵。"
+  },
+  "keyboard_shortcuts_title": {
+    "message": "捷徑指派"
+  },
+  "keyboard_shortcuts_note": {
+    "message": "選擇一個快速鍵，然後按下新的組合鍵。按 Esc 取消。按 Backspace 或 Delete 刪除快速鍵。快速鍵僅在 StartGrid 頁面中生效。"
+  },
+  "shortcut_change": {
+    "message": "更改快捷方式"
+  },
+  "shortcut_not_set": {
+    "message": "未分配"
+  },
+  "shortcut_clear": {
+    "message": "刪除快捷方式"
+  },
+  "shortcut_reset": {
+    "message": "恢復預設設定"
+  },
+  "shortcut_press_keys": {
+    "message": "按快捷鍵..."
+  },
+  "shortcut_conflict": {
+    "message": "該捷徑已指派給另一個操作。"
+  },
+  "shortcut_invalid": {
+    "message": "按非保留鍵。無法分配 Escape 和 Tab。"
+  },
+  "shortcut_modifier_invalid": {
+    "message": "指定 Ctrl、Alt、Shift 或 Meta 來選取多個書籤。"
+  },
+  "shortcut_focus_search": {
+    "message": "焦點搜尋"
+  },
+  "shortcut_add_bookmark": {
+    "message": "新增書籤"
+  },
+  "shortcut_toggle_quick_settings": {
+    "message": "切換快速設定"
+  },
+  "shortcut_open_settings": {
+    "message": "開啟完整設定"
+  },
+  "shortcut_go_home": {
+    "message": "轉到預設資料夾"
+  },
+  "shortcut_go_back": {
+    "message": "返回上一個資料夾"
+  },
+  "shortcut_select_multiple_bookmarks": {
+    "message": "選擇多個書籤"
+  },
+  "shortcut_select_all_bookmarks": {
+    "message": "選擇所有書籤"
+  },
+  "shortcut_update_thumbnails": {
+    "message": "更新所有縮圖"
+  },
+  "settings_appearance": {
+    "message": "外貌"
+  },
+  "settings_controls": {
+    "message": "控制"
+  },
+  "settings_group_page": {
+    "message": "頁面和背景"
+  },
+  "settings_group_animations": {
+    "message": "動畫和效果"
+  },
+  "settings_group_grid": {
+    "message": "磁磚網格"
+  },
+  "settings_group_tile_style": {
+    "message": "瓷磚外觀"
+  },
+  "settings_group_tile_content": {
+    "message": "平鋪內容"
+  },
+  "settings_group_start": {
+    "message": "起始頁"
+  },
+  "settings_group_sorting": {
+    "message": "排序"
+  },
+  "settings_group_navigation": {
+    "message": "導航"
+  },
+  "settings_group_opening": {
+    "message": "打開並添加"
+  },
+  "settings_group_search_behavior": {
+    "message": "搜尋行為"
+  },
+  "settings_group_thumbnail_generation": {
+    "message": "縮圖和圖標"
+  },
+  "settings_group_auto_refresh": {
+    "message": "自動重新整理"
+  },
+  "settings_group_thumbnail_storage": {
+    "message": "本地圖片"
+  },
+  "settings_group_interface": {
+    "message": "介面控制"
+  },
+  "settings_group_sync": {
+    "message": "同步"
+  },
+  "settings_group_backup": {
+    "message": "備份"
+  },
+  "settings_group_storage": {
+    "message": "本地數據"
+  },
+  "settings_group_permissions": {
+    "message": "權限"
+  },
+  "settings_group_reset": {
+    "message": "重置設定"
+  },
+  "settings_group_reset_description": {
+    "message": "這些操作需要確認，並且可以更改或刪除已儲存的設定。"
+  },
+  "settings_mobile_section": {
+    "message": "部分"
+  },
+  "settings_search_label": {
+    "message": "搜尋設定"
+  },
+  "settings_search_placeholder": {
+    "message": "找到一個設置"
+  },
+  "settings_autosave": {
+    "message": "變更會自動儲存"
+  },
+  "settings_no_results": {
+    "message": "沒有找到設定"
+  },
   "undo": {
-    "message": "復原"
+    "message": "撤銷"
   }
 }

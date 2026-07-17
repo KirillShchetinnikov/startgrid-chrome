@@ -1,3 +1,5 @@
+import { getMessage } from '../i18n';
+
 export default function(root = null) {
   const els = (root ? root : document).querySelectorAll('[data-locale-message], [data-locale-html]');
 
@@ -9,20 +11,20 @@ export default function(root = null) {
     const params = msg.split(':');
     if (params.length > 1) {
       const arrString = params[1].split(',').map(str => {
-        return browser.i18n.getMessage(str) || str;
+        return getMessage(str) || str;
       });
 
       if (item.hasAttribute('data-locale-html')) {
-        item.innerHTML = browser.i18n.getMessage(params[0], arrString);
+        item.innerHTML = getMessage(params[0], arrString);
       } else {
-        item.textContent = browser.i18n.getMessage(params[0], arrString);
+        item.textContent = getMessage(params[0], arrString);
       }
     } else {
       // only string without params
 
       // remove the service pointer to the attribute from the translation string
       // for example, original string  options[.arialabel] can be written as a string + .arialabel(optional)
-      const translation = browser.i18n.getMessage(msg.replace(/\..*/, ''));
+      const translation = getMessage(msg.replace(/\..*/, ''));
       if (!translation) return;
 
       if (~msg.indexOf('placeholder')) {

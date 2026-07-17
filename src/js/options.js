@@ -1,5 +1,6 @@
 import '../css/options.css';
 import './components/vb-select';
+import { getMessage } from './i18n';
 import { settings } from './settings';
 import Localization from './plugins/localization';
 import Ripple from './components/ripple';
@@ -37,7 +38,7 @@ async function init() {
   // Replacement underscore on the dash because underscore is not a valid language subtag
   document.documentElement.setAttribute(
     'lang',
-    browser.i18n.getMessage('@@ui_locale').replace('_', '-')
+    getMessage('@@ui_locale').replace('_', '-')
   );
 
   window.settings.innerHTML = displaySettings(settingsList);
@@ -77,7 +78,7 @@ async function init() {
 
   const manifest = browser.runtime.getManifest();
   document.getElementById('ext_name').textContent = manifest.name;
-  document.getElementById('ext_version').textContent = `${browser.i18n.getMessage('version')} ${manifest.version}`;
+  document.getElementById('ext_version').textContent = `${getMessage('version')} ${manifest.version}`;
 
   searchEngineSettingsInstance = initSearchEngineSettings({
     container: document.getElementById('search_engines'),
@@ -299,14 +300,14 @@ function handleImportSettings(e) {
         const importSettings = JSON.parse(e.target.result);
         await settings.updateAll(importSettings);
         $notifications(
-          browser.i18n.getMessage('import_settings_success')
+          getMessage('import_settings_success')
         );
         setTimeout(() => {
           location.reload();
         }, 0);
       } catch (error) {
         input.value = '';
-        Toast.show(browser.i18n.getMessage('import_settings_failed'));
+        Toast.show(getMessage('import_settings_failed'));
         console.warn(error);
       }
     });
@@ -489,6 +490,11 @@ async function handleSetOptions(e) {
 
   const id = target.id;
   if (id === 'enable_sync') return;
+  if (id === 'language') {
+    await settings.updateKey(id, target.value);
+    window.location.reload();
+    return;
+  }
 
   if (/checkbox|radio/.test(target.type)) {
     if (
@@ -549,13 +555,13 @@ async function handleUploadFile() {
   const isSizeExceeded = MAX_FILE_SIZE_BYTES < file.size;
   const isAllowedType = FILES_ALLOWED_EXTENSIONS.some(type => file.type.endsWith(type));
   if (!isAllowedType) {
-    return Toast.show(browser.i18n.getMessage(
+    return Toast.show(getMessage(
       'alert_file_type_fail_type',
       [FILES_ALLOWED_EXTENSIONS.join(' | ')]
     ));
   }
   if (isSizeExceeded) {
-    return Toast.show(browser.i18n.getMessage(
+    return Toast.show(getMessage(
       'alert_file_type_fail_size',
       [MAX_FILE_SIZE_BYTES / 10 ** 6]
     ));
@@ -588,14 +594,14 @@ async function handleUploadFile() {
             style="background-image: url(${backgroundImage});">
           <div>`;
 
-  Toast.show(browser.i18n.getMessage('notice_bg_image_updated'));
+  Toast.show(getMessage('notice_bg_image_updated'));
 }
 
 async function handleRemoveFile(evt) {
   const target = evt.target.closest('#delete_upload');
   if (!target) return;
 
-  const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_delete_image'));
+  const confirmAction = await confirmPopup(getMessage('confirm_delete_image'));
   if (!confirmAction) return;
 
   evt.preventDefault();
@@ -610,50 +616,55 @@ async function handleRemoveFile(evt) {
 
   preview.innerHTML = '';
   previewParent.hidden = true;
-  Toast.show(browser.i18n.getMessage('notice_image_removed'));
+  Toast.show(getMessage('notice_image_removed'));
 }
 
 async function handleDeleteImages(evt) {
   evt.preventDefault();
 
-  const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_delete_images'));
+  const confirmAction = await confirmPopup(getMessage('confirm_delete_images'));
   if (!confirmAction) return;
 
   const cleared = await ImageDB.clearThumbnails();
   if (!cleared) return;
-  Toast.show(browser.i18n.getMessage('notice_images_removed'));
+  Toast.show(getMessage('notice_images_removed'));
 }
 
 async function handleClearLocalCache(evt) {
   evt.preventDefault();
 
-  const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_clear_local_cache'));
+  const confirmAction = await confirmPopup(getMessage('confirm_clear_local_cache'));
   if (!confirmAction) return;
 
   await settings.clearLocalCache();
-  Toast.show(browser.i18n.getMessage('notice_local_cache_cleared'));
+  Toast.show(getMessage('notice_local_cache_cleared'));
 }
 
 async function handleResetLocalSettings() {
-  const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_restore_default_settings'));
+  const confirmAction = await confirmPopup(getMessage('confirm_restore_default_settings'));
   if (!confirmAction) return;
 
+  const previousLanguage = settings.$.language;
   await settings.resetLocal();
+  if (previousLanguage !== settings.$.language) {
+    window.location.reload();
+    return;
+  }
 
   await window.vbToggleTheme();
   getOptions();
   toggleBackgroundControls(settings.$.background_image);
   updateDefaultFolderControl();
-  Toast.show(browser.i18n.getMessage('notice_reset_default_settings'));
+  Toast.show(getMessage('notice_reset_default_settings'));
 }
 async function handleResetSyncSettings() {
-  const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_clear_sync_settings'));
+  const confirmAction = await confirmPopup(getMessage('confirm_clear_sync_settings'));
   if (!confirmAction) return;
 
   await settings.resetSync();
   getOptions();
   updateDefaultFolderControl();
-  Toast.show(browser.i18n.getMessage('notice_sync_settings_cleared'));
+  Toast.show(getMessage('notice_sync_settings_cleared'));
 }
 async function updateDefaultFolder(folderId) {
   if (!settings.$.enable_sync) {
@@ -676,7 +687,7 @@ function updateDefaultFolderControl() {
     const messageId = settings.$.enable_sync
       ? 'default_folder_sync_note'
       : 'default_folder_local_note';
-    storageNote.textContent = browser.i18n.getMessage(messageId);
+    storageNote.textContent = getMessage(messageId);
   }
 }
 
@@ -693,7 +704,7 @@ async function handleChangeSync() {
 
   const bytes = await getSyncBytesInUse();
   if (bytes > 0) {
-    const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_sync_remote_settings'));
+    const confirmAction = await confirmPopup(getMessage('confirm_sync_remote_settings'));
 
     if (!confirmAction) {
       this.checked = false;
@@ -762,7 +773,7 @@ function generateSearchEngineList() {
   const select = document.getElementById('search_engine');
   const engines = getEnabledSearchEngines(
     settings.$.search_engines,
-    key => browser.i18n.getMessage(key)
+    key => getMessage(key)
   );
   select.replaceChildren(...engines.map(engine => {
     return new Option(engine.title, engine.id);

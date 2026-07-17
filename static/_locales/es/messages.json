@@ -1,0 +1,1005 @@
+{
+  "ext_name": {
+    "message": "StartGrid"
+  },
+  "ext_desc": {
+    "message": "Una nueva pestaña personalizable con marcadores visuales, carpetas, búsqueda, miniaturas, temas y sincronización opcional."
+  },
+  "default_title": {
+    "message": "StartGrid"
+  },
+  "language": {
+    "message": "Idioma"
+  },
+  "language_browser": {
+    "message": "Usar el idioma del navegador"
+  },
+  "color_theme": {
+    "message": "Tema de color"
+  },
+  "dark_theme": {
+    "message": "Oscuro"
+  },
+  "light_theme": {
+    "message": "Luz"
+  },
+  "os_theme": {
+    "message": "tema del sistema operativo"
+  },
+  "placeholder_input_search": {
+    "message": "Buscar en $engine$",
+    "placeholders": {
+      "engine": {
+        "content": "$1"
+      }
+    }
+  },
+  "placeholder_input_search_bookmarks": {
+    "message": "marcadores"
+  },
+  "search_browser_default": {
+    "message": "motor de búsqueda del navegador"
+  },
+  "placeholder_input_title": {
+    "message": "Introduzca el título del marcador"
+  },
+  "label_title": {
+    "message": "Título"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "label_folder": {
+    "message": "Carpeta"
+  },
+  "thumbnail_source": {
+    "message": "Fuente de miniaturas"
+  },
+  "thumbnail_actions": {
+    "message": "Acciones en miniatura"
+  },
+  "thumbnail_source_local": {
+    "message": "Almacenamiento local"
+  },
+  "thumbnail_source_site": {
+    "message": "Crear desde sitio web"
+  },
+  "thumbnail_source_url": {
+    "message": "Desde URL"
+  },
+  "thumbnail_source_favicon": {
+    "message": "Favicon del sitio web (predeterminado)"
+  },
+  "favicon_download_preference": {
+    "message": "fuente de favicon"
+  },
+  "favicon_download_inherit": {
+    "message": "Usar configuración global"
+  },
+  "favicon_download_site": {
+    "message": "Descargar desde el sitio web"
+  },
+  "favicon_download_chrome": {
+    "message": "Usar caché de Chrome"
+  },
+  "favicon_size_individual": {
+    "message": "Tamaño de imagen en miniatura individual"
+  },
+  "favicon_size_individual_placeholder": {
+    "message": "32"
+  },
+  "favicon_size_individual_note": {
+    "message": "Déjelo vacío para utilizar el tamaño de imagen en miniatura global."
+  },
+  "download_favicons_by_default": {
+    "message": "Descargar favicons de sitios web de forma predeterminada"
+  },
+  "download_favicons_by_default_note": {
+    "message": "Cuando falta una miniatura de favicon localmente, descárgala en segundo plano cuando se abra la página de inicio."
+  },
+  "favicon_size": {
+    "message": "Tamaño de la imagen en miniatura"
+  },
+  "favicon_size_note": {
+    "message": "Tamaño de imagen predeterminado para todos los tipos de miniaturas. La configuración de mosaicos individuales tiene prioridad."
+  },
+  "thumbnail_url": {
+    "message": "URL en miniatura"
+  },
+  "thumbnail_url_note": {
+    "message": "La imagen se almacena en caché localmente y se comprueba periódicamente si hay actualizaciones."
+  },
+  "notice_thumbnail_url_failed": {
+    "message": "No se pudo descargar la miniatura de la URL"
+  },
+  "url_field_tip": {
+    "message": "Ingrese una URL o deje este campo vacío para crear una carpeta."
+  },
+  "btn_close": {
+    "message": "Cancelar"
+  },
+  "btn_save": {
+    "message": "Ahorrar"
+  },
+  "btn_back": {
+    "message": "Hecho"
+  },
+  "back_to_main": {
+    "message": "Volver a marcadores"
+  },
+  "btn_apply": {
+    "message": "Aplicar"
+  },
+  "contextmenu_tab": {
+    "message": "Abrir en nueva pestaña"
+  },
+  "contextmenu_window": {
+    "message": "Abrir en nueva ventana"
+  },
+  "contextmenu_open_all": {
+    "message": "Abrir todo"
+  },
+  "contextmenu_open_all_window": {
+    "message": "Abrir todo en una ventana nueva"
+  },
+  "contextmenu_incognito": {
+    "message": "Abrir en modo incógnito"
+  },
+  "contextmenu_copy_link": {
+    "message": "Copiar dirección de enlace"
+  },
+  "contextmenu_edit": {
+    "message": "Editar"
+  },
+  "contextmenu_capture": {
+    "message": "Actualizar miniatura"
+  },
+  "contextmenu_upload": {
+    "message": "Subir desde la computadora"
+  },
+  "contextmenu_upload_paste": {
+    "message": "Subir desde el portapapeles"
+  },
+  "contextmenu_remove": {
+    "message": "Eliminar"
+  },
+  "confirm_delete_image": {
+    "message": "¿Eliminar esta imagen?"
+  },
+  "confirm_delete_images": {
+    "message": "¿Está seguro? Se eliminarán todas las miniaturas locales."
+  },
+  "confirm_clear_local_cache": {
+    "message": "¿Está seguro? Se eliminarán todos los datos locales temporales. Se conservarán la configuración y las imágenes locales."
+  },
+  "confirm_delete_bookmark": {
+    "message": "¿Eliminar este marcador?"
+  },
+  "confirm_delete_folder": {
+    "message": "¿Eliminar esta carpeta y todo lo que contiene?"
+  },
+  "confirm_restore_default_settings": {
+    "message": "¿Restablecer solo la configuración local a los valores predeterminados y deshabilitar la sincronización? Se conservarán los datos sincronizados en el servidor."
+  },
+  "confirm_clear_sync_settings": {
+    "message": "¿Eliminar la configuración sincronizada del servidor y desactivar la sincronización? Se conservarán la configuración local, las imágenes y el caché."
+  },
+  "confirm_sync_remote_settings": {
+    "message": "Ya existen configuraciones sincronizadas.\n¿Reemplazar la configuración local actual con la versión sincronizada?"
+  },
+  "notice_image_removed": {
+    "message": "Imagen eliminada"
+  },
+  "notice_thumb_image_updated": {
+    "message": "Miniatura del marcador actualizada"
+  },
+  "notice_bookmark_exist": {
+    "message": "El marcador ya existe"
+  },
+  "notice_bookmark_created": {
+    "message": "Marcador creado"
+  },
+  "notice_bookmark_updated": {
+    "message": "Marcador actualizado"
+  },
+  "notice_bookmark_removed": {
+    "message": "Marcador eliminado \"<span data-title>$title$</span>\"",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_folder_removed": {
+    "message": "Carpeta eliminada \"<span data-title>$title$</span>\"",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_selected_bookmarks_removed": {
+    "message": "Marcadores seleccionados eliminados"
+  },
+  "notice_images_removed": {
+    "message": "Todas las miniaturas locales eliminadas"
+  },
+  "notice_local_cache_cleared": {
+    "message": "Caché local borrado"
+  },
+  "notice_cant_find_id": {
+    "message": "Carpeta no encontrada. Es posible que no esté disponible en este perfil de Chrome."
+  },
+  "notice_reset_default_settings": {
+    "message": "Restablecer la configuración local; sincronización deshabilitada"
+  },
+  "notice_sync_settings_cleared": {
+    "message": "Se eliminaron los datos del servidor sincronizado; sincronización deshabilitada"
+  },
+  "notice_bg_image_updated": {
+    "message": "Antecedentes actualizados"
+  },
+  "notice_thumbnails_update_complete": {
+    "message": "Actualización de miniaturas completa"
+  },
+  "notice_link_copied": {
+    "message": "Enlace copiado"
+  },
+  "alert_file_type_fail_type": {
+    "message": "Tipo de archivo no compatible\nTipo de archivo permitido: $type$",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert_file_type_fail_size": {
+    "message": "El archivo es demasiado grande. Tamaño máximo: $filesize$ MB",
+    "placeholders": {
+      "filesize": {
+        "content": "$1"
+      }
+    }
+  },
+  "not_found_text": {
+    "message": "Carpeta no encontrada. Es posible que se haya movido o eliminado, o que sus marcadores no estén sincronizados en este dispositivo."
+  },
+  "not_found_link_text": {
+    "message": "Barra de marcadores"
+  },
+  "add_bookmark": {
+    "message": "Añadir a favoritos"
+  },
+  "save_to_current_folder": {
+    "message": "Guardar en la carpeta actual"
+  },
+  "edit_bookmark": {
+    "message": "Editar marcador"
+  },
+  "options": {
+    "message": "Ajustes"
+  },
+  "quick_display_settings": {
+    "message": "Configuración de apariencia rápida"
+  },
+  "quick_display_settings_description": {
+    "message": "Los cambios se aplican inmediatamente."
+  },
+  "more_settings": {
+    "message": "Todas las configuraciones"
+  },
+  "bookmark_appearance_setting": {
+    "message": "Marcadores"
+  },
+  "page_appearance_setting": {
+    "message": "pagina de inicio"
+  },
+  "bookmark_behavior_setting": {
+    "message": "Comportamiento"
+  },
+  "thumbnails_setting": {
+    "message": "Miniaturas"
+  },
+  "thumbnails_setting_description": {
+    "message": "La configuración de esta sección se aplica a todas las fuentes de miniaturas admitidas: capturas de pantalla de sitios web, URL de imágenes y favicons. Las imágenes cargadas localmente nunca se reemplazan automáticamente."
+  },
+  "data_privacy_setting": {
+    "message": "Datos y privacidad"
+  },
+  "dial_width": {
+    "message": "Ancho de cuadrícula"
+  },
+  "dial_gap": {
+    "message": "Distancia entre azulejos"
+  },
+  "dial_radius": {
+    "message": "Radio de esquina del azulejo"
+  },
+  "dial_aspect_ratio": {
+    "message": "Proporciones de azulejos"
+  },
+  "dial_aspect_ratio_square": {
+    "message": "Cuadrado (1:1)"
+  },
+  "dial_aspect_ratio_standard": {
+    "message": "Estándar (4:3)"
+  },
+  "dial_aspect_ratio_photo": {
+    "message": "Foto (3:2)"
+  },
+  "dial_aspect_ratio_wide": {
+    "message": "Ancho (16:9)"
+  },
+  "dial_shadow": {
+    "message": "Intensidad de la sombra del azulejo"
+  },
+  "dial_hover_lift": {
+    "message": "Levantamiento de mosaicos al pasar el mouse"
+  },
+  "dial_background_color": {
+    "message": "Color de fondo del azulejo"
+  },
+  "dial_background_color_note": {
+    "message": "Utiliza el color del tema actual hasta que se selecciona un color personalizado."
+  },
+  "dial_background_opacity": {
+    "message": "Opacidad del fondo del mosaico"
+  },
+  "dial_background_opacity_note": {
+    "message": "0% es totalmente transparente; 100% es opaco."
+  },
+  "reset_tile_background_color": {
+    "message": "Usar color de tema"
+  },
+  "number_of_columns": {
+    "message": "Número de columnas"
+  },
+  "vertical_center": {
+    "message": "Centrado vertical"
+  },
+  "disable_main_page_scroll": {
+    "message": "Desactivar el desplazamiento en la página principal"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "Oculta la barra de desplazamiento y evita que se desplace fuera de los resultados de búsqueda de marcadores."
+  },
+  "default_folder_id": {
+    "message": "Carpeta predeterminada"
+  },
+  "default_folder_sync_note": {
+    "message": "La sincronización está habilitada. Esta configuración se guarda en Chrome Sync."
+  },
+  "default_folder_local_note": {
+    "message": "La sincronización está deshabilitada. Esta configuración se guarda en este dispositivo."
+  },
+  "background": {
+    "message": "Fondo"
+  },
+  "color": {
+    "message": "Color"
+  },
+  "background_noimage": {
+    "message": "Sin imagen de fondo"
+  },
+  "background_noimage_text": {
+    "message": "Utilice el color de fondo del tema"
+  },
+  "background_bing": {
+    "message": "Imagen de Bing del día"
+  },
+  "background_bing_text": {
+    "message": "Utilice la foto diaria que aparece en la página de inicio de Bing como fondo de StartGrid."
+  },
+  "bing_permission_toast": {
+    "message": "La imagen del día de Bing requiere acceso a bing.com. Selecciónela en la <a href=\"/options.html\">página de configuración</a> y confirme la solicitud de permiso."
+  },
+  "background_external": {
+    "message": "Imagen de la URL"
+  },
+  "background_local": {
+    "message": "Imagen o vídeo desde el ordenador."
+  },
+  "background_local_video_note": {
+    "message": "Un fondo local puede ser una imagen o un vídeo MP4. El vídeo se reproduce silenciado y se repite automáticamente."
+  },
+  "background_entrance_effect": {
+    "message": "Apariencia de fondo"
+  },
+  "background_entrance_none": {
+    "message": "Sin animación"
+  },
+  "background_entrance_zoom": {
+    "message": "alejar"
+  },
+  "background_entrance_blur": {
+    "message": "Fundido desde el desenfoque"
+  },
+  "background_entrance_slide": {
+    "message": "Deslícese desde abajo"
+  },
+  "background_entrance_duration": {
+    "message": "Duración de la apariencia del fondo"
+  },
+  "snow_mode": {
+    "message": "Nevada"
+  },
+  "snow_mode_always": {
+    "message": "Siempre"
+  },
+  "snow_mode_winter": {
+    "message": "En invierno: del 1 de diciembre al último día de febrero."
+  },
+  "snow_mode_off": {
+    "message": "Apagado"
+  },
+  "page_cascade_enabled": {
+    "message": "Animar mosaicos al abrir la página"
+  },
+  "page_cascade_mode": {
+    "message": "Orden en cascada"
+  },
+  "page_cascade_mode_items": {
+    "message": "Un marcador a la vez"
+  },
+  "page_cascade_mode_rows": {
+    "message": "Una fila a la vez"
+  },
+  "page_cascade_duration": {
+    "message": "Duración de la cascada"
+  },
+  "choose_file": {
+    "message": "Elige una imagen o vídeo"
+  },
+  "show_settings_icon": {
+    "message": "Mostrar el ícono de configuración"
+  },
+  "show_quick_settings_icon": {
+    "message": "Mostrar el ícono de configuración rápida"
+  },
+  "show_extension_icon": {
+    "message": "Mostrar el icono de StartGrid"
+  },
+  "show_toolbar": {
+    "message": "Mostrar la barra de búsqueda y el selector de carpetas"
+  },
+  "show_create_column": {
+    "message": "Mostrar el mosaico Agregar marcador"
+  },
+  "show_bookmark_title": {
+    "message": "Mostrar título del marcador"
+  },
+  "show_favicon": {
+    "message": "Mostrar el favicon junto al título"
+  },
+  "open_bookmarks_newtab": {
+    "message": "Abrir marcadores en una nueva pestaña"
+  },
+  "open_search_newtab": {
+    "message": "Abrir búsqueda en una nueva pestaña"
+  },
+  "show_contextmenu_item": {
+    "message": "Mostrar en menú contextual"
+  },
+  "drag_and_drop": {
+    "message": "Habilitar arrastrar y soltar"
+  },
+  "auto_generate_thumbnail": {
+    "message": "Agregar automáticamente un favicon a nuevos marcadores"
+  },
+  "enable_sync": {
+    "message": "Habilitar sincronización"
+  },
+  "clear_background_locals": {
+    "message": "Eliminar todas las imágenes en miniatura almacenadas localmente"
+  },
+  "clear_local_cache": {
+    "message": "Borrar caché local"
+  },
+  "reset_local_default": {
+    "message": "Restablecer la configuración a los valores predeterminados"
+  },
+  "reset_local_default_description": {
+    "message": "Restablece solo la configuración local y desactiva la sincronización. Los datos del servidor sincronizados no se eliminan."
+  },
+  "reset_quick_settings": {
+    "message": "Restablecer configuración rápida"
+  },
+  "reset_quick_settings_description": {
+    "message": "Restaura solo las configuraciones que se muestran en este menú a los valores predeterminados de la extensión."
+  },
+  "confirm_reset_quick_settings": {
+    "message": "¿Restablecer la configuración rápida a los valores predeterminados de la extensión?"
+  },
+  "reset_sync_text": {
+    "message": "Eliminar la configuración sincronizada de Chrome Sync"
+  },
+  "reset_sync_description": {
+    "message": "Elimina solo la configuración sincronizada del servidor y deshabilita la sincronización. Se conservan la configuración local, las imágenes y el caché."
+  },
+  "version": {
+    "message": "Versión"
+  },
+  "thumbnails_creation": {
+    "message": "Generando miniaturas: $start$ / $total$",
+    "placeholders": {
+      "start": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "thumbnails_update_warn": {
+    "message": "Cada miniatura se actualiza desde la fuente seleccionada: sitio web, URL de imagen o favicon. Las imágenes cargadas localmente se conservan. La actualización puede afectar el rendimiento."
+  },
+  "thumbnails_update_button": {
+    "message": "Actualizar todas las miniaturas"
+  },
+  "thumbnails_auto_refresh": {
+    "message": "Actualizar miniaturas automáticamente"
+  },
+  "thumbnails_auto_refresh_note": {
+    "message": "Comprueba y actualiza las miniaturas obsoletas cuando se abre la página de inicio"
+  },
+  "thumbnails_auto_refresh_interval": {
+    "message": "Intervalo de actualización automática"
+  },
+  "thumbnails_auto_refresh_interval_note": {
+    "message": "Tiempo entre actualizaciones de miniaturas, de 1 hora a 7 días"
+  },
+  "hours_short": {
+    "message": "h"
+  },
+  "folder_preview": {
+    "message": "Mostrar miniaturas de sitios en carpetas"
+  },
+  "folder_preview_description": {
+    "message": "Muestra miniaturas de cuatro sitios seleccionados aleatoriamente en la carpeta en lugar de un icono de carpeta o una imagen personalizada."
+  },
+  "backup_settings": {
+    "message": "Importar o exportar configuraciones"
+  },
+  "backup_settings_description": {
+    "message": "Realiza copias de seguridad únicamente de la configuración de la extensión; marcadores e imágenes no están incluidos."
+  },
+  "import": {
+    "message": "Importar"
+  },
+  "export": {
+    "message": "Exportar"
+  },
+  "import_settings_success": {
+    "message": "Configuraciones importadas"
+  },
+  "import_settings_failed": {
+    "message": "No se pudo leer el archivo de configuración"
+  },
+  "without_confirmation": {
+    "message": "Eliminar sin confirmación"
+  },
+  "toggle_clipboard_access": {
+    "message": "Permitir acceso al portapapeles"
+  },
+  "toggle_clipboard_access_description": {
+    "message": "Permite que la extensión lea datos del portapapeles para cargar una miniatura de marcador. La acción \"Subir desde el portapapeles\" estará disponible en la ventana de edición de marcadores. Si le preocupa este permiso, simplemente no lo habilite."
+  },
+  "error_input_required": {
+    "message": "Campo requerido"
+  },
+  "error_input_url": {
+    "message": "La URL no es válida."
+  },
+  "thumbnails_update_delay": {
+    "message": "Espere antes de capturar una miniatura"
+  },
+  "thumbnails_update_delay_note": {
+    "message": "Aumente el retraso para los sitios web que necesitan más tiempo para terminar de cargarse."
+  },
+  "close_tab_after_adding_bookmark": {
+    "message": "Cierra la pestaña después de agregarla a favoritos"
+  },
+  "close_tab_after_adding_bookmark_note": {
+    "message": "Se aplica solo cuando se agrega un marcador desde el menú contextual."
+  },
+  "empty_search": {
+    "message": "No se encontraron marcadores"
+  },
+  "search_failed": {
+    "message": "No se pudieron buscar marcadores. Por favor inténtalo de nuevo."
+  },
+  "sync_quota_exceeded": {
+    "message": "Se superó el límite de almacenamiento de Chrome Sync ($used$ de $limit$). Los últimos cambios no se pudieron sincronizar y permanecer en este dispositivo. Reduzca la configuración sincronizada.",
+    "placeholders": {
+      "used": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "delete_thumbnail": {
+    "message": "Eliminar del almacenamiento local"
+  },
+  "show_back_column": {
+    "message": "Mostrar el mosaico Atrás dentro de las carpetas"
+  },
+  "search_engine": {
+    "message": "Motor de búsqueda predeterminado"
+  },
+  "search_results_display": {
+    "message": "Marcar resultados de búsqueda"
+  },
+  "search_results_display_flat": {
+    "message": "Solo azulejos"
+  },
+  "search_results_display_folder_name": {
+    "message": "Carpeta principal en el mosaico"
+  },
+  "search_results_display_folder_path": {
+    "message": "Ruta de carpeta completa en el mosaico"
+  },
+  "search_results_display_grouped": {
+    "message": "Agrupar por carpetas"
+  },
+  "search_results_root_folder": {
+    "message": "Carpeta de marcadores raíz"
+  },
+  "move_to_start": {
+    "message": "Mover nuevos marcadores a la parte superior de su carpeta"
+  },
+  "bookmarks_sorting_type": {
+    "message": "Clasificación de carpetas"
+  },
+  "home_sort_by": {
+    "message": "Clasificación de mosaicos de la página de inicio"
+  },
+  "manual_sorting": {
+    "message": "clasificación manual"
+  },
+  "sort_by_usage": {
+    "message": "Frecuencia de uso"
+  },
+  "sort_direction": {
+    "message": "Ordenar dirección"
+  },
+  "newest_first": {
+    "message": "Descendente: lo más nuevo primero"
+  },
+  "oldest_first": {
+    "message": "Ascendente: el más antiguo primero"
+  },
+  "alphabet_descending": {
+    "message": "Descendente: Z a A"
+  },
+  "alphabet_ascending": {
+    "message": "Ascendente: de la A a la Z"
+  },
+  "usage_tiebreaker": {
+    "message": "Cuando el uso es igual, ordenar por"
+  },
+  "show_home_folders": {
+    "message": "Mostrar carpetas en la página de inicio"
+  },
+  "show_usage_count": {
+    "message": "Mostrar recuento de uso en marcadores"
+  },
+  "usage_count_label": {
+    "message": "Recuento abierto: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "Ordenar carpetas junto con marcadores"
+  },
+  "navigation_sort_by": {
+    "message": "Ordenar dentro de carpetas y buscar"
+  },
+  "browser_default_order": {
+    "message": "Orden predeterminado"
+  },
+  "sort_by": {
+    "message": "Ordenar por"
+  },
+  "sort_by_date": {
+    "message": "Fecha"
+  },
+  "sort_by_alphabet": {
+    "message": "Alfabéticamente"
+  },
+  "not_sorting": {
+    "message": "No ordenado"
+  },
+  "folders_on_top": {
+    "message": "Carpetas en la parte superior"
+  },
+  "folders_at_the_bottom": {
+    "message": "Carpetas en la parte inferior"
+  },
+  "bookmarks_sorting_warning": {
+    "message": "El orden de arrastrar y soltar no está disponible mientras la clasificación automática está habilitada."
+  },
+  "search_autofocus": {
+    "message": "Centrarse en la barra de búsqueda"
+  },
+  "confirm_delete_selected_bookmarks": {
+    "message": "¿Eliminar los marcadores seleccionados?"
+  },
+  "button_action_move": {
+    "message": "Mover a la carpeta"
+  },
+  "parent_folder": {
+    "message": "Carpeta principal"
+  },
+  "new_bookmark": {
+    "message": "Nuevo marcador"
+  },
+  "modal_dismiss": {
+    "message": "Cerrar diálogo"
+  },
+  "remove_thumbnail": {
+    "message": "Quitar miniatura"
+  },
+  "thumbnails_update": {
+    "message": "Actualizar miniaturas"
+  },
+  "bookmark_context": {
+    "message": "Acciones de marcador"
+  },
+  "clear_search": {
+    "message": "Borrar búsqueda"
+  },
+  "search_suggestions_permission_tooltip": {
+    "message": "Permitir el acceso al servicio de sugerencias seleccionado y al respaldo de Google"
+  },
+  "search": {
+    "message": "Buscar"
+  },
+  "toggle_selected_bookmarks_popup": {
+    "message": "Mostrar u ocultar acciones de marcadores seleccionadas"
+  },
+  "toggle_search_popup": {
+    "message": "Mostrar u ocultar opciones de búsqueda"
+  },
+  "open_selected": {
+    "message": "Abrir seleccionado"
+  },
+  "delete_selected": {
+    "message": "Eliminar seleccionado"
+  },
+  "select_folder": {
+    "message": "Seleccione una carpeta"
+  },
+  "show_last_opened_folder": {
+    "message": "Mostrar la última carpeta abierta"
+  },
+  "history_back": {
+    "message": "Volver"
+  },
+  "default_folder_home": {
+    "message": "Ir a la carpeta predeterminada"
+  },
+  "incognito_access_note": {
+    "message": "Permita que StartGrid se ejecute en modo incógnito antes de utilizar esta acción."
+  },
+  "notice_host_permissions": {
+    "message": "La creación de miniaturas de sitios web requiere permiso para acceder a los sitios web seleccionados."
+  },
+  "learn_more": {
+    "message": "Más información"
+  },
+  "why_use_host_permissions": {
+    "message": "¿Por qué utilizar este permiso?"
+  },
+  "host_permissions_info": {
+    "message": "<p>StartGrid necesita acceso al sitio web solo cuando crea una captura de pantalla para la miniatura de un marcador. No recopila ni rastrea sus datos de navegación. Mientras realiza una captura de pantalla, StartGrid oculta temporalmente la barra de desplazamiento del sitio web en una ventana separada.</p><p>Puede rechazar este permiso opcional y utilizar todas las funciones excepto las capturas de pantalla del sitio web. Chrome solicita acceso cuando creas por primera vez una captura de pantalla del sitio web. Puede cambiar el permiso más adelante en la configuración de la extensión de Chrome. El código fuente está disponible en <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a>.</p>"
+  },
+  "search_bookmarks": {
+    "message": "Marcadores"
+  },
+  "search_settings": {
+    "message": "Buscar"
+  },
+  "search_settings_description": {
+    "message": "Elija el motor de búsqueda predeterminado y configure qué motores aparecen en el menú de búsqueda."
+  },
+  "search_engines": {
+    "message": "Motores de búsqueda"
+  },
+  "search_engines_description": {
+    "message": "Habilite, configure, reordene o elimine motores de búsqueda. La lista puede contener hasta 20 motores en total."
+  },
+  "search_engine_enabled": {
+    "message": "Habilitar motor de búsqueda"
+  },
+  "search_engine_name": {
+    "message": "Nombre del motor de búsqueda"
+  },
+  "search_engine_url": {
+    "message": "URL de búsqueda"
+  },
+  "search_engine_url_note": {
+    "message": "Utilice {query} donde se debe insertar la consulta codificada. Una URL de sugerencia personalizada es opcional; Las sugerencias de Google se utilizan cuando está vacío."
+  },
+  "search_suggestion_url": {
+    "message": "URL de sugerencia (opcional)"
+  },
+  "search_suggestion_invalid_url": {
+    "message": "Ingrese una URL de sugerencia HTTP o HTTPS válida que contenga {query} o deje el campo vacío."
+  },
+  "add_search_engine": {
+    "message": "Añadir motor de búsqueda"
+  },
+  "remove_search_engine": {
+    "message": "Quitar motor de búsqueda"
+  },
+  "custom_search_engine": {
+    "message": "Motor de búsqueda personalizado"
+  },
+  "move_search_engine_up": {
+    "message": "Subir"
+  },
+  "move_search_engine_down": {
+    "message": "Bajar"
+  },
+  "search_engine_invalid_url": {
+    "message": "Ingrese una URL HTTP o HTTPS válida que contenga {query}."
+  },
+  "search_engine_name_required": {
+    "message": "Introduzca el nombre de un motor de búsqueda."
+  },
+  "search_engine_at_least_one": {
+    "message": "Al menos un motor de búsqueda debe permanecer habilitado."
+  },
+  "keyboard_shortcuts_setting": {
+    "message": "Atajos de teclado"
+  },
+  "keyboard_shortcuts_description": {
+    "message": "Configure atajos de teclado para acciones en la página de nueva pestaña de StartGrid."
+  },
+  "keyboard_shortcuts_title": {
+    "message": "Asignaciones de acceso directo"
+  },
+  "keyboard_shortcuts_note": {
+    "message": "Seleccione un atajo y pulse la nueva combinación de teclas. Pulse Escape para cancelar. Pulse Retroceso o Suprimir para quitar el atajo. Los atajos solo funcionan en la página de StartGrid."
+  },
+  "shortcut_change": {
+    "message": "Cambiar acceso directo"
+  },
+  "shortcut_not_set": {
+    "message": "No asignado"
+  },
+  "shortcut_clear": {
+    "message": "Eliminar acceso directo"
+  },
+  "shortcut_reset": {
+    "message": "Restaurar valores predeterminados"
+  },
+  "shortcut_press_keys": {
+    "message": "Presione el acceso directo..."
+  },
+  "shortcut_conflict": {
+    "message": "Este acceso directo ya está asignado a otra acción."
+  },
+  "shortcut_invalid": {
+    "message": "Pulsa una tecla no reservada. No se pueden asignar Escape y Tab."
+  },
+  "shortcut_modifier_invalid": {
+    "message": "Asigne Ctrl, Alt, Shift o Meta para seleccionar varios marcadores."
+  },
+  "shortcut_focus_search": {
+    "message": "Búsqueda de enfoque"
+  },
+  "shortcut_add_bookmark": {
+    "message": "Agregar marcador"
+  },
+  "shortcut_toggle_quick_settings": {
+    "message": "Alternar configuración rápida"
+  },
+  "shortcut_open_settings": {
+    "message": "Abrir configuración completa"
+  },
+  "shortcut_go_home": {
+    "message": "Ir a la carpeta predeterminada"
+  },
+  "shortcut_go_back": {
+    "message": "Retroceder una carpeta"
+  },
+  "shortcut_select_multiple_bookmarks": {
+    "message": "Seleccionar varios marcadores"
+  },
+  "shortcut_select_all_bookmarks": {
+    "message": "Seleccionar todos los marcadores"
+  },
+  "shortcut_update_thumbnails": {
+    "message": "Actualizar todas las miniaturas"
+  },
+  "settings_appearance": {
+    "message": "Apariencia"
+  },
+  "settings_controls": {
+    "message": "Controles"
+  },
+  "settings_group_page": {
+    "message": "Página y fondo"
+  },
+  "settings_group_animations": {
+    "message": "Animaciones y efectos."
+  },
+  "settings_group_grid": {
+    "message": "Rejilla de azulejos"
+  },
+  "settings_group_tile_style": {
+    "message": "Aspecto del azulejo"
+  },
+  "settings_group_tile_content": {
+    "message": "Contenido del mosaico"
+  },
+  "settings_group_start": {
+    "message": "Página de inicio"
+  },
+  "settings_group_sorting": {
+    "message": "Clasificación"
+  },
+  "settings_group_navigation": {
+    "message": "Navegación"
+  },
+  "settings_group_opening": {
+    "message": "Abrir y agregar"
+  },
+  "settings_group_search_behavior": {
+    "message": "Comportamiento de búsqueda"
+  },
+  "settings_group_thumbnail_generation": {
+    "message": "Miniaturas y favicons"
+  },
+  "settings_group_auto_refresh": {
+    "message": "Actualización automática"
+  },
+  "settings_group_thumbnail_storage": {
+    "message": "Imágenes locales"
+  },
+  "settings_group_interface": {
+    "message": "Controles de interfaz"
+  },
+  "settings_group_sync": {
+    "message": "Sincronización"
+  },
+  "settings_group_backup": {
+    "message": "Respaldo"
+  },
+  "settings_group_storage": {
+    "message": "Datos locales"
+  },
+  "settings_group_permissions": {
+    "message": "Permisos"
+  },
+  "settings_group_reset": {
+    "message": "Restablecer configuración"
+  },
+  "settings_group_reset_description": {
+    "message": "Estas acciones requieren confirmación y pueden cambiar o eliminar configuraciones guardadas."
+  },
+  "settings_mobile_section": {
+    "message": "Sección"
+  },
+  "settings_search_label": {
+    "message": "Configuración de búsqueda"
+  },
+  "settings_search_placeholder": {
+    "message": "Encuentra una configuración"
+  },
+  "settings_autosave": {
+    "message": "Los cambios se guardan automáticamente."
+  },
+  "settings_no_results": {
+    "message": "No se encontraron configuraciones"
+  },
+  "undo": {
+    "message": "Deshacer"
+  }
+}

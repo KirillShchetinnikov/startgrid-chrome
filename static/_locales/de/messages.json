@@ -1,0 +1,1005 @@
+{
+  "ext_name": {
+    "message": "StartGrid"
+  },
+  "ext_desc": {
+    "message": "Ein anpassbarer neuer Tab mit visuellen Lesezeichen, Ordnern, Suche, Vorschaubildern, Designs und optionaler Synchronisierung."
+  },
+  "default_title": {
+    "message": "StartGrid"
+  },
+  "language": {
+    "message": "Sprache"
+  },
+  "language_browser": {
+    "message": "Verwenden Sie die Browsersprache"
+  },
+  "color_theme": {
+    "message": "Farbthema"
+  },
+  "dark_theme": {
+    "message": "Dunkel"
+  },
+  "light_theme": {
+    "message": "Licht"
+  },
+  "os_theme": {
+    "message": "Betriebssystemthema"
+  },
+  "placeholder_input_search": {
+    "message": "Suchen Sie in $engine$",
+    "placeholders": {
+      "engine": {
+        "content": "$1"
+      }
+    }
+  },
+  "placeholder_input_search_bookmarks": {
+    "message": "Lesezeichen"
+  },
+  "search_browser_default": {
+    "message": "Browser-Suchmaschine"
+  },
+  "placeholder_input_title": {
+    "message": "Geben Sie den Lesezeichentitel ein"
+  },
+  "label_title": {
+    "message": "Titel"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "label_folder": {
+    "message": "Ordner"
+  },
+  "thumbnail_source": {
+    "message": "Miniaturbildquelle"
+  },
+  "thumbnail_actions": {
+    "message": "Miniaturansicht-Aktionen"
+  },
+  "thumbnail_source_local": {
+    "message": "Lokaler Speicher"
+  },
+  "thumbnail_source_site": {
+    "message": "Von der Website erstellen"
+  },
+  "thumbnail_source_url": {
+    "message": "Von URL"
+  },
+  "thumbnail_source_favicon": {
+    "message": "Website-Favicon (Standard)"
+  },
+  "favicon_download_preference": {
+    "message": "Favicon-Quelle"
+  },
+  "favicon_download_inherit": {
+    "message": "Globale Einstellung verwenden"
+  },
+  "favicon_download_site": {
+    "message": "Von der Website herunterladen"
+  },
+  "favicon_download_chrome": {
+    "message": "Verwenden Sie den Chrome-Cache"
+  },
+  "favicon_size_individual": {
+    "message": "Individuelle Miniaturbildgröße"
+  },
+  "favicon_size_individual_placeholder": {
+    "message": "32"
+  },
+  "favicon_size_individual_note": {
+    "message": "Lassen Sie das Feld leer, um die globale Miniaturbildgröße zu verwenden."
+  },
+  "download_favicons_by_default": {
+    "message": "Laden Sie standardmäßig Favoriten von Websites herunter"
+  },
+  "download_favicons_by_default_note": {
+    "message": "Wenn lokal ein Favicon-Thumbnail fehlt, laden Sie es beim Öffnen der Startseite im Hintergrund herunter."
+  },
+  "favicon_size": {
+    "message": "Miniaturbildgröße"
+  },
+  "favicon_size_note": {
+    "message": "Standardbildgröße für alle Miniaturbildtypen. Individuelle Kacheleinstellungen haben Vorrang."
+  },
+  "thumbnail_url": {
+    "message": "Miniaturbild-URL"
+  },
+  "thumbnail_url_note": {
+    "message": "Das Bild wird lokal zwischengespeichert und regelmäßig auf Aktualisierungen überprüft."
+  },
+  "notice_thumbnail_url_failed": {
+    "message": "Das Herunterladen der Miniaturansicht von der URL ist fehlgeschlagen"
+  },
+  "url_field_tip": {
+    "message": "Geben Sie eine URL ein oder lassen Sie dieses Feld leer, um einen Ordner zu erstellen."
+  },
+  "btn_close": {
+    "message": "Stornieren"
+  },
+  "btn_save": {
+    "message": "Speichern"
+  },
+  "btn_back": {
+    "message": "Erledigt"
+  },
+  "back_to_main": {
+    "message": "Zurück zu den Lesezeichen"
+  },
+  "btn_apply": {
+    "message": "Anwenden"
+  },
+  "contextmenu_tab": {
+    "message": "In neuem Tab öffnen"
+  },
+  "contextmenu_window": {
+    "message": "In neuem Fenster öffnen"
+  },
+  "contextmenu_open_all": {
+    "message": "Alle öffnen"
+  },
+  "contextmenu_open_all_window": {
+    "message": "Alles in neuem Fenster öffnen"
+  },
+  "contextmenu_incognito": {
+    "message": "Im Inkognito-Modus öffnen"
+  },
+  "contextmenu_copy_link": {
+    "message": "Linkadresse kopieren"
+  },
+  "contextmenu_edit": {
+    "message": "Bearbeiten"
+  },
+  "contextmenu_capture": {
+    "message": "Miniaturansicht aktualisieren"
+  },
+  "contextmenu_upload": {
+    "message": "Vom Computer hochladen"
+  },
+  "contextmenu_upload_paste": {
+    "message": "Aus der Zwischenablage hochladen"
+  },
+  "contextmenu_remove": {
+    "message": "Entfernen"
+  },
+  "confirm_delete_image": {
+    "message": "Dieses Bild löschen?"
+  },
+  "confirm_delete_images": {
+    "message": "Bist du sicher? Alle lokalen Miniaturansichten werden gelöscht."
+  },
+  "confirm_clear_local_cache": {
+    "message": "Bist du sicher? Alle temporären lokalen Daten werden gelöscht. Einstellungen und lokale Bilder bleiben erhalten."
+  },
+  "confirm_delete_bookmark": {
+    "message": "Dieses Lesezeichen löschen?"
+  },
+  "confirm_delete_folder": {
+    "message": "Diesen Ordner und alles darin löschen?"
+  },
+  "confirm_restore_default_settings": {
+    "message": "Nur lokale Einstellungen auf Standardwerte zurücksetzen und Synchronisierung deaktivieren? Synchronisierte Daten auf dem Server bleiben erhalten."
+  },
+  "confirm_clear_sync_settings": {
+    "message": "Synchronisierte Einstellungen vom Server löschen und Synchronisierung deaktivieren? Lokale Einstellungen, Bilder und Cache bleiben erhalten."
+  },
+  "confirm_sync_remote_settings": {
+    "message": "Synchronisierte Einstellungen sind bereits vorhanden.\nDie aktuellen lokalen Einstellungen durch die synchronisierte Version ersetzen?"
+  },
+  "notice_image_removed": {
+    "message": "Bild entfernt"
+  },
+  "notice_thumb_image_updated": {
+    "message": "Miniaturansicht des Lesezeichens aktualisiert"
+  },
+  "notice_bookmark_exist": {
+    "message": "Lesezeichen existiert bereits"
+  },
+  "notice_bookmark_created": {
+    "message": "Lesezeichen erstellt"
+  },
+  "notice_bookmark_updated": {
+    "message": "Lesezeichen aktualisiert"
+  },
+  "notice_bookmark_removed": {
+    "message": "Lesezeichen „<span data-title>$title$</span>“ gelöscht",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_folder_removed": {
+    "message": "Ordner „<span data-title>$title$</span>“ gelöscht",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_selected_bookmarks_removed": {
+    "message": "Ausgewählte Lesezeichen gelöscht"
+  },
+  "notice_images_removed": {
+    "message": "Alle lokalen Miniaturansichten gelöscht"
+  },
+  "notice_local_cache_cleared": {
+    "message": "Lokaler Cache gelöscht"
+  },
+  "notice_cant_find_id": {
+    "message": "Ordner nicht gefunden. Es ist möglicherweise in diesem Chrome-Profil nicht verfügbar."
+  },
+  "notice_reset_default_settings": {
+    "message": "Lokale Einstellungen zurückgesetzt; Synchronisierung deaktiviert"
+  },
+  "notice_sync_settings_cleared": {
+    "message": "Synchronisierte Serverdaten gelöscht; Synchronisierung deaktiviert"
+  },
+  "notice_bg_image_updated": {
+    "message": "Hintergrund aktualisiert"
+  },
+  "notice_thumbnails_update_complete": {
+    "message": "Miniaturbild-Update abgeschlossen"
+  },
+  "notice_link_copied": {
+    "message": "Link kopiert"
+  },
+  "alert_file_type_fail_type": {
+    "message": "Nicht unterstützter Dateityp\nZulässiger Dateityp: $type$",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert_file_type_fail_size": {
+    "message": "Die Datei ist zu groß. Maximale Größe: $filesize$ MB",
+    "placeholders": {
+      "filesize": {
+        "content": "$1"
+      }
+    }
+  },
+  "not_found_text": {
+    "message": "Ordner nicht gefunden. Möglicherweise wurde es verschoben oder gelöscht, oder Ihre Lesezeichen sind möglicherweise nicht auf diesem Gerät synchronisiert."
+  },
+  "not_found_link_text": {
+    "message": "Lesezeichenleiste"
+  },
+  "add_bookmark": {
+    "message": "Zu Lesezeichen hinzufügen"
+  },
+  "save_to_current_folder": {
+    "message": "Im aktuellen Ordner speichern"
+  },
+  "edit_bookmark": {
+    "message": "Lesezeichen bearbeiten"
+  },
+  "options": {
+    "message": "Einstellungen"
+  },
+  "quick_display_settings": {
+    "message": "Schnelle Einstellungen für das Erscheinungsbild"
+  },
+  "quick_display_settings_description": {
+    "message": "Änderungen werden sofort übernommen"
+  },
+  "more_settings": {
+    "message": "Alle Einstellungen"
+  },
+  "bookmark_appearance_setting": {
+    "message": "Lesezeichen"
+  },
+  "page_appearance_setting": {
+    "message": "Startseite"
+  },
+  "bookmark_behavior_setting": {
+    "message": "Verhalten"
+  },
+  "thumbnails_setting": {
+    "message": "Miniaturansichten"
+  },
+  "thumbnails_setting_description": {
+    "message": "Die Einstellungen in diesem Abschnitt gelten für alle unterstützten Miniaturbildquellen: Website-Screenshots, Bild-URLs und Favicons. Lokal hochgeladene Bilder werden niemals automatisch ersetzt."
+  },
+  "data_privacy_setting": {
+    "message": "Daten und Privatsphäre"
+  },
+  "dial_width": {
+    "message": "Rasterbreite"
+  },
+  "dial_gap": {
+    "message": "Abstand zwischen den Fliesen"
+  },
+  "dial_radius": {
+    "message": "Eckenradius der Kachel"
+  },
+  "dial_aspect_ratio": {
+    "message": "Fliesenproportionen"
+  },
+  "dial_aspect_ratio_square": {
+    "message": "Quadratisch (1:1)"
+  },
+  "dial_aspect_ratio_standard": {
+    "message": "Standard (4:3)"
+  },
+  "dial_aspect_ratio_photo": {
+    "message": "Foto (3:2)"
+  },
+  "dial_aspect_ratio_wide": {
+    "message": "Breit (16:9)"
+  },
+  "dial_shadow": {
+    "message": "Intensität des Kachelschattens"
+  },
+  "dial_hover_lift": {
+    "message": "Fliesenlift beim Schweben"
+  },
+  "dial_background_color": {
+    "message": "Hintergrundfarbe der Kachel"
+  },
+  "dial_background_color_note": {
+    "message": "Verwendet die aktuelle Designfarbe, bis eine benutzerdefinierte Farbe ausgewählt wird."
+  },
+  "dial_background_opacity": {
+    "message": "Deckkraft des Kachelhintergrunds"
+  },
+  "dial_background_opacity_note": {
+    "message": "0 % ist vollständig transparent; 100 % ist undurchsichtig."
+  },
+  "reset_tile_background_color": {
+    "message": "Verwenden Sie die Themenfarbe"
+  },
+  "number_of_columns": {
+    "message": "Anzahl der Spalten"
+  },
+  "vertical_center": {
+    "message": "Vertikale Zentrierung"
+  },
+  "disable_main_page_scroll": {
+    "message": "Deaktivieren Sie das Scrollen auf der Hauptseite"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "Blendet die Bildlaufleiste aus und verhindert das Scrollen außerhalb der Lesezeichen-Suchergebnisse."
+  },
+  "default_folder_id": {
+    "message": "Standardordner"
+  },
+  "default_folder_sync_note": {
+    "message": "Die Synchronisierung ist aktiviert. Diese Einstellung wird in Chrome Sync gespeichert."
+  },
+  "default_folder_local_note": {
+    "message": "Die Synchronisierung ist deaktiviert. Diese Einstellung wird auf diesem Gerät gespeichert."
+  },
+  "background": {
+    "message": "Hintergrund"
+  },
+  "color": {
+    "message": "Farbe"
+  },
+  "background_noimage": {
+    "message": "Kein Hintergrundbild"
+  },
+  "background_noimage_text": {
+    "message": "Verwenden Sie die Hintergrundfarbe des Themas"
+  },
+  "background_bing": {
+    "message": "Bing-Bild des Tages"
+  },
+  "background_bing_text": {
+    "message": "Verwenden Sie das tägliche Foto auf der Bing-Homepage als StartGrid-Hintergrund."
+  },
+  "bing_permission_toast": {
+    "message": "Für das Bing-Bild des Tages ist Zugriff auf bing.com erforderlich. Wählen Sie es auf der <a href=\"/options.html\">Einstellungsseite</a> aus und bestätigen Sie die Berechtigungsanfrage."
+  },
+  "background_external": {
+    "message": "Bild von URL"
+  },
+  "background_local": {
+    "message": "Bild oder Video vom Computer"
+  },
+  "background_local_video_note": {
+    "message": "Ein lokaler Hintergrund kann ein Bild oder ein MP4-Video sein. Das Video wird stummgeschaltet und automatisch in einer Schleife abgespielt."
+  },
+  "background_entrance_effect": {
+    "message": "Hintergrunderscheinung"
+  },
+  "background_entrance_none": {
+    "message": "Keine Animation"
+  },
+  "background_entrance_zoom": {
+    "message": "Herauszoomen"
+  },
+  "background_entrance_blur": {
+    "message": "Aus Unschärfe einblenden"
+  },
+  "background_entrance_slide": {
+    "message": "Von unten einschieben"
+  },
+  "background_entrance_duration": {
+    "message": "Dauer der Hintergrunddarstellung"
+  },
+  "snow_mode": {
+    "message": "Schneefall"
+  },
+  "snow_mode_always": {
+    "message": "Stets"
+  },
+  "snow_mode_winter": {
+    "message": "Im Winter – 1. Dezember bis zum letzten Tag im Februar"
+  },
+  "snow_mode_off": {
+    "message": "Aus"
+  },
+  "page_cascade_enabled": {
+    "message": "Animieren Sie Kacheln beim Öffnen der Seite"
+  },
+  "page_cascade_mode": {
+    "message": "Kaskadenordnung"
+  },
+  "page_cascade_mode_items": {
+    "message": "Ein Lesezeichen nach dem anderen"
+  },
+  "page_cascade_mode_rows": {
+    "message": "Eine Reihe nach der anderen"
+  },
+  "page_cascade_duration": {
+    "message": "Kaskadendauer"
+  },
+  "choose_file": {
+    "message": "Wählen Sie ein Bild oder Video"
+  },
+  "show_settings_icon": {
+    "message": "Zeigen Sie das Einstellungssymbol an"
+  },
+  "show_quick_settings_icon": {
+    "message": "Zeigen Sie das Symbol für die Schnelleinstellungen an"
+  },
+  "show_extension_icon": {
+    "message": "Zeigen Sie das StartGrid-Symbol an"
+  },
+  "show_toolbar": {
+    "message": "Suchleiste und Ordnerauswahl anzeigen"
+  },
+  "show_create_column": {
+    "message": "Zeigen Sie die Kachel „Lesezeichen hinzufügen“ an"
+  },
+  "show_bookmark_title": {
+    "message": "Lesezeichentitel anzeigen"
+  },
+  "show_favicon": {
+    "message": "Zeigen Sie das Favicon neben dem Titel an"
+  },
+  "open_bookmarks_newtab": {
+    "message": "Lesezeichen in einem neuen Tab öffnen"
+  },
+  "open_search_newtab": {
+    "message": "Öffnen Sie die Suche in einem neuen Tab"
+  },
+  "show_contextmenu_item": {
+    "message": "Im Kontextmenü anzeigen"
+  },
+  "drag_and_drop": {
+    "message": "Aktivieren Sie Drag & Drop"
+  },
+  "auto_generate_thumbnail": {
+    "message": "Fügen Sie automatisch ein Favicon zu neuen Lesezeichen hinzu"
+  },
+  "enable_sync": {
+    "message": "Synchronisierung aktivieren"
+  },
+  "clear_background_locals": {
+    "message": "Löschen Sie alle lokal gespeicherten Miniaturbilder"
+  },
+  "clear_local_cache": {
+    "message": "Lokalen Cache leeren"
+  },
+  "reset_local_default": {
+    "message": "Setzen Sie die Einstellungen auf die Standardwerte zurück"
+  },
+  "reset_local_default_description": {
+    "message": "Setzt nur lokale Einstellungen zurück und deaktiviert die Synchronisierung. Synchronisierte Serverdaten werden nicht gelöscht."
+  },
+  "reset_quick_settings": {
+    "message": "Schnelleinstellungen zurücksetzen"
+  },
+  "reset_quick_settings_description": {
+    "message": "Stellt nur die in diesem Menü angezeigten Einstellungen auf die Standardeinstellungen der Erweiterung zurück."
+  },
+  "confirm_reset_quick_settings": {
+    "message": "Schnelleinstellungen auf die Standardeinstellungen der Erweiterung zurücksetzen?"
+  },
+  "reset_sync_text": {
+    "message": "Entfernen Sie synchronisierte Einstellungen aus Chrome Sync"
+  },
+  "reset_sync_description": {
+    "message": "Löscht nur synchronisierte Einstellungen vom Server und deaktiviert die Synchronisierung. Lokale Einstellungen, Bilder und Cache bleiben erhalten."
+  },
+  "version": {
+    "message": "Version"
+  },
+  "thumbnails_creation": {
+    "message": "Miniaturansichten generieren: $start$ / $total$",
+    "placeholders": {
+      "start": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "thumbnails_update_warn": {
+    "message": "Jedes Miniaturbild wird anhand der ausgewählten Quelle aktualisiert: Website, Bild-URL oder Favicon. Lokal hochgeladene Bilder bleiben erhalten. Eine Aktualisierung kann sich auf die Leistung auswirken."
+  },
+  "thumbnails_update_button": {
+    "message": "Aktualisieren Sie alle Miniaturansichten"
+  },
+  "thumbnails_auto_refresh": {
+    "message": "Miniaturansichten automatisch aktualisieren"
+  },
+  "thumbnails_auto_refresh_note": {
+    "message": "Überprüft und aktualisiert veraltete Miniaturansichten, wenn die Startseite geöffnet wird"
+  },
+  "thumbnails_auto_refresh_interval": {
+    "message": "Automatisches Aktualisierungsintervall"
+  },
+  "thumbnails_auto_refresh_interval_note": {
+    "message": "Zeit zwischen Miniaturbildaktualisierungen, von 1 Stunde bis 7 Tagen"
+  },
+  "hours_short": {
+    "message": "H"
+  },
+  "folder_preview": {
+    "message": "Miniaturansichten der Website in Ordnern anzeigen"
+  },
+  "folder_preview_description": {
+    "message": "Zeigt Miniaturansichten von vier zufällig ausgewählten Websites im Ordner anstelle eines Ordnersymbols oder eines benutzerdefinierten Bilds an."
+  },
+  "backup_settings": {
+    "message": "Einstellungen importieren oder exportieren"
+  },
+  "backup_settings_description": {
+    "message": "Sichert nur Erweiterungseinstellungen; Lesezeichen und Bilder sind nicht enthalten."
+  },
+  "import": {
+    "message": "Import"
+  },
+  "export": {
+    "message": "Export"
+  },
+  "import_settings_success": {
+    "message": "Einstellungen importiert"
+  },
+  "import_settings_failed": {
+    "message": "Die Einstellungsdatei konnte nicht gelesen werden"
+  },
+  "without_confirmation": {
+    "message": "Ohne Bestätigung löschen"
+  },
+  "toggle_clipboard_access": {
+    "message": "Erlauben Sie den Zugriff auf die Zwischenablage"
+  },
+  "toggle_clipboard_access_description": {
+    "message": "Ermöglicht der Erweiterung, Daten aus der Zwischenablage zu lesen, um eine Lesezeichen-Miniaturansicht hochzuladen. Die Aktion „Aus Zwischenablage hochladen“ wird im Lesezeichen-Bearbeitungsfenster verfügbar. Wenn Sie Bedenken hinsichtlich dieser Berechtigung haben, aktivieren Sie sie einfach nicht."
+  },
+  "error_input_required": {
+    "message": "Erforderliches Feld"
+  },
+  "error_input_url": {
+    "message": "Die URL ist ungültig"
+  },
+  "thumbnails_update_delay": {
+    "message": "Warten Sie, bevor Sie ein Miniaturbild aufnehmen"
+  },
+  "thumbnails_update_delay_note": {
+    "message": "Erhöhen Sie die Verzögerung für Websites, die mehr Zeit zum Laden benötigen."
+  },
+  "close_tab_after_adding_bookmark": {
+    "message": "Schließen Sie die Registerkarte, nachdem Sie sie zu den Lesezeichen hinzugefügt haben"
+  },
+  "close_tab_after_adding_bookmark_note": {
+    "message": "Gilt nur, wenn ein Lesezeichen über das Kontextmenü hinzugefügt wird."
+  },
+  "empty_search": {
+    "message": "Keine Lesezeichen gefunden"
+  },
+  "search_failed": {
+    "message": "Lesezeichen konnten nicht durchsucht werden. Bitte versuchen Sie es erneut."
+  },
+  "sync_quota_exceeded": {
+    "message": "Das Speicherlimit für die Chrome-Synchronisierung wurde überschritten ($used$ von $limit$). Die letzten Änderungen konnten nicht synchronisiert werden und verbleiben auf diesem Gerät. Reduzieren Sie die synchronisierten Einstellungen.",
+    "placeholders": {
+      "used": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "delete_thumbnail": {
+    "message": "Aus lokalem Speicher löschen"
+  },
+  "show_back_column": {
+    "message": "Zeigt die Kachel „Zurück“ in Ordnern an"
+  },
+  "search_engine": {
+    "message": "Standardsuchmaschine"
+  },
+  "search_results_display": {
+    "message": "Suchergebnisse mit Lesezeichen versehen"
+  },
+  "search_results_display_flat": {
+    "message": "Nur Fliesen"
+  },
+  "search_results_display_folder_name": {
+    "message": "Übergeordneter Ordner auf der Kachel"
+  },
+  "search_results_display_folder_path": {
+    "message": "Vollständiger Ordnerpfad auf der Kachel"
+  },
+  "search_results_display_grouped": {
+    "message": "Nach Ordnern gruppieren"
+  },
+  "search_results_root_folder": {
+    "message": "Root-Lesezeichenordner"
+  },
+  "move_to_start": {
+    "message": "Verschieben Sie neue Lesezeichen an den Anfang ihres Ordners"
+  },
+  "bookmarks_sorting_type": {
+    "message": "Ordnersortierung"
+  },
+  "home_sort_by": {
+    "message": "Sortierung der Kacheln auf der Startseite"
+  },
+  "manual_sorting": {
+    "message": "Manuelle Sortierung"
+  },
+  "sort_by_usage": {
+    "message": "Nutzungshäufigkeit"
+  },
+  "sort_direction": {
+    "message": "Sortierrichtung"
+  },
+  "newest_first": {
+    "message": "Absteigend – das Neueste zuerst"
+  },
+  "oldest_first": {
+    "message": "Aufsteigend – Älteste zuerst"
+  },
+  "alphabet_descending": {
+    "message": "Absteigend – Z nach A"
+  },
+  "alphabet_ascending": {
+    "message": "Aufsteigend – A bis Z"
+  },
+  "usage_tiebreaker": {
+    "message": "Wenn die Nutzung gleich ist, sortieren Sie nach"
+  },
+  "show_home_folders": {
+    "message": "Ordner auf der Startseite anzeigen"
+  },
+  "show_usage_count": {
+    "message": "Nutzungsanzahl für Lesezeichen anzeigen"
+  },
+  "usage_count_label": {
+    "message": "Offene Anzahl: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "Sortieren Sie Ordner zusammen mit Lesezeichen"
+  },
+  "navigation_sort_by": {
+    "message": "Sortieren in Ordnern und Suchen"
+  },
+  "browser_default_order": {
+    "message": "Standardreihenfolge"
+  },
+  "sort_by": {
+    "message": "Sortieren nach"
+  },
+  "sort_by_date": {
+    "message": "Datum"
+  },
+  "sort_by_alphabet": {
+    "message": "Alphabetisch"
+  },
+  "not_sorting": {
+    "message": "Nicht sortiert"
+  },
+  "folders_on_top": {
+    "message": "Ordner oben"
+  },
+  "folders_at_the_bottom": {
+    "message": "Ordner unten"
+  },
+  "bookmarks_sorting_warning": {
+    "message": "Die Drag-and-Drop-Reihenfolge ist nicht verfügbar, solange die automatische Sortierung aktiviert ist."
+  },
+  "search_autofocus": {
+    "message": "Konzentrieren Sie sich auf die Suchleiste"
+  },
+  "confirm_delete_selected_bookmarks": {
+    "message": "Ausgewählte Lesezeichen löschen?"
+  },
+  "button_action_move": {
+    "message": "In Ordner verschieben"
+  },
+  "parent_folder": {
+    "message": "Übergeordneter Ordner"
+  },
+  "new_bookmark": {
+    "message": "Neues Lesezeichen"
+  },
+  "modal_dismiss": {
+    "message": "Dialog schließen"
+  },
+  "remove_thumbnail": {
+    "message": "Miniaturansicht entfernen"
+  },
+  "thumbnails_update": {
+    "message": "Miniaturansichten aktualisieren"
+  },
+  "bookmark_context": {
+    "message": "Lesezeichenaktionen"
+  },
+  "clear_search": {
+    "message": "Suche löschen"
+  },
+  "search_suggestions_permission_tooltip": {
+    "message": "Erlauben Sie den Zugriff auf den ausgewählten Vorschlagsdienst und das Google-Fallback"
+  },
+  "search": {
+    "message": "Suchen"
+  },
+  "toggle_selected_bookmarks_popup": {
+    "message": "Ausgewählte Lesezeichenaktionen ein- oder ausblenden"
+  },
+  "toggle_search_popup": {
+    "message": "Suchoptionen ein- oder ausblenden"
+  },
+  "open_selected": {
+    "message": "Ausgewählte öffnen"
+  },
+  "delete_selected": {
+    "message": "Ausgewählte löschen"
+  },
+  "select_folder": {
+    "message": "Wählen Sie einen Ordner aus"
+  },
+  "show_last_opened_folder": {
+    "message": "Zuletzt geöffneten Ordner anzeigen"
+  },
+  "history_back": {
+    "message": "Geh zurück"
+  },
+  "default_folder_home": {
+    "message": "Gehen Sie zum Standardordner"
+  },
+  "incognito_access_note": {
+    "message": "Lassen Sie StartGrid im Inkognitomodus laufen, bevor Sie diese Aktion verwenden."
+  },
+  "notice_host_permissions": {
+    "message": "Für die Erstellung von Website-Miniaturansichten ist die Berechtigung zum Zugriff auf die ausgewählten Websites erforderlich."
+  },
+  "learn_more": {
+    "message": "Erfahren Sie mehr"
+  },
+  "why_use_host_permissions": {
+    "message": "Warum diese Berechtigung verwenden?"
+  },
+  "host_permissions_info": {
+    "message": "<p>StartGrid benötigt nur dann Website-Zugriff, wenn es einen Screenshot für ein Lesezeichen-Miniaturbild erstellt. Ihre Browserdaten werden nicht erfasst oder verfolgt. Beim Aufnehmen eines Screenshots blendet StartGrid die Website-Bildlaufleiste vorübergehend in einem separaten Fenster aus.</p><p>Sie können diese optionale Berechtigung ablehnen und alle Funktionen außer Website-Screenshots verwenden. Chrome fragt nach Zugriff, wenn Sie zum ersten Mal einen Website-Screenshot erstellen. Sie können die Berechtigung später in den Erweiterungseinstellungen von Chrome ändern. Der Quellcode ist auf <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a> verfügbar.</p>"
+  },
+  "search_bookmarks": {
+    "message": "Lesezeichen"
+  },
+  "search_settings": {
+    "message": "Suchen"
+  },
+  "search_settings_description": {
+    "message": "Wählen Sie die Standardsuchmaschine und konfigurieren Sie, welche Suchmaschinen im Suchmenü angezeigt werden."
+  },
+  "search_engines": {
+    "message": "Suchmaschinen"
+  },
+  "search_engines_description": {
+    "message": "Suchmaschinen aktivieren, konfigurieren, neu anordnen oder entfernen. Die Liste kann insgesamt bis zu 20 Motoren enthalten."
+  },
+  "search_engine_enabled": {
+    "message": "Suchmaschine aktivieren"
+  },
+  "search_engine_name": {
+    "message": "Name der Suchmaschine"
+  },
+  "search_engine_url": {
+    "message": "Such-URL"
+  },
+  "search_engine_url_note": {
+    "message": "Verwenden Sie {query} dort, wo die codierte Abfrage eingefügt werden soll. Eine benutzerdefinierte Vorschlags-URL ist optional; Wenn es leer ist, werden Google-Vorschläge verwendet."
+  },
+  "search_suggestion_url": {
+    "message": "Vorschlags-URL (optional)"
+  },
+  "search_suggestion_invalid_url": {
+    "message": "Geben Sie eine gültige HTTP- oder HTTPS-Vorschlags-URL mit {query} ein oder lassen Sie das Feld leer."
+  },
+  "add_search_engine": {
+    "message": "Suchmaschine hinzufügen"
+  },
+  "remove_search_engine": {
+    "message": "Suchmaschine entfernen"
+  },
+  "custom_search_engine": {
+    "message": "Benutzerdefinierte Suchmaschine"
+  },
+  "move_search_engine_up": {
+    "message": "Bewegen Sie sich nach oben"
+  },
+  "move_search_engine_down": {
+    "message": "Bewegen Sie sich nach unten"
+  },
+  "search_engine_invalid_url": {
+    "message": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein, die {query} enthält."
+  },
+  "search_engine_name_required": {
+    "message": "Geben Sie einen Suchmaschinennamen ein."
+  },
+  "search_engine_at_least_one": {
+    "message": "Mindestens eine Suchmaschine muss aktiviert bleiben."
+  },
+  "keyboard_shortcuts_setting": {
+    "message": "Tastaturkürzel"
+  },
+  "keyboard_shortcuts_description": {
+    "message": "Konfigurieren Sie Tastaturkürzel für Aktionen auf der neuen Registerkarte „StartGrid“."
+  },
+  "keyboard_shortcuts_title": {
+    "message": "Verknüpfungszuweisungen"
+  },
+  "keyboard_shortcuts_note": {
+    "message": "Wählen Sie ein Tastenkürzel aus und drücken Sie die neue Tastenkombination. Drücken Sie Escape, um abzubrechen. Mit der Rücktaste oder Entf entfernen Sie das Tastenkürzel. Tastenkürzel funktionieren nur auf der StartGrid-Seite."
+  },
+  "shortcut_change": {
+    "message": "Verknüpfung ändern"
+  },
+  "shortcut_not_set": {
+    "message": "Nicht zugewiesen"
+  },
+  "shortcut_clear": {
+    "message": "Verknüpfung entfernen"
+  },
+  "shortcut_reset": {
+    "message": "Standardeinstellungen wiederherstellen"
+  },
+  "shortcut_press_keys": {
+    "message": "Tastenkombination drücken…"
+  },
+  "shortcut_conflict": {
+    "message": "Diese Verknüpfung ist bereits einer anderen Aktion zugewiesen."
+  },
+  "shortcut_invalid": {
+    "message": "Drücken Sie eine nicht reservierte Taste. Escape und Tab können nicht zugewiesen werden."
+  },
+  "shortcut_modifier_invalid": {
+    "message": "Weisen Sie Strg, Alt, Umschalt oder Meta zu, um mehrere Lesezeichen auszuwählen."
+  },
+  "shortcut_focus_search": {
+    "message": "Fokussuche"
+  },
+  "shortcut_add_bookmark": {
+    "message": "Lesezeichen hinzufügen"
+  },
+  "shortcut_toggle_quick_settings": {
+    "message": "Schnelleinstellungen umschalten"
+  },
+  "shortcut_open_settings": {
+    "message": "Öffnen Sie die vollständigen Einstellungen"
+  },
+  "shortcut_go_home": {
+    "message": "Gehen Sie zum Standardordner"
+  },
+  "shortcut_go_back": {
+    "message": "Gehen Sie einen Ordner zurück"
+  },
+  "shortcut_select_multiple_bookmarks": {
+    "message": "Wählen Sie mehrere Lesezeichen aus"
+  },
+  "shortcut_select_all_bookmarks": {
+    "message": "Wählen Sie alle Lesezeichen aus"
+  },
+  "shortcut_update_thumbnails": {
+    "message": "Aktualisieren Sie alle Miniaturansichten"
+  },
+  "settings_appearance": {
+    "message": "Aussehen"
+  },
+  "settings_controls": {
+    "message": "Kontrollen"
+  },
+  "settings_group_page": {
+    "message": "Seite und Hintergrund"
+  },
+  "settings_group_animations": {
+    "message": "Animationen und Effekte"
+  },
+  "settings_group_grid": {
+    "message": "Fliesenraster"
+  },
+  "settings_group_tile_style": {
+    "message": "Aussehen der Fliesen"
+  },
+  "settings_group_tile_content": {
+    "message": "Kachelinhalt"
+  },
+  "settings_group_start": {
+    "message": "Startseite"
+  },
+  "settings_group_sorting": {
+    "message": "Sortierung"
+  },
+  "settings_group_navigation": {
+    "message": "Navigation"
+  },
+  "settings_group_opening": {
+    "message": "Öffnen und hinzufügen"
+  },
+  "settings_group_search_behavior": {
+    "message": "Suchverhalten"
+  },
+  "settings_group_thumbnail_generation": {
+    "message": "Miniaturansichten und Favoriten"
+  },
+  "settings_group_auto_refresh": {
+    "message": "Automatische Aktualisierung"
+  },
+  "settings_group_thumbnail_storage": {
+    "message": "Lokale Bilder"
+  },
+  "settings_group_interface": {
+    "message": "Schnittstellensteuerung"
+  },
+  "settings_group_sync": {
+    "message": "Synchronisation"
+  },
+  "settings_group_backup": {
+    "message": "Sicherung"
+  },
+  "settings_group_storage": {
+    "message": "Lokale Daten"
+  },
+  "settings_group_permissions": {
+    "message": "Berechtigungen"
+  },
+  "settings_group_reset": {
+    "message": "Einstellungen zurücksetzen"
+  },
+  "settings_group_reset_description": {
+    "message": "Diese Aktionen erfordern eine Bestätigung und können gespeicherte Einstellungen ändern oder entfernen."
+  },
+  "settings_mobile_section": {
+    "message": "Abschnitt"
+  },
+  "settings_search_label": {
+    "message": "Sucheinstellungen"
+  },
+  "settings_search_placeholder": {
+    "message": "Finden Sie eine Einstellung"
+  },
+  "settings_autosave": {
+    "message": "Änderungen werden automatisch gespeichert"
+  },
+  "settings_no_results": {
+    "message": "Keine Einstellungen gefunden"
+  },
+  "undo": {
+    "message": "Rückgängig machen"
+  }
+}

@@ -1,4 +1,5 @@
 import { getFolders } from '../api/bookmark';
+import { getMessage } from '../i18n';
 
 const id = 'startgrid';
 
@@ -6,7 +7,7 @@ const generateFolderItems = (foldersThree, rootId) => {
   // auxiliary array with parent ids
   // 0 - root level
   const parentIds = ['0'];
-  const translateItemTitle = browser.i18n.getMessage('btn_save');
+  const translateItemTitle = getMessage('btn_save');
 
   const flatRecursiveFolders = (folders, parentId) => {
     return folders.reduce((accum, current) => {
@@ -77,12 +78,12 @@ const browserContextMenu = {
     const linkItems = [
       {
         id,
-        title: browser.i18n.getMessage('add_bookmark'),
+        title: getMessage('add_bookmark'),
         contexts: ['page']
       },
       {
         id: 'current_folder',
-        title: browser.i18n.getMessage('save_to_current_folder'),
+        title: getMessage('save_to_current_folder'),
         contexts: ['page'],
         parentId: id
       },

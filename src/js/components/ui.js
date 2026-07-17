@@ -1,4 +1,5 @@
 import { $createElement, $imageLoaded } from '../utils';
+import { getMessage } from '../i18n';
 import { settings } from '../settings';
 import Toast from '../components/toast';
 import ImageDB from '../api/imageDB';
@@ -78,7 +79,7 @@ export default {
       const bingHostPermission = await containsPermissions({ origins: ['https://www.bing.com/*'] });
       if (!bingHostPermission) {
         return Toast.show({
-          message: browser.i18n.getMessage('bing_permission_toast'),
+          message: getMessage('bing_permission_toast'),
           delay: 0
         });
       }

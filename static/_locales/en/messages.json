@@ -3,10 +3,16 @@
     "message": "StartGrid"
   },
   "ext_desc": {
-    "message": "Simple speed dial bookmarks page, including search, add, edit, delete and dragging bookmarks."
+    "message": "A customizable new tab with visual bookmarks, folders, search, thumbnails, themes, and optional Chrome Sync."
   },
   "default_title": {
     "message": "StartGrid"
+  },
+  "language": {
+    "message": "Language"
+  },
+  "language_browser": {
+    "message": "Use browser language"
   },
   "color_theme": {
     "message": "Color theme"
@@ -107,7 +113,7 @@
     "message": "Failed to download the thumbnail from URL"
   },
   "url_field_tip": {
-    "message": "Enter URL or leave it blank if you want to create the folder"
+    "message": "Enter a URL, or leave this field empty to create a folder."
   },
   "btn_close": {
     "message": "Cancel"
@@ -158,7 +164,7 @@
     "message": "Remove"
   },
   "confirm_delete_image": {
-    "message": "Delete image ?"
+    "message": "Delete this image?"
   },
   "confirm_delete_images": {
     "message": "Are you sure? All local thumbnails will be deleted."
@@ -167,10 +173,10 @@
     "message": "Are you sure? All temporary local data will be deleted. Settings and local images will be preserved."
   },
   "confirm_delete_bookmark": {
-    "message": "Are you sure you want to delete the bookmark ?"
+    "message": "Delete this bookmark?"
   },
   "confirm_delete_folder": {
-    "message": "Are you sure you want to delete the folder and all its contents ?"
+    "message": "Delete this folder and everything inside it?"
   },
   "confirm_restore_default_settings": {
     "message": "Reset only local settings to defaults and disable synchronization? Synchronized data on the server will be preserved."
@@ -179,13 +185,13 @@
     "message": "Delete synchronized settings from the server and disable synchronization? Local settings, images, and cache will be preserved."
   },
   "confirm_sync_remote_settings": {
-    "message": "You have previously synchronized data!!\nDo you want to overwrite your current local settings with your previously saved remote settings?"
+    "message": "Synchronized settings already exist.\nReplace the current local settings with the synchronized version?"
   },
   "notice_image_removed": {
-    "message": "Image has been removed"
+    "message": "Image removed"
   },
   "notice_thumb_image_updated": {
-    "message": "Bookmark thumb has been updated"
+    "message": "Bookmark thumbnail updated"
   },
   "notice_bookmark_exist": {
     "message": "Bookmark already exists"
@@ -197,7 +203,7 @@
     "message": "Bookmark updated"
   },
   "notice_bookmark_removed": {
-    "message": "Bookmark \"<span data-title>$title$</span>\" deleted",
+    "message": "Deleted bookmark \"<span data-title>$title$</span>\"",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -205,7 +211,7 @@
     }
   },
   "notice_folder_removed": {
-    "message": "Folder \"<span data-title>$title$</span>\" deleted",
+    "message": "Deleted folder \"<span data-title>$title$</span>\"",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -213,7 +219,7 @@
     }
   },
   "notice_selected_bookmarks_removed": {
-    "message": "Selected bookmarks have been deleted"
+    "message": "Selected bookmarks deleted"
   },
   "notice_images_removed": {
     "message": "All local thumbnails deleted"
@@ -222,7 +228,7 @@
     "message": "Local cache cleared"
   },
   "notice_cant_find_id": {
-    "message": "Cant find folder by id. Maybe you have not synced bookmarks"
+    "message": "Folder not found. It may not be available in this Chrome profile."
   },
   "notice_reset_default_settings": {
     "message": "Local settings reset; synchronization disabled"
@@ -231,7 +237,7 @@
     "message": "Synchronized server data deleted; synchronization disabled"
   },
   "notice_bg_image_updated": {
-    "message": "Background image has been changed"
+    "message": "Background updated"
   },
   "notice_thumbnails_update_complete": {
     "message": "Thumbnail update complete"
@@ -240,7 +246,7 @@
     "message": "Link copied"
   },
   "alert_file_type_fail_type": {
-    "message": "Bad file type\nValid file type ($type$)",
+    "message": "Unsupported file type\nAllowed file type: $type$",
     "placeholders": {
       "type": {
         "content": "$1"
@@ -248,7 +254,7 @@
     }
   },
   "alert_file_type_fail_size": {
-    "message": "Maximum upload file size: $filesize$ MB",
+    "message": "File is too large. Maximum size: $filesize$ MB",
     "placeholders": {
       "filesize": {
         "content": "$1"
@@ -256,7 +262,7 @@
     }
   },
   "not_found_text": {
-    "message": "Can not find the folder by id. You may not have synchronized bookmarks, or you deleted | moved this folder."
+    "message": "Folder not found. It may have been moved or deleted, or your bookmarks may not be synchronized on this device."
   },
   "not_found_link_text": {
     "message": "Bookmarks bar"
@@ -271,10 +277,10 @@
     "message": "Edit bookmark"
   },
   "options": {
-    "message": "Options"
+    "message": "Settings"
   },
   "quick_display_settings": {
-    "message": "Quick bookmark appearance"
+    "message": "Quick appearance settings"
   },
   "quick_display_settings_description": {
     "message": "Changes are applied immediately"
@@ -301,7 +307,7 @@
     "message": "Data and privacy"
   },
   "dial_width": {
-    "message": "Panel width"
+    "message": "Grid width"
   },
   "dial_gap": {
     "message": "Distance between tiles"
@@ -346,7 +352,7 @@
     "message": "Use theme color"
   },
   "number_of_columns": {
-    "message": "Number of Columns"
+    "message": "Number of columns"
   },
   "vertical_center": {
     "message": "Vertical centering"
@@ -373,19 +379,19 @@
     "message": "Color"
   },
   "background_noimage": {
-    "message": "Without background image"
+    "message": "No background image"
   },
   "background_noimage_text": {
-    "message": "Theme without background image"
+    "message": "Use the theme background color"
   },
   "background_bing": {
-    "message": "Bing Image Of The Day"
+    "message": "Bing Image of the Day"
   },
   "background_bing_text": {
-    "message": "Bing Image of the Day is a daily background photo featured on Bing’s homepage. Each day, Microsoft showcases a stunning or interesting image of nature, architecture, or culture from around the world"
+    "message": "Use the daily photo featured on the Bing homepage as the StartGrid background."
   },
   "bing_permission_toast": {
-    "message": "Bing Image of the Day requires host permission to bing.com. You can enable this permission on the <a href=\"/options.html\">settings page</a> by selecting the \"Bing Image of the Day\" option and confirming the permission"
+    "message": "Bing Image of the Day requires access to bing.com. Select it on the <a href=\"/options.html\">settings page</a> and confirm the permission request."
   },
   "background_external": {
     "message": "Image from URL"
@@ -399,8 +405,8 @@
   "background_entrance_effect": { "message": "Background appearance" },
   "background_entrance_none": { "message": "No animation" },
   "background_entrance_zoom": { "message": "Zoom out" },
-  "background_entrance_blur": { "message": "From blur" },
-  "background_entrance_slide": { "message": "Slide up" },
+  "background_entrance_blur": { "message": "Fade in from blur" },
+  "background_entrance_slide": { "message": "Slide in from bottom" },
   "background_entrance_duration": { "message": "Background appearance duration" },
   "snow_mode": { "message": "Snowfall" },
   "snow_mode_always": { "message": "Always" },
@@ -412,7 +418,7 @@
   "page_cascade_mode_rows": { "message": "One row at a time" },
   "page_cascade_duration": { "message": "Cascade duration" },
   "choose_file": {
-    "message": "Image or video"
+    "message": "Choose an image or video"
   },
   "show_settings_icon": {
     "message": "Show the settings icon"
@@ -424,16 +430,16 @@
     "message": "Show the StartGrid icon"
   },
   "show_toolbar": {
-    "message": "Show search bar and folder selection"
+    "message": "Show the search bar and folder picker"
   },
   "show_create_column": {
-    "message": "Show column for adding a bookmark"
+    "message": "Show the Add bookmark tile"
   },
   "show_bookmark_title": {
     "message": "Show bookmark title"
   },
   "show_favicon": {
-    "message": "Show the Favicon next to the title"
+    "message": "Show the favicon next to the title"
   },
   "open_bookmarks_newtab": {
     "message": "Open bookmarks in a new tab"
@@ -445,16 +451,16 @@
     "message": "Show in context menu"
   },
   "drag_and_drop": {
-    "message": "Enable Drag & Drop"
+    "message": "Enable drag and drop"
   },
   "auto_generate_thumbnail": {
-    "message": "Automatically get favicon when creating a bookmark"
+    "message": "Automatically add a favicon to new bookmarks"
   },
   "enable_sync": {
-    "message": "Enable Synchronization"
+    "message": "Enable synchronization"
   },
   "clear_background_locals": {
-    "message": "Clear folder with local thumbnails"
+    "message": "Delete all locally stored thumbnail images"
   },
   "clear_local_cache": {
     "message": "Clear local cache"
@@ -475,7 +481,7 @@
     "message": "Reset quick settings to the extension defaults?"
   },
   "reset_sync_text": {
-    "message": "Delete Synchronized Data from Server"
+    "message": "Remove synced settings from Chrome Sync"
   },
   "reset_sync_description": {
     "message": "Deletes only synchronized settings from the server and disables synchronization. Local settings, images, and cache are preserved."
@@ -484,7 +490,7 @@
     "message": "Version"
   },
   "thumbnails_creation": {
-    "message": "Creating thumbnails: $start$ out of $total$",
+    "message": "Generating thumbnails: $start$ / $total$",
     "placeholders": {
       "start": {
         "content": "$1"
@@ -498,7 +504,7 @@
     "message": "Each thumbnail is refreshed from its selected source: website, image URL, or favicon. Locally uploaded images are preserved. Updating can affect performance."
   },
   "thumbnails_update_button": {
-    "message": "Thumbnails update button"
+    "message": "Update all thumbnails"
   },
   "thumbnails_auto_refresh": {
     "message": "Automatically refresh thumbnails"
@@ -516,16 +522,16 @@
     "message": "h"
   },
   "folder_preview": {
-    "message": "Thumbnails of sites on a folder instead of an icon"
+    "message": "Show site thumbnails on folders"
   },
   "folder_preview_description": {
-    "message": "While this setting is enabled, thumbnails of 4 random sites from the folder will be displayed instead of the icon or custom picture."
+    "message": "Shows thumbnails from four randomly selected sites in the folder instead of a folder icon or custom image."
   },
   "backup_settings": {
-    "message": "Import / Export Settings"
+    "message": "Import or export settings"
   },
   "backup_settings_description": {
-    "message": "Backup only for extension settings, excluding bookmarks and images"
+    "message": "Backs up extension settings only; bookmarks and images are not included."
   },
   "import": {
     "message": "Import"
@@ -537,13 +543,13 @@
     "message": "Settings imported"
   },
   "import_settings_failed": {
-    "message": "Failed to parse settings file"
+    "message": "Could not read the settings file"
   },
   "without_confirmation": {
-    "message": "Do not ask for confirmation when deleting"
+    "message": "Delete without confirmation"
   },
   "toggle_clipboard_access": {
-    "message": "Permission to read from the clipboard"
+    "message": "Allow clipboard access"
   },
   "toggle_clipboard_access_description": {
     "message": "Allows the extension to read data from the clipboard to upload a bookmark thumbnail. The 'Upload from clipboard' action will become available in the bookmark editing window. If you're concerned about this permission, simply don't enable it."
@@ -555,19 +561,19 @@
     "message": "URL is not valid"
   },
   "thumbnails_update_delay": {
-    "message": "Delay before creating a thumbnail"
+    "message": "Wait before capturing a thumbnail"
   },
   "thumbnails_update_delay_note": {
-    "message": "It can be useful when the page content is loading for a long time. The longer the delay, the longer the wait"
+    "message": "Increase the delay for websites that need more time to finish loading."
   },
   "close_tab_after_adding_bookmark": {
-    "message": "Automatically closing a tab if you have added it to bookmarks"
+    "message": "Close the tab after adding it to bookmarks"
   },
   "close_tab_after_adding_bookmark_note": {
-    "message": "Only when adding via the context menu"
+    "message": "Applies only when a bookmark is added from the context menu."
   },
   "empty_search": {
-    "message": "Bookmarks not found"
+    "message": "No bookmarks found"
   },
   "search_failed": {
     "message": "Could not search bookmarks. Please try again."
@@ -583,7 +589,7 @@
     "message": "Delete from local storage"
   },
   "show_back_column": {
-    "message": "Show back column in bookmarks"
+    "message": "Show the Back tile inside folders"
   },
   "search_engine": {
     "message": "Default search engine"
@@ -607,7 +613,7 @@
     "message": "Root bookmarks folder"
   },
   "move_to_start": {
-    "message": "Move a bookmark to the top of the list inside a folder"
+    "message": "Move new bookmarks to the top of their folder"
   },
   "bookmarks_sorting_type": {
     "message": "Folder sorting"
@@ -681,13 +687,13 @@
     "message": "Folders at the bottom"
   },
   "bookmarks_sorting_warning": {
-    "message": "Drag-and-drop sorting will be disabled if one of the sorting options is selected"
+    "message": "Drag-and-drop ordering is unavailable while automatic sorting is enabled."
   },
   "search_autofocus": {
     "message": "Focus on the search bar"
   },
   "confirm_delete_selected_bookmarks": {
-    "message": "Are you sure you want to delete selected bookmarks ?"
+    "message": "Delete the selected bookmarks?"
   },
   "button_action_move": {
     "message": "Move to folder"
@@ -699,16 +705,16 @@
     "message": "New bookmark"
   },
   "modal_dismiss": {
-    "message": "Modal dismiss"
+    "message": "Close dialog"
   },
   "remove_thumbnail": {
     "message": "Remove thumbnail"
   },
   "thumbnails_update": {
-    "message": "Thumbnails update"
+    "message": "Update thumbnails"
   },
   "bookmark_context": {
-    "message": "Bookmark context"
+    "message": "Bookmark actions"
   },
   "clear_search": {
     "message": "Clear search"
@@ -720,10 +726,10 @@
     "message": "Search"
   },
   "toggle_selected_bookmarks_popup": {
-    "message": "Toggle popup to open links"
+    "message": "Show or hide selected bookmark actions"
   },
   "toggle_search_popup": {
-    "message": "Toggle popup with search"
+    "message": "Show or hide search options"
   },
   "open_selected": {
     "message": "Open selected"
@@ -738,16 +744,16 @@
     "message": "Show last opened folder"
   },
   "history_back": {
-    "message": "History back"
+    "message": "Go back"
   },
   "default_folder_home": {
     "message": "Go to default folder"
   },
   "incognito_access_note": {
-    "message": "You must allow the extension to run in private mode"
+    "message": "Allow StartGrid to run in incognito mode before using this action."
   },
   "notice_host_permissions": {
-    "message": "To create website thumbnails, permission from the user is required for the extension to access websites"
+    "message": "Creating website thumbnails requires permission to access the selected websites."
   },
   "learn_more": {
     "message": "Learn more"
@@ -756,7 +762,7 @@
     "message": "Why use this permission?"
   },
   "host_permissions_info": {
-    "message": "<p>This permission is necessary for generating website screenshots. The extension does not collect, track, or modify your data on websites. The only modification that occurs after opening a separate window with the website is hiding the scroll bar on the site before generating the screenshot (to make the screenshot as scroll-bar-free as possible). The extension code is available on <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. If you are concerned about this permission, you can choose not to grant it, the extension will still function without it, but generating website screenshots for bookmarks will not be available.</p><p>This permission will be requested when attempting to take a website screenshot (if it is disabled). You can also manage this right in the browser settings by opening a window with detailed information about the extension.</p>"
+    "message": "<p>StartGrid needs website access only when it creates a screenshot for a bookmark thumbnail. It does not collect or track your browsing data. While capturing a screenshot, StartGrid temporarily hides the website scrollbar in a separate window.</p><p>You can decline this optional permission and use every feature except website screenshots. Chrome asks for access when you first create a website screenshot. You can change the permission later in Chrome's extension settings. The source code is available on <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a>.</p>"
   },
   "search_bookmarks": {
     "message": "Bookmarks"
@@ -815,10 +821,10 @@
   "search_engine_at_least_one": {
     "message": "At least one search engine must remain enabled."
   },
-  "keyboard_shortcuts_setting": { "message": "Hotkeys" },
+  "keyboard_shortcuts_setting": { "message": "Keyboard shortcuts" },
   "keyboard_shortcuts_description": { "message": "Configure keyboard shortcuts for actions on the StartGrid new tab page." },
   "keyboard_shortcuts_title": { "message": "Shortcut assignments" },
-  "keyboard_shortcuts_note": { "message": "Click a shortcut and press a new key combination. Escape cancels recording; Backspace or Delete clears it. Shortcuts work only on the StartGrid page." },
+  "keyboard_shortcuts_note": { "message": "Select a shortcut and press the new key combination. Press Escape to cancel. Press Backspace or Delete to remove the shortcut. Shortcuts work only on the StartGrid page." },
   "shortcut_change": { "message": "Change shortcut" },
   "shortcut_not_set": { "message": "Not assigned" },
   "shortcut_clear": { "message": "Remove shortcut" },

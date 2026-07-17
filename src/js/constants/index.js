@@ -1,3 +1,5 @@
+import { getMessage } from '../i18n';
+
 export const FAVICON_GOOGLE = 'https://www.google.com/s2/favicons?sz=32&amp;domain_url=';
 
 export const SVG_LOADER =
@@ -33,25 +35,25 @@ export const MAX_FILE_SIZE_BYTES = 50 * (10 ** 6);
 export const CONTEXT_MENU = [
   {
     action: 'new_tab',
-    title: browser.i18n.getMessage('contextmenu_tab')
+    title: getMessage('contextmenu_tab')
   },
   {
     action: 'new_window',
-    title: browser.i18n.getMessage('contextmenu_window')
+    title: getMessage('contextmenu_window')
   },
   {
     action: 'new_window_incognito',
-    title: browser.i18n.getMessage('contextmenu_incognito'),
+    title: getMessage('contextmenu_incognito'),
     isBookmark: true
   },
   {
     action: 'open_all',
-    title: browser.i18n.getMessage('contextmenu_open_all'),
+    title: getMessage('contextmenu_open_all'),
     isFolder: true
   },
   {
     action: 'open_all_window',
-    title: browser.i18n.getMessage('contextmenu_open_all_window'),
+    title: getMessage('contextmenu_open_all_window'),
     isFolder: true
   },
   {
@@ -59,13 +61,13 @@ export const CONTEXT_MENU = [
   },
   {
     action: 'copy_link',
-    title: browser.i18n.getMessage('contextmenu_copy_link'),
+    title: getMessage('contextmenu_copy_link'),
     icon: `<svg height="24" width="24" fill="currentColor"><use xlink:href="/img/symbol.svg#copy_outline"/></svg>`,
     isBookmark: true
   },
   {
     action: 'edit',
-    title: browser.i18n.getMessage('contextmenu_edit'),
+    title: getMessage('contextmenu_edit'),
     icon: '<svg height="24" width="24" fill="currentColor"><use xlink:href="/img/symbol.svg#edit_outline"/></svg>'
   },
   {
@@ -73,7 +75,7 @@ export const CONTEXT_MENU = [
   },
   {
     action: 'remove',
-    title: browser.i18n.getMessage('contextmenu_remove'),
+    title: getMessage('contextmenu_remove'),
     icon: '<svg height="24" width="24" fill="currentColor"><use xlink:href="/img/symbol.svg#delete_outline"/></svg>'
   }
 ];

@@ -1,4 +1,5 @@
 import { $createElement } from '../utils';
+import { getMessage } from '../i18n';
 import Toast from './toast';
 import {
   DEFAULT_KEYBOARD_SHORTCUTS,
@@ -9,7 +10,7 @@ import {
   shortcutFromEvent
 } from '../keyboardShortcuts';
 
-const message = key => browser.i18n.getMessage(key);
+const message = key => getMessage(key);
 
 export default function initKeyboardShortcutSettings({ container, settings }) {
   let recordingAction = null;

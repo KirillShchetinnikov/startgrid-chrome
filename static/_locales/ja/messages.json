@@ -1,0 +1,1005 @@
+{
+  "ext_name": {
+    "message": "StartGrid"
+  },
+  "ext_desc": {
+    "message": "ビジュアルブックマーク、フォルダー、検索、サムネイル、テーマ、オプションの同期機能を備えたカスタマイズ可能な新しいタブ。"
+  },
+  "default_title": {
+    "message": "StartGrid"
+  },
+  "language": {
+    "message": "言語"
+  },
+  "language_browser": {
+    "message": "ブラウザ言語を使用する"
+  },
+  "color_theme": {
+    "message": "カラーテーマ"
+  },
+  "dark_theme": {
+    "message": "暗い"
+  },
+  "light_theme": {
+    "message": "ライト"
+  },
+  "os_theme": {
+    "message": "OSのテーマ"
+  },
+  "placeholder_input_search": {
+    "message": "$engine$ で検索",
+    "placeholders": {
+      "engine": {
+        "content": "$1"
+      }
+    }
+  },
+  "placeholder_input_search_bookmarks": {
+    "message": "ブックマーク"
+  },
+  "search_browser_default": {
+    "message": "ブラウザ検索エンジン"
+  },
+  "placeholder_input_title": {
+    "message": "ブックマークのタイトルを入力してください"
+  },
+  "label_title": {
+    "message": "タイトル"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "label_folder": {
+    "message": "フォルダ"
+  },
+  "thumbnail_source": {
+    "message": "サムネイルソース"
+  },
+  "thumbnail_actions": {
+    "message": "サムネイルのアクション"
+  },
+  "thumbnail_source_local": {
+    "message": "ローカルストレージ"
+  },
+  "thumbnail_source_site": {
+    "message": "ウェブサイトから作成する"
+  },
+  "thumbnail_source_url": {
+    "message": "URLから"
+  },
+  "thumbnail_source_favicon": {
+    "message": "ウェブサイトのファビコン (デフォルト)"
+  },
+  "favicon_download_preference": {
+    "message": "ファビコンのソース"
+  },
+  "favicon_download_inherit": {
+    "message": "グローバル設定を使用する"
+  },
+  "favicon_download_site": {
+    "message": "ウェブサイトからダウンロード"
+  },
+  "favicon_download_chrome": {
+    "message": "Chrome キャッシュを使用する"
+  },
+  "favicon_size_individual": {
+    "message": "個々のサムネイル画像のサイズ"
+  },
+  "favicon_size_individual_placeholder": {
+    "message": "32"
+  },
+  "favicon_size_individual_note": {
+    "message": "グローバル サムネイル画像サイズを使用するには、空のままにしておきます。"
+  },
+  "download_favicons_by_default": {
+    "message": "デフォルトで Web サイトからファビコンをダウンロードする"
+  },
+  "download_favicons_by_default_note": {
+    "message": "ファビコンのサムネイルがローカルに見つからない場合は、スタート ページが開いたときにバックグラウンドでダウンロードします。"
+  },
+  "favicon_size": {
+    "message": "サムネイル画像のサイズ"
+  },
+  "favicon_size_note": {
+    "message": "すべてのサムネイル タイプのデフォルトの画像サイズ。個々のタイルの設定が優先されます。"
+  },
+  "thumbnail_url": {
+    "message": "サムネイルURL"
+  },
+  "thumbnail_url_note": {
+    "message": "画像はローカルにキャッシュされ、定期的に更新がチェックされます。"
+  },
+  "notice_thumbnail_url_failed": {
+    "message": "URLからのサムネイルのダウンロードに失敗しました"
+  },
+  "url_field_tip": {
+    "message": "URL を入力するか、このフィールドを空のままにしてフォルダーを作成します。"
+  },
+  "btn_close": {
+    "message": "キャンセル"
+  },
+  "btn_save": {
+    "message": "保存"
+  },
+  "btn_back": {
+    "message": "終わり"
+  },
+  "back_to_main": {
+    "message": "ブックマークに戻る"
+  },
+  "btn_apply": {
+    "message": "適用する"
+  },
+  "contextmenu_tab": {
+    "message": "新しいタブで開く"
+  },
+  "contextmenu_window": {
+    "message": "新しいウィンドウで開きます"
+  },
+  "contextmenu_open_all": {
+    "message": "すべて開く"
+  },
+  "contextmenu_open_all_window": {
+    "message": "すべて新しいウィンドウで開きます"
+  },
+  "contextmenu_incognito": {
+    "message": "シークレットモードで開く"
+  },
+  "contextmenu_copy_link": {
+    "message": "リンクアドレスをコピーする"
+  },
+  "contextmenu_edit": {
+    "message": "編集"
+  },
+  "contextmenu_capture": {
+    "message": "サムネイルを更新"
+  },
+  "contextmenu_upload": {
+    "message": "パソコンからアップロードする"
+  },
+  "contextmenu_upload_paste": {
+    "message": "クリップボードからアップロード"
+  },
+  "contextmenu_remove": {
+    "message": "取り除く"
+  },
+  "confirm_delete_image": {
+    "message": "この画像を削除しますか?"
+  },
+  "confirm_delete_images": {
+    "message": "本気ですか？ローカルのサムネイルはすべて削除されます。"
+  },
+  "confirm_clear_local_cache": {
+    "message": "本気ですか？一時的なローカル データはすべて削除されます。設定とローカルイメージは保存されます。"
+  },
+  "confirm_delete_bookmark": {
+    "message": "このブックマークを削除しますか?"
+  },
+  "confirm_delete_folder": {
+    "message": "このフォルダとその中にあるものをすべて削除しますか?"
+  },
+  "confirm_restore_default_settings": {
+    "message": "ローカル設定のみをデフォルトにリセットし、同期を無効にしますか?サーバー上の同期データは保持されます。"
+  },
+  "confirm_clear_sync_settings": {
+    "message": "同期された設定をサーバーから削除し、同期を無効にしますか?ローカル設定、画像、キャッシュは保存されます。"
+  },
+  "confirm_sync_remote_settings": {
+    "message": "同期された設定はすでに存在します。\n現在のローカル設定を同期されたバージョンに置き換えますか?"
+  },
+  "notice_image_removed": {
+    "message": "画像が削除されました"
+  },
+  "notice_thumb_image_updated": {
+    "message": "ブックマークのサムネイルが更新されました"
+  },
+  "notice_bookmark_exist": {
+    "message": "ブックマークはすでに存在します"
+  },
+  "notice_bookmark_created": {
+    "message": "ブックマークが作成されました"
+  },
+  "notice_bookmark_updated": {
+    "message": "ブックマークが更新されました"
+  },
+  "notice_bookmark_removed": {
+    "message": "ブックマーク「<span data-title>$title$</span>」を削除しました",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_folder_removed": {
+    "message": "フォルダ「<span data-title>$title$</span>」を削除しました",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "notice_selected_bookmarks_removed": {
+    "message": "選択したブックマークが削除されました"
+  },
+  "notice_images_removed": {
+    "message": "すべてのローカルサムネイルが削除されました"
+  },
+  "notice_local_cache_cleared": {
+    "message": "ローカルキャッシュがクリアされました"
+  },
+  "notice_cant_find_id": {
+    "message": "フォルダーが見つかりません。この Chrome プロファイルでは利用できない可能性があります。"
+  },
+  "notice_reset_default_settings": {
+    "message": "ローカル設定がリセットされます。同期が無効になっています"
+  },
+  "notice_sync_settings_cleared": {
+    "message": "同期されたサーバー データが削除されました。同期が無効になっています"
+  },
+  "notice_bg_image_updated": {
+    "message": "背景を更新しました"
+  },
+  "notice_thumbnails_update_complete": {
+    "message": "サムネイル更新完了"
+  },
+  "notice_link_copied": {
+    "message": "リンクがコピーされました"
+  },
+  "alert_file_type_fail_type": {
+    "message": "サポートされていないファイル形式です\n許可されるファイルタイプ: $type$",
+    "placeholders": {
+      "type": {
+        "content": "$1"
+      }
+    }
+  },
+  "alert_file_type_fail_size": {
+    "message": "ファイルが大きすぎます。最大サイズ: $filesize$ MB",
+    "placeholders": {
+      "filesize": {
+        "content": "$1"
+      }
+    }
+  },
+  "not_found_text": {
+    "message": "フォルダーが見つかりません。移動または削除されたか、ブックマークがこのデバイスで同期されていない可能性があります。"
+  },
+  "not_found_link_text": {
+    "message": "ブックマークバー"
+  },
+  "add_bookmark": {
+    "message": "ブックマークに追加"
+  },
+  "save_to_current_folder": {
+    "message": "現在のフォルダーに保存"
+  },
+  "edit_bookmark": {
+    "message": "ブックマークを編集する"
+  },
+  "options": {
+    "message": "設定"
+  },
+  "quick_display_settings": {
+    "message": "クイック外観設定"
+  },
+  "quick_display_settings_description": {
+    "message": "変更はすぐに適用されます"
+  },
+  "more_settings": {
+    "message": "すべての設定"
+  },
+  "bookmark_appearance_setting": {
+    "message": "ブックマーク"
+  },
+  "page_appearance_setting": {
+    "message": "ホームページ"
+  },
+  "bookmark_behavior_setting": {
+    "message": "行動"
+  },
+  "thumbnails_setting": {
+    "message": "サムネイル"
+  },
+  "thumbnails_setting_description": {
+    "message": "このセクションの設定は、サポートされているすべてのサムネイル ソース (Web サイトのスクリーンショット、画像 URL、ファビコン) に適用されます。ローカルにアップロードされた画像は自動的に置き換えられることはありません。"
+  },
+  "data_privacy_setting": {
+    "message": "データとプライバシー"
+  },
+  "dial_width": {
+    "message": "グリッド幅"
+  },
+  "dial_gap": {
+    "message": "タイル間の距離"
+  },
+  "dial_radius": {
+    "message": "タイルの角の半径"
+  },
+  "dial_aspect_ratio": {
+    "message": "タイルの比率"
+  },
+  "dial_aspect_ratio_square": {
+    "message": "正方形 (1:1)"
+  },
+  "dial_aspect_ratio_standard": {
+    "message": "標準 (4:3)"
+  },
+  "dial_aspect_ratio_photo": {
+    "message": "写真(3:2)"
+  },
+  "dial_aspect_ratio_wide": {
+    "message": "ワイド(16:9)"
+  },
+  "dial_shadow": {
+    "message": "タイルの影の強度"
+  },
+  "dial_hover_lift": {
+    "message": "ホバー時のタイルリフト"
+  },
+  "dial_background_color": {
+    "message": "タイルの背景色"
+  },
+  "dial_background_color_note": {
+    "message": "カスタム色が選択されるまで、現在のテーマの色が使用されます。"
+  },
+  "dial_background_opacity": {
+    "message": "タイルの背景の不透明度"
+  },
+  "dial_background_opacity_note": {
+    "message": "0% は完全に透明です。 100% は不透明です。"
+  },
+  "reset_tile_background_color": {
+    "message": "テーマカラーを使用する"
+  },
+  "number_of_columns": {
+    "message": "列数"
+  },
+  "vertical_center": {
+    "message": "垂直センタリング"
+  },
+  "disable_main_page_scroll": {
+    "message": "メインページのスクロールを無効にする"
+  },
+  "disable_main_page_scroll_description": {
+    "message": "スクロールバーを非表示にし、ブックマークの検索結果以外のスクロールを防ぎます。"
+  },
+  "default_folder_id": {
+    "message": "デフォルトのフォルダー"
+  },
+  "default_folder_sync_note": {
+    "message": "同期が有効になっています。この設定は Chrome Sync に保存されます。"
+  },
+  "default_folder_local_note": {
+    "message": "同期は無効になっています。この設定はこのデバイスに保存されます。"
+  },
+  "background": {
+    "message": "背景"
+  },
+  "color": {
+    "message": "色"
+  },
+  "background_noimage": {
+    "message": "背景画像なし"
+  },
+  "background_noimage_text": {
+    "message": "テーマの背景色を使用する"
+  },
+  "background_bing": {
+    "message": "今日の Bing 画像"
+  },
+  "background_bing_text": {
+    "message": "Bing のホームページに掲載されている毎日の写真を StartGrid の背景として使用します。"
+  },
+  "bing_permission_toast": {
+    "message": "Bing の今日の画像を使用するには、bing.com へのアクセスが必要です。<a href=\"/options.html\">設定ページ</a>で選択し、権限リクエストを確認してください。"
+  },
+  "background_external": {
+    "message": "URLからの画像"
+  },
+  "background_local": {
+    "message": "コンピューターからの画像またはビデオ"
+  },
+  "background_local_video_note": {
+    "message": "ローカルの背景には画像または MP4 ビデオを使用できます。ビデオはミュートで再生され、自動的にループします。"
+  },
+  "background_entrance_effect": {
+    "message": "背景の外観"
+  },
+  "background_entrance_none": {
+    "message": "アニメーションなし"
+  },
+  "background_entrance_zoom": {
+    "message": "ズームアウト"
+  },
+  "background_entrance_blur": {
+    "message": "ブラーからのフェードイン"
+  },
+  "background_entrance_slide": {
+    "message": "下からスライドさせて差し込みます"
+  },
+  "background_entrance_duration": {
+    "message": "背景の出現時間"
+  },
+  "snow_mode": {
+    "message": "降雪"
+  },
+  "snow_mode_always": {
+    "message": "いつも"
+  },
+  "snow_mode_winter": {
+    "message": "冬期 - 12月1日から2月末日まで"
+  },
+  "snow_mode_off": {
+    "message": "オフ"
+  },
+  "page_cascade_enabled": {
+    "message": "ページ開始時にタイルをアニメーション化する"
+  },
+  "page_cascade_mode": {
+    "message": "カスケード順序"
+  },
+  "page_cascade_mode_items": {
+    "message": "一度に 1 つのブックマーク"
+  },
+  "page_cascade_mode_rows": {
+    "message": "一度に 1 行ずつ"
+  },
+  "page_cascade_duration": {
+    "message": "カスケード期間"
+  },
+  "choose_file": {
+    "message": "画像またはビデオを選択してください"
+  },
+  "show_settings_icon": {
+    "message": "設定アイコンを表示する"
+  },
+  "show_quick_settings_icon": {
+    "message": "クイック設定アイコンを表示する"
+  },
+  "show_extension_icon": {
+    "message": "StartGrid アイコンを表示する"
+  },
+  "show_toolbar": {
+    "message": "検索バーとフォルダーピッカーを表示する"
+  },
+  "show_create_column": {
+    "message": "ブックマークの追加タイルを表示する"
+  },
+  "show_bookmark_title": {
+    "message": "ブックマークのタイトルを表示"
+  },
+  "show_favicon": {
+    "message": "タイトルの横にファビコンを表示します"
+  },
+  "open_bookmarks_newtab": {
+    "message": "新しいタブでブックマークを開く"
+  },
+  "open_search_newtab": {
+    "message": "新しいタブで検索を開く"
+  },
+  "show_contextmenu_item": {
+    "message": "コンテキストメニューに表示"
+  },
+  "drag_and_drop": {
+    "message": "ドラッグアンドドロップを有効にする"
+  },
+  "auto_generate_thumbnail": {
+    "message": "新しいブックマークにファビコンを自動的に追加します"
+  },
+  "enable_sync": {
+    "message": "同期を有効にする"
+  },
+  "clear_background_locals": {
+    "message": "ローカルに保存されているすべてのサムネイル画像を削除します"
+  },
+  "clear_local_cache": {
+    "message": "ローカルキャッシュをクリアする"
+  },
+  "reset_local_default": {
+    "message": "設定をデフォルト値にリセットする"
+  },
+  "reset_local_default_description": {
+    "message": "ローカル設定のみをリセットし、同期を無効にします。同期されたサーバーデータは削除されません。"
+  },
+  "reset_quick_settings": {
+    "message": "クイック設定をリセットする"
+  },
+  "reset_quick_settings_description": {
+    "message": "このメニューに表示される設定のみを拡張機能のデフォルトに戻します。"
+  },
+  "confirm_reset_quick_settings": {
+    "message": "クイック設定を拡張機能のデフォルトにリセットしますか?"
+  },
+  "reset_sync_text": {
+    "message": "同期された設定を Chrome 同期から削除する"
+  },
+  "reset_sync_description": {
+    "message": "同期された設定のみをサーバーから削除し、同期を無効にします。ローカル設定、画像、キャッシュは保存されます。"
+  },
+  "version": {
+    "message": "バージョン"
+  },
+  "thumbnails_creation": {
+    "message": "サムネイルの生成: $start$ / $total$",
+    "placeholders": {
+      "start": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "thumbnails_update_warn": {
+    "message": "各サムネイルは、選択したソース (Web サイト、画像 URL、またはファビコン) から更新されます。ローカルにアップロードされた画像は保存されます。更新するとパフォーマンスに影響する可能性があります。"
+  },
+  "thumbnails_update_button": {
+    "message": "すべてのサムネイルを更新する"
+  },
+  "thumbnails_auto_refresh": {
+    "message": "サムネイルを自動的に更新する"
+  },
+  "thumbnails_auto_refresh_note": {
+    "message": "ホームページを開いたときに古いサムネイルをチェックして更新します"
+  },
+  "thumbnails_auto_refresh_interval": {
+    "message": "自動更新間隔"
+  },
+  "thumbnails_auto_refresh_interval_note": {
+    "message": "サムネイルの更新間隔は 1 時間から 7 日までです"
+  },
+  "hours_short": {
+    "message": "h"
+  },
+  "folder_preview": {
+    "message": "フォルダー上にサイトのサムネイルを表示する"
+  },
+  "folder_preview_description": {
+    "message": "フォルダー アイコンやカスタム イメージの代わりに、フォルダー内のランダムに選択された 4 つのサイトからのサムネイルを表示します。"
+  },
+  "backup_settings": {
+    "message": "設定のインポートまたはエクスポート"
+  },
+  "backup_settings_description": {
+    "message": "拡張機能の設定のみをバックアップします。しおりや画像は付属しません。"
+  },
+  "import": {
+    "message": "輸入"
+  },
+  "export": {
+    "message": "輸出"
+  },
+  "import_settings_success": {
+    "message": "インポートされた設定"
+  },
+  "import_settings_failed": {
+    "message": "設定ファイルを読み取れませんでした"
+  },
+  "without_confirmation": {
+    "message": "確認せずに削除する"
+  },
+  "toggle_clipboard_access": {
+    "message": "クリップボードへのアクセスを許可する"
+  },
+  "toggle_clipboard_access_description": {
+    "message": "拡張機能がクリップボードからデータを読み取ってブックマークのサムネイルをアップロードできるようにします。 「クリップボードからアップロード」アクションがブックマーク編集ウィンドウで使用できるようになります。この権限が心配な場合は、有効にしないでください。"
+  },
+  "error_input_required": {
+    "message": "必須フィールド"
+  },
+  "error_input_url": {
+    "message": "URLが無効です"
+  },
+  "thumbnails_update_delay": {
+    "message": "サムネイルをキャプチャする前に待ちます"
+  },
+  "thumbnails_update_delay_note": {
+    "message": "読み込みが完了するまでにより多くの時間を必要とする Web サイトの遅延を増やします。"
+  },
+  "close_tab_after_adding_bookmark": {
+    "message": "ブックマークに追加したらタブを閉じます"
+  },
+  "close_tab_after_adding_bookmark_note": {
+    "message": "ブックマークがコンテキスト メニューから追加された場合にのみ適用されます。"
+  },
+  "empty_search": {
+    "message": "ブックマークが見つかりませんでした"
+  },
+  "search_failed": {
+    "message": "ブックマークを検索できませんでした。もう一度試してください。"
+  },
+  "sync_quota_exceeded": {
+    "message": "Chrome Sync のストレージ制限を超えました ($used$/$limit$)。最新の変更は同期できず、このデバイスに残っています。同期設定を減らします。",
+    "placeholders": {
+      "used": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
+    }
+  },
+  "delete_thumbnail": {
+    "message": "ローカルストレージから削除"
+  },
+  "show_back_column": {
+    "message": "フォルダー内の背面タイルを表示する"
+  },
+  "search_engine": {
+    "message": "デフォルトの検索エンジン"
+  },
+  "search_results_display": {
+    "message": "検索結果をブックマークする"
+  },
+  "search_results_display_flat": {
+    "message": "タイルのみ"
+  },
+  "search_results_display_folder_name": {
+    "message": "タイル上の親フォルダー"
+  },
+  "search_results_display_folder_path": {
+    "message": "タイル上のフォルダーの完全なパス"
+  },
+  "search_results_display_grouped": {
+    "message": "フォルダごとにグループ化する"
+  },
+  "search_results_root_folder": {
+    "message": "ルートブックマークフォルダー"
+  },
+  "move_to_start": {
+    "message": "新しいブックマークをフォルダの先頭に移動します"
+  },
+  "bookmarks_sorting_type": {
+    "message": "フォルダーの並べ替え"
+  },
+  "home_sort_by": {
+    "message": "ホームページのタイルの並べ替え"
+  },
+  "manual_sorting": {
+    "message": "手動ソート"
+  },
+  "sort_by_usage": {
+    "message": "使用頻度"
+  },
+  "sort_direction": {
+    "message": "ソート方向"
+  },
+  "newest_first": {
+    "message": "降順 — 新しい順"
+  },
+  "oldest_first": {
+    "message": "昇順 — 最も古いものから順"
+  },
+  "alphabet_descending": {
+    "message": "降順 — Z から A"
+  },
+  "alphabet_ascending": {
+    "message": "昇順 - A から Z"
+  },
+  "usage_tiebreaker": {
+    "message": "使用量が同じ場合は次の基準で並べ替えます"
+  },
+  "show_home_folders": {
+    "message": "ホーム ページにフォルダーを表示する"
+  },
+  "show_usage_count": {
+    "message": "ブックマークの使用数を表示する"
+  },
+  "usage_count_label": {
+    "message": "オープン数: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "folders_together": {
+    "message": "ブックマークと一緒にフォルダーを分類する"
+  },
+  "navigation_sort_by": {
+    "message": "フォルダ内の並び替えと検索"
+  },
+  "browser_default_order": {
+    "message": "デフォルトの順序"
+  },
+  "sort_by": {
+    "message": "並べ替え"
+  },
+  "sort_by_date": {
+    "message": "日付"
+  },
+  "sort_by_alphabet": {
+    "message": "アルファベット順"
+  },
+  "not_sorting": {
+    "message": "ソートされていない"
+  },
+  "folders_on_top": {
+    "message": "上部のフォルダー"
+  },
+  "folders_at_the_bottom": {
+    "message": "下部のフォルダー"
+  },
+  "bookmarks_sorting_warning": {
+    "message": "自動並べ替えが有効になっている間は、ドラッグ アンド ドロップによる順序付けは使用できません。"
+  },
+  "search_autofocus": {
+    "message": "検索バーに注目してください"
+  },
+  "confirm_delete_selected_bookmarks": {
+    "message": "選択したブックマークを削除しますか?"
+  },
+  "button_action_move": {
+    "message": "フォルダに移動"
+  },
+  "parent_folder": {
+    "message": "親フォルダー"
+  },
+  "new_bookmark": {
+    "message": "新しいブックマーク"
+  },
+  "modal_dismiss": {
+    "message": "ダイアログを閉じる"
+  },
+  "remove_thumbnail": {
+    "message": "サムネイルを削除する"
+  },
+  "thumbnails_update": {
+    "message": "サムネイルを更新する"
+  },
+  "bookmark_context": {
+    "message": "ブックマークアクション"
+  },
+  "clear_search": {
+    "message": "検索をクリア"
+  },
+  "search_suggestions_permission_tooltip": {
+    "message": "選択した提案サービスと Google フォールバックへのアクセスを許可します"
+  },
+  "search": {
+    "message": "検索"
+  },
+  "toggle_selected_bookmarks_popup": {
+    "message": "選択したブックマーク アクションを表示または非表示にする"
+  },
+  "toggle_search_popup": {
+    "message": "検索オプションの表示または非表示"
+  },
+  "open_selected": {
+    "message": "選択したものを開く"
+  },
+  "delete_selected": {
+    "message": "選択したものを削除"
+  },
+  "select_folder": {
+    "message": "フォルダーを選択してください"
+  },
+  "show_last_opened_folder": {
+    "message": "最後に開いたフォルダーを表示"
+  },
+  "history_back": {
+    "message": "戻る"
+  },
+  "default_folder_home": {
+    "message": "デフォルトのフォルダーに移動します"
+  },
+  "incognito_access_note": {
+    "message": "このアクションを使用する前に、StartGrid がシークレット モードで実行できるようにしてください。"
+  },
+  "notice_host_permissions": {
+    "message": "Web サイトのサムネイルを作成するには、選択した Web サイトへのアクセス許可が必要です。"
+  },
+  "learn_more": {
+    "message": "もっと詳しく知る"
+  },
+  "why_use_host_permissions": {
+    "message": "なぜこの許可を使用するのでしょうか?"
+  },
+  "host_permissions_info": {
+    "message": "<p>StartGrid は、ブックマークのサムネイルのスクリーンショットを作成する場合にのみ Web サイトへのアクセスを必要とします。閲覧データを収集または追跡することはありません。スクリーンショットをキャプチャしている間、StartGrid は Web サイトのスクロールバーを別のウィンドウで一時的に非表示にします。</p><p>このオプションの許可を拒否して、Web サイトのスクリーンショット以外のすべての機能を使用することができます。 Chrome は、Web サイトのスクリーンショットを最初に作成するときにアクセスを要求します。権限は後で Chrome の拡張機能設定で変更できます。ソース コードは、<a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a> で入手できます。</p>"
+  },
+  "search_bookmarks": {
+    "message": "ブックマーク"
+  },
+  "search_settings": {
+    "message": "検索"
+  },
+  "search_settings_description": {
+    "message": "デフォルトの検索エンジンを選択し、検索メニューに表示するエンジンを構成します。"
+  },
+  "search_engines": {
+    "message": "検索エンジン"
+  },
+  "search_engines_description": {
+    "message": "検索エンジンを有効化、構成、並べ替え、または削除します。リストには合計で最大 20 個のエンジンを含めることができます。"
+  },
+  "search_engine_enabled": {
+    "message": "検索エンジンを有効にする"
+  },
+  "search_engine_name": {
+    "message": "検索エンジン名"
+  },
+  "search_engine_url": {
+    "message": "検索URL"
+  },
+  "search_engine_url_note": {
+    "message": "エンコードされたクエリを挿入する必要がある場所には、{query} を使用します。カスタム提案 URL はオプションです。空の場合は、Google の提案が使用されます。"
+  },
+  "search_suggestion_url": {
+    "message": "提案の URL (オプション)"
+  },
+  "search_suggestion_invalid_url": {
+    "message": "{query} を含む有効な HTTP または HTTPS 提案 URL を入力するか、フィールドを空のままにしてください。"
+  },
+  "add_search_engine": {
+    "message": "検索エンジンを追加する"
+  },
+  "remove_search_engine": {
+    "message": "検索エンジンを削除する"
+  },
+  "custom_search_engine": {
+    "message": "カスタム検索エンジン"
+  },
+  "move_search_engine_up": {
+    "message": "上に移動"
+  },
+  "move_search_engine_down": {
+    "message": "下に移動"
+  },
+  "search_engine_invalid_url": {
+    "message": "{query} を含む有効な HTTP または HTTPS URL を入力します。"
+  },
+  "search_engine_name_required": {
+    "message": "検索エンジン名を入力します。"
+  },
+  "search_engine_at_least_one": {
+    "message": "少なくとも 1 つの検索エンジンを有効にしておく必要があります。"
+  },
+  "keyboard_shortcuts_setting": {
+    "message": "キーボードショートカット"
+  },
+  "keyboard_shortcuts_description": {
+    "message": "StartGrid の新しいタブ ページでアクションのキーボード ショートカットを構成します。"
+  },
+  "keyboard_shortcuts_title": {
+    "message": "ショートカットの割り当て"
+  },
+  "keyboard_shortcuts_note": {
+    "message": "ショートカットを選択し、新しいキーの組み合わせを押します。キャンセルするには Esc キーを押します。ショートカットを削除するには Backspace キーまたは Delete キーを押します。ショートカットは StartGrid ページでのみ機能します。"
+  },
+  "shortcut_change": {
+    "message": "ショートカットを変更する"
+  },
+  "shortcut_not_set": {
+    "message": "割り当てられていません"
+  },
+  "shortcut_clear": {
+    "message": "ショートカットを削除する"
+  },
+  "shortcut_reset": {
+    "message": "デフォルトに戻す"
+  },
+  "shortcut_press_keys": {
+    "message": "ショートカットを押して…"
+  },
+  "shortcut_conflict": {
+    "message": "このショートカットはすでに別のアクションに割り当てられています。"
+  },
+  "shortcut_invalid": {
+    "message": "予約されていないキーを押します。エスケープやタブは割り当てられません。"
+  },
+  "shortcut_modifier_invalid": {
+    "message": "複数のブックマークを選択するには、Ctrl、Alt、Shift、または Meta を割り当てます。"
+  },
+  "shortcut_focus_search": {
+    "message": "フォーカス検索"
+  },
+  "shortcut_add_bookmark": {
+    "message": "ブックマークを追加する"
+  },
+  "shortcut_toggle_quick_settings": {
+    "message": "クイック設定を切り替える"
+  },
+  "shortcut_open_settings": {
+    "message": "完全な設定を開く"
+  },
+  "shortcut_go_home": {
+    "message": "デフォルトのフォルダーに移動します"
+  },
+  "shortcut_go_back": {
+    "message": "1 つ前のフォルダーに戻ります"
+  },
+  "shortcut_select_multiple_bookmarks": {
+    "message": "複数のブックマークを選択する"
+  },
+  "shortcut_select_all_bookmarks": {
+    "message": "すべてのブックマークを選択"
+  },
+  "shortcut_update_thumbnails": {
+    "message": "すべてのサムネイルを更新する"
+  },
+  "settings_appearance": {
+    "message": "外観"
+  },
+  "settings_controls": {
+    "message": "コントロール"
+  },
+  "settings_group_page": {
+    "message": "ページと背景"
+  },
+  "settings_group_animations": {
+    "message": "アニメーションとエフェクト"
+  },
+  "settings_group_grid": {
+    "message": "タイルグリッド"
+  },
+  "settings_group_tile_style": {
+    "message": "タイルの外観"
+  },
+  "settings_group_tile_content": {
+    "message": "タイルのコンテンツ"
+  },
+  "settings_group_start": {
+    "message": "スタートページ"
+  },
+  "settings_group_sorting": {
+    "message": "仕分け"
+  },
+  "settings_group_navigation": {
+    "message": "ナビゲーション"
+  },
+  "settings_group_opening": {
+    "message": "開いて追加する"
+  },
+  "settings_group_search_behavior": {
+    "message": "検索動作"
+  },
+  "settings_group_thumbnail_generation": {
+    "message": "サムネイルとファビコン"
+  },
+  "settings_group_auto_refresh": {
+    "message": "自動更新"
+  },
+  "settings_group_thumbnail_storage": {
+    "message": "ローカル画像"
+  },
+  "settings_group_interface": {
+    "message": "インターフェースコントロール"
+  },
+  "settings_group_sync": {
+    "message": "同期"
+  },
+  "settings_group_backup": {
+    "message": "バックアップ"
+  },
+  "settings_group_storage": {
+    "message": "ローカルデータ"
+  },
+  "settings_group_permissions": {
+    "message": "権限"
+  },
+  "settings_group_reset": {
+    "message": "設定をリセットする"
+  },
+  "settings_group_reset_description": {
+    "message": "これらの操作には確認が必要であり、保存された設定を変更または削除する可能性があります。"
+  },
+  "settings_mobile_section": {
+    "message": "セクション"
+  },
+  "settings_search_label": {
+    "message": "検索設定"
+  },
+  "settings_search_placeholder": {
+    "message": "設定を探す"
+  },
+  "settings_autosave": {
+    "message": "変更は自動的に保存されます"
+  },
+  "settings_no_results": {
+    "message": "設定が見つかりません"
+  },
+  "undo": {
+    "message": "元に戻す"
+  }
+}

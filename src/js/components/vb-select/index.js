@@ -1,4 +1,5 @@
 import { $createElement } from '../../utils';
+import { getMessage } from '../../i18n';
 
 class VbSelectFolders extends HTMLElement {
   connectedCallback() {
@@ -6,7 +7,7 @@ class VbSelectFolders extends HTMLElement {
       id: this.selectId,
       name: 'folder',
       class: 'vb-select-folders form-control',
-      'aria-label': browser.i18n.getMessage('select_folder')
+      'aria-label': getMessage('select_folder')
     }, $createElement('button',
       {},
       $createElement('selectedcontent')

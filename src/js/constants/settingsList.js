@@ -1,3 +1,5 @@
+import { getMessage, LANGUAGE_OPTIONS } from '../i18n';
+
 const columns = Array.from({ length: 10 }, (_, index) => ({
   value: index + 1,
   title: index + 1
@@ -6,13 +8,13 @@ const columns = Array.from({ length: 10 }, (_, index) => ({
 const appearanceSettings = [
   {
     id: 'dial_columns',
-    title: browser.i18n.getMessage('number_of_columns'),
+    title: getMessage('number_of_columns'),
     type: 'select',
     options: columns
   },
   {
     id: 'dial_width',
-    title: browser.i18n.getMessage('dial_width'),
+    title: getMessage('dial_width'),
     type: 'range',
     min: 50,
     max: 99,
@@ -24,7 +26,7 @@ const appearanceSettings = [
   },
   {
     id: 'dial_gap',
-    title: browser.i18n.getMessage('dial_gap'),
+    title: getMessage('dial_gap'),
     type: 'range',
     min: 0,
     max: 40,
@@ -36,7 +38,7 @@ const appearanceSettings = [
   },
   {
     id: 'dial_radius',
-    title: browser.i18n.getMessage('dial_radius'),
+    title: getMessage('dial_radius'),
     type: 'range',
     min: 0,
     max: 40,
@@ -48,30 +50,30 @@ const appearanceSettings = [
   },
   {
     id: 'dial_aspect_ratio',
-    title: browser.i18n.getMessage('dial_aspect_ratio'),
+    title: getMessage('dial_aspect_ratio'),
     type: 'select',
     options: [
       {
         value: '1 / 1',
-        title: browser.i18n.getMessage('dial_aspect_ratio_square')
+        title: getMessage('dial_aspect_ratio_square')
       },
       {
         value: '4 / 3',
-        title: browser.i18n.getMessage('dial_aspect_ratio_standard')
+        title: getMessage('dial_aspect_ratio_standard')
       },
       {
         value: '3 / 2',
-        title: browser.i18n.getMessage('dial_aspect_ratio_photo')
+        title: getMessage('dial_aspect_ratio_photo')
       },
       {
         value: '16 / 9',
-        title: browser.i18n.getMessage('dial_aspect_ratio_wide')
+        title: getMessage('dial_aspect_ratio_wide')
       }
     ]
   },
   {
     id: 'dial_shadow',
-    title: browser.i18n.getMessage('dial_shadow'),
+    title: getMessage('dial_shadow'),
     type: 'range',
     min: 0,
     max: 30,
@@ -83,7 +85,7 @@ const appearanceSettings = [
   },
   {
     id: 'dial_hover_lift',
-    title: browser.i18n.getMessage('dial_hover_lift'),
+    title: getMessage('dial_hover_lift'),
     type: 'range',
     min: 0,
     max: 12,
@@ -95,15 +97,15 @@ const appearanceSettings = [
   },
   {
     id: 'dial_background_color',
-    title: browser.i18n.getMessage('dial_background_color'),
-    note: browser.i18n.getMessage('dial_background_color_note'),
-    resetText: browser.i18n.getMessage('reset_tile_background_color'),
+    title: getMessage('dial_background_color'),
+    note: getMessage('dial_background_color_note'),
+    resetText: getMessage('reset_tile_background_color'),
     type: 'color'
   },
   {
     id: 'dial_background_opacity',
-    title: browser.i18n.getMessage('dial_background_opacity'),
-    note: browser.i18n.getMessage('dial_background_opacity_note'),
+    title: getMessage('dial_background_opacity'),
+    note: getMessage('dial_background_opacity_note'),
     type: 'range',
     min: 0,
     max: 100,
@@ -115,80 +117,89 @@ const appearanceSettings = [
   },
   {
     id: 'vertical_center',
-    title: browser.i18n.getMessage('vertical_center'),
+    title: getMessage('vertical_center'),
     type: 'switch'
   },
   {
     id: 'show_create_column',
-    title: browser.i18n.getMessage('show_create_column'),
+    title: getMessage('show_create_column'),
     type: 'switch'
   },
   {
     id: 'show_back_column',
-    title: browser.i18n.getMessage('show_back_column'),
+    title: getMessage('show_back_column'),
     type: 'switch'
   },
   {
     id: 'show_bookmark_title',
-    title: browser.i18n.getMessage('show_bookmark_title'),
+    title: getMessage('show_bookmark_title'),
     type: 'switch'
   },
   {
     id: 'show_favicon',
-    title: browser.i18n.getMessage('show_favicon'),
+    title: getMessage('show_favicon'),
     type: 'switch'
   },
   {
     id: 'folder_preview',
-    title: browser.i18n.getMessage('folder_preview'),
-    note: browser.i18n.getMessage('folder_preview_description'),
+    title: getMessage('folder_preview'),
+    note: getMessage('folder_preview_description'),
     type: 'switch'
   }
 ];
 
 const legacySettings = [
   {
-    key: browser.i18n.getMessage('bookmark_appearance_setting'),
+    key: getMessage('bookmark_appearance_setting'),
     list: appearanceSettings
   },
   {
-    key: browser.i18n.getMessage('page_appearance_setting'),
+    key: getMessage('page_appearance_setting'),
     list: [
       {
+        id: 'language',
+        title: getMessage('language'),
+        type: 'select',
+        options: LANGUAGE_OPTIONS.map(option => ({
+          value: option.value,
+          title: option.title || getMessage(option.titleKey)
+        }))
+      },
+      {
         id: 'color_theme',
-        title: browser.i18n.getMessage('color_theme'),
+        title: getMessage('color_theme'),
         type: 'select',
         options: [
-          { value: 'dark', title: browser.i18n.getMessage('dark_theme') },
-          { value: 'light', title: browser.i18n.getMessage('light_theme') },
-          { value: 'os', title: browser.i18n.getMessage('os_theme') }
+          { value: 'dark', title: getMessage('dark_theme') },
+          { value: 'light', title: getMessage('light_theme') },
+          { value: 'os', title: getMessage('os_theme') }
         ]
       },
       {
         id: 'background_image',
-        title: browser.i18n.getMessage('background'),
+        title: getMessage('background'),
         type: 'select',
         options: [
-          { value: 'background_noimage', title: browser.i18n.getMessage('background_noimage') },
-          { value: 'background_external', title: browser.i18n.getMessage('background_external') },
-          { value: 'background_local', title: browser.i18n.getMessage('background_local') },
-          { value: 'background_bing', title: browser.i18n.getMessage('background_bing') }
+          { value: 'background_noimage', title: getMessage('background_noimage') },
+          { value: 'background_external', title: getMessage('background_external') },
+          { value: 'background_local', title: getMessage('background_local') },
+          { value: 'background_bing', title: getMessage('background_bing') }
         ]
       },
       {
         id: 'background_entrance_effect',
-        title: browser.i18n.getMessage('background_entrance_effect'),
+        title: getMessage('background_entrance_effect'),
         type: 'select',
         options: [
-          { value: 'none', title: browser.i18n.getMessage('background_entrance_none') },
-          { value: 'zoom', title: browser.i18n.getMessage('background_entrance_zoom') },
-          { value: 'blur', title: browser.i18n.getMessage('background_entrance_blur') },
-          { value: 'slide', title: browser.i18n.getMessage('background_entrance_slide') }
+          { value: 'none', title: getMessage('background_entrance_none') },
+          { value: 'zoom', title: getMessage('background_entrance_zoom') },
+          { value: 'blur', title: getMessage('background_entrance_blur') },
+          { value: 'slide', title: getMessage('background_entrance_slide') }
         ]
       },
       {
         id: 'background_entrance_duration',
-        title: browser.i18n.getMessage('background_entrance_duration'),
+        title: getMessage('background_entrance_duration'),
         type: 'range',
         min: 100,
         max: 3000,
@@ -200,31 +211,31 @@ const legacySettings = [
       },
       {
         id: 'snow_mode',
-        title: browser.i18n.getMessage('snow_mode'),
+        title: getMessage('snow_mode'),
         type: 'select',
         options: [
-          { value: 'always', title: browser.i18n.getMessage('snow_mode_always') },
-          { value: 'winter', title: browser.i18n.getMessage('snow_mode_winter') },
-          { value: 'off', title: browser.i18n.getMessage('snow_mode_off') }
+          { value: 'always', title: getMessage('snow_mode_always') },
+          { value: 'winter', title: getMessage('snow_mode_winter') },
+          { value: 'off', title: getMessage('snow_mode_off') }
         ]
       },
       {
         id: 'page_cascade_enabled',
-        title: browser.i18n.getMessage('page_cascade_enabled'),
+        title: getMessage('page_cascade_enabled'),
         type: 'switch'
       },
       {
         id: 'page_cascade_mode',
-        title: browser.i18n.getMessage('page_cascade_mode'),
+        title: getMessage('page_cascade_mode'),
         type: 'select',
         options: [
-          { value: 'items', title: browser.i18n.getMessage('page_cascade_mode_items') },
-          { value: 'rows', title: browser.i18n.getMessage('page_cascade_mode_rows') }
+          { value: 'items', title: getMessage('page_cascade_mode_items') },
+          { value: 'rows', title: getMessage('page_cascade_mode_rows') }
         ]
       },
       {
         id: 'page_cascade_duration',
-        title: browser.i18n.getMessage('page_cascade_duration'),
+        title: getMessage('page_cascade_duration'),
         type: 'range',
         min: 200,
         max: 1500,
@@ -236,43 +247,43 @@ const legacySettings = [
       },
       {
         id: 'show_toolbar',
-        title: browser.i18n.getMessage('show_toolbar'),
+        title: getMessage('show_toolbar'),
         type: 'switch'
       },
       {
         id: 'disable_main_page_scroll',
-        title: browser.i18n.getMessage('disable_main_page_scroll'),
-        note: browser.i18n.getMessage('disable_main_page_scroll_description'),
+        title: getMessage('disable_main_page_scroll'),
+        note: getMessage('disable_main_page_scroll_description'),
         type: 'switch'
       },
       {
         id: 'show_settings_icon',
-        title: browser.i18n.getMessage('show_settings_icon'),
+        title: getMessage('show_settings_icon'),
         type: 'switch'
       },
       {
         id: 'show_quick_settings_icon',
-        title: browser.i18n.getMessage('show_quick_settings_icon'),
+        title: getMessage('show_quick_settings_icon'),
         type: 'switch'
       },
       {
         id: 'show_extension_icon',
-        title: browser.i18n.getMessage('show_extension_icon'),
+        title: getMessage('show_extension_icon'),
         type: 'switch'
       },
       {
         group: [
           {
             id: 'default_folder_id',
-            title: browser.i18n.getMessage('default_folder_id'),
-            note: browser.i18n.getMessage('default_folder_sync_note'),
+            title: getMessage('default_folder_id'),
+            note: getMessage('default_folder_sync_note'),
             noteId: 'default_folder_storage_note',
             type: 'vb-select-folders',
             options: []
           },
           {
             id: 'show_last_opened_folder',
-            title: browser.i18n.getMessage('show_last_opened_folder'),
+            title: getMessage('show_last_opened_folder'),
             type: 'switch',
             data: {
               relationToggleId: 'default_folder_id',
@@ -285,53 +296,53 @@ const legacySettings = [
         group: [
           {
             id: 'drag_and_drop',
-            title: browser.i18n.getMessage('drag_and_drop'),
+            title: getMessage('drag_and_drop'),
             type: 'switch'
           },
           {
             id: 'home_sort_by',
-            title: browser.i18n.getMessage('home_sort_by'),
+            title: getMessage('home_sort_by'),
             type: 'select',
             options: [
-              { value: 'manual', title: browser.i18n.getMessage('manual_sorting') },
-              { value: 'date', title: browser.i18n.getMessage('sort_by_date') },
-              { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') },
-              { value: 'usage', title: browser.i18n.getMessage('sort_by_usage') }
+              { value: 'manual', title: getMessage('manual_sorting') },
+              { value: 'date', title: getMessage('sort_by_date') },
+              { value: 'alphabet', title: getMessage('sort_by_alphabet') },
+              { value: 'usage', title: getMessage('sort_by_usage') }
             ]
           },
           {
             id: 'home_sort_date_direction',
-            title: browser.i18n.getMessage('sort_direction'),
+            title: getMessage('sort_direction'),
             type: 'select',
             hidden: true,
             options: [
-              { value: 'desc', title: browser.i18n.getMessage('newest_first') },
-              { value: 'asc', title: browser.i18n.getMessage('oldest_first') }
+              { value: 'desc', title: getMessage('newest_first') },
+              { value: 'asc', title: getMessage('oldest_first') }
             ]
           },
           {
             id: 'home_sort_alphabet_direction',
-            title: browser.i18n.getMessage('sort_direction'),
+            title: getMessage('sort_direction'),
             type: 'select',
             hidden: true,
             options: [
-              { value: 'desc', title: browser.i18n.getMessage('alphabet_descending') },
-              { value: 'asc', title: browser.i18n.getMessage('alphabet_ascending') }
+              { value: 'desc', title: getMessage('alphabet_descending') },
+              { value: 'asc', title: getMessage('alphabet_ascending') }
             ]
           },
           {
             id: 'home_sort_usage_tiebreaker',
-            title: browser.i18n.getMessage('usage_tiebreaker'),
+            title: getMessage('usage_tiebreaker'),
             type: 'select',
             hidden: true,
             options: [
-              { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') },
-              { value: 'date', title: browser.i18n.getMessage('sort_by_date') }
+              { value: 'alphabet', title: getMessage('sort_by_alphabet') },
+              { value: 'date', title: getMessage('sort_by_date') }
             ]
           },
           {
             id: 'show_usage_count',
-            title: browser.i18n.getMessage('show_usage_count'),
+            title: getMessage('show_usage_count'),
             type: 'switch',
             hidden: true
           }
@@ -341,17 +352,17 @@ const legacySettings = [
         group: [
           {
             id: 'show_home_folders',
-            title: browser.i18n.getMessage('show_home_folders'),
+            title: getMessage('show_home_folders'),
             type: 'switch'
           },
           {
             id: 'bookmarks_sorting_type',
-            title: browser.i18n.getMessage('bookmarks_sorting_type'),
+            title: getMessage('bookmarks_sorting_type'),
             type: 'select',
             options: [
-              { value: 'together', title: browser.i18n.getMessage('folders_together') },
-              { value: 'folders_top', title: browser.i18n.getMessage('folders_on_top') },
-              { value: 'folders_bottom', title: browser.i18n.getMessage('folders_at_the_bottom') }
+              { value: 'together', title: getMessage('folders_together') },
+              { value: 'folders_top', title: getMessage('folders_on_top') },
+              { value: 'folders_bottom', title: getMessage('folders_at_the_bottom') }
             ]
           }
         ]
@@ -359,117 +370,117 @@ const legacySettings = [
     ]
   },
   {
-    key: browser.i18n.getMessage('search_settings'),
-    description: browser.i18n.getMessage('search_settings_description'),
+    key: getMessage('search_settings'),
+    description: getMessage('search_settings_description'),
     list: [
       {
         id: 'search_engine',
-        title: browser.i18n.getMessage('search_engine'),
+        title: getMessage('search_engine'),
         type: 'select',
         options: []
       },
       {
         id: 'search_results_display',
-        title: browser.i18n.getMessage('search_results_display'),
+        title: getMessage('search_results_display'),
         type: 'select',
         options: [
           {
             value: 'flat',
-            title: browser.i18n.getMessage('search_results_display_flat')
+            title: getMessage('search_results_display_flat')
           },
           {
             value: 'folder_name',
-            title: browser.i18n.getMessage('search_results_display_folder_name')
+            title: getMessage('search_results_display_folder_name')
           },
           {
             value: 'folder_path',
-            title: browser.i18n.getMessage('search_results_display_folder_path')
+            title: getMessage('search_results_display_folder_path')
           },
           {
             value: 'grouped',
-            title: browser.i18n.getMessage('search_results_display_grouped')
+            title: getMessage('search_results_display_grouped')
           }
         ]
       },
       {
         id: 'navigation_sort_by',
-        title: browser.i18n.getMessage('navigation_sort_by'),
+        title: getMessage('navigation_sort_by'),
         type: 'select',
         options: [
-          { value: '', title: browser.i18n.getMessage('browser_default_order') },
-          { value: 'alphabet', title: browser.i18n.getMessage('sort_by_alphabet') },
-          { value: 'date', title: browser.i18n.getMessage('sort_by_date') }
+          { value: '', title: getMessage('browser_default_order') },
+          { value: 'alphabet', title: getMessage('sort_by_alphabet') },
+          { value: 'date', title: getMessage('sort_by_date') }
         ]
       },
       {
         id: 'open_bookmarks_newtab',
-        title: browser.i18n.getMessage('open_bookmarks_newtab'),
+        title: getMessage('open_bookmarks_newtab'),
         type: 'switch'
       },
       {
         id: 'open_search_newtab',
-        title: browser.i18n.getMessage('open_search_newtab'),
+        title: getMessage('open_search_newtab'),
         type: 'switch'
       },
       {
         id: 'search_autofocus',
-        title: browser.i18n.getMessage('search_autofocus'),
+        title: getMessage('search_autofocus'),
         type: 'switch'
       },
       {
         id: 'search_engines',
-        title: browser.i18n.getMessage('search_engines'),
-        note: browser.i18n.getMessage('search_engines_description'),
+        title: getMessage('search_engines'),
+        note: getMessage('search_engines_description'),
         type: 'search-engines'
       }
     ]
   },
   {
-    key: browser.i18n.getMessage('bookmark_behavior_setting'),
+    key: getMessage('bookmark_behavior_setting'),
     list: [
       {
         id: 'move_to_start',
-        title: browser.i18n.getMessage('move_to_start'),
+        title: getMessage('move_to_start'),
         type: 'switch'
       },
       {
         id: 'show_contextmenu_item',
-        title: browser.i18n.getMessage('show_contextmenu_item'),
+        title: getMessage('show_contextmenu_item'),
         type: 'switch'
       },
       {
         id: 'close_tab_after_adding_bookmark',
-        title: browser.i18n.getMessage('close_tab_after_adding_bookmark'),
-        note: browser.i18n.getMessage('close_tab_after_adding_bookmark_note'),
+        title: getMessage('close_tab_after_adding_bookmark'),
+        note: getMessage('close_tab_after_adding_bookmark_note'),
         type: 'switch'
       },
       {
         id: 'without_confirmation',
-        title: browser.i18n.getMessage('without_confirmation'),
+        title: getMessage('without_confirmation'),
         type: 'switch'
       }
     ]
   },
   {
-    key: browser.i18n.getMessage('thumbnails_setting'),
-    description: browser.i18n.getMessage('thumbnails_setting_description'),
+    key: getMessage('thumbnails_setting'),
+    description: getMessage('thumbnails_setting_description'),
     list: [
       {
         id: 'thumbnails_update_button',
-        title: browser.i18n.getMessage('thumbnails_update_button'),
-        note: browser.i18n.getMessage('thumbnails_update_warn'),
+        title: getMessage('thumbnails_update_button'),
+        note: getMessage('thumbnails_update_warn'),
         type: 'switch'
       },
       {
         id: 'download_favicons_by_default',
-        title: browser.i18n.getMessage('download_favicons_by_default'),
-        note: browser.i18n.getMessage('download_favicons_by_default_note'),
+        title: getMessage('download_favicons_by_default'),
+        note: getMessage('download_favicons_by_default_note'),
         type: 'switch'
       },
       {
         id: 'favicon_size',
-        title: browser.i18n.getMessage('favicon_size'),
-        note: browser.i18n.getMessage('favicon_size_note'),
+        title: getMessage('favicon_size'),
+        note: getMessage('favicon_size_note'),
         type: 'range',
         min: 16,
         max: 128,
@@ -481,8 +492,8 @@ const legacySettings = [
       },
       {
         id: 'thumbnails_update_delay',
-        title: browser.i18n.getMessage('thumbnails_update_delay'),
-        note: browser.i18n.getMessage('thumbnails_update_delay_note'),
+        title: getMessage('thumbnails_update_delay'),
+        note: getMessage('thumbnails_update_delay_note'),
         type: 'range',
         min: 0.5,
         max: 15,
@@ -494,83 +505,83 @@ const legacySettings = [
       },
       {
         id: 'thumbnails_auto_refresh',
-        title: browser.i18n.getMessage('thumbnails_auto_refresh'),
-        note: browser.i18n.getMessage('thumbnails_auto_refresh_note'),
+        title: getMessage('thumbnails_auto_refresh'),
+        note: getMessage('thumbnails_auto_refresh_note'),
         type: 'switch'
       },
       {
         id: 'thumbnails_auto_refresh_interval',
-        title: browser.i18n.getMessage('thumbnails_auto_refresh_interval'),
-        note: browser.i18n.getMessage('thumbnails_auto_refresh_interval_note'),
+        title: getMessage('thumbnails_auto_refresh_interval'),
+        note: getMessage('thumbnails_auto_refresh_interval_note'),
         type: 'range',
         min: 1,
         max: 168,
         step: 1,
         data: {
           selectorOutput: '#thumbnail_auto_refresh_interval_output',
-          outputPostfix: browser.i18n.getMessage('hours_short')
+          outputPostfix: getMessage('hours_short')
         }
       },
       {
         id: 'clear_images',
-        title: browser.i18n.getMessage('clear_background_locals'),
+        title: getMessage('clear_background_locals'),
         type: 'button',
-        text: browser.i18n.getMessage('btn_apply')
+        text: getMessage('btn_apply')
       }
     ]
   },
   {
-    key: browser.i18n.getMessage('data_privacy_setting'),
+    key: getMessage('data_privacy_setting'),
     list: [
       {
         id: 'enable_sync',
-        title: browser.i18n.getMessage('enable_sync'),
+        title: getMessage('enable_sync'),
         type: 'switch'
       },
       {
         id: 'clear_cache',
-        title: browser.i18n.getMessage('clear_local_cache'),
+        title: getMessage('clear_local_cache'),
         type: 'button',
-        text: browser.i18n.getMessage('btn_apply')
+        text: getMessage('btn_apply')
       },
       {
         id: 'backup',
-        title: browser.i18n.getMessage('backup_settings'),
-        note: browser.i18n.getMessage('backup_settings_description'),
+        title: getMessage('backup_settings'),
+        note: getMessage('backup_settings_description'),
         type: 'backup',
         import: { id: 'import', accept: '.backup' },
         export: { id: 'export' }
       },
       {
         id: 'restore_local',
-        title: browser.i18n.getMessage('reset_local_default'),
-        note: browser.i18n.getMessage('reset_local_default_description'),
+        title: getMessage('reset_local_default'),
+        note: getMessage('reset_local_default_description'),
         type: 'button',
-        text: browser.i18n.getMessage('btn_apply')
+        text: getMessage('btn_apply')
       },
       {
         id: 'restore_sync',
-        title: browser.i18n.getMessage('reset_sync_text'),
-        note: browser.i18n.getMessage('reset_sync_description'),
+        title: getMessage('reset_sync_text'),
+        note: getMessage('reset_sync_description'),
         type: 'button',
-        text: browser.i18n.getMessage('btn_apply')
+        text: getMessage('btn_apply')
       },
       {
         id: 'toggle_clipboard_access',
-        title: browser.i18n.getMessage('toggle_clipboard_access'),
-        note: browser.i18n.getMessage('toggle_clipboard_access_description'),
+        title: getMessage('toggle_clipboard_access'),
+        note: getMessage('toggle_clipboard_access_description'),
         type: 'switch'
       }
     ]
   },
   {
-    key: browser.i18n.getMessage('keyboard_shortcuts_setting'),
-    description: browser.i18n.getMessage('keyboard_shortcuts_description'),
+    key: getMessage('keyboard_shortcuts_setting'),
+    description: getMessage('keyboard_shortcuts_description'),
     list: [
       {
         id: 'keyboard_shortcuts',
-        title: browser.i18n.getMessage('keyboard_shortcuts_title'),
-        note: browser.i18n.getMessage('keyboard_shortcuts_note'),
+        title: getMessage('keyboard_shortcuts_title'),
+        note: getMessage('keyboard_shortcuts_note'),
         type: 'keyboard-shortcuts'
       }
     ]
@@ -597,14 +608,14 @@ function pickSettings(...ids) {
 export default [
   {
     id: 'appearance',
-    key: browser.i18n.getMessage('settings_appearance'),
+    key: getMessage('settings_appearance'),
     sections: [
       {
-        key: browser.i18n.getMessage('settings_group_page'),
-        list: pickSettings('color_theme', 'background_image')
+        key: getMessage('settings_group_page'),
+        list: pickSettings('language', 'color_theme', 'background_image')
       },
       {
-        key: browser.i18n.getMessage('settings_group_interface'),
+        key: getMessage('settings_group_interface'),
         list: pickSettings(
           'show_toolbar',
           'show_settings_icon',
@@ -615,7 +626,7 @@ export default [
         )
       },
       {
-        key: browser.i18n.getMessage('settings_group_animations'),
+        key: getMessage('settings_group_animations'),
         list: pickSettings(
           'background_entrance_effect',
           'background_entrance_duration',
@@ -626,7 +637,7 @@ export default [
         )
       },
       {
-        key: browser.i18n.getMessage('settings_group_grid'),
+        key: getMessage('settings_group_grid'),
         list: pickSettings(
           'dial_columns',
           'dial_width',
@@ -637,7 +648,7 @@ export default [
         )
       },
       {
-        key: browser.i18n.getMessage('settings_group_tile_style'),
+        key: getMessage('settings_group_tile_style'),
         list: pickSettings(
           'dial_radius',
           'dial_shadow',
@@ -647,21 +658,21 @@ export default [
         )
       },
       {
-        key: browser.i18n.getMessage('settings_group_tile_content'),
+        key: getMessage('settings_group_tile_content'),
         list: pickSettings('show_bookmark_title', 'show_favicon', 'folder_preview')
       }
     ]
   },
   {
     id: 'bookmarks',
-    key: browser.i18n.getMessage('bookmark_appearance_setting'),
+    key: getMessage('bookmark_appearance_setting'),
     sections: [
       {
-        key: browser.i18n.getMessage('settings_group_start'),
+        key: getMessage('settings_group_start'),
         list: pickSettings('default_folder_id', 'show_last_opened_folder')
       },
       {
-        key: browser.i18n.getMessage('settings_group_sorting'),
+        key: getMessage('settings_group_sorting'),
         list: pickSettings(
           'drag_and_drop',
           'home_sort_by',
@@ -674,11 +685,11 @@ export default [
         )
       },
       {
-        key: browser.i18n.getMessage('settings_group_navigation'),
+        key: getMessage('settings_group_navigation'),
         list: pickSettings('open_bookmarks_newtab')
       },
       {
-        key: browser.i18n.getMessage('settings_group_opening'),
+        key: getMessage('settings_group_opening'),
         list: pickSettings(
           'move_to_start',
           'show_contextmenu_item',
@@ -690,10 +701,10 @@ export default [
   },
   {
     id: 'search',
-    key: browser.i18n.getMessage('search_settings'),
+    key: getMessage('search_settings'),
     sections: [
       {
-        key: browser.i18n.getMessage('settings_group_search_behavior'),
+        key: getMessage('settings_group_search_behavior'),
         list: pickSettings(
           'search_engine',
           'search_results_display',
@@ -703,19 +714,19 @@ export default [
         )
       },
       {
-        key: browser.i18n.getMessage('search_engines'),
-        description: browser.i18n.getMessage('search_settings_description'),
+        key: getMessage('search_engines'),
+        description: getMessage('search_settings_description'),
         list: pickSettings('search_engines')
       }
     ]
   },
   {
     id: 'thumbnails',
-    key: browser.i18n.getMessage('thumbnails_setting'),
+    key: getMessage('thumbnails_setting'),
     sections: [
       {
-        key: browser.i18n.getMessage('settings_group_thumbnail_generation'),
-        description: browser.i18n.getMessage('thumbnails_setting_description'),
+        key: getMessage('settings_group_thumbnail_generation'),
+        description: getMessage('thumbnails_setting_description'),
         list: pickSettings(
           'thumbnails_update_button',
           'download_favicons_by_default',
@@ -724,49 +735,49 @@ export default [
         )
       },
       {
-        key: browser.i18n.getMessage('settings_group_auto_refresh'),
+        key: getMessage('settings_group_auto_refresh'),
         list: pickSettings('thumbnails_auto_refresh', 'thumbnails_auto_refresh_interval')
       },
       {
-        key: browser.i18n.getMessage('settings_group_thumbnail_storage'),
+        key: getMessage('settings_group_thumbnail_storage'),
         list: pickSettings('clear_images')
       }
     ]
   },
   {
     id: 'controls',
-    key: browser.i18n.getMessage('settings_controls'),
+    key: getMessage('settings_controls'),
     sections: [
       {
-        key: browser.i18n.getMessage('keyboard_shortcuts_setting'),
-        description: browser.i18n.getMessage('keyboard_shortcuts_description'),
+        key: getMessage('keyboard_shortcuts_setting'),
+        description: getMessage('keyboard_shortcuts_description'),
         list: pickSettings('keyboard_shortcuts')
       }
     ]
   },
   {
     id: 'data',
-    key: browser.i18n.getMessage('data_privacy_setting'),
+    key: getMessage('data_privacy_setting'),
     sections: [
       {
-        key: browser.i18n.getMessage('settings_group_sync'),
+        key: getMessage('settings_group_sync'),
         list: pickSettings('enable_sync')
       },
       {
-        key: browser.i18n.getMessage('settings_group_backup'),
+        key: getMessage('settings_group_backup'),
         list: pickSettings('backup')
       },
       {
-        key: browser.i18n.getMessage('settings_group_storage'),
+        key: getMessage('settings_group_storage'),
         list: pickSettings('clear_cache')
       },
       {
-        key: browser.i18n.getMessage('settings_group_permissions'),
+        key: getMessage('settings_group_permissions'),
         list: pickSettings('toggle_clipboard_access')
       },
       {
-        key: browser.i18n.getMessage('settings_group_reset'),
-        description: browser.i18n.getMessage('settings_group_reset_description'),
+        key: getMessage('settings_group_reset'),
+        description: getMessage('settings_group_reset_description'),
         danger: true,
         list: pickSettings('restore_local', 'restore_sync')
       }

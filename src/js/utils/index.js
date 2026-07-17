@@ -1,3 +1,5 @@
+import { getMessage } from '../i18n';
+
 /**
  * Creates a new DOM element with the specified tag, attributes, and children.
  *
@@ -274,7 +276,7 @@ export async function $filePicker(pickerOpts = {
 
   if (!/image\/(jpe?g|png|webp)$/.test(file.type)) {
     throw {
-      alert: browser.i18n.getMessage('alert_file_type_fail')
+      alert: getMessage('alert_file_type_fail')
     };
   }
   return file;

@@ -3,10 +3,16 @@
     "message": "StartGrid"
   },
   "ext_desc": {
-    "message": "Простая страница визуальных закладок, включает в себя поиск, добавление, редактирование, удаление и сортировку закладок."
+    "message": "Настраиваемая новая вкладка с визуальными закладками, папками, поиском, темами и синхронизацией."
   },
   "default_title": {
     "message": "StartGrid"
+  },
+  "language": {
+    "message": "Язык"
+  },
+  "language_browser": {
+    "message": "Использовать язык браузера"
   },
   "color_theme": {
     "message": "Цветовая тема"
@@ -18,10 +24,10 @@
     "message": "Светлая"
   },
   "os_theme": {
-    "message": "Тема ОС"
+    "message": "Как в системе"
   },
   "placeholder_input_search": {
-    "message": "Поиск в $engine$",
+    "message": "Искать в $engine$",
     "placeholders": {
       "engine": {
         "content": "$1"
@@ -29,7 +35,7 @@
     }
   },
   "placeholder_input_search_bookmarks": {
-    "message": "закладках"
+    "message": "закладки"
   },
   "search_browser_default": {
     "message": "Поисковая система браузера"
@@ -38,76 +44,76 @@
     "message": "Введите название закладки"
   },
   "label_title": {
-    "message": "Название"
+    "message": "Заголовок"
   },
   "label_url": {
-    "message": "URL"
+    "message": "URL-адрес"
   },
   "label_folder": {
     "message": "Папка"
   },
   "thumbnail_source": {
-    "message": "Источник миниатюры"
+    "message": "Источник миниатюр"
   },
   "thumbnail_actions": {
-    "message": "Действия с миниатюрой"
+    "message": "Действия с миниатюрами"
   },
   "thumbnail_source_local": {
     "message": "Локальное хранилище"
   },
   "thumbnail_source_site": {
-    "message": "Создать миниатюру из сайта"
+    "message": "Создать с сайта"
   },
   "thumbnail_source_url": {
-    "message": "Из URL"
+    "message": "С URL-адреса"
   },
   "thumbnail_source_favicon": {
-    "message": "Favicon сайта (по умолчанию)"
+    "message": "Значок сайта (по умолчанию)"
   },
   "favicon_download_preference": {
-    "message": "Источник favicon"
+    "message": "Источник значка сайта"
   },
   "favicon_download_inherit": {
     "message": "Использовать общую настройку"
   },
   "favicon_download_site": {
-    "message": "Скачивать с сайта"
+    "message": "Скачать с сайта"
   },
   "favicon_download_chrome": {
-    "message": "Использовать кэш Chrome"
+    "message": "Использовать кеш Chrome"
   },
   "favicon_size_individual": {
-    "message": "Индивидуальный размер изображения миниатюры"
+    "message": "Индивидуальный размер изображения"
   },
   "favicon_size_individual_placeholder": {
     "message": "32"
   },
   "favicon_size_individual_note": {
-    "message": "Оставьте поле пустым, чтобы использовать общий размер изображения миниатюры."
+    "message": "Оставьте поле пустым, чтобы использовать общий размер изображения."
   },
   "download_favicons_by_default": {
-    "message": "Скачивать favicon с сайтов по умолчанию"
+    "message": "По умолчанию скачивать значки с сайтов"
   },
   "download_favicons_by_default_note": {
-    "message": "Если favicon отсутствует в локальном хранилище, скачивать его в фоне при открытии стартовой страницы."
+    "message": "Если значка сайта нет в локальном хранилище, скачивать его в фоне при открытии стартовой страницы."
   },
   "favicon_size": {
-    "message": "Размер изображения миниатюры"
+    "message": "Размер изображения на миниатюре"
   },
   "favicon_size_note": {
-    "message": "Общий размер изображения для всех типов миниатюр. Индивидуальная настройка плитки имеет приоритет."
+    "message": "Размер по умолчанию для всех типов миниатюр. Индивидуальная настройка плитки имеет приоритет."
   },
   "thumbnail_url": {
-    "message": "URL миниатюры"
+    "message": "URL-адрес миниатюры"
   },
   "thumbnail_url_note": {
-    "message": "Изображение хранится локально и периодически проверяется на обновления."
+    "message": "Изображение кэшируется локально и периодически проверяется на наличие обновлений."
   },
   "notice_thumbnail_url_failed": {
-    "message": "Не удалось скачать миниатюру по URL"
+    "message": "Не удалось загрузить миниатюру с URL-адреса."
   },
   "url_field_tip": {
-    "message": "Введите URL или оставьте поле пустым, если вы хотите создать папку"
+    "message": "Введите URL-адрес или оставьте это поле пустым, чтобы создать папку."
   },
   "btn_close": {
     "message": "Отмена"
@@ -119,7 +125,7 @@
     "message": "Готово"
   },
   "back_to_main": {
-    "message": "Назад к закладкам"
+    "message": "Вернуться к закладкам"
   },
   "btn_apply": {
     "message": "Применить"
@@ -140,7 +146,7 @@
     "message": "Открыть в режиме инкогнито"
   },
   "contextmenu_copy_link": {
-    "message": "Копировать адрес ссылки"
+    "message": "Скопировать адрес ссылки"
   },
   "contextmenu_edit": {
     "message": "Редактировать"
@@ -158,7 +164,7 @@
     "message": "Удалить"
   },
   "confirm_delete_image": {
-    "message": "Удалить изображение ?"
+    "message": "Удалить это изображение?"
   },
   "confirm_delete_images": {
     "message": "Вы уверены? Все локальные миниатюры будут удалены."
@@ -167,25 +173,25 @@
     "message": "Вы уверены? Все временные локальные данные будут удалены. Настройки и локальные изображения сохранятся."
   },
   "confirm_delete_bookmark": {
-    "message": "Вы действительно хотите удалить закладку ?"
+    "message": "Удалить эту закладку?"
   },
   "confirm_delete_folder": {
-    "message": "Вы действительно хотите удалить папку и все ее содержимое ?"
+    "message": "Удалить эту папку и все, что в ней?"
   },
   "confirm_restore_default_settings": {
-    "message": "Сбросить только локальные настройки и отключить синхронизацию? Данные на сервере будут сохранены."
+    "message": "Сбросить только локальные настройки до значений по умолчанию и отключить синхронизацию? Синхронизированные данные на сервере будут сохранены."
   },
   "confirm_clear_sync_settings": {
-    "message": "Удалить синхронизированные настройки с сервера и отключить синхронизацию? Локальные настройки, изображения и кэш будут сохранены."
+    "message": "Удалить синхронизированные настройки с сервера и отключить синхронизацию? Локальные настройки, изображения и кеш будут сохранены."
   },
   "confirm_sync_remote_settings": {
-    "message": "Вы хотите перезаписать свои текущие локальные настройки ранее синхронизированными настройками ?"
+    "message": "Синхронизированные настройки уже существуют.\nЗаменить текущие локальные настройки синхронизированной версией?"
   },
   "notice_image_removed": {
-    "message": "Изображение было удалено"
+    "message": "Изображение удалено."
   },
   "notice_thumb_image_updated": {
-    "message": "Изображение закладки обновлено"
+    "message": "Миниатюра закладки обновлена."
   },
   "notice_bookmark_exist": {
     "message": "Закладка уже существует"
@@ -197,7 +203,7 @@
     "message": "Закладка обновлена"
   },
   "notice_bookmark_removed": {
-    "message": "Закладка \"<span data-title>$title$</span>\" удалена",
+    "message": "Удалена закладка \"<span data-title>$title$</span>\"",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -205,7 +211,7 @@
     }
   },
   "notice_folder_removed": {
-    "message": "Папка \"<span data-title>$title$</span>\" удалена",
+    "message": "Удалена папка \"<span data-title>$title$</span>\"",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -216,22 +222,22 @@
     "message": "Выбранные закладки удалены"
   },
   "notice_images_removed": {
-    "message": "Все локальные миниатюры удалены"
+    "message": "Все локальные миниатюры удалены."
   },
   "notice_local_cache_cleared": {
-    "message": "Локальный кэш очищен"
+    "message": "Локальный кеш очищен"
   },
   "notice_cant_find_id": {
-    "message": "Папка не найдена. Возможно, у вас нет синхронизированных закладок"
+    "message": "Папка не найдена. Возможно, она недоступна в этом профиле Chrome."
   },
   "notice_reset_default_settings": {
-    "message": "Локальные настройки сброшены, синхронизация отключена"
+    "message": "Сброс локальных настроек; синхронизация отключена"
   },
   "notice_sync_settings_cleared": {
-    "message": "Данные на сервере удалены, синхронизация отключена"
+    "message": "Синхронизированные данные сервера удалены; синхронизация отключена"
   },
   "notice_bg_image_updated": {
-    "message": "Фоновая картинка была изменена"
+    "message": "Фон обновлён"
   },
   "notice_thumbnails_update_complete": {
     "message": "Обновление миниатюр завершено"
@@ -240,7 +246,7 @@
     "message": "Ссылка скопирована"
   },
   "alert_file_type_fail_type": {
-    "message": "Неверный тип файла\nДопустимый тип файла ($type$)",
+    "message": "Неподдерживаемый тип файла\nРазрешенный тип файла: $type$",
     "placeholders": {
       "type": {
         "content": "$1"
@@ -248,7 +254,7 @@
     }
   },
   "alert_file_type_fail_size": {
-    "message": "Максимальный размер загружаемого файла: $filesize$ MB",
+    "message": "Файл слишком велик. Максимальный размер: $filesize$ МБ",
     "placeholders": {
       "filesize": {
         "content": "$1"
@@ -256,7 +262,7 @@
     }
   },
   "not_found_text": {
-    "message": "Папка не найдена. Возможно, у вас нет синхронизированных закладок или папка удалена|перемещена."
+    "message": "Папка не найдена. Возможно, она была перемещена или удалена либо закладки на этом устройстве ещё не синхронизированы."
   },
   "not_found_link_text": {
     "message": "Панель закладок"
@@ -265,19 +271,19 @@
     "message": "Добавить в закладки"
   },
   "save_to_current_folder": {
-    "message": "Сохранить в текущей папке"
+    "message": "Сохранить в текущую папку"
   },
   "edit_bookmark": {
-    "message": "Редактировать закладку"
+    "message": "Изменить закладку"
   },
   "options": {
-    "message": "Опции"
+    "message": "Настройки"
   },
   "quick_display_settings": {
-    "message": "Быстрый вид закладок"
+    "message": "Быстрая настройка внешнего вида"
   },
   "quick_display_settings_description": {
-    "message": "Изменения применяются сразу"
+    "message": "Изменения применяются немедленно"
   },
   "more_settings": {
     "message": "Все настройки"
@@ -286,7 +292,7 @@
     "message": "Закладки"
   },
   "page_appearance_setting": {
-    "message": "Главная страница"
+    "message": "Домашняя страница"
   },
   "bookmark_behavior_setting": {
     "message": "Поведение"
@@ -295,13 +301,13 @@
     "message": "Миниатюры"
   },
   "thumbnails_setting_description": {
-    "message": "Настройки этого раздела применяются ко всем поддерживаемым источникам миниатюр: снимкам сайтов, изображениям по URL и favicon. Загруженные вручную изображения автоматически не заменяются."
+    "message": "Настройки в этом разделе применяются ко всем поддерживаемым источникам миниатюр: скриншотам веб-сайтов, URL-адресам изображений и значкам. Локально загруженные изображения никогда не заменяются автоматически."
   },
   "data_privacy_setting": {
-    "message": "Данные и приватность"
+    "message": "Данные и конфиденциальность"
   },
   "dial_width": {
-    "message": "Ширина панели"
+    "message": "Ширина сетки"
   },
   "dial_gap": {
     "message": "Расстояние между плитками"
@@ -313,40 +319,40 @@
     "message": "Пропорции плитки"
   },
   "dial_aspect_ratio_square": {
-    "message": "Квадратные (1:1)"
+    "message": "Квадрат (1:1)"
   },
   "dial_aspect_ratio_standard": {
-    "message": "Стандартные (4:3)"
+    "message": "Стандартный (4:3)"
   },
   "dial_aspect_ratio_photo": {
     "message": "Фото (3:2)"
   },
   "dial_aspect_ratio_wide": {
-    "message": "Широкие (16:9)"
+    "message": "Широкий (16:9)"
   },
   "dial_shadow": {
     "message": "Интенсивность тени плитки"
   },
   "dial_hover_lift": {
-    "message": "Подъём плитки при наведении"
+    "message": "Подъем плитки при наведении"
   },
   "dial_background_color": {
-    "message": "Цвет фона плиток"
+    "message": "Цвет фона плитки"
   },
   "dial_background_color_note": {
-    "message": "По умолчанию используется цвет текущей темы."
+    "message": "Использует текущий цвет темы, пока не будет выбран пользовательский цвет."
   },
   "dial_background_opacity": {
-    "message": "Непрозрачность фона плиток"
+    "message": "Непрозрачность фона плитки"
   },
   "dial_background_opacity_note": {
-    "message": "0% — полностью прозрачный фон; 100% — непрозрачный."
+    "message": "0% — полностью прозрачно; 100% — полностью непрозрачно."
   },
   "reset_tile_background_color": {
     "message": "Использовать цвет темы"
   },
   "number_of_columns": {
-    "message": "Кол-во колонок в ряду"
+    "message": "Количество столбцов"
   },
   "vertical_center": {
     "message": "Вертикальное центрирование"
@@ -355,16 +361,16 @@
     "message": "Отключить прокрутку на главной странице"
   },
   "disable_main_page_scroll_description": {
-    "message": "Скрывает полосу и блокирует прокрутку вне результатов поиска по закладкам."
+    "message": "Скрывает полосу прокрутки и предотвращает прокрутку за пределами результатов поиска по закладкам."
   },
   "default_folder_id": {
     "message": "Папка по умолчанию"
   },
   "default_folder_sync_note": {
-    "message": "Синхронизация включена. Настройка сохраняется в облаке Chrome Sync."
+    "message": "Синхронизация включена. Этот параметр сохраняется в Chrome Sync."
   },
   "default_folder_local_note": {
-    "message": "Синхронизация отключена. Настройка сохраняется на этом устройстве."
+    "message": "Синхронизация отключена. Эта настройка сохраняется на этом устройстве."
   },
   "background": {
     "message": "Фон"
@@ -373,118 +379,148 @@
     "message": "Цвет"
   },
   "background_noimage": {
-    "message": "Без фонового изображения"
+    "message": "Нет фонового изображения"
   },
   "background_noimage_text": {
-    "message": "Тема без фонового изображения"
+    "message": "Используйте цвет фона темы"
   },
   "background_bing": {
     "message": "Изображение дня Bing"
   },
   "background_bing_text": {
-    "message": "Изображение дня Bing — это ежедневное фоновое фото на главной странице Bing. Каждый день Microsoft показывает впечатляющее или интересное изображение природы, архитектуры или культуры со всего мира"
+    "message": "Используйте ежедневную фотографию, размещенную на главной странице Bing, в качестве фона StartGrid."
   },
   "bing_permission_toast": {
-    "message": "Изображение дня Bing требует разрешения на доступ к bing.com. Вы можете включить это разрешение на <a href=\"/options.html\">странице настроек</a>, выбрав опцию «Изображение дня Bing» и подтвердив разрешение."
+    "message": "Для изображения дня Bing требуется доступ к bing.com. Выберите его на <a href=\"/options.html\">странице настроек</a> и подтвердите запрос разрешения."
   },
   "background_external": {
-    "message": "URL-адрес картинки"
+    "message": "Изображение с URL"
   },
   "background_local": {
     "message": "Изображение или видео с компьютера"
   },
   "background_local_video_note": {
-    "message": "Локальным фоном может быть изображение или MP4-видео. Видео воспроизводится без звука и автоматически повторяется."
+    "message": "Локальным фоном может быть изображение или видео в формате MP4. Видео воспроизводится без звука и автоматически зацикливается."
   },
-  "background_entrance_effect": { "message": "Появление фона" },
-  "background_entrance_none": { "message": "Без анимации" },
-  "background_entrance_zoom": { "message": "Отдаление" },
-  "background_entrance_blur": { "message": "Из размытия" },
-  "background_entrance_slide": { "message": "Подъём снизу" },
-  "background_entrance_duration": { "message": "Длительность появления фона" },
-  "snow_mode": { "message": "Снег" },
-  "snow_mode_always": { "message": "Идёт всегда" },
-  "snow_mode_winter": { "message": "Идёт зимой — с 1 декабря по последний день февраля" },
-  "snow_mode_off": { "message": "Отключён" },
-  "page_cascade_enabled": { "message": "Анимация плиток при открытии" },
-  "page_cascade_mode": { "message": "Порядок каскада" },
-  "page_cascade_mode_items": { "message": "По одной закладке" },
-  "page_cascade_mode_rows": { "message": "По одной строке" },
-  "page_cascade_duration": { "message": "Длительность каскада" },
+  "background_entrance_effect": {
+    "message": "Появление фона"
+  },
+  "background_entrance_none": {
+    "message": "Нет анимации"
+  },
+  "background_entrance_zoom": {
+    "message": "Уменьшение"
+  },
+  "background_entrance_blur": {
+    "message": "Из размытия"
+  },
+  "background_entrance_slide": {
+    "message": "Снизу вверх"
+  },
+  "background_entrance_duration": {
+    "message": "Продолжительность появления фона"
+  },
+  "snow_mode": {
+    "message": "Снегопад"
+  },
+  "snow_mode_always": {
+    "message": "Всегда"
+  },
+  "snow_mode_winter": {
+    "message": "Зимой — с 1 декабря до последнего дня февраля."
+  },
+  "snow_mode_off": {
+    "message": "Выключен"
+  },
+  "page_cascade_enabled": {
+    "message": "Анимация плиток при открытии страницы"
+  },
+  "page_cascade_mode": {
+    "message": "Каскадный порядок"
+  },
+  "page_cascade_mode_items": {
+    "message": "Одна закладка за раз"
+  },
+  "page_cascade_mode_rows": {
+    "message": "По одной строке за раз"
+  },
+  "page_cascade_duration": {
+    "message": "Продолжительность каскада"
+  },
   "choose_file": {
-    "message": "Изображение или видео"
+    "message": "Выберите изображение или видео"
   },
   "show_settings_icon": {
-    "message": "Показывать иконку настроек"
+    "message": "Показать значок настроек"
   },
   "show_quick_settings_icon": {
-    "message": "Показывать иконку быстрых настроек"
+    "message": "Показать значок быстрых настроек"
   },
   "show_extension_icon": {
-    "message": "Показывать иконку StartGrid"
+    "message": "Показать значок StartGrid"
   },
   "show_toolbar": {
-    "message": "Показывать панель поиска и выбора папки"
+    "message": "Показывать строку поиска и выбор папки"
   },
   "show_create_column": {
-    "message": "Показывать кнопку добавления закладки"
+    "message": "Показать плитку «Добавить закладку»"
   },
   "show_bookmark_title": {
-    "message": "Показывать название закладки"
+    "message": "Показать название закладки"
   },
   "show_favicon": {
-    "message": "Показывать иконки сайтов рядом с названием"
+    "message": "Показывать значок сайта рядом с названием"
   },
   "open_bookmarks_newtab": {
-    "message": "Открывать закладки в новой вкладке"
+    "message": "Открыть закладки в новой вкладке"
   },
   "open_search_newtab": {
-    "message": "Открывать поиск в новой вкладке"
+    "message": "Открыть поиск в новой вкладке"
   },
   "show_contextmenu_item": {
-    "message": "Показывать в контекстном меню"
+    "message": "Показать в контекстном меню"
   },
   "drag_and_drop": {
     "message": "Включить перетаскивание"
   },
   "auto_generate_thumbnail": {
-    "message": "Автоматически получать favicon при создании закладки"
+    "message": "Автоматически добавлять значок сайта к новым закладкам"
   },
   "enable_sync": {
     "message": "Включить синхронизацию"
   },
   "clear_background_locals": {
-    "message": "Очистить папку с локальными миниатюрами"
+    "message": "Удалить все локально сохранённые изображения миниатюр"
   },
   "clear_local_cache": {
-    "message": "Очистить локальный кэш"
+    "message": "Очистить локальный кеш"
   },
   "reset_local_default": {
-    "message": "Сбросить настройки по умолчанию"
+    "message": "Сброс настроек к значениям по умолчанию"
   },
   "reset_local_default_description": {
-    "message": "Сбрасывает только локальные настройки и отключает синхронизацию. Синхронизированные данные на сервере не удаляются."
+    "message": "Сбрасывает только локальные настройки и отключает синхронизацию. Синхронизированные данные сервера не удаляются."
   },
   "reset_quick_settings": {
     "message": "Сбросить быстрые настройки"
   },
   "reset_quick_settings_description": {
-    "message": "Возвращает только настройки из этого меню к значениям расширения по умолчанию."
+    "message": "Восстанавливает только настройки, показанные в этом меню, до значений расширения по умолчанию."
   },
   "confirm_reset_quick_settings": {
-    "message": "Сбросить быстрые настройки к значениям расширения по умолчанию?"
+    "message": "Сбросить быстрые настройки расширения до значений по умолчанию?"
   },
   "reset_sync_text": {
-    "message": "Удалить синхронизированные данные с сервера"
+    "message": "Удалить синхронизированные настройки из Chrome Sync"
   },
   "reset_sync_description": {
-    "message": "Удаляет только синхронизированные настройки с сервера и отключает синхронизацию. Локальные настройки, изображения и кэш сохраняются."
+    "message": "Удаляет с сервера только синхронизированные настройки и отключает синхронизацию. Локальные настройки, изображения и кэш сохраняются."
   },
   "version": {
     "message": "Версия"
   },
   "thumbnails_creation": {
-    "message": "Создание миниатюр: $start$ из $total$",
+    "message": "Создание миниатюр: $start$ / $total$",
     "placeholders": {
       "start": {
         "content": "$1"
@@ -495,37 +531,37 @@
     }
   },
   "thumbnails_update_warn": {
-    "message": "Каждая миниатюра обновляется из выбранного для неё источника: сайт, URL изображения или favicon. Загруженные вручную изображения сохраняются без изменений. Обновление может влиять на производительность."
+    "message": "Каждая миниатюра обновляется из выбранного источника: веб-сайта, URL-адреса изображения или значка. Локально загруженные изображения сохраняются. Обновление может повлиять на производительность."
   },
   "thumbnails_update_button": {
-    "message": "Кнопка обновления миниатюр"
+    "message": "Обновить все миниатюры"
   },
   "thumbnails_auto_refresh": {
     "message": "Автоматически обновлять миниатюры"
   },
   "thumbnails_auto_refresh_note": {
-    "message": "Проверяет и обновляет устаревшие миниатюры при открытии главной страницы"
+    "message": "Проверяет и обновляет устаревшие миниатюры при открытии стартовой страницы."
   },
   "thumbnails_auto_refresh_interval": {
-    "message": "Интервал автоматического обновления"
+    "message": "Автоматический интервал обновления"
   },
   "thumbnails_auto_refresh_interval_note": {
-    "message": "Время между обновлениями миниатюр: от 1 часа до 7 дней"
+    "message": "Время между обновлениями миниатюр: от 1 часа до 7 дней."
   },
   "hours_short": {
-    "message": " ч"
+    "message": "ч"
   },
   "folder_preview": {
-    "message": "Миниатюры сайтов на папке вместо иконки"
+    "message": "Показывать миниатюры сайтов в папках"
   },
   "folder_preview_description": {
-    "message": "Пока включена эта настройка, будут отображаться миниатюры 4-x случайных сайтов из папки вместо иконки или пользовательской картинки"
+    "message": "Показывает на папке миниатюры четырёх случайных сайтов из неё вместо значка или собственного изображения."
   },
   "backup_settings": {
-    "message": "Импорт / Экспорт настроек"
+    "message": "Импорт или экспорт настроек"
   },
   "backup_settings_description": {
-    "message": "Резервное копирование только для настроек расширения, исключая закладки и изображения"
+    "message": "Сохраняются только настройки расширения; закладки и изображения в резервную копию не входят."
   },
   "import": {
     "message": "Импорт"
@@ -537,34 +573,34 @@
     "message": "Настройки импортированы"
   },
   "import_settings_failed": {
-    "message": "Неудалось распарсить файл с настройками"
+    "message": "Не удалось прочитать файл настроек"
   },
   "without_confirmation": {
-    "message": "Не спрашивать подтверждения при удалении"
+    "message": "Удалить без подтверждения"
   },
   "toggle_clipboard_access": {
-    "message": "Разрешение на чтение из буфера обмена"
+    "message": "Разрешить доступ к буферу обмена"
   },
   "toggle_clipboard_access_description": {
-    "message": "Позволяет расширению считывать данные из буфера обмена для загрузки миниатюры. В окне редактирования закладки станет доступно действие «Загрузить из буфера обмена». Если вас беспокоит это разрешение, просто не включайте его."
+    "message": "Позволяет расширению считывать данные из буфера обмена для загрузки миниатюры закладки. В окне редактирования закладки станет доступно действие «Загрузить из буфера обмена». Если вас беспокоит это разрешение, просто не включайте его."
   },
   "error_input_required": {
     "message": "Обязательное поле"
   },
   "error_input_url": {
-    "message": "URL не валиден"
+    "message": "URL-адрес недействителен"
   },
   "thumbnails_update_delay": {
     "message": "Задержка перед созданием миниатюры"
   },
   "thumbnails_update_delay_note": {
-    "message": "Это может быть полезно, когда контент страницы долго грузится. Чем больше задержка, тем больше ожидание"
+    "message": "Увеличьте задержку для веб-сайтов, которым требуется больше времени для завершения загрузки."
   },
   "close_tab_after_adding_bookmark": {
-    "message": "Закрывать вкладку автоматически, если добавили ее в закладки"
+    "message": "Закрывать вкладку после добавления в закладки"
   },
   "close_tab_after_adding_bookmark_note": {
-    "message": "Только при добавлении через контекстное меню"
+    "message": "Применяется только при добавлении закладки из контекстного меню."
   },
   "empty_search": {
     "message": "Закладки не найдены"
@@ -573,23 +609,27 @@
     "message": "Не удалось выполнить поиск по закладкам. Попробуйте ещё раз."
   },
   "sync_quota_exceeded": {
-    "message": "Превышен лимит хранилища Chrome Sync ($used$ из $limit$). Последние изменения не удалось синхронизировать, они сохранены только на этом устройстве. Уменьшите объём синхронизируемых настроек.",
+    "message": "Превышен лимит хранилища Chrome Sync ($used$ из $limit$). Последние изменения не удалось синхронизировать; они сохранены на этом устройстве. Сократите объём синхронизируемых настроек.",
     "placeholders": {
-      "used": { "content": "$1" },
-      "limit": { "content": "$2" }
+      "used": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
     }
   },
   "delete_thumbnail": {
     "message": "Удалить из локального хранилища"
   },
   "show_back_column": {
-    "message": "Показывать колонку назад в закладках"
+    "message": "Показывать плитку «Назад» внутри папок"
   },
   "search_engine": {
     "message": "Поисковая система по умолчанию"
   },
   "search_results_display": {
-    "message": "Отображение результатов поиска по закладкам"
+    "message": "Результаты поиска по закладкам"
   },
   "search_results_display_flat": {
     "message": "Только плитки"
@@ -607,7 +647,7 @@
     "message": "Корневая папка закладок"
   },
   "move_to_start": {
-    "message": "Перемещать закладку в начало списка внутри папки"
+    "message": "Перемещать новые закладки в начало папки"
   },
   "bookmarks_sorting_type": {
     "message": "Сортировка папок"
@@ -619,34 +659,34 @@
     "message": "Ручная сортировка"
   },
   "sort_by_usage": {
-    "message": "По частоте использования"
+    "message": "Частота использования"
   },
   "sort_direction": {
     "message": "Направление сортировки"
   },
   "newest_first": {
-    "message": "По убыванию — сначала новые"
+    "message": "По убыванию — сначала самые новые"
   },
   "oldest_first": {
-    "message": "По возрастанию — сначала старые"
+    "message": "По возрастанию — сначала самые старые"
   },
   "alphabet_descending": {
-    "message": "По убыванию — от Я до А"
+    "message": "По убыванию — от Z до A"
   },
   "alphabet_ascending": {
     "message": "По возрастанию — от А до Я"
   },
   "usage_tiebreaker": {
-    "message": "При одинаковой частоте сортировать"
+    "message": "При одинаковой частоте использования сортировать по"
   },
   "show_home_folders": {
     "message": "Показывать папки на главной странице"
   },
   "show_usage_count": {
-    "message": "Отображать счётчик на закладке"
+    "message": "Показывать счетчик использования в закладках"
   },
   "usage_count_label": {
-    "message": "Количество переходов: $COUNT$",
+    "message": "Количество открытий: $COUNT$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -660,34 +700,34 @@
     "message": "Сортировка внутри папок и в поиске"
   },
   "browser_default_order": {
-    "message": "По умолчанию"
+    "message": "Порядок по умолчанию"
   },
   "sort_by": {
     "message": "Сортировать по"
   },
   "sort_by_date": {
-    "message": "Дате"
+    "message": "Дата"
   },
   "sort_by_alphabet": {
-    "message": "Алфавиту"
+    "message": "По алфавиту"
   },
   "not_sorting": {
-    "message": "Не сортировать"
+    "message": "Не отсортировано"
   },
   "folders_on_top": {
-    "message": "Папки наверху списка"
+    "message": "Папки сверху"
   },
   "folders_at_the_bottom": {
-    "message": "Папки внизу списка"
+    "message": "Папки внизу"
   },
   "bookmarks_sorting_warning": {
-    "message": "Сортировка перетаскиванием будет отключена, если выбран один из пунктов сортировки"
+    "message": "Упорядочение перетаскиванием недоступно, пока включена автоматическая сортировка."
   },
   "search_autofocus": {
-    "message": "Фокус на строке поиска"
+    "message": "Автоматически ставить курсор в строку поиска"
   },
   "confirm_delete_selected_bookmarks": {
-    "message": "Вы уверены, что хотите удалить выбранные закладки ?"
+    "message": "Удалить выбранные закладки?"
   },
   "button_action_move": {
     "message": "Переместить в папку"
@@ -699,43 +739,43 @@
     "message": "Новая закладка"
   },
   "modal_dismiss": {
-    "message": "Зыкрыть окно"
+    "message": "Закрыть диалог"
   },
   "remove_thumbnail": {
     "message": "Удалить миниатюру"
   },
   "thumbnails_update": {
-    "message": "Обновление миниатюр"
+    "message": "Обновить миниатюры"
   },
   "bookmark_context": {
-    "message": "Контекст закладки"
+    "message": "Действия с закладками"
   },
   "clear_search": {
     "message": "Очистить поиск"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "Разрешить доступ к сервису подсказок выбранного поисковика и резервным подсказкам Google"
+    "message": "Разрешить доступ к выбранной службе предложений и резервному варианту Google."
   },
   "search": {
     "message": "Поиск"
   },
   "toggle_selected_bookmarks_popup": {
-    "message": "Переключатель всплывающего окна для октрытия выбранных закладок"
+    "message": "Показать или скрыть выбранные действия с закладками"
   },
   "toggle_search_popup": {
-    "message": "Переключатель всплывающего окна с поиском"
+    "message": "Показать или скрыть параметры поиска"
   },
   "open_selected": {
-    "message": "Открыть выбранные"
+    "message": "Открыть выбранное"
   },
   "delete_selected": {
-    "message": "Удалить выбранные"
+    "message": "Удалить выбранное"
   },
   "select_folder": {
-    "message": "Выбор папки"
+    "message": "Выбрать папку"
   },
   "show_last_opened_folder": {
-    "message": "Показывать последнюю открытую папку"
+    "message": "Показать последнюю открытую папку"
   },
   "history_back": {
     "message": "Назад"
@@ -744,19 +784,19 @@
     "message": "Перейти в папку по умолчанию"
   },
   "incognito_access_note": {
-    "message": "Вы должны разрешить расширению работать в приватном режиме"
+    "message": "Прежде чем использовать это действие, разрешите StartGrid работать в режиме инкогнито."
   },
   "notice_host_permissions": {
-    "message": "Для создания миниатюр веб-сайтов требуется разрешение пользователя, чтобы расширение могло получить доступ к веб-сайтам."
+    "message": "Для создания миниатюр веб-сайтов требуется разрешение на доступ к выбранным веб-сайтам."
   },
   "learn_more": {
     "message": "Узнать больше"
   },
   "why_use_host_permissions": {
-    "message": "Для чего нужно это разрешение?"
+    "message": "Зачем использовать это разрешение?"
   },
   "host_permissions_info": {
-    "message": "<p>Данное разрешение необходимо для генерации скриншотов сайтов. Расширение не собирает, не отслеживает и не модифицирует Ваши данные на сайтах. Единственная модификация, которая происходит после открытия отдельного окна с сайтом, это скрытие полосы прокрутки на сайте, перед генерацией скриншота (чтобы скриншот по возможности был без полосы прокрутки). Код расширения доступен на <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. Если Вас пугает данное разрешение, его можно не давать, расширение будет работать без него, но генерация скриншотов сайтов для закладок будет не доступна.<p>Данное разрешение будет запрашиваться при попытке сделать скриншот сайта(если оно отключено). Так же этим правом можно управлять в настройках браузера, открыв окно с детальной информации о расширении.</p>"
+    "message": "<p>StartGrid требуется доступ к веб-сайту только тогда, когда он создает снимок экрана для миниатюры закладки. Он не собирает и не отслеживает данные о вашем просмотре. При создании снимка экрана StartGrid временно скрывает полосу прокрутки веб-сайта в отдельном окне.</p><p>Вы можете отклонить это дополнительное разрешение и использовать все функции, кроме снимков экрана веб-сайта. Chrome запрашивает доступ при первом создании снимка экрана веб-сайта. Вы можете изменить разрешение позже в настройках расширения Chrome. Исходный код доступен на <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a>.</p>"
   },
   "search_bookmarks": {
     "message": "Закладки"
@@ -765,13 +805,13 @@
     "message": "Поиск"
   },
   "search_settings_description": {
-    "message": "Выберите поисковую систему по умолчанию и настройте системы, отображаемые в меню поиска."
+    "message": "Выберите поисковую систему по умолчанию и настройте, какие системы будут отображаться в меню поиска."
   },
   "search_engines": {
     "message": "Поисковые системы"
   },
   "search_engines_description": {
-    "message": "Включайте, настраивайте, меняйте порядок и удаляйте поисковые системы. В списке может быть не более 20 систем всего."
+    "message": "Включайте, настраивайте, перемещайте и удаляйте поисковые системы. Всего в списке может быть до 20 систем."
   },
   "search_engine_enabled": {
     "message": "Включить поисковую систему"
@@ -780,16 +820,16 @@
     "message": "Название поисковой системы"
   },
   "search_engine_url": {
-    "message": "URL поиска"
+    "message": "URL-адрес поиска"
   },
   "search_engine_url_note": {
-    "message": "Используйте {query} в месте подстановки запроса. URL подсказок для пользовательского поисковика необязателен; если поле пустое, используются подсказки Google."
+    "message": "Используйте {query} в месте подстановки закодированного запроса. URL подсказок указывать необязательно; если поле пустое, используются подсказки Google."
   },
   "search_suggestion_url": {
     "message": "URL подсказок (необязательно)"
   },
   "search_suggestion_invalid_url": {
-    "message": "Укажите корректный HTTP- или HTTPS-адрес подсказок с {query} либо оставьте поле пустым."
+    "message": "Введите корректный HTTP- или HTTPS-адрес подсказок с {query} либо оставьте поле пустым."
   },
   "add_search_engine": {
     "message": "Добавить поисковую систему"
@@ -801,68 +841,164 @@
     "message": "Пользовательская поисковая система"
   },
   "move_search_engine_up": {
-    "message": "Переместить выше"
+    "message": "Вверх"
   },
   "move_search_engine_down": {
-    "message": "Переместить ниже"
+    "message": "Вниз"
   },
   "search_engine_invalid_url": {
-    "message": "Укажите корректный HTTP- или HTTPS-адрес, содержащий {query}."
+    "message": "Введите действительный URL-адрес HTTP или HTTPS, содержащий {query}."
   },
   "search_engine_name_required": {
-    "message": "Укажите название поисковой системы."
+    "message": "Введите название поисковой системы."
   },
   "search_engine_at_least_one": {
-    "message": "Должна остаться включённой хотя бы одна поисковая система."
+    "message": "Хотя бы одна поисковая система должна оставаться включенной."
   },
-  "keyboard_shortcuts_setting": { "message": "Горячие клавиши" },
-  "keyboard_shortcuts_description": { "message": "Настройте сочетания клавиш для действий на странице новой вкладки StartGrid." },
-  "keyboard_shortcuts_title": { "message": "Назначение сочетаний" },
-  "keyboard_shortcuts_note": { "message": "Нажмите на сочетание и введите новое. Escape отменяет запись, Backspace или Delete очищает сочетание. Горячие клавиши работают только на странице StartGrid." },
-  "shortcut_change": { "message": "Изменить сочетание" },
-  "shortcut_not_set": { "message": "Не назначено" },
-  "shortcut_clear": { "message": "Удалить сочетание" },
-  "shortcut_reset": { "message": "Восстановить значения по умолчанию" },
-  "shortcut_press_keys": { "message": "Нажмите сочетание…" },
-  "shortcut_conflict": { "message": "Это сочетание уже назначено другому действию." },
-  "shortcut_invalid": { "message": "Нажмите незарезервированную клавишу. Escape и Tab назначить нельзя." },
-  "shortcut_modifier_invalid": { "message": "Для выделения нескольких закладок назначьте Ctrl, Alt, Shift или Meta." },
-  "shortcut_focus_search": { "message": "Перейти к поиску" },
-  "shortcut_add_bookmark": { "message": "Добавить закладку" },
-  "shortcut_toggle_quick_settings": { "message": "Открыть или закрыть быстрые настройки" },
-  "shortcut_open_settings": { "message": "Открыть полные настройки" },
-  "shortcut_go_home": { "message": "Перейти в папку по умолчанию" },
-  "shortcut_go_back": { "message": "Вернуться на одну папку назад" },
-  "shortcut_select_multiple_bookmarks": { "message": "Выделять несколько закладок" },
-  "shortcut_select_all_bookmarks": { "message": "Выделить все закладки" },
-  "shortcut_update_thumbnails": { "message": "Обновить все миниатюры" },
-  "settings_appearance": { "message": "Внешний вид" },
-  "settings_controls": { "message": "Управление" },
-  "settings_group_page": { "message": "Страница и фон" },
-  "settings_group_animations": { "message": "Анимации и эффекты" },
-  "settings_group_grid": { "message": "Сетка плиток" },
-  "settings_group_tile_style": { "message": "Оформление плиток" },
-  "settings_group_tile_content": { "message": "Содержимое плиток" },
-  "settings_group_start": { "message": "Стартовая страница" },
-  "settings_group_sorting": { "message": "Сортировка" },
-  "settings_group_navigation": { "message": "Навигация" },
-  "settings_group_opening": { "message": "Открытие и добавление" },
-  "settings_group_search_behavior": { "message": "Поведение поиска" },
-  "settings_group_thumbnail_generation": { "message": "Миниатюры и фавиконы" },
-  "settings_group_auto_refresh": { "message": "Автоматическое обновление" },
-  "settings_group_thumbnail_storage": { "message": "Локальные изображения" },
-  "settings_group_interface": { "message": "Элементы интерфейса" },
-  "settings_group_sync": { "message": "Синхронизация" },
-  "settings_group_backup": { "message": "Резервная копия" },
-  "settings_group_storage": { "message": "Локальные данные" },
-  "settings_group_permissions": { "message": "Разрешения" },
-  "settings_group_reset": { "message": "Сброс настроек" },
-  "settings_group_reset_description": { "message": "Эти действия требуют подтверждения и могут изменить или удалить сохранённые настройки." },
-  "settings_mobile_section": { "message": "Раздел" },
-  "settings_search_label": { "message": "Поиск по настройкам" },
-  "settings_search_placeholder": { "message": "Найти настройку" },
-  "settings_autosave": { "message": "Изменения сохраняются автоматически" },
-  "settings_no_results": { "message": "Настройки не найдены" },
+  "keyboard_shortcuts_setting": {
+    "message": "Сочетания клавиш"
+  },
+  "keyboard_shortcuts_description": {
+    "message": "Настройте сочетания клавиш для действий на странице новой вкладки StartGrid."
+  },
+  "keyboard_shortcuts_title": {
+    "message": "Назначение сочетаний клавиш"
+  },
+  "keyboard_shortcuts_note": {
+    "message": "Выберите сочетание клавиш и нажмите новую комбинацию. Нажмите Escape для отмены. Нажмите Backspace или Delete, чтобы удалить сочетание. Сочетания работают только на странице StartGrid."
+  },
+  "shortcut_change": {
+    "message": "Изменить сочетание"
+  },
+  "shortcut_not_set": {
+    "message": "Не назначено"
+  },
+  "shortcut_clear": {
+    "message": "Удалить сочетание"
+  },
+  "shortcut_reset": {
+    "message": "Восстановить настройки по умолчанию"
+  },
+  "shortcut_press_keys": {
+    "message": "Нажмите сочетание…"
+  },
+  "shortcut_conflict": {
+    "message": "Это сочетание уже назначено другому действию."
+  },
+  "shortcut_invalid": {
+    "message": "Нажмите незарезервированную клавишу. Escape и Tab не могут быть назначены."
+  },
+  "shortcut_modifier_invalid": {
+    "message": "Назначьте Ctrl, Alt, Shift или Meta для выбора нескольких закладок."
+  },
+  "shortcut_focus_search": {
+    "message": "Перейти к строке поиска"
+  },
+  "shortcut_add_bookmark": {
+    "message": "Добавить закладку"
+  },
+  "shortcut_toggle_quick_settings": {
+    "message": "Переключить быстрые настройки"
+  },
+  "shortcut_open_settings": {
+    "message": "Открыть полные настройки"
+  },
+  "shortcut_go_home": {
+    "message": "Перейти в папку по умолчанию"
+  },
+  "shortcut_go_back": {
+    "message": "Вернуться на одну папку назад"
+  },
+  "shortcut_select_multiple_bookmarks": {
+    "message": "Выбрать несколько закладок"
+  },
+  "shortcut_select_all_bookmarks": {
+    "message": "Выбрать все закладки"
+  },
+  "shortcut_update_thumbnails": {
+    "message": "Обновить все миниатюры"
+  },
+  "settings_appearance": {
+    "message": "Внешний вид"
+  },
+  "settings_controls": {
+    "message": "Элементы управления"
+  },
+  "settings_group_page": {
+    "message": "Страница и фон"
+  },
+  "settings_group_animations": {
+    "message": "Анимации и эффекты"
+  },
+  "settings_group_grid": {
+    "message": "Плиточная сетка"
+  },
+  "settings_group_tile_style": {
+    "message": "Внешний вид плитки"
+  },
+  "settings_group_tile_content": {
+    "message": "Содержимое плитки"
+  },
+  "settings_group_start": {
+    "message": "Стартовая страница"
+  },
+  "settings_group_sorting": {
+    "message": "Сортировка"
+  },
+  "settings_group_navigation": {
+    "message": "Навигация"
+  },
+  "settings_group_opening": {
+    "message": "Открытие и добавление"
+  },
+  "settings_group_search_behavior": {
+    "message": "Поисковое поведение"
+  },
+  "settings_group_thumbnail_generation": {
+    "message": "Миниатюры и значки сайтов"
+  },
+  "settings_group_auto_refresh": {
+    "message": "Автоматическое обновление"
+  },
+  "settings_group_thumbnail_storage": {
+    "message": "Локальные изображения"
+  },
+  "settings_group_interface": {
+    "message": "Элементы управления интерфейсом"
+  },
+  "settings_group_sync": {
+    "message": "Синхронизация"
+  },
+  "settings_group_backup": {
+    "message": "Резервное копирование"
+  },
+  "settings_group_storage": {
+    "message": "Локальные данные"
+  },
+  "settings_group_permissions": {
+    "message": "Разрешения"
+  },
+  "settings_group_reset": {
+    "message": "Сбросить настройки"
+  },
+  "settings_group_reset_description": {
+    "message": "Эти действия требуют подтверждения и могут изменить или удалить сохраненные настройки."
+  },
+  "settings_mobile_section": {
+    "message": "Раздел"
+  },
+  "settings_search_label": {
+    "message": "Настройки поиска"
+  },
+  "settings_search_placeholder": {
+    "message": "Найти настройку"
+  },
+  "settings_autosave": {
+    "message": "Изменения сохраняются автоматически"
+  },
+  "settings_no_results": {
+    "message": "Настройки не найдены"
+  },
   "undo": {
     "message": "Отменить"
   }

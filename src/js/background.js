@@ -1,4 +1,5 @@
 import ImageDB from './api/imageDB';
+import { getMessage, hasLanguageSettingChanged, initializeI18n } from './i18n';
 import browserContextMenu from './plugins/browserContextMenu';
 import { getDefaultFolderId, settings } from './settings';
 import { storage } from './api/storage';
@@ -26,6 +27,13 @@ import { containsPermissions } from './api/permissions';
 import { getBlobHash } from './api/remoteThumbnail';
 import { shouldDownloadFavicon } from './api/faviconPreferences';
 import { requestSearchSuggestions } from './searchSuggestions';
+
+function startI18n(language) {
+  return initializeI18n({ language })
+    .catch(error => console.warn('Could not initialize StartGrid language', error));
+}
+
+let i18nReady = startI18n();
 
 function getHtmlAttribute(tag, name) {
   const match = tag.match(new RegExp(`\\s${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
@@ -160,6 +168,7 @@ function browserActionHandler() {
 }
 
 async function initContextMenu() {
+  await i18nReady;
   const { settings } = await storage.local.get('settings');
   browserContextMenu.init(settings.show_contextmenu_item);
 }
@@ -256,13 +265,14 @@ async function captureScreen(link, callback) {
 
 function handleCreateBookmark(data) {
   browser.tabs.query({ active: true, currentWindow: true }, async function(tabs){
+    await i18nReady;
     const matches = await search(data.pageUrl);
     if (!matches) return;
 
     const isExist = matches.some(match => match.url === data.pageUrl);
     if (isExist) {
       // Bookmarks exist
-      $notifications(browser.i18n.getMessage('notice_bookmark_exist'));
+      $notifications(getMessage('notice_bookmark_exist'));
     } else {
       const { settings } = await storage.local.get('settings');
       // ID of the item for subfolders starts with 'save-{parentId}'
@@ -289,7 +299,7 @@ function handleCreateBookmark(data) {
       if (settings.close_tab_after_adding_bookmark) {
         browser.tabs.remove(tabs[0].id);
       }
-      $notifications(browser.i18n.getMessage('notice_bookmark_created'));
+      $notifications(getMessage('notice_bookmark_created'));
     }
   });
 }
@@ -415,9 +425,18 @@ browser.storage.onChanged.addListener((changes, area) => {
     && changes?.settings?.oldValue
     && changes?.settings?.newValue
   ) {
-    // at the moment we only need to track changes for the show_contextmenu_item option
     const { show_contextmenu_item: newContextMenu } = changes.settings.newValue;
     const { show_contextmenu_item: oldContextMenu } = changes.settings.oldValue;
+
+    if (hasLanguageSettingChanged(changes, area)) {
+      i18nReady = startI18n(changes.settings.newValue.language);
+      i18nReady.then(() => {
+        if (newContextMenu) browserContextMenu.init(true);
+        else browserContextMenu.toggle(false);
+      });
+      return;
+    }
+
     // toggle the context menu only if show_contextmenu_item has changed
     if (newContextMenu !== oldContextMenu) {
       browserContextMenu.toggle(newContextMenu);
@@ -429,7 +448,8 @@ browser.runtime.onInstalled.addListener(async(event) => {
   if (event.reason === 'install') {
     await settings.init();
   }
-  initContextMenu();
+  i18nReady = startI18n();
+  await initContextMenu();
 });
 
 browser.bookmarks.onCreated.addListener((id, bookmark) => handleBookmarks('created', id, bookmark));

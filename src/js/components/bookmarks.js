@@ -1,4 +1,5 @@
 import { DragSortify } from '../plugins/dragSortify';
+import { getMessage } from '../i18n';
 import { multiswap } from '../plugins/dragSortify/multiswap';
 import Toast from './toast';
 import ImageDB from '../api/imageDB';
@@ -112,7 +113,7 @@ const Bookmarks = (() => {
     // Keep the toolbar available so quick settings can show it without reloading the page.
     await import(/* webpackChunkName: "webcomponents/vb-header" */'./vb-header');
     vbHeader = document.createElement('vb-header');
-    vbHeader.setAttribute('placeholder', browser.i18n.getMessage('placeholder_input_search'));
+    vbHeader.setAttribute('placeholder', getMessage('placeholder_input_search'));
     vbHeader.setAttribute('initial-folder-id', settings.defaultFolderId);
     vbHeader.setAttribute('folder-id', startFolder());
     vbHeader.hidden = !settings.$.show_toolbar;
@@ -519,7 +520,7 @@ const Bookmarks = (() => {
   function getSearchFolderLabel(bookmark, folderPaths, displayMode) {
     const path = folderPaths.get(String(bookmark.parentId)) ?? [];
     if (!path.length) {
-      return browser.i18n.getMessage('search_results_root_folder');
+      return getMessage('search_results_root_folder');
     }
 
     return displayMode === 'folder_name'
@@ -655,7 +656,7 @@ const Bookmarks = (() => {
         $createElement('button', {
           id: 'bookmark-back',
           class: 'bookmark-btn bookmark-btn--back md-ripple',
-          'aria-label': browser.i18n.getMessage('parent_folder')
+          'aria-label': getMessage('parent_folder')
         }, $createElement('span', {
           class: DROPZONE_SELECTOR.replace('.', ''),
           'data-id': container.dataset?.parentFolder
@@ -669,7 +670,7 @@ const Bookmarks = (() => {
           id: 'add',
           class: 'bookmark-btn bookmark-btn--create md-ripple',
           'data-create': 'New',
-          'aria-label': browser.i18n.getMessage('new_bookmark')
+          'aria-label': getMessage('new_bookmark')
         })
       );
     }
@@ -706,15 +707,15 @@ const Bookmarks = (() => {
         return render(item[0].children, settings.$.show_create_column);
       })
       .catch(() => {
-        Toast.show(browser.i18n.getMessage('notice_cant_find_id'));
+        Toast.show(getMessage('notice_cant_find_id'));
         container.innerHTML = /* html */
             `<div class="not-found">
               <div class="not-found__wrap">
                 <div class="not-found__icon"></div>
                 <div class="not-found__text">
-                  ${browser.i18n.getMessage('not_found_text')}
+                  ${getMessage('not_found_text')}
                 </div>
-                <button class="btn md-ripple" data-folder-id="1">${browser.i18n.getMessage('not_found_link_text')}</button>
+                <button class="btn md-ripple" data-folder-id="1">${getMessage('not_found_link_text')}</button>
               </div>
             </div>`;
       });
@@ -726,7 +727,7 @@ const Bookmarks = (() => {
    * @returns {HTMLElement} progress element
    */
   function renderProgressToast(sum) {
-    const i18n = browser.i18n.getMessage(
+    const i18n = getMessage(
       'thumbnails_creation',
       [
         '<strong id="progress-text">0</strong>',
@@ -753,8 +754,8 @@ const Bookmarks = (() => {
   async function checkHostPermissions() {
     const allUrlsPermission = await requestPermissions({ origins: ['<all_urls>'] });
     if (!allUrlsPermission) {
-      const message = browser.i18n.getMessage('notice_host_permissions')
-        + `<br><br><button class="btn btn--primary md-ripple" data-permissions-info>${browser.i18n.getMessage('learn_more')}</button>`;
+      const message = getMessage('notice_host_permissions')
+        + `<br><br><button class="btn btn--primary md-ripple" data-permissions-info>${getMessage('learn_more')}</button>`;
 
       Toast.show({
         message,
@@ -832,7 +833,7 @@ const Bookmarks = (() => {
     isGeneratedThumbs = false;
 
     if (showNotice) {
-      $notifications(browser.i18n.getMessage('notice_thumbnails_update_complete'));
+      $notifications(getMessage('notice_thumbnails_update_complete'));
     }
 
     $customTrigger('thumbnails:updated', container);
@@ -967,7 +968,7 @@ const Bookmarks = (() => {
     bookmark.hasOverlay = false;
 
     if (showNotice) {
-      Toast.show(browser.i18n.getMessage('notice_thumb_image_updated'));
+      Toast.show(getMessage('notice_thumb_image_updated'));
     }
   }
 
@@ -1008,10 +1009,10 @@ const Bookmarks = (() => {
     if (response?.success && image?.blob) {
       applyStoredThumbnail(bookmark, image);
       if (showNotice) {
-        Toast.show(browser.i18n.getMessage('notice_thumb_image_updated'));
+        Toast.show(getMessage('notice_thumb_image_updated'));
       }
     } else if (showNotice) {
-      Toast.show(browser.i18n.getMessage('notice_thumbnail_url_failed'));
+      Toast.show(getMessage('notice_thumbnail_url_failed'));
     }
 
     bookmark && (bookmark.hasOverlay = false);
@@ -1315,12 +1316,12 @@ const Bookmarks = (() => {
           folderPaths: createFolderPathMap(tree)
         });
       } else {
-        container.innerHTML = `<div class="empty-search">🙁 ${browser.i18n.getMessage('empty_search')}</div>`;
+        container.innerHTML = `<div class="empty-search">🙁 ${getMessage('empty_search')}</div>`;
       }
     } catch (error) {
       if (requestId !== activeSearchRequest) return;
       console.error('Bookmark search failed', error);
-      container.innerHTML = `<div class="empty-search">🙁 ${browser.i18n.getMessage('search_failed')}</div>`;
+      container.innerHTML = `<div class="empty-search">🙁 ${getMessage('search_failed')}</div>`;
     } finally {
       if (requestId === activeSearchRequest) dialLoading.hidden = true;
     }
@@ -1352,7 +1353,7 @@ const Bookmarks = (() => {
       progress: true,
       hideByClick: false,
       action: {
-        html: browser.i18n.getMessage('undo'),
+        html: getMessage('undo'),
         class: ['btn', 'btn--clear', 'md-ripple'],
         callback(e, hideToast) {
           onUndo();
@@ -1366,7 +1367,7 @@ const Bookmarks = (() => {
 
   async function removeMultipleBookmarks(selectedBookmarks) {
     if (!settings.$.without_confirmation) {
-      const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_delete_selected_bookmarks'));
+      const confirmAction = await confirmPopup(getMessage('confirm_delete_selected_bookmarks'));
       if (!confirmAction) return false;
     }
 
@@ -1394,7 +1395,7 @@ const Bookmarks = (() => {
 
     return new Promise(resolve => {
       showRemoveBookmarkToast({
-        message: browser.i18n.getMessage('notice_selected_bookmarks_removed'),
+        message: getMessage('notice_selected_bookmarks_removed'),
         onShow() {
         // When showing the toast, we need to notify that the toast has appeared so the initiator can clean up after itself.
         // This isn't a very reliable method because there’s no guarantee everything will be properly removed.
@@ -1428,8 +1429,8 @@ const Bookmarks = (() => {
   async function removeBookmark(bookmark, isFolder = false) {
     if (!settings.$.without_confirmation) {
       const confirmMessage = isFolder
-        ? browser.i18n.getMessage('confirm_delete_folder')
-        : browser.i18n.getMessage('confirm_delete_bookmark');
+        ? getMessage('confirm_delete_folder')
+        : getMessage('confirm_delete_bookmark');
 
       const confirmAction = await confirmPopup(confirmMessage);
       if (!confirmAction) return;
@@ -1437,8 +1438,8 @@ const Bookmarks = (() => {
 
     const id = bookmark.dataset.id;
     const message = isFolder
-      ? browser.i18n.getMessage('notice_folder_removed', bookmark.title)
-      : browser.i18n.getMessage('notice_bookmark_removed', bookmark.title);
+      ? getMessage('notice_folder_removed', bookmark.title)
+      : getMessage('notice_bookmark_removed', bookmark.title);
 
     bookmark.hidden = true;
     bookmarksToDelete[bookmark.id] = {
@@ -1537,7 +1538,7 @@ const Bookmarks = (() => {
       bookmark.url = result.url ? result.url : `#${result.id}`;
       $customTrigger('updateFolderList', document);
     }
-    Toast.show(browser.i18n.getMessage('notice_bookmark_updated'));
+    Toast.show(getMessage('notice_bookmark_updated'));
     return bookmark;
   }
 

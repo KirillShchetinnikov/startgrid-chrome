@@ -1,4 +1,5 @@
 import { $createElement } from '../utils';
+import { getMessage } from '../i18n';
 import Toast from './toast';
 import {
   MAX_SEARCH_ENGINES,
@@ -9,7 +10,7 @@ import {
   normalizeSearchEngineSettings
 } from '../searchEngines';
 
-const message = (key, substitutions) => browser.i18n.getMessage(key, substitutions);
+const message = (key, substitutions) => getMessage(key, substitutions);
 
 function createActionButton(action, label, text) {
   return $createElement('button', {

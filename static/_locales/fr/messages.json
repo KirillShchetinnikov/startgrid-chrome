@@ -3,25 +3,31 @@
     "message": "StartGrid"
   },
   "ext_desc": {
-    "message": "Page de favoris visuels simple permettant de rechercher, d'ajouter, d'éditer et de glisser-déposer vos favoris."
+    "message": "Un nouvel onglet personnalisable avec favoris visuels, dossiers, recherche, thèmes et synchronisation en option."
   },
   "default_title": {
     "message": "StartGrid"
   },
+  "language": {
+    "message": "Langue"
+  },
+  "language_browser": {
+    "message": "Utiliser la langue du navigateur"
+  },
   "color_theme": {
-    "message": "Thème"
+    "message": "Thème de couleur"
   },
   "dark_theme": {
     "message": "Sombre"
   },
   "light_theme": {
-    "message": "Clair"
+    "message": "Lumière"
   },
   "os_theme": {
-    "message": "Thème du Système"
+    "message": "Thème du système d'exploitation"
   },
   "placeholder_input_search": {
-    "message": "Recherche dans $engine$",
+    "message": "Rechercher dans $engine$",
     "placeholders": {
       "engine": {
         "content": "$1"
@@ -29,13 +35,13 @@
     }
   },
   "placeholder_input_search_bookmarks": {
-    "message": "favoris"
+    "message": "signets"
   },
   "search_browser_default": {
     "message": "Moteur de recherche du navigateur"
   },
   "placeholder_input_title": {
-    "message": "Entrer le titre du favori"
+    "message": "Saisir le titre du favori"
   },
   "label_title": {
     "message": "Titre"
@@ -47,76 +53,76 @@
     "message": "Dossier"
   },
   "thumbnail_source": {
-    "message": "Source de la miniature"
+    "message": "Source de la vignette"
   },
   "thumbnail_actions": {
-    "message": "Actions sur la miniature"
+    "message": "Actions miniatures"
   },
   "thumbnail_source_local": {
     "message": "Stockage local"
   },
   "thumbnail_source_site": {
-    "message": "Créer depuis le site"
+    "message": "Créer à partir du site Web"
   },
   "thumbnail_source_url": {
-    "message": "Depuis une URL"
+    "message": "À partir de l'URL"
   },
   "thumbnail_source_favicon": {
-    "message": "Favicon du site"
+    "message": "Favicon du site Web (par défaut)"
   },
   "favicon_download_preference": {
-    "message": "Favicon source"
+    "message": "Source des icônes de favoris"
   },
   "favicon_download_inherit": {
-    "message": "Use global setting"
+    "message": "Utiliser le paramètre global"
   },
   "favicon_download_site": {
-    "message": "Download from website"
+    "message": "Télécharger depuis le site Web"
   },
   "favicon_download_chrome": {
-    "message": "Use Chrome cache"
+    "message": "Utiliser le cache Chrome"
   },
   "favicon_size_individual": {
-    "message": "Individual thumbnail image size"
+    "message": "Taille de l'image miniature individuelle"
   },
   "favicon_size_individual_placeholder": {
     "message": "32"
   },
   "favicon_size_individual_note": {
-    "message": "Leave empty to use the global thumbnail image size."
+    "message": "Laissez vide pour utiliser la taille globale de l’image miniature."
   },
   "download_favicons_by_default": {
-    "message": "Download favicons from websites by default"
+    "message": "Télécharger les favicons des sites Web par défaut"
   },
   "download_favicons_by_default_note": {
-    "message": "When a favicon thumbnail is missing locally, download it in the background when the start page opens."
+    "message": "Lorsqu'une vignette de favicon est manquante localement, téléchargez-la en arrière-plan lorsque la page de démarrage s'ouvre."
   },
   "favicon_size": {
-    "message": "Thumbnail image size"
+    "message": "Taille de l'image miniature"
   },
   "favicon_size_note": {
-    "message": "Default image size for all thumbnail types. Individual tile settings take priority."
+    "message": "Taille d'image par défaut pour tous les types de vignettes. Les paramètres de vignettes individuelles sont prioritaires."
   },
   "thumbnail_url": {
     "message": "URL de la miniature"
   },
   "thumbnail_url_note": {
-    "message": "L'image est mise en cache localement et vérifiée périodiquement."
+    "message": "L'image est mise en cache localement et les mises à jour sont vérifiées périodiquement."
   },
   "notice_thumbnail_url_failed": {
-    "message": "Impossible de télécharger la miniature depuis l'URL"
+    "message": "Échec du téléchargement de la miniature à partir de l'URL"
   },
   "url_field_tip": {
-    "message": "Entrer l'URL ou laisser vide pour créer un dossier"
+    "message": "Saisissez une URL ou laissez ce champ vide pour créer un dossier."
   },
   "btn_close": {
     "message": "Annuler"
   },
   "btn_save": {
-    "message": "Enregistrer"
+    "message": "Sauvegarder"
   },
   "btn_back": {
-    "message": "Terminé"
+    "message": "Fait"
   },
   "back_to_main": {
     "message": "Retour aux favoris"
@@ -137,49 +143,49 @@
     "message": "Tout ouvrir dans une nouvelle fenêtre"
   },
   "contextmenu_incognito": {
-    "message": "Ouvrir dans une fenêtre privée"
+    "message": "Ouvrir en mode navigation privée"
   },
   "contextmenu_copy_link": {
     "message": "Copier l'adresse du lien"
   },
   "contextmenu_edit": {
-    "message": "Éditer"
+    "message": "Modifier"
   },
   "contextmenu_capture": {
     "message": "Actualiser la vignette"
   },
   "contextmenu_upload": {
-    "message": "Charger depuis l'ordinateur"
+    "message": "Télécharger depuis un ordinateur"
   },
   "contextmenu_upload_paste": {
-    "message": "Importer depuis le presse-papiers"
+    "message": "Télécharger depuis le presse-papiers"
   },
   "contextmenu_remove": {
-    "message": "Supprimer"
+    "message": "Retirer"
   },
   "confirm_delete_image": {
-    "message": "Supprimer l'image ?"
+    "message": "Supprimer cette image ?"
   },
   "confirm_delete_images": {
-    "message": "Êtes-vous sûr.e ? Toutes les images locales seront supprimées"
+    "message": "Es-tu sûr? Toutes les vignettes locales seront supprimées."
   },
   "confirm_clear_local_cache": {
-    "message": "Are you sure? All temporary local data will be deleted. Settings and local images will be preserved."
+    "message": "Es-tu sûr? Toutes les données locales temporaires seront supprimées. Les paramètres et les images locales seront conservés."
   },
   "confirm_delete_bookmark": {
-    "message": "Voulez-vous vraiment supprimer le favori ?"
+    "message": "Supprimer ce favori ?"
   },
   "confirm_delete_folder": {
-    "message": "Voulez-vous vraiment supprimer le dossier et tout son contenu ?"
+    "message": "Supprimer ce dossier et tout ce qu'il contient ?"
   },
   "confirm_restore_default_settings": {
-    "message": "Voulez-vous vraiment restaurer les paramètres par défaut ?"
+    "message": "Réinitialiser uniquement les paramètres locaux aux valeurs par défaut et désactiver la synchronisation ? Les données synchronisées sur le serveur seront préservées."
   },
   "confirm_clear_sync_settings": {
-    "message": "Voulez-vous vraiment supprimer toutes les données précédemment synchronisées pour repartir à zéro ?"
+    "message": "Supprimer les paramètres synchronisés du serveur et désactiver la synchronisation ? Les paramètres locaux, les images et le cache seront conservés."
   },
   "confirm_sync_remote_settings": {
-    "message": "Vous avez des données précédemment synchronisées !\nVoulez-vous écraser vos paramètres locaux actuels avec vos paramètres distants précédemment enregistrés ?"
+    "message": "Des paramètres synchronisés existent déjà.\nRemplacer les paramètres locaux actuels par la version synchronisée ?"
   },
   "notice_image_removed": {
     "message": "Image supprimée"
@@ -191,13 +197,13 @@
     "message": "Le favori existe déjà"
   },
   "notice_bookmark_created": {
-    "message": "Favori créé"
+    "message": "Signet créé"
   },
   "notice_bookmark_updated": {
-    "message": "Favori mis à jour"
+    "message": "Favoris mis à jour"
   },
   "notice_bookmark_removed": {
-    "message": "Favori \"<span data-title>$title$</span>\" supprimé",
+    "message": "Signet supprimé \"<span data-title>$title$</span>\"",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -205,7 +211,7 @@
     }
   },
   "notice_folder_removed": {
-    "message": "Dossier \"<span data-title>$title$</span>\" supprimé",
+    "message": "Dossier supprimé \"<span data-title>$title$</span>\"",
     "placeholders": {
       "title": {
         "content": "$1"
@@ -213,34 +219,34 @@
     }
   },
   "notice_selected_bookmarks_removed": {
-    "message": "Les favoris sélectionnés ont été supprimés"
+    "message": "Favoris sélectionnés supprimés"
   },
   "notice_images_removed": {
-    "message": "Toutes les images ont été supprimées"
+    "message": "Toutes les miniatures locales supprimées"
   },
   "notice_local_cache_cleared": {
-    "message": "Local cache cleared"
+    "message": "Cache local vidé"
   },
   "notice_cant_find_id": {
-    "message": "ID de dossier introuvable. Vos favoris ne sont peut-être pas synchronisés"
+    "message": "Dossier introuvable. Il se peut qu'il ne soit pas disponible dans ce profil Chrome."
   },
   "notice_reset_default_settings": {
-    "message": "Paramètres locaux par défaut réinitialisés"
+    "message": "Réinitialisation des paramètres locaux ; synchronisation désactivée"
   },
   "notice_sync_settings_cleared": {
-    "message": "Synchronisation des données effacée"
+    "message": "Données du serveur synchronisées supprimées ; synchronisation désactivée"
   },
   "notice_bg_image_updated": {
-    "message": "Image d'arrière-plan modifiée"
+    "message": "Contexte mis à jour"
   },
   "notice_thumbnails_update_complete": {
-    "message": "Mise à jour de la vignette terminée"
+    "message": "Mise à jour des miniatures terminée"
   },
   "notice_link_copied": {
     "message": "Lien copié"
   },
   "alert_file_type_fail_type": {
-    "message": "Mauvais type de fichier\nType de fichier valide($type$)",
+    "message": "Type de fichier non pris en charge\nType de fichier autorisé : $type$",
     "placeholders": {
       "type": {
         "content": "$1"
@@ -248,7 +254,7 @@
     }
   },
   "alert_file_type_fail_size": {
-    "message": "Taille maximale d'envoi de fichier :  $filesize$ MB",
+    "message": "Le fichier est trop volumineux. Taille maximale : $filesize$ Mo",
     "placeholders": {
       "filesize": {
         "content": "$1"
@@ -256,7 +262,7 @@
     }
   },
   "not_found_text": {
-    "message": "ID de dossier introuvable. Vos favoris ne sont peut-être pas synchronisés, ou vous avez supprimé | déplacé ce dossier."
+    "message": "Dossier introuvable. Il a peut-être été déplacé ou supprimé, ou vos favoris ne sont peut-être pas synchronisés sur cet appareil."
   },
   "not_found_link_text": {
     "message": "Barre de favoris"
@@ -271,76 +277,76 @@
     "message": "Modifier le favori"
   },
   "options": {
-    "message": "Options"
+    "message": "Paramètres"
   },
   "quick_display_settings": {
-    "message": "Quick bookmark appearance"
+    "message": "Paramètres d'apparence rapide"
   },
   "quick_display_settings_description": {
-    "message": "Changes are applied immediately"
+    "message": "Les modifications sont appliquées immédiatement"
   },
   "more_settings": {
-    "message": "All settings"
+    "message": "Tous les paramètres"
   },
   "bookmark_appearance_setting": {
-    "message": "Bookmarks"
+    "message": "Signets"
   },
   "page_appearance_setting": {
-    "message": "Page"
+    "message": "Page d'accueil"
   },
   "bookmark_behavior_setting": {
-    "message": "Behavior"
+    "message": "Comportement"
   },
   "thumbnails_setting": {
-    "message": "Thumbnails"
+    "message": "Miniatures"
   },
   "thumbnails_setting_description": {
-    "message": "Settings in this section apply to all supported thumbnail sources: website screenshots, image URLs, and favicons. Locally uploaded images are never replaced automatically."
+    "message": "Les paramètres de cette section s'appliquent à toutes les sources de vignettes prises en charge : captures d'écran de sites Web, URL d'images et favicons. Les images téléchargées localement ne sont jamais remplacées automatiquement."
   },
   "data_privacy_setting": {
-    "message": "Data and privacy"
+    "message": "Données et confidentialité"
   },
   "dial_width": {
-    "message": "Largeur du tableau"
+    "message": "Largeur de grille"
   },
   "dial_gap": {
-    "message": "Distance between tiles"
+    "message": "Distance entre les carreaux"
   },
   "dial_radius": {
-    "message": "Tile corner radius"
+    "message": "Rayon de coin de carrelage"
   },
   "dial_aspect_ratio": {
-    "message": "Tile proportions"
+    "message": "Proportions des carreaux"
   },
   "dial_aspect_ratio_square": {
-    "message": "Square (1:1)"
+    "message": "Carré (1:1)"
   },
   "dial_aspect_ratio_standard": {
-    "message": "Standard (4:3)"
+    "message": "Norme (4:3)"
   },
   "dial_aspect_ratio_photo": {
     "message": "Photo (3:2)"
   },
   "dial_aspect_ratio_wide": {
-    "message": "Wide (16:9)"
+    "message": "Large (16:9)"
   },
   "dial_shadow": {
-    "message": "Tile shadow intensity"
+    "message": "Intensité de l'ombre des carreaux"
   },
   "dial_hover_lift": {
-    "message": "Tile lift on hover"
+    "message": "Lève-carreaux en survol"
   },
   "dial_background_color": {
-    "message": "Couleur d’arrière-plan des vignettes"
+    "message": "Couleur de fond des carreaux"
   },
   "dial_background_color_note": {
-    "message": "Utilise la couleur du thème actuel tant qu’aucune couleur personnalisée n’est sélectionnée."
+    "message": "Utilise la couleur du thème actuel jusqu'à ce qu'une couleur personnalisée soit sélectionnée."
   },
   "dial_background_opacity": {
-    "message": "Opacité de l’arrière-plan des vignettes"
+    "message": "Opacité de l'arrière-plan des tuiles"
   },
   "dial_background_opacity_note": {
-    "message": "0 % est entièrement transparent ; 100 % est opaque."
+    "message": "0 % est entièrement transparent ; 100% est opaque."
   },
   "reset_tile_background_color": {
     "message": "Utiliser la couleur du thème"
@@ -355,7 +361,7 @@
     "message": "Désactiver le défilement sur la page principale"
   },
   "disable_main_page_scroll_description": {
-    "message": "Masque la barre et empêche le défilement en dehors des résultats de recherche dans les favoris."
+    "message": "Masque la barre de défilement et empêche le défilement en dehors des résultats de recherche de signets."
   },
   "default_folder_id": {
     "message": "Dossier par défaut"
@@ -373,67 +379,97 @@
     "message": "Couleur"
   },
   "background_noimage": {
-    "message": "Sans image d'arrière-plan"
+    "message": "Aucune image de fond"
   },
   "background_noimage_text": {
-    "message": "Thème sans image d'arrière-plan"
+    "message": "Utiliser la couleur d'arrière-plan du thème"
   },
   "background_bing": {
-    "message": "Image du jour de Bing"
+    "message": "Image Bing du jour"
   },
   "background_bing_text": {
-    "message": "L’image du jour de Bing est une photo d’arrière-plan quotidienne affichée sur la page d’accueil de Bing. Chaque jour, Microsoft met en avant une image impressionnante ou intéressante de la nature, de l’architecture ou de la culture du monde entier"
+    "message": "Utilisez la photo quotidienne présentée sur la page d'accueil de Bing comme arrière-plan StartGrid."
   },
   "bing_permission_toast": {
-    "message": "L’image du jour de Bing nécessite une autorisation d'accès à bing.com. Vous pouvez activer cette autorisation sur la <a href=\"/options.html\">page des paramètres</a> en sélectionnant l’option « Image du jour de Bing » et en confirmant l’autorisation"
+    "message": "L’image Bing du jour nécessite un accès à bing.com. Sélectionnez-la sur la <a href=\"/options.html\">page des paramètres</a> et confirmez la demande d’autorisation."
   },
   "background_external": {
-    "message": "Image à partir d'une URL"
+    "message": "Image de l'URL"
   },
   "background_local": {
-    "message": "Image ou vidéo sur l'ordinateur"
+    "message": "Image ou vidéo provenant d'un ordinateur"
   },
   "background_local_video_note": {
-    "message": "Un arrière-plan local peut être une image ou une vidéo MP4. La vidéo est lue sans son et en boucle automatiquement."
+    "message": "Un arrière-plan local peut être une image ou une vidéo MP4. La vidéo est lue en sourdine et tourne automatiquement en boucle."
   },
-  "background_entrance_effect": { "message": "Apparition de l’arrière-plan" },
-  "background_entrance_none": { "message": "Sans animation" },
-  "background_entrance_zoom": { "message": "Zoom arrière" },
-  "background_entrance_blur": { "message": "Depuis le flou" },
-  "background_entrance_slide": { "message": "Glissement vers le haut" },
-  "background_entrance_duration": { "message": "Durée d’apparition de l’arrière-plan" },
-  "snow_mode": { "message": "Neige" },
-  "snow_mode_always": { "message": "Toujours" },
-  "snow_mode_winter": { "message": "En hiver — du 1er décembre au dernier jour de février" },
-  "snow_mode_off": { "message": "Désactivée" },
-  "page_cascade_enabled": { "message": "Animer les tuiles à l’ouverture" },
-  "page_cascade_mode": { "message": "Ordre de la cascade" },
-  "page_cascade_mode_items": { "message": "Un favori à la fois" },
-  "page_cascade_mode_rows": { "message": "Une ligne à la fois" },
-  "page_cascade_duration": { "message": "Durée de la cascade" },
+  "background_entrance_effect": {
+    "message": "Aspect de l'arrière-plan"
+  },
+  "background_entrance_none": {
+    "message": "Aucune animation"
+  },
+  "background_entrance_zoom": {
+    "message": "Zoom arrière"
+  },
+  "background_entrance_blur": {
+    "message": "Fondu du flou"
+  },
+  "background_entrance_slide": {
+    "message": "Glisser par le bas"
+  },
+  "background_entrance_duration": {
+    "message": "Durée d'apparition de l'arrière-plan"
+  },
+  "snow_mode": {
+    "message": "Chute de neige"
+  },
+  "snow_mode_always": {
+    "message": "Toujours"
+  },
+  "snow_mode_winter": {
+    "message": "En hiver : du 1er décembre au dernier jour de février"
+  },
+  "snow_mode_off": {
+    "message": "Désactivé"
+  },
+  "page_cascade_enabled": {
+    "message": "Animer les vignettes à l'ouverture de la page"
+  },
+  "page_cascade_mode": {
+    "message": "Ordre en cascade"
+  },
+  "page_cascade_mode_items": {
+    "message": "Un signet à la fois"
+  },
+  "page_cascade_mode_rows": {
+    "message": "Une ligne à la fois"
+  },
+  "page_cascade_duration": {
+    "message": "Durée de la cascade"
+  },
   "choose_file": {
-    "message": "Image ou vidéo"
+    "message": "Choisissez une image ou une vidéo"
   },
   "show_settings_icon": {
     "message": "Afficher l'icône des paramètres"
   },
   "show_quick_settings_icon": {
-    "message": "Show the quick settings icon"
+    "message": "Afficher l'icône des paramètres rapides"
   },
   "show_extension_icon": {
-    "message": "Afficher l’icône StartGrid"
+    "message": "Afficher l'icône StartGrid"
   },
   "show_toolbar": {
-    "message": "Afficher la barre de recherche et la sélection du dossier"
+    "message": "Afficher la barre de recherche et le sélecteur de dossiers"
   },
   "show_create_column": {
-    "message": "Afficher une colonne pour l'jout d'un favori"
+    "message": "Afficher la vignette Ajouter un signet"
   },
   "show_bookmark_title": {
     "message": "Afficher le titre du favori"
   },
   "show_favicon": {
-    "message": "Afficher la favicône à côté du titre"
+    "message": "Afficher le favicon à côté du titre"
   },
   "open_bookmarks_newtab": {
     "message": "Ouvrir les favoris dans un nouvel onglet"
@@ -448,43 +484,43 @@
     "message": "Activer le glisser-déposer"
   },
   "auto_generate_thumbnail": {
-    "message": "Générer une vignette à la création du favori"
+    "message": "Ajouter automatiquement une favicon aux nouveaux favoris"
   },
   "enable_sync": {
     "message": "Activer la synchronisation"
   },
   "clear_background_locals": {
-    "message": "Vider le dossier des images locales"
+    "message": "Supprimer toutes les images miniatures stockées localement"
   },
   "clear_local_cache": {
-    "message": "Clear local cache"
+    "message": "Vider le cache local"
   },
   "reset_local_default": {
-    "message": "Réinitialiser les paramètres locaux aux valeurs par défaut"
+    "message": "Réinitialiser les paramètres aux valeurs par défaut"
   },
   "reset_local_default_description": {
-    "message": "Resets only local settings and disables synchronization. Synchronized server data is not deleted."
+    "message": "Réinitialise uniquement les paramètres locaux et désactive la synchronisation. Les données du serveur synchronisées ne sont pas supprimées."
   },
   "reset_quick_settings": {
-    "message": "Réinitialiser les réglages rapides"
+    "message": "Réinitialiser les paramètres rapides"
   },
   "reset_quick_settings_description": {
-    "message": "Restaure uniquement les réglages affichés dans ce menu aux valeurs par défaut de l’extension."
+    "message": "Restaure uniquement les paramètres affichés dans ce menu aux valeurs par défaut de l'extension."
   },
   "confirm_reset_quick_settings": {
-    "message": "Réinitialiser les réglages rapides aux valeurs par défaut de l’extension ?"
+    "message": "Réinitialiser les paramètres rapides aux valeurs par défaut de l'extension ?"
   },
   "reset_sync_text": {
-    "message": "Supprimer les données synchronisées du serveur"
+    "message": "Supprimer les paramètres synchronisés de Chrome Sync"
   },
   "reset_sync_description": {
-    "message": "Deletes only synchronized settings from the server and disables synchronization. Local settings, images, and cache are preserved."
+    "message": "Supprime uniquement les paramètres synchronisés du serveur et désactive la synchronisation. Les paramètres locaux, les images et le cache sont préservés."
   },
   "version": {
     "message": "Version"
   },
   "thumbnails_creation": {
-    "message": "Création des vignettes : $start$ sur $total$",
+    "message": "Génération de vignettes : $start$ / $total$",
     "placeholders": {
       "start": {
         "content": "$1"
@@ -495,37 +531,37 @@
     }
   },
   "thumbnails_update_warn": {
-    "message": "La mise à jour des vignettes peut affecter la performance (dépend du nombre de favoris dans un dossier et des capacités de l'ordinateur)"
+    "message": "Chaque vignette est actualisée à partir de sa source sélectionnée : site Web, URL de l'image ou favicon. Les images téléchargées localement sont conservées. La mise à jour peut affecter les performances."
   },
   "thumbnails_update_button": {
-    "message": "Bouton de mise à jour des vignettes"
+    "message": "Mettre à jour toutes les vignettes"
   },
   "thumbnails_auto_refresh": {
-    "message": "Automatically refresh thumbnails"
+    "message": "Actualiser automatiquement les vignettes"
   },
   "thumbnails_auto_refresh_note": {
-    "message": "Checks and refreshes outdated thumbnails when the home page opens"
+    "message": "Vérifie et actualise les vignettes obsolètes à l'ouverture de la page d'accueil"
   },
   "thumbnails_auto_refresh_interval": {
-    "message": "Automatic refresh interval"
+    "message": "Intervalle de rafraîchissement automatique"
   },
   "thumbnails_auto_refresh_interval_note": {
-    "message": "Time between thumbnail refreshes, from 1 hour to 7 days"
+    "message": "Délai entre les actualisations des vignettes, de 1 heure à 7 jours"
   },
   "hours_short": {
     "message": "h"
   },
   "folder_preview": {
-    "message": "Vignettes des sites sur le dossier plutôt qu'une icône"
+    "message": "Afficher les miniatures du site sur les dossiers"
   },
   "folder_preview_description": {
-    "message": "En activant ce paramètre, les vignettes de 4 sites web du dossier seront aléatoirement affichées à la place de l'icône ou de l'image personnalisée."
+    "message": "Affiche les vignettes de quatre sites sélectionnés au hasard dans le dossier au lieu d'une icône de dossier ou d'une image personnalisée."
   },
   "backup_settings": {
-    "message": "Paramètres d'importation / exportation"
+    "message": "Paramètres d'importation ou d'exportation"
   },
   "backup_settings_description": {
-    "message": "Sauvegarde des paramètre de l'extension uniquemement, favoris et images non inclus"
+    "message": "Sauvegarde uniquement les paramètres de l'extension ; les signets et les images ne sont pas inclus."
   },
   "import": {
     "message": "Importer"
@@ -537,16 +573,16 @@
     "message": "Paramètres importés"
   },
   "import_settings_failed": {
-    "message": "Échec de l'analyse du fichier de paramètres"
+    "message": "Impossible de lire le fichier de paramètres"
   },
   "without_confirmation": {
-    "message": "Ne pas me demander de confirmer lors de la suppression"
+    "message": "Supprimer sans confirmation"
   },
   "toggle_clipboard_access": {
-    "message": "Permission de lire à partir du presse-papiers"
+    "message": "Autoriser l'accès au presse-papiers"
   },
   "toggle_clipboard_access_description": {
-    "message": "Permet à l'extension de lire les données du presse-papiers pour charger la miniature du favori. Dans la fenêtre de modification du favori, l'action « Charger depuis le presse-papiers » deviendra disponible. Si cette autorisation vous inquiète, il vous suffit de ne pas l'activer."
+    "message": "Permet à l'extension de lire les données du presse-papiers pour télécharger une vignette de signet. L'action « Télécharger depuis le presse-papiers » deviendra disponible dans la fenêtre d'édition des favoris. Si cette autorisation vous préoccupe, ne l’activez tout simplement pas."
   },
   "error_input_required": {
     "message": "Champ obligatoire"
@@ -555,98 +591,102 @@
     "message": "L'URL n'est pas valide"
   },
   "thumbnails_update_delay": {
-    "message": "Délai avant création de la vignette"
+    "message": "Attendez avant de capturer une vignette"
   },
   "thumbnails_update_delay_note": {
-    "message": "Il peut être utile lorsque le chargemement du contenu de la page est long. L'attente sera d'autant plus longue que le délai est grand"
+    "message": "Augmentez le délai pour les sites Web qui ont besoin de plus de temps pour terminer le chargement."
   },
   "close_tab_after_adding_bookmark": {
-    "message": "Fermeture automatique de l'onglet si vous l'avez ajouté aux favoris"
+    "message": "Fermez l'onglet après l'avoir ajouté aux favoris"
   },
   "close_tab_after_adding_bookmark_note": {
-    "message": "Seulement en cas d'ajout par le menu contextuel"
+    "message": "S'applique uniquement lorsqu'un signet est ajouté à partir du menu contextuel."
   },
   "empty_search": {
     "message": "Aucun favori trouvé"
   },
   "search_failed": {
-    "message": "Could not search bookmarks. Please try again."
+    "message": "Impossible de rechercher les favoris. Veuillez réessayer."
   },
   "sync_quota_exceeded": {
-    "message": "La limite de stockage Chrome Sync est dépassée ($used$ sur $limit$). Les dernières modifications n’ont pas pu être synchronisées et restent sur cet appareil. Réduisez les paramètres synchronisés.",
+    "message": "Limite de stockage de Chrome Sync dépassée ($used$ de $limit$). Les dernières modifications n'ont pas pu être synchronisées et restent sur cet appareil. Réduisez les paramètres synchronisés.",
     "placeholders": {
-      "used": { "content": "$1" },
-      "limit": { "content": "$2" }
+      "used": {
+        "content": "$1"
+      },
+      "limit": {
+        "content": "$2"
+      }
     }
   },
   "delete_thumbnail": {
     "message": "Supprimer du stockage local"
   },
   "show_back_column": {
-    "message": "Afficher une colonne retour dans les favoris"
+    "message": "Afficher la vignette Retour dans les dossiers"
   },
   "search_engine": {
     "message": "Moteur de recherche par défaut"
   },
   "search_results_display": {
-    "message": "Bookmark search results"
+    "message": "Résultats de recherche dans les favoris"
   },
   "search_results_display_flat": {
-    "message": "Tiles only"
+    "message": "Carreaux uniquement"
   },
   "search_results_display_folder_name": {
-    "message": "Parent folder on the tile"
+    "message": "Dossier parent sur la vignette"
   },
   "search_results_display_folder_path": {
-    "message": "Full folder path on the tile"
+    "message": "Chemin complet du dossier sur la vignette"
   },
   "search_results_display_grouped": {
-    "message": "Group by folders"
+    "message": "Regrouper par dossiers"
   },
   "search_results_root_folder": {
-    "message": "Root bookmarks folder"
+    "message": "Dossier de favoris racine"
   },
   "move_to_start": {
-    "message": "Déplacer un favori en tête de liste dans un dossier"
+    "message": "Déplacer les nouveaux favoris en haut de leur dossier"
   },
   "bookmarks_sorting_type": {
     "message": "Tri des dossiers"
   },
   "home_sort_by": {
-    "message": "Tri des tuiles de la page d’accueil"
+    "message": "Tri des vignettes de la page d'accueil"
   },
   "manual_sorting": {
     "message": "Tri manuel"
   },
   "sort_by_usage": {
-    "message": "Fréquence d’utilisation"
+    "message": "Fréquence d'utilisation"
   },
   "sort_direction": {
-    "message": "Sens du tri"
+    "message": "Sens de tri"
   },
   "newest_first": {
-    "message": "Décroissant — plus récents d’abord"
+    "message": "Décroissant : le plus récent en premier"
   },
   "oldest_first": {
-    "message": "Croissant — plus anciens d’abord"
+    "message": "Ascendant : le plus ancien en premier"
   },
   "alphabet_descending": {
-    "message": "Décroissant — Z à A"
+    "message": "Descendant - Z à A"
   },
   "alphabet_ascending": {
-    "message": "Croissant — A à Z"
+    "message": "Ascendant – de A à Z"
   },
   "usage_tiebreaker": {
-    "message": "À fréquence égale, trier par"
+    "message": "Lorsque l'utilisation est égale, trier par"
   },
   "show_home_folders": {
-    "message": "Afficher les dossiers sur la page d’accueil"
+    "message": "Afficher les dossiers sur la page d'accueil"
   },
   "show_usage_count": {
-    "message": "Afficher le compteur sur les favoris"
+    "message": "Afficher le nombre d'utilisations dans les favoris"
   },
   "usage_count_label": {
-    "message": "Nombre d’ouvertures : $COUNT$",
+    "message": "Nombre d'ouvertures : $COUNT$",
     "placeholders": {
       "count": {
         "content": "$1"
@@ -654,10 +694,10 @@
     }
   },
   "folders_together": {
-    "message": "Trier les dossiers avec les favoris"
+    "message": "Trier les dossiers avec les signets"
   },
   "navigation_sort_by": {
-    "message": "Tri dans les dossiers et la recherche"
+    "message": "Tri dans les dossiers et recherche"
   },
   "browser_default_order": {
     "message": "Ordre par défaut"
@@ -669,25 +709,25 @@
     "message": "Date"
   },
   "sort_by_alphabet": {
-    "message": "Ordre alphabétique"
+    "message": "Alphabétiquement"
   },
   "not_sorting": {
     "message": "Non trié"
   },
   "folders_on_top": {
-    "message": "Dossiers en premier"
+    "message": "Dossiers en haut"
   },
   "folders_at_the_bottom": {
-    "message": "Dossiers en dernier"
+    "message": "Dossiers en bas"
   },
   "bookmarks_sorting_warning": {
-    "message": "Le tri par glisser-déposer sera désactivé si l'une des options de tri est sélectionnée"
+    "message": "La commande par glisser-déposer n'est pas disponible lorsque le tri automatique est activé."
   },
   "search_autofocus": {
-    "message": "Focus sur la barre de recherche"
+    "message": "Concentrez-vous sur la barre de recherche"
   },
   "confirm_delete_selected_bookmarks": {
-    "message": "Êtes-vous sûr.e de vouloir supprimer les favoris sélectionnés ?"
+    "message": "Supprimer les favoris sélectionnés ?"
   },
   "button_action_move": {
     "message": "Déplacer vers le dossier"
@@ -696,34 +736,34 @@
     "message": "Dossier parent"
   },
   "new_bookmark": {
-    "message": "Nouveau favori"
+    "message": "Nouveau signet"
   },
   "modal_dismiss": {
-    "message": "Rejet modal"
+    "message": "Fermer la boîte de dialogue"
   },
   "remove_thumbnail": {
-    "message": "Effacer la vignette"
+    "message": "Supprimer la vignette"
   },
   "thumbnails_update": {
-    "message": "Mise à jour des vignettes"
+    "message": "Mettre à jour les miniatures"
   },
   "bookmark_context": {
-    "message": "Contexte du favori"
+    "message": "Actions de favoris"
   },
   "clear_search": {
     "message": "Effacer la recherche"
   },
   "search_suggestions_permission_tooltip": {
-    "message": "Autoriser l’accès au service de suggestions sélectionné et au service de secours Google"
+    "message": "Autoriser l'accès au service de suggestion sélectionné et à la solution de secours Google"
   },
   "search": {
-    "message": "Rechercher"
+    "message": "Recherche"
   },
   "toggle_selected_bookmarks_popup": {
-    "message": "Déclencher une fenêtre pop-up pour ouvrir les liens"
+    "message": "Afficher ou masquer les actions de favoris sélectionnées"
   },
   "toggle_search_popup": {
-    "message": "Déclencher une fenêtre pop-up avec la recherche"
+    "message": "Afficher ou masquer les options de recherche"
   },
   "open_selected": {
     "message": "Ouvrir la sélection"
@@ -732,100 +772,234 @@
     "message": "Supprimer la sélection"
   },
   "select_folder": {
-    "message": "Sélectionner un dossier"
+    "message": "Sélectionnez un dossier"
   },
   "show_last_opened_folder": {
     "message": "Afficher le dernier dossier ouvert"
   },
   "history_back": {
-    "message": "Retour historique"
+    "message": "Retourner"
   },
   "default_folder_home": {
     "message": "Aller au dossier par défaut"
   },
   "incognito_access_note": {
-    "message": "Vous devez autoriser cette extension à s'éxécuter en mode privé"
+    "message": "Autorisez StartGrid à s'exécuter en mode navigation privée avant d'utiliser cette action."
   },
   "notice_host_permissions": {
-    "message": "Pour créer des vignettes de sites web, l'autorisation de l'utilisateur est nécessaire pour que l'extension puisse accéder aux sites"
+    "message": "La création de miniatures de sites Web nécessite l'autorisation d'accéder aux sites Web sélectionnés."
   },
   "learn_more": {
-    "message": "En savoir plus"
+    "message": "Apprendre encore plus"
   },
   "why_use_host_permissions": {
     "message": "Pourquoi utiliser cette autorisation ?"
   },
   "host_permissions_info": {
-    "message": "<p>Cette autorisation est nécessaire pour générer les aperçus des sites web. Vos données sur les sites ne sont ni collectées, ni pistées, ni modifiées par cette extension. La seule modification ayant lieu après l'ouverture d'une fenêtre séparée avec le site web est le masquage de la barre de défilement avant la capture d'écran (pour obtenir un aperçu dépourvu de barre de défilement dans la mesure du possible). Le code de l'extension est disponible sur <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">Github</a>. Si vous avez des réserves quant à cette autorisation, vous pouvez refuser, l'extension fonctionnera quand même mais la génération d'aperçus des sites web pour les favoris ne sera pas disponible.</p><p>Cette autorisation sera demandée lors d'une tentative de prise d'écran d'un site web (si désactivée). Vous pouvez également gérer ce droit dans les paramètres du navigateur en ouvrant une fenêtre avec les informations détaillées de l'extension.</p>"
+    "message": "<p>StartGrid a besoin d'accéder au site Web uniquement lorsqu'il crée une capture d'écran pour la miniature d'un favori. Il ne collecte ni ne suit vos données de navigation. Lors de la capture d'une capture d'écran, StartGrid masque temporairement la barre de défilement du site Web dans une fenêtre séparée.</p><p>Vous pouvez refuser cette autorisation facultative et utiliser toutes les fonctionnalités, à l'exception des captures d'écran du site Web. Chrome demande l'accès lorsque vous créez pour la première fois une capture d'écran de site Web. Vous pourrez modifier l'autorisation ultérieurement dans les paramètres de l'extension de Chrome. Le code source est disponible sur <a href=\"https://github.com/KirillShchetinnikov/startgrid-chrome\" target=\"_blank\">GitHub</a>.</p>"
   },
-  "search_bookmarks": { "message": "Favoris" },
-  "search_settings": { "message": "Recherche" },
-  "search_settings_description": { "message": "Choisissez le moteur de recherche par défaut et configurez ceux qui apparaissent dans le menu de recherche." },
-  "search_engines": { "message": "Moteurs de recherche" },
-  "search_engines_description": { "message": "Activez, configurez, réorganisez ou supprimez les moteurs de recherche. La liste peut contenir jusqu’à 20 moteurs au total." },
-  "search_engine_enabled": { "message": "Activer le moteur de recherche" },
-  "search_engine_name": { "message": "Nom du moteur de recherche" },
-  "search_engine_url": { "message": "URL de recherche" },
-  "search_engine_url_note": { "message": "Utilisez {query} à l’emplacement de la requête encodée. L’URL de suggestions personnalisée est facultative ; si elle est vide, les suggestions Google sont utilisées." },
-  "search_suggestion_url": { "message": "URL des suggestions (facultatif)" },
-  "search_suggestion_invalid_url": { "message": "Saisissez une URL HTTP ou HTTPS valide contenant {query}, ou laissez le champ vide." },
-  "add_search_engine": { "message": "Ajouter un moteur de recherche" },
-  "remove_search_engine": { "message": "Supprimer le moteur de recherche" },
-  "custom_search_engine": { "message": "Moteur de recherche personnalisé" },
-  "move_search_engine_up": { "message": "Déplacer vers le haut" },
-  "move_search_engine_down": { "message": "Déplacer vers le bas" },
-  "search_engine_invalid_url": { "message": "Saisissez une URL HTTP ou HTTPS valide contenant {query}." },
-  "search_engine_name_required": { "message": "Saisissez le nom du moteur de recherche." },
-  "search_engine_at_least_one": { "message": "Au moins un moteur de recherche doit rester activé." },
-  "keyboard_shortcuts_setting": { "message": "Raccourcis" },
-  "keyboard_shortcuts_description": { "message": "Configurez les raccourcis clavier pour les actions de la page StartGrid." },
-  "keyboard_shortcuts_title": { "message": "Affectation des raccourcis" },
-  "keyboard_shortcuts_note": { "message": "Cliquez sur un raccourci puis appuyez sur une nouvelle combinaison. Échap annule ; Retour arrière ou Suppr efface. Les raccourcis fonctionnent uniquement sur StartGrid." },
-  "shortcut_change": { "message": "Modifier le raccourci" },
-  "shortcut_not_set": { "message": "Non attribué" },
-  "shortcut_clear": { "message": "Supprimer le raccourci" },
-  "shortcut_reset": { "message": "Rétablir les valeurs par défaut" },
-  "shortcut_press_keys": { "message": "Appuyez sur le raccourci…" },
-  "shortcut_conflict": { "message": "Ce raccourci est déjà attribué à une autre action." },
-  "shortcut_invalid": { "message": "Appuyez sur une touche non réservée. Échap et Tab ne peuvent pas être attribuées." },
-  "shortcut_modifier_invalid": { "message": "Attribuez Ctrl, Alt, Maj ou Meta pour sélectionner plusieurs favoris." },
-  "shortcut_focus_search": { "message": "Activer la recherche" },
-  "shortcut_add_bookmark": { "message": "Ajouter un favori" },
-  "shortcut_toggle_quick_settings": { "message": "Afficher ou masquer les réglages rapides" },
-  "shortcut_open_settings": { "message": "Ouvrir tous les paramètres" },
-  "shortcut_go_home": { "message": "Aller au dossier par défaut" },
-  "shortcut_go_back": { "message": "Revenir au dossier précédent" },
-  "shortcut_select_multiple_bookmarks": { "message": "Sélectionner plusieurs favoris" },
-  "shortcut_select_all_bookmarks": { "message": "Sélectionner tous les favoris" },
-  "shortcut_update_thumbnails": { "message": "Mettre à jour toutes les vignettes" },
-  "settings_appearance": { "message": "Apparence" },
-  "settings_controls": { "message": "Commandes" },
-  "settings_group_page": { "message": "Page et arrière-plan" },
-  "settings_group_animations": { "message": "Animations et effets" },
-  "settings_group_grid": { "message": "Grille des tuiles" },
-  "settings_group_tile_style": { "message": "Apparence des tuiles" },
-  "settings_group_tile_content": { "message": "Contenu des tuiles" },
-  "settings_group_start": { "message": "Page de démarrage" },
-  "settings_group_sorting": { "message": "Tri" },
-  "settings_group_navigation": { "message": "Navigation" },
-  "settings_group_opening": { "message": "Ouverture et ajout" },
-  "settings_group_search_behavior": { "message": "Comportement de la recherche" },
-  "settings_group_thumbnail_generation": { "message": "Vignettes et favicons" },
-  "settings_group_auto_refresh": { "message": "Actualisation automatique" },
-  "settings_group_thumbnail_storage": { "message": "Images locales" },
-  "settings_group_interface": { "message": "Commandes de l’interface" },
-  "settings_group_sync": { "message": "Synchronisation" },
-  "settings_group_backup": { "message": "Sauvegarde" },
-  "settings_group_storage": { "message": "Données locales" },
-  "settings_group_permissions": { "message": "Autorisations" },
-  "settings_group_reset": { "message": "Réinitialiser les paramètres" },
-  "settings_group_reset_description": { "message": "Ces actions nécessitent une confirmation et peuvent modifier ou supprimer les paramètres enregistrés." },
-  "settings_mobile_section": { "message": "Section" },
-  "settings_search_label": { "message": "Rechercher dans les paramètres" },
-  "settings_search_placeholder": { "message": "Rechercher un paramètre" },
-  "settings_autosave": { "message": "Les modifications sont enregistrées automatiquement" },
-  "settings_no_results": { "message": "Aucun paramètre trouvé" },
+  "search_bookmarks": {
+    "message": "Signets"
+  },
+  "search_settings": {
+    "message": "Recherche"
+  },
+  "search_settings_description": {
+    "message": "Choisissez le moteur de recherche par défaut et configurez les moteurs qui apparaissent dans le menu de recherche."
+  },
+  "search_engines": {
+    "message": "Moteurs de recherche"
+  },
+  "search_engines_description": {
+    "message": "Activez, configurez, réorganisez ou supprimez les moteurs de recherche. La liste peut contenir jusqu'à 20 moteurs au total."
+  },
+  "search_engine_enabled": {
+    "message": "Activer le moteur de recherche"
+  },
+  "search_engine_name": {
+    "message": "Nom du moteur de recherche"
+  },
+  "search_engine_url": {
+    "message": "URL de recherche"
+  },
+  "search_engine_url_note": {
+    "message": "Utilisez {query} là où la requête codée doit être insérée. Une URL de suggestion personnalisée est facultative ; Les suggestions Google sont utilisées lorsqu'elles sont vides."
+  },
+  "search_suggestion_url": {
+    "message": "URL de suggestion (facultatif)"
+  },
+  "search_suggestion_invalid_url": {
+    "message": "Saisissez une URL de suggestion HTTP ou HTTPS valide contenant {query}, ou laissez le champ vide."
+  },
+  "add_search_engine": {
+    "message": "Ajouter un moteur de recherche"
+  },
+  "remove_search_engine": {
+    "message": "Supprimer le moteur de recherche"
+  },
+  "custom_search_engine": {
+    "message": "Moteur de recherche personnalisé"
+  },
+  "move_search_engine_up": {
+    "message": "Monter"
+  },
+  "move_search_engine_down": {
+    "message": "Descendre"
+  },
+  "search_engine_invalid_url": {
+    "message": "Saisissez une URL HTTP ou HTTPS valide contenant {query}."
+  },
+  "search_engine_name_required": {
+    "message": "Entrez un nom de moteur de recherche."
+  },
+  "search_engine_at_least_one": {
+    "message": "Au moins un moteur de recherche doit rester activé."
+  },
+  "keyboard_shortcuts_setting": {
+    "message": "Raccourcis clavier"
+  },
+  "keyboard_shortcuts_description": {
+    "message": "Configurez les raccourcis clavier pour les actions sur la nouvelle page à onglet StartGrid."
+  },
+  "keyboard_shortcuts_title": {
+    "message": "Affectations de raccourcis"
+  },
+  "keyboard_shortcuts_note": {
+    "message": "Sélectionnez un raccourci et appuyez sur la nouvelle combinaison de touches. Appuyez sur Échap pour annuler. Appuyez sur Retour arrière ou Supprimer pour supprimer le raccourci. Les raccourcis fonctionnent uniquement sur la page StartGrid."
+  },
+  "shortcut_change": {
+    "message": "Changer de raccourci"
+  },
+  "shortcut_not_set": {
+    "message": "Non attribué"
+  },
+  "shortcut_clear": {
+    "message": "Supprimer le raccourci"
+  },
+  "shortcut_reset": {
+    "message": "Restaurer les valeurs par défaut"
+  },
+  "shortcut_press_keys": {
+    "message": "Appuyez sur le raccourci…"
+  },
+  "shortcut_conflict": {
+    "message": "Ce raccourci est déjà affecté à une autre action."
+  },
+  "shortcut_invalid": {
+    "message": "Appuyez sur une touche non réservée. Escape et Tab ne peuvent pas être attribués."
+  },
+  "shortcut_modifier_invalid": {
+    "message": "Attribuez Ctrl, Alt, Shift ou Meta pour sélectionner plusieurs signets."
+  },
+  "shortcut_focus_search": {
+    "message": "Recherche ciblée"
+  },
+  "shortcut_add_bookmark": {
+    "message": "Ajouter un signet"
+  },
+  "shortcut_toggle_quick_settings": {
+    "message": "Basculer les paramètres rapides"
+  },
+  "shortcut_open_settings": {
+    "message": "Ouvrir les paramètres complets"
+  },
+  "shortcut_go_home": {
+    "message": "Allez dans le dossier par défaut"
+  },
+  "shortcut_go_back": {
+    "message": "Revenir en arrière d'un dossier"
+  },
+  "shortcut_select_multiple_bookmarks": {
+    "message": "Sélectionnez plusieurs signets"
+  },
+  "shortcut_select_all_bookmarks": {
+    "message": "Sélectionner tous les favoris"
+  },
+  "shortcut_update_thumbnails": {
+    "message": "Mettre à jour toutes les vignettes"
+  },
+  "settings_appearance": {
+    "message": "Apparence"
+  },
+  "settings_controls": {
+    "message": "Contrôles"
+  },
+  "settings_group_page": {
+    "message": "Page et arrière-plan"
+  },
+  "settings_group_animations": {
+    "message": "Animations et effets"
+  },
+  "settings_group_grid": {
+    "message": "Grille de tuiles"
+  },
+  "settings_group_tile_style": {
+    "message": "Aspect du carrelage"
+  },
+  "settings_group_tile_content": {
+    "message": "Contenu des vignettes"
+  },
+  "settings_group_start": {
+    "message": "Page de démarrage"
+  },
+  "settings_group_sorting": {
+    "message": "Tri"
+  },
+  "settings_group_navigation": {
+    "message": "Navigation"
+  },
+  "settings_group_opening": {
+    "message": "Ouverture et ajout"
+  },
+  "settings_group_search_behavior": {
+    "message": "Comportement de recherche"
+  },
+  "settings_group_thumbnail_generation": {
+    "message": "Miniatures et favicons"
+  },
+  "settings_group_auto_refresh": {
+    "message": "Actualisation automatique"
+  },
+  "settings_group_thumbnail_storage": {
+    "message": "Images locales"
+  },
+  "settings_group_interface": {
+    "message": "Contrôles d'interface"
+  },
+  "settings_group_sync": {
+    "message": "Synchronisation"
+  },
+  "settings_group_backup": {
+    "message": "Sauvegarde"
+  },
+  "settings_group_storage": {
+    "message": "Données locales"
+  },
+  "settings_group_permissions": {
+    "message": "Autorisations"
+  },
+  "settings_group_reset": {
+    "message": "Réinitialiser les paramètres"
+  },
+  "settings_group_reset_description": {
+    "message": "Ces actions nécessitent une confirmation et peuvent modifier ou supprimer les paramètres enregistrés."
+  },
+  "settings_mobile_section": {
+    "message": "Section"
+  },
+  "settings_search_label": {
+    "message": "Paramètres de recherche"
+  },
+  "settings_search_placeholder": {
+    "message": "Trouver un paramètre"
+  },
+  "settings_autosave": {
+    "message": "Les modifications sont enregistrées automatiquement"
+  },
+  "settings_no_results": {
+    "message": "Aucun paramètre trouvé"
+  },
   "undo": {
-    "message": "Annuler"
+    "message": "Défaire"
   }
 }

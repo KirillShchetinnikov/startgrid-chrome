@@ -1,4 +1,5 @@
 import { $createElement } from '../utils';
+import { getMessage } from '../i18n';
 
 function createSwitch(setting) {
   const input = $createElement('input', {
@@ -122,9 +123,9 @@ function createBackup(setting) {
   return /* html */`<div class="btn-group btn-group--full">
       <div class="c-upload btn">
         <input type="file" name="import" id="${setting.import.id}" class="c-upload__input" accept="${setting.import.accept}">
-        <label for="${setting.import.id}" class="c-upload__btn md-ripple"><span class="c-upload__name">${browser.i18n.getMessage(setting.import.id)}</span></label>
+        <label for="${setting.import.id}" class="c-upload__btn md-ripple"><span class="c-upload__name">${getMessage(setting.import.id)}</span></label>
       </div>
-      <button class="btn md-ripple" id="${setting.export.id}">${browser.i18n.getMessage(setting.export.id)}</button>
+      <button class="btn md-ripple" id="${setting.export.id}">${getMessage(setting.export.id)}</button>
     </div>`;
 }
 
@@ -144,8 +145,8 @@ function createKeyboardShortcuts(setting) {
 
 function createBackgroundSetting() {
   return (/* html */
-  `<div id="background_noimage" class="tbl__option js-background-settings js-change text-muted" hidden>${browser.i18n.getMessage('background_noimage_text')}</div>
-  <div id="background_bing" class="tbl__option js-background-settings js-change text-muted" hidden>${browser.i18n.getMessage('background_bing_text')}</div>
+  `<div id="background_noimage" class="tbl__option js-background-settings js-change text-muted" hidden>${getMessage('background_noimage_text')}</div>
+  <div id="background_bing" class="tbl__option js-background-settings js-change text-muted" hidden>${getMessage('background_bing_text')}</div>
   <div id="background_local" class="tbl__option js-background-settings">
     <div class="c-upload">
       <form action="#0" method="post">
@@ -276,12 +277,12 @@ export function displaySettings(settings) {
   return (/* html*/
   `<div class="settings-shell">
       <aside class="settings-sidebar">
-        <h1 class="settings-sidebar__title">${browser.i18n.getMessage('options')}</h1>
+        <h1 class="settings-sidebar__title">${getMessage('options')}</h1>
         <nav class="settings-nav" role="tablist" aria-orientation="vertical">
           ${navigation.join('')}
         </nav>
         <label class="settings-mobile-nav">
-          <span class="settings-mobile-nav__label">${browser.i18n.getMessage('settings_mobile_section')}</span>
+          <span class="settings-mobile-nav__label">${getMessage('settings_mobile_section')}</span>
           <select class="form-control" id="settings_section_select">
             ${mobileNavigation.join('')}
           </select>
@@ -295,16 +296,16 @@ export function displaySettings(settings) {
               <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
             </svg>
             <input class="form-control settings-search__input" id="settings_search" type="search"
-              aria-label="${browser.i18n.getMessage('settings_search_label')}"
-              placeholder="${browser.i18n.getMessage('settings_search_placeholder')}" autocomplete="off">
+              aria-label="${getMessage('settings_search_label')}"
+              placeholder="${getMessage('settings_search_placeholder')}" autocomplete="off">
           </label>
-          <p class="settings-autosave">${browser.i18n.getMessage('settings_autosave')}</p>
+          <p class="settings-autosave">${getMessage('settings_autosave')}</p>
         </header>
         <div class="settings-viewport">
           <div class="settings-panels">
             ${panels.join('')}
             <p class="settings-empty" id="settings_empty" hidden>
-              ${browser.i18n.getMessage('settings_no_results')}
+              ${getMessage('settings_no_results')}
             </p>
           </div>
         </div>

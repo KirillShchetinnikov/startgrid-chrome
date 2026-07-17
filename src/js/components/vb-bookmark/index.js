@@ -1,5 +1,6 @@
 // import styles from '../../../css/components/_bookmark.css';
 import { $createElement, faviconURL } from '../../utils';
+import { getMessage } from '../../i18n';
 import { SVG_LOADER } from '../../constants';
 
 class VbBookmark extends HTMLAnchorElement {
@@ -127,15 +128,15 @@ class VbBookmark extends HTMLAnchorElement {
     return $createElement('button', {
       type: 'button',
       class: 'bookmark__action',
-      'aria-label': browser.i18n.getMessage('bookmark_context')
+      'aria-label': getMessage('bookmark_context')
     });
   }
 
   #createUsageCount() {
     return $createElement('span', {
       class: 'bookmark__usage-count',
-      title: browser.i18n.getMessage('usage_count_label', String(this.usageCount)),
-      'aria-label': browser.i18n.getMessage('usage_count_label', String(this.usageCount))
+      title: getMessage('usage_count_label', String(this.usageCount)),
+      'aria-label': getMessage('usage_count_label', String(this.usageCount))
     }, String(this.usageCount));
   }
 

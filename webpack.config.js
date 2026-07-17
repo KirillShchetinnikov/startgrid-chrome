@@ -20,8 +20,8 @@ module.exports = (env, arg) => {
     },
     devtool: arg.mode === 'development' ? 'inline-source-map' : false,
     entry: {
-      newtab: './src/js/newtab.js',
-      options: './src/js/options.js',
+      newtab: './src/js/newtabEntry.js',
+      options: './src/js/optionsEntry.js',
       background: './src/js/background.js',
       theme: './src/js/theme.js',
     },

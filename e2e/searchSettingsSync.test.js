@@ -46,13 +46,17 @@ describe('search settings synchronization', () => {
       runtime: { getURL: path => `chrome-extension://test/${path}` },
       storage: {
         local: {
-          get: jest.fn().mockResolvedValue({ settings: { enable_sync: true } }),
+          get: jest.fn().mockResolvedValue({
+            settings: { enable_sync: true, language: 'ru' }
+          }),
           set: localSet,
           remove: localRemove,
           clear: jest.fn().mockResolvedValue()
         },
         sync: {
-          get: jest.fn().mockResolvedValue({ settings: {} }),
+          get: jest.fn().mockResolvedValue({
+            settings: { language: 'en' }
+          }),
           set: syncSet,
           clear: jest.fn().mockResolvedValue()
         }
@@ -61,6 +65,7 @@ describe('search settings synchronization', () => {
 
     const { settings } = await import('../src/js/settings');
     await settings.init();
+    expect(settings.$.language).toBe('ru');
     syncSet.mockClear();
 
     const customEngines = Array.from({ length: 18 }, (_, index) => ({
@@ -94,6 +99,7 @@ describe('search settings synchronization', () => {
     expect(payload.settings).not.toHaveProperty('search_engine');
     expect(payload.settings).not.toHaveProperty('favicon_size');
     expect(payload.settings).not.toHaveProperty('default_folder_id');
+    expect(payload.settings).not.toHaveProperty('language');
     expect(payload.settings_thumbnails.favicon_size).toBe(32);
     expect(payload.settings_shortcuts.keyboard_shortcuts.focus_search).toBe('Slash');
     expect(localRemove).toHaveBeenCalledWith('sync_quota_error');

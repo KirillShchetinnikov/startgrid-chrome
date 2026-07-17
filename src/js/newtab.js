@@ -5,6 +5,7 @@ import './components/vb-scrollup';
 import './components/vb-bookmarks-panel';
 
 import Gmodal from 'glory-modal';
+import { getMessage, hasLanguageSettingChanged } from './i18n';
 import { settings } from './settings';
 import Bookmarks from './components/bookmarks';
 import Localization from './plugins/localization';
@@ -88,6 +89,12 @@ function updateExtensionIconVisibility(visible) {
   document.body.classList.toggle('has-extension-icon', visible);
 }
 
+function handleLanguageStorageChange(changes, areaName) {
+  if (hasLanguageSettingChanged(changes, areaName)) {
+    window.location.reload();
+  }
+}
+
 function updateThumbnailControls(folderId) {
   const enabled = Bookmarks.isDefaultFolder(folderId);
   if (generateThumbsBtn) {
@@ -101,7 +108,7 @@ function incrementBookmarkUsage(bookmark) {
   const badge = bookmark.querySelector?.('.bookmark__usage-count');
   if (!badge) return;
 
-  const label = browser.i18n.getMessage('usage_count_label', String(count));
+  const label = getMessage('usage_count_label', String(count));
   badge.textContent = String(count);
   badge.title = label;
   badge.setAttribute('aria-label', label);
@@ -118,7 +125,7 @@ async function showSyncQuotaError() {
   if (!quotaError) return;
 
   Toast.show({
-    message: browser.i18n.getMessage('sync_quota_exceeded', [
+    message: getMessage('sync_quota_exceeded', [
       formatStorageBytes(quotaError.usedBytes),
       formatStorageBytes(quotaError.limitBytes)
     ]),
@@ -133,7 +140,7 @@ async function init() {
   // Replacement underscore on the dash because underscore is not a valid language subtag
   document.documentElement.setAttribute(
     'lang',
-    browser.i18n.getMessage('@@ui_locale').replace('_', '-')
+    getMessage('@@ui_locale').replace('_', '-')
   );
 
   window.addEventListener('resize', () => UI.calculateStyles());
@@ -144,6 +151,7 @@ async function init() {
   window.addEventListener('beforeunload', handleBeforeUnload);
   window.addEventListener('pagehide', handlePagehide);
   window.addEventListener('storage', handleUpdateStorage);
+  browser.storage.onChanged.addListener(handleLanguageStorageChange);
   document.addEventListener('changeFolder', hideControlMultiplyBookmarks);
   document.addEventListener('changeFolder', ({ detail }) => {
     updateThumbnailControls(detail.folderId);
@@ -220,7 +228,7 @@ async function init() {
   });
 
   if (settings.$.show_settings_icon) {
-    const settingsLabel = browser.i18n.getMessage('options');
+    const settingsLabel = getMessage('options');
     asideControlsNode.append($createElement('a', {
       id: 'settings_icon',
       class: 'circ-btn settings-link md-ripple',
@@ -240,7 +248,7 @@ async function init() {
 
   // If thumbnail generation button
   if (settings.$.thumbnails_update_button) {
-    const thumbnailsUpdateLabel = browser.i18n.getMessage('thumbnails_update');
+    const thumbnailsUpdateLabel = getMessage('thumbnails_update');
     generateThumbsBtn = $createElement('button', {
       class: 'circ-btn update-thumbnails',
       'aria-label': thumbnailsUpdateLabel,
@@ -621,7 +629,7 @@ async function handleMenuSelection(evt) {
       break;
     case 'copy_link':
       $copyStr(target.href);
-      Toast.show(browser.i18n.getMessage('notice_link_copied'));
+      Toast.show(getMessage('notice_link_copied'));
       break;
     case 'remove': {
       Bookmarks.removeBookmark(target, target.isFolder);
@@ -866,7 +874,7 @@ function handleThumbnailSourceChange() {
   thumbnailUrlWrap.hidden = !isUrl;
   thumbnailUrl.required = isUrl;
   captureThumbnailButton.hidden = !isRefreshable;
-  captureThumbnailButton.textContent = browser.i18n.getMessage(
+  captureThumbnailButton.textContent = getMessage(
     isNew && source === 'site' ? 'thumbnail_source_site' : 'contextmenu_capture'
   );
   uploadThumbnailButton.hidden = !isLocal;
@@ -883,7 +891,7 @@ function handleThumbnailSourceChange() {
 
 async function removeSelectedBookmarks(multipleSelectedBookmarks) {
   // if (!settings.$.without_confirmation) {
-  //   const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_delete_selected_bookmarks'));
+  //   const confirmAction = await confirmPopup(getMessage('confirm_delete_selected_bookmarks'));
   //   if (!confirmAction) return;
   // }
   // await Promise.all(
@@ -912,7 +920,7 @@ function openSelectedBookmarks(multipleSelectedBookmarks, action) {
         });
       })
       .catch(() => {
-        isIncognitoMode && $notifications(browser.i18n.getMessage('incognito_access_note'));
+        isIncognitoMode && $notifications(getMessage('incognito_access_note'));
       });
   } else if (action === 'open_all') {
     multipleSelectedBookmarks.forEach(bookmark => {
@@ -967,7 +975,7 @@ function openWindow(url, action) {
     incognito: isIncognitoMode
   })
     .catch(() => {
-      isIncognitoMode && $notifications(browser.i18n.getMessage('incognito_access_note'));
+      isIncognitoMode && $notifications(getMessage('incognito_access_note'));
     });
 }
 
@@ -1134,7 +1142,7 @@ async function handleSubmitForm(evt) {
 
 async function handleResetThumb(evt) {
   if (!settings.$.without_confirmation) {
-    const confirmAction = await confirmPopup(browser.i18n.getMessage('confirm_delete_image'));
+    const confirmAction = await confirmPopup(getMessage('confirm_delete_image'));
     if (!confirmAction) return;
   }
 
@@ -1187,7 +1195,7 @@ async function prepareModal(target) {
       ? !(await checkClipboardImage())
       : true;
 
-    modalHead.textContent = browser.i18n.getMessage('edit_bookmark');
+    modalHead.textContent = getMessage('edit_bookmark');
     titleField.value = title;
 
     if (url) {
@@ -1221,7 +1229,7 @@ async function prepareModal(target) {
     }
   } else {
     modal.classList.add('has-add');
-    modalHead.textContent = browser.i18n.getMessage('add_bookmark');
+    modalHead.textContent = getMessage('add_bookmark');
     urlWrap.style.display = '';
     titleField.value = '';
     urlField.value = '';
