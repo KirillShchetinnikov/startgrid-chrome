@@ -408,6 +408,7 @@ function syncConditionalControls() {
     show_usage_count: sortMode === 'usage',
     bookmarks_sorting_type: document.getElementById('show_home_folders')?.checked,
     background_entrance_duration: document.getElementById('background_entrance_effect')?.value !== 'none',
+    page_entrance_effect: document.getElementById('page_cascade_enabled')?.checked,
     page_cascade_mode: document.getElementById('page_cascade_enabled')?.checked,
     page_cascade_duration: document.getElementById('page_cascade_enabled')?.checked,
     thumbnails_auto_refresh_interval: document.getElementById('thumbnails_auto_refresh')?.checked,

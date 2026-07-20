@@ -445,7 +445,19 @@
     "message": "Desligado"
   },
   "page_cascade_enabled": {
-    "message": "Animar blocos na abertura da página"
+    "message": "Animar a interface ao abrir a página"
+  },
+  "page_entrance_effect": {
+    "message": "Efeito de aparição da página"
+  },
+  "page_entrance_effect_reveal": {
+    "message": "Efeito 1 — Revelação suave"
+  },
+  "page_entrance_effect_zoom": {
+    "message": "Efeito 2 — Ampliação dos painéis"
+  },
+  "page_entrance_effect_rise": {
+    "message": "Efeito 3 — Elevação suave"
   },
   "page_cascade_mode": {
     "message": "Ordem em cascata"

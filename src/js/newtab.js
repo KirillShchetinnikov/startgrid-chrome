@@ -41,6 +41,7 @@ import { updateMainPageScrollLock } from './mainPageScroll';
 import { storage } from './api/storage';
 import { SYNC_QUOTA_ERROR_KEY } from './syncQuota';
 import { calculateCascadeTiming } from './pageCascade';
+import { normalizePageEntranceEffect } from './pageEntrance';
 import {
   forceBackdropPaint,
   waitForOpacityTransition,
@@ -1262,10 +1263,13 @@ async function prepareModal(target) {
   }
 }
 
-function preparePageCascade() {
+function preparePageEntrance() {
   if (!settings.$.page_cascade_enabled) return 0;
 
   const duration = settings.$.page_cascade_duration;
+  document.body.dataset.pageEntranceEffect = normalizePageEntranceEffect(
+    settings.$.page_entrance_effect
+  );
   const items = Array.from(document.querySelectorAll('#bookmarks > *'));
   const { itemDuration, delays } = calculateCascadeTiming(
     items,
@@ -1281,7 +1285,7 @@ function preparePageCascade() {
 }
 
 async function revealPage() {
-  const cascadeDuration = preparePageCascade();
+  const cascadeDuration = preparePageEntrance();
   await waitForStablePaint({ forcePaint: forceBackdropPaint });
 
   const curtain = document.getElementById('page_reveal');

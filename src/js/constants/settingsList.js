@@ -237,6 +237,16 @@ const legacySettings = [
         type: 'switch'
       },
       {
+        id: 'page_entrance_effect',
+        title: getMessage('page_entrance_effect'),
+        type: 'select',
+        options: [
+          { value: 'reveal', title: getMessage('page_entrance_effect_reveal') },
+          { value: 'zoom', title: getMessage('page_entrance_effect_zoom') },
+          { value: 'rise', title: getMessage('page_entrance_effect_rise') }
+        ]
+      },
+      {
         id: 'page_cascade_mode',
         title: getMessage('page_cascade_mode'),
         type: 'select',
@@ -680,6 +690,7 @@ export default [
           'background_entrance_duration',
           'snow_mode',
           'page_cascade_enabled',
+          'page_entrance_effect',
           'page_cascade_mode',
           'page_cascade_duration'
         )
