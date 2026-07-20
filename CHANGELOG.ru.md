@@ -2,7 +2,7 @@
 
 В этом файле собраны основные изменения публичных версий StartGrid. Версии расположены от новых к старым.
 
-## [1.7.1](https://github.com/KirillShchetinnikov/startgrid-chrome/releases/tag/v1.7.1) — 2026-07-20
+## [1.8.0](https://github.com/KirillShchetinnikov/startgrid-chrome/releases/tag/v1.8.0) — 2026-07-20
 
 ### Исправления интерфейса
 
