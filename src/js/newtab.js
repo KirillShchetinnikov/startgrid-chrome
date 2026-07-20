@@ -1,4 +1,3 @@
-import '../css/newtab.css';
 import './components/vb-select';
 import './components/vb-context-menu';
 import './components/vb-scrollup';

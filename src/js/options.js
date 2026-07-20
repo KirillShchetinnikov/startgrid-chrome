@@ -1,4 +1,3 @@
-import '../css/options.css';
 import './components/vb-select';
 import { getMessage } from './i18n';
 import { settings } from './settings';

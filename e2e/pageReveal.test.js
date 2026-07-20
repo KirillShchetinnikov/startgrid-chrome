@@ -40,4 +40,16 @@ describe('page reveal', () => {
     expect(css).not.toMatch(/\.page-loading \.app/);
     expect(css).not.toMatch(/\.page-ready \.app/);
   });
+
+  it('loads page styles before the deferred application modules', () => {
+    const newtabEntry = readFileSync('src/js/newtabEntry.js', 'utf8');
+    const newtabModule = readFileSync('src/js/newtab.js', 'utf8');
+    const optionsEntry = readFileSync('src/js/optionsEntry.js', 'utf8');
+    const optionsModule = readFileSync('src/js/options.js', 'utf8');
+
+    expect(newtabEntry).toMatch(/^import '\.\.\/css\/newtab\.css';/);
+    expect(newtabModule).not.toMatch(/import '\.\.\/css\/newtab\.css'/);
+    expect(optionsEntry).toMatch(/^import '\.\.\/css\/options\.css';/);
+    expect(optionsModule).not.toMatch(/import '\.\.\/css\/options\.css'/);
+  });
 });
