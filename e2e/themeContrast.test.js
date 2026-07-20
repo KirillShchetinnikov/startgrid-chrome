@@ -97,4 +97,25 @@ describe('theme contrast styles', () => {
       /\.header select::picker\(select\)\s*\{[^}]*background-color:\s*var\(--toolbar-bg\)[^}]*backdrop-filter:\s*var\(--toolbar-backdrop-filter\)/s
     );
   });
+
+  it('shares the tile text color with toolbar text and settings icons', () => {
+    const headerCss = readCss('src/css/components/_header.css');
+    const newtabCss = readCss('src/css/pages/_newtab.css');
+
+    expect(headerCss).toMatch(
+      /\.header \.form-control\s*\{[^}]*color:\s*var\(--bookmark-caption-color\)/s
+    );
+    expect(headerCss).toMatch(
+      /\.header \.form-control::placeholder\s*\{[^}]*color:\s*var\(--bookmark-caption-color\)/s
+    );
+    expect(headerCss).toMatch(
+      /\.suggest\s*\{[^}]*color:\s*var\(--bookmark-caption-color\)/s
+    );
+    expect(newtabCss).toMatch(
+      /\.aside-controls\s*\{[^}]*color:\s*var\(--bookmark-caption-color\)/s
+    );
+    expect(newtabCss).toMatch(
+      /\.has-image \.aside-controls\s*\{[^}]*color:\s*var\(--bookmark-caption-color\)/s
+    );
+  });
 });

@@ -129,7 +129,7 @@ body {
   padding: 6px;
   will-change: opacity;
   opacity: 0.88;
-  color: var(--theme-text-color);
+  color: var(--bookmark-caption-color);
   background: var(--bookmark-bg);
   border: var(--surface-border);
   border-radius: 18px;
@@ -218,7 +218,7 @@ body {
 }
 
 .has-image .aside-controls {
-  color: #fff;
+  color: var(--bookmark-caption-color);
   background: var(--bookmark-bg);
   border-color: rgb(255 255 255 / 16%);
 }

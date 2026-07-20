@@ -206,7 +206,7 @@
   left: 0;
   right: 0;
   padding: 5px;
-  color: var(--theme-text-color);
+  color: var(--bookmark-caption-color);
   background-color: var(--toolbar-bg);
   backdrop-filter: var(--toolbar-backdrop-filter);
   border: var(--surface-border);
@@ -259,7 +259,7 @@
 
 .has-image .header .back,
 .has-image .header .form-control:not(:focus, :open) {
-  color: rgb(255 255 255 / 70%);
+  color: var(--bookmark-caption-color);
   border-color: transparent;
   background-color: var(--toolbar-bg);
 }
@@ -274,7 +274,7 @@
 }
 
 .has-image .header .form-control:not(:focus)::placeholder {
-  color: rgb(255 255 255 / 70%);
+  color: var(--bookmark-caption-color);
 }
 
 .header input {
@@ -287,10 +287,16 @@
 }
 
 .header .form-control {
+  color: var(--bookmark-caption-color);
   background-color: var(--toolbar-bg);
   backdrop-filter: var(--toolbar-backdrop-filter);
   transition-property: color, border-color;
   transition-duration: 0.25s;
+}
+
+.header .form-control::placeholder {
+  color: var(--bookmark-caption-color);
+  opacity: 0.7;
 }
 
 .page-loading .header .form-control {
@@ -299,7 +305,7 @@
 
 @supports (appearance: base-select) {
   .header select::picker(select) {
-    color: var(--theme-text-color);
+    color: var(--bookmark-caption-color);
     background-color: var(--toolbar-bg);
     backdrop-filter: var(--toolbar-backdrop-filter);
     border: var(--surface-border);
@@ -309,7 +315,7 @@
 
 @supports not (appearance: base-select) {
   .header select option {
-    color: var(--theme-text-color);
+    color: var(--bookmark-caption-color);
     background-color: var(--toolbar-bg);
   }
 }
