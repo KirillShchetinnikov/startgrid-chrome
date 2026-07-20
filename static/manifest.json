@@ -23,7 +23,6 @@
   },
   "permissions": [
     "scripting",
-    "background",
     "bookmarks",
     "favicon",
     "storage",
