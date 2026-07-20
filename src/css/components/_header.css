@@ -225,6 +225,7 @@
 .back {
   color: var(--search-reset-btn-color);
   background-color: var(--toolbar-bg);
+  backdrop-filter: var(--toolbar-backdrop-filter);
   border: var(--input-border);
   border-radius: var(--btn-radius);
   width: 44px;
@@ -258,7 +259,6 @@
   color: rgb(255 255 255 / 70%);
   border-color: transparent;
   background-color: var(--toolbar-bg);
-  backdrop-filter: blur(10px);
 }
 
 .has-image .header .form-control:focus {
@@ -285,6 +285,11 @@
 
 .header .form-control {
   background-color: var(--toolbar-bg);
-  transition-property: color, border-color, background-color, backdrop-filter;
+  backdrop-filter: var(--toolbar-backdrop-filter);
+  transition-property: color, border-color;
   transition-duration: 0.25s;
+}
+
+.page-loading .header .form-control {
+  transition: none;
 }

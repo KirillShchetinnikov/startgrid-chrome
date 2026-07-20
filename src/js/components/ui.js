@@ -9,7 +9,8 @@ import {
   createTileBackground,
   createToolbarBackground,
   cssColorToHex,
-  getTileShadowOpacities
+  getTileShadowOpacities,
+  resolveToolbarOpacity
 } from '../tileAppearance';
 import { getBackgroundEntranceKeyframes } from '../backgroundEntrance';
 
@@ -52,8 +53,16 @@ export default {
       return;
     }
 
+    // Prepare background-dependent surface styles before the page is revealed.
+    // The image or video itself can continue loading asynchronously.
+    document.body.classList.add('has-image');
+
+    const hideBackground = () => {
+      document.body.classList.remove('has-image');
+      bgEl.classList.remove('is-visible');
+    };
+
     const showBackground = () => {
-      document.body.classList.add('has-image');
       bgEl.classList.add('is-visible');
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -83,6 +92,7 @@ export default {
     } else {
       const bingHostPermission = await containsPermissions({ origins: ['https://www.bing.com/*'] });
       if (!bingHostPermission) {
+        hideBackground();
         return Toast.show({
           message: getMessage('bing_permission_toast'),
           delay: 0
@@ -96,7 +106,10 @@ export default {
       }
     }
 
-    if (!resource) return;
+    if (!resource) {
+      hideBackground();
+      return;
+    }
 
     if (hasVideo) {
       const video = $createElement('video', {
@@ -111,11 +124,15 @@ export default {
       video.addEventListener('canplay', () => {
         showBackground();
       }, { once: true });
+      video.addEventListener('error', hideBackground, { once: true });
     } else {
       const image = await $imageLoaded(resource).catch(e => {
         console.warn(`Local background image resource problem: ${e}`);
       });
-      if (!image) return;
+      if (!image) {
+        hideBackground();
+        return;
+      }
 
       bgEl.append(image);
 
@@ -141,6 +158,11 @@ export default {
     const thumbnailSize = clamp(settings.$.favicon_size, 16, 128, 32);
     const hoverLift = clamp(settings.$.dial_hover_lift, 0, 12, 4);
     const backgroundOpacity = clamp(settings.$.dial_background_opacity, 0, 100, 100);
+    const toolbarOpacity = resolveToolbarOpacity({
+      matchTileBackground: settings.$.toolbar_match_tile_background,
+      tileOpacity: backgroundOpacity,
+      toolbarOpacity: settings.$.toolbar_background_opacity
+    });
     const shadowOpacities = getTileShadowOpacities(shadow, doc.classList.contains('dark'));
     const aspectRatios = new Set(['1 / 1', '4 / 3', '3 / 2', '16 / 9']);
     const aspectRatio = aspectRatios.has(settings.$.dial_aspect_ratio)
@@ -171,6 +193,10 @@ export default {
         toolbarOpacity: settings.$.toolbar_background_opacity,
         themeColor: themeBackground
       })
+    );
+    doc.style.setProperty(
+      '--toolbar-backdrop-filter',
+      toolbarOpacity < 100 ? 'blur(10px)' : 'none'
     );
     doc.style.setProperty(
       '--bookmark-caption-color',

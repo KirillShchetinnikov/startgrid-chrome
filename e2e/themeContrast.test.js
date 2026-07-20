@@ -71,4 +71,14 @@ describe('theme contrast styles', () => {
 
     expect(usesLowContrastText).toBe(false);
   });
+
+  it('applies toolbar opacity immediately and controls blur through one variable', () => {
+    const headerCss = readCss('src/css/components/_header.css');
+    const variablesCss = readCss('src/css/base/_vars.css');
+
+    expect(headerCss.match(/backdrop-filter:\s*var\(--toolbar-backdrop-filter\)/g))
+      .toHaveLength(2);
+    expect(headerCss).not.toMatch(/transition-property:[^;]*background-color/);
+    expect(variablesCss).toMatch(/--toolbar-backdrop-filter:\s*none/);
+  });
 });

@@ -39,9 +39,10 @@ class VbHeader extends HTMLElement {
   suggestIndex = -1;
   suggestList = [];
   suggestionRequestId = 0;
+  ready = null;
 
   connectedCallback() {
-    this.#render();
+    this.ready ||= this.#render();
   }
 
   disconnectedCallback() {

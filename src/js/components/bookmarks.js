@@ -118,6 +118,7 @@ const Bookmarks = (() => {
     vbHeader.setAttribute('folder-id', startFolder());
     vbHeader.hidden = !settings.$.show_toolbar;
     document.querySelector('header').append(vbHeader);
+    await vbHeader.ready;
 
     const searchHandler = $debounce(({ detail }) => {
       if (!detail.isBookmarksEngine) {

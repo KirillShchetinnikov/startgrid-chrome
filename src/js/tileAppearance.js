@@ -47,6 +47,14 @@ export function createTileBackground(color, opacity, themeColor) {
   return `rgb(${channels.join(' ')} / ${clampOpacity(opacity)}%)`;
 }
 
+export function resolveToolbarOpacity({
+  matchTileBackground,
+  tileOpacity,
+  toolbarOpacity
+}) {
+  return clampOpacity(matchTileBackground ? tileOpacity : toolbarOpacity);
+}
+
 export function createToolbarBackground({
   matchTileBackground,
   tileColor,
@@ -55,7 +63,12 @@ export function createToolbarBackground({
   toolbarOpacity,
   themeColor
 }) {
-  return matchTileBackground
-    ? createTileBackground(tileColor, tileOpacity, themeColor)
-    : createTileBackground(toolbarColor, toolbarOpacity, themeColor);
+  const color = matchTileBackground ? tileColor : toolbarColor;
+  const opacity = resolveToolbarOpacity({
+    matchTileBackground,
+    tileOpacity,
+    toolbarOpacity
+  });
+
+  return createTileBackground(color, opacity, themeColor);
 }

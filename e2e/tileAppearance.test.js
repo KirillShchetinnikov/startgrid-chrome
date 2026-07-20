@@ -4,7 +4,8 @@ import {
   createToolbarBackground,
   cssColorToHex,
   getTileShadowOpacities,
-  parseTileColor
+  parseTileColor,
+  resolveToolbarOpacity
 } from '../src/js/tileAppearance';
 
 describe('tile appearance settings', () => {
@@ -39,6 +40,19 @@ describe('tile appearance settings', () => {
       .toBe('rgb(91 79 214 / 65%)');
     expect(createToolbarBackground({ ...settings, matchTileBackground: false }))
       .toBe('rgb(17 34 51 / 75%)');
+  });
+
+  it('uses the effective toolbar opacity to control its blur', () => {
+    expect(resolveToolbarOpacity({
+      matchTileBackground: true,
+      tileOpacity: 65,
+      toolbarOpacity: 100
+    })).toBe(65);
+    expect(resolveToolbarOpacity({
+      matchTileBackground: false,
+      tileOpacity: 65,
+      toolbarOpacity: 100
+    })).toBe(100);
   });
 
   it('strengthens tile shadows for the dark theme and preserves zero', () => {
