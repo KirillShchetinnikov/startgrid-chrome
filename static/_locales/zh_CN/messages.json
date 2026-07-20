@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "使用当前主题颜色，直到选择自定义颜色。"
   },
+  "dial_title_color": {
+    "message": "磁贴文字颜色"
+  },
+  "dial_title_color_note": {
+    "message": "在选择自定义颜色之前，使用当前主题的文字颜色。"
+  },
+  "reset_tile_title_color": {
+    "message": "使用主题文字颜色"
+  },
   "dial_background_opacity": {
     "message": "平铺背景不透明度"
   },

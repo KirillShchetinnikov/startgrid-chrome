@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "Uses the current theme color until a custom color is selected."
   },
+  "dial_title_color": {
+    "message": "Tile text color"
+  },
+  "dial_title_color_note": {
+    "message": "Uses the current theme text color until a custom color is selected."
+  },
+  "reset_tile_title_color": {
+    "message": "Use theme text color"
+  },
   "dial_background_opacity": {
     "message": "Tile background opacity"
   },

@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "Usa a cor do tema atual até que uma cor personalizada seja selecionada."
   },
+  "dial_title_color": {
+    "message": "Cor do texto do bloco"
+  },
+  "dial_title_color_note": {
+    "message": "Usa a cor de texto do tema atual até que uma cor personalizada seja selecionada."
+  },
+  "reset_tile_title_color": {
+    "message": "Usar a cor de texto do tema"
+  },
   "dial_background_opacity": {
     "message": "Opacidade do fundo do bloco"
   },

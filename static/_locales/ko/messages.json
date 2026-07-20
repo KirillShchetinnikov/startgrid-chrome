@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "사용자 정의 색상이 선택될 때까지 현재 테마 색상을 사용합니다."
   },
+  "dial_title_color": {
+    "message": "타일 텍스트 색상"
+  },
+  "dial_title_color_note": {
+    "message": "사용자 정의 색상이 선택될 때까지 현재 테마의 텍스트 색상을 사용합니다."
+  },
+  "reset_tile_title_color": {
+    "message": "테마 텍스트 색상 사용"
+  },
   "dial_background_opacity": {
     "message": "타일 ​​배경 불투명도"
   },

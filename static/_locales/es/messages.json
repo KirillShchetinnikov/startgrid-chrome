@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "Utiliza el color del tema actual hasta que se selecciona un color personalizado."
   },
+  "dial_title_color": {
+    "message": "Color del texto del mosaico"
+  },
+  "dial_title_color_note": {
+    "message": "Utiliza el color de texto del tema actual hasta que se selecciona un color personalizado."
+  },
+  "reset_tile_title_color": {
+    "message": "Usar el color de texto del tema"
+  },
   "dial_background_opacity": {
     "message": "Opacidad del fondo del mosaico"
   },

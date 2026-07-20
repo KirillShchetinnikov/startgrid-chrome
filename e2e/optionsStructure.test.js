@@ -25,7 +25,7 @@ describe('options page structure', () => {
       return section.sections.flatMap(group => group.list);
     });
     const ids = settings.map(setting => setting.id);
-    expect(ids).toHaveLength(64);
+    expect(ids).toHaveLength(65);
     expect(new Set(ids).size).toBe(ids.length);
 
     const sectionFor = id => settingsList.find(section => {

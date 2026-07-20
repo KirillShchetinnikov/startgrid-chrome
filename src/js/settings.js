@@ -51,6 +51,7 @@ const DEFAULTS = Object.freeze({
   dial_shadow: 8,
   dial_hover_lift: 4,
   dial_background_color: '',
+  dial_title_color: '',
   dial_background_opacity: 100,
   vertical_center: false,
   disable_main_page_scroll: false,

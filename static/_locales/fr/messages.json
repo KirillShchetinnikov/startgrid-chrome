@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "Utilise la couleur du thème actuel jusqu'à ce qu'une couleur personnalisée soit sélectionnée."
   },
+  "dial_title_color": {
+    "message": "Couleur du texte des vignettes"
+  },
+  "dial_title_color_note": {
+    "message": "Utilise la couleur de texte du thème actuel jusqu'à ce qu'une couleur personnalisée soit sélectionnée."
+  },
+  "reset_tile_title_color": {
+    "message": "Utiliser la couleur de texte du thème"
+  },
   "dial_background_opacity": {
     "message": "Opacité de l'arrière-plan des tuiles"
   },

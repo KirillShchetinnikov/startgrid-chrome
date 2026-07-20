@@ -5,7 +5,11 @@ import Toast from '../components/toast';
 import ImageDB from '../api/imageDB';
 import { getBingImage } from '../api/bingImageDay';
 import { containsPermissions } from '../api/permissions';
-import { createTileBackground, getTileShadowOpacities } from '../tileAppearance';
+import {
+  createTileBackground,
+  cssColorToHex,
+  getTileShadowOpacities
+} from '../tileAppearance';
 import { getBackgroundEntranceKeyframes } from '../backgroundEntrance';
 
 function createBingInfo(image) {
@@ -150,11 +154,18 @@ export default {
     doc.style.setProperty('--bookmark-hover-shadow-opacity', `${shadowOpacities.hover}%`);
     doc.style.setProperty('--bookmark-hover-lift', `${hoverLift}px`);
     const themeBackground = window.getComputedStyle(doc).getPropertyValue('--theme-background-2');
+    const themeTextColor = window.getComputedStyle(doc).getPropertyValue('--theme-text-color');
     doc.style.setProperty('--bookmark-bg', createTileBackground(
       settings.$.dial_background_color,
       backgroundOpacity,
       themeBackground
     ));
+    doc.style.setProperty(
+      '--bookmark-caption-color',
+      settings.$.dial_title_color
+        ? cssColorToHex(settings.$.dial_title_color, cssColorToHex(themeTextColor))
+        : themeTextColor
+    );
 
     const mediaQuery = window.matchMedia('(width > 480px)');
     const containerWidth = mediaQuery.matches ? lsGridWidth : 100;

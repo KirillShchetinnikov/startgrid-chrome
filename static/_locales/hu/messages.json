@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "Az aktuális témaszínt használja, amíg ki nem választ egy egyéni színt."
   },
+  "dial_title_color": {
+    "message": "Csempe szövegszíne"
+  },
+  "dial_title_color_note": {
+    "message": "Az aktuális téma szövegszínét használja, amíg ki nem választ egy egyéni színt."
+  },
+  "reset_tile_title_color": {
+    "message": "Téma szövegszínének használata"
+  },
   "dial_background_opacity": {
     "message": "Csempe háttér átlátszatlansága"
   },

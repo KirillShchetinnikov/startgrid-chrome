@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "Używa bieżącego koloru motywu, dopóki nie zostanie wybrany kolor niestandardowy."
   },
+  "dial_title_color": {
+    "message": "Kolor tekstu kafelka"
+  },
+  "dial_title_color_note": {
+    "message": "Używa bieżącego koloru tekstu motywu, dopóki nie zostanie wybrany kolor niestandardowy."
+  },
+  "reset_tile_title_color": {
+    "message": "Użyj koloru tekstu motywu"
+  },
   "dial_background_opacity": {
     "message": "Nieprzezroczystość tła płytek"
   },

@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "Verwendet die aktuelle Designfarbe, bis eine benutzerdefinierte Farbe ausgewählt wird."
   },
+  "dial_title_color": {
+    "message": "Textfarbe der Kachel"
+  },
+  "dial_title_color_note": {
+    "message": "Verwendet die aktuelle Textfarbe des Designs, bis eine benutzerdefinierte Farbe ausgewählt wird."
+  },
+  "reset_tile_title_color": {
+    "message": "Textfarbe des Designs verwenden"
+  },
   "dial_background_opacity": {
     "message": "Deckkraft des Kachelhintergrunds"
   },

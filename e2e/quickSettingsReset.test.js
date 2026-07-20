@@ -20,6 +20,7 @@ describe('quick settings reset', () => {
               enable_sync: true,
               color_theme: 'dark',
               dial_width: 95,
+              dial_title_color: '#ffffff',
               show_extension_icon: false,
               show_toolbar: false,
               show_settings_icon: false,
@@ -35,6 +36,7 @@ describe('quick settings reset', () => {
             settings: {
               color_theme: 'dark',
               dial_width: 95,
+              dial_title_color: '#ffffff',
               show_extension_icon: false,
               show_toolbar: false,
               show_settings_icon: false
@@ -58,9 +60,11 @@ describe('quick settings reset', () => {
 
     expect(defaults).toHaveProperty('dial_width', 70);
     expect(defaults).toHaveProperty('color_theme', 'os');
+    expect(defaults).toHaveProperty('dial_title_color', '');
     expect(defaults).toHaveProperty('show_extension_icon', true);
     expect(settings.$.color_theme).toBe('os');
     expect(settings.$.dial_width).toBe(70);
+    expect(settings.$.dial_title_color).toBe('');
     expect(settings.$.show_extension_icon).toBe(true);
     expect(settings.$.show_toolbar).toBe(true);
     expect(settings.$.show_settings_icon).toBe(false);

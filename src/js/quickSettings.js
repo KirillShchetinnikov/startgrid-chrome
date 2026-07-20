@@ -10,6 +10,7 @@ export const QUICK_SETTING_KEYS = Object.freeze([
   'dial_hover_lift',
   'dial_background_opacity',
   'dial_background_color',
+  'dial_title_color',
   'vertical_center',
   'disable_main_page_scroll',
   'show_extension_icon',

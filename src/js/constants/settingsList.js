@@ -103,6 +103,13 @@ const appearanceSettings = [
     type: 'color'
   },
   {
+    id: 'dial_title_color',
+    title: getMessage('dial_title_color'),
+    note: getMessage('dial_title_color_note'),
+    resetText: getMessage('reset_tile_title_color'),
+    type: 'color'
+  },
+  {
     id: 'dial_background_opacity',
     title: getMessage('dial_background_opacity'),
     note: getMessage('dial_background_opacity_note'),
@@ -654,6 +661,7 @@ export default [
           'dial_shadow',
           'dial_hover_lift',
           'dial_background_color',
+          'dial_title_color',
           'dial_background_opacity'
         )
       },

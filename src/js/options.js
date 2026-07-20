@@ -33,6 +33,11 @@ let keyboardShortcutSettingsInstance = null;
 let activeSettingsSection = null;
 let sectionBeforeSearch = null;
 
+const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
+  dial_background_color: '--theme-background-2',
+  dial_title_color: '--theme-text-color'
+});
+
 async function init() {
   // Set lang attr
   // Replacement underscore on the dash because underscore is not a valid language subtag
@@ -108,8 +113,9 @@ async function init() {
   document.getElementById('import').addEventListener('change', handleImportSettings);
   document.getElementById('bgFile').addEventListener('change', handleUploadFile);
   document.getElementById('back_to_main').addEventListener('click', handleBackToMain);
-  document.querySelector('[data-reset-color="dial_background_color"]')
-    .addEventListener('click', handleResetTileBackgroundColor);
+  document.querySelectorAll('[data-reset-color]').forEach(button => {
+    button.addEventListener('click', handleResetColor);
+  });
 
   // TODO until full support is available https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker
   document.getElementById('bgFile').setAttribute(
@@ -342,25 +348,26 @@ function handleExportSettings() {
   a.remove();
 }
 
-function getThemeTileColor() {
-  const themeColor = window.getComputedStyle(document.documentElement)
-    .getPropertyValue('--theme-background-2');
+function getThemeColor(settingId) {
+  const variable = COLOR_SETTING_THEME_VARIABLES[settingId];
+  const themeColor = window.getComputedStyle(document.documentElement).getPropertyValue(variable);
   return cssColorToHex(themeColor);
 }
 
-function syncTileColorControl() {
-  const colorInput = document.getElementById('dial_background_color');
-  const resetButton = document.querySelector('[data-reset-color="dial_background_color"]');
-  const customColor = settings.$.dial_background_color;
-  const themeColor = getThemeTileColor();
+function syncColorControl(settingId) {
+  const colorInput = document.getElementById(settingId);
+  const resetButton = document.querySelector(`[data-reset-color="${settingId}"]`);
+  const customColor = settings.$[settingId];
+  const themeColor = getThemeColor(settingId);
   colorInput.value = customColor ? cssColorToHex(customColor, themeColor) : themeColor;
   resetButton.disabled = !customColor;
 }
 
-async function handleResetTileBackgroundColor(e) {
+async function handleResetColor(e) {
   e.preventDefault();
-  await settings.updateKey('dial_background_color', '');
-  syncTileColorControl();
+  const settingId = e.currentTarget.dataset.resetColor;
+  await settings.updateKey(settingId, '');
+  syncColorControl(settingId);
 }
 
 function getOptions() {
@@ -377,7 +384,7 @@ function getOptions() {
     if (!elOption || !elOption.type) continue;
 
     if (elOption.type === 'color') {
-      syncTileColorControl();
+      syncColorControl(id);
     } else if (/checkbox|radio/.test(elOption.type)) {
       elOption.checked = settings.$[id];
     } else {
@@ -539,9 +546,11 @@ async function handleSetOptions(e) {
   // dark theme
   if (target.id === 'color_theme') {
     await window.vbToggleTheme();
-    if (!settings.$.dial_background_color) syncTileColorControl();
-  } else if (target.id === 'dial_background_color') {
-    document.querySelector('[data-reset-color="dial_background_color"]').disabled = false;
+    Object.keys(COLOR_SETTING_THEME_VARIABLES).forEach(settingId => {
+      if (!settings.$[settingId]) syncColorControl(settingId);
+    });
+  } else if (Object.hasOwn(COLOR_SETTING_THEME_VARIABLES, target.id)) {
+    document.querySelector(`[data-reset-color="${target.id}"]`).disabled = false;
   }
 }
 

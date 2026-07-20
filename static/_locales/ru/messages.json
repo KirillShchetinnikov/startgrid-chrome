@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "Использует текущий цвет темы, пока не будет выбран пользовательский цвет."
   },
+  "dial_title_color": {
+    "message": "Цвет текста плитки"
+  },
+  "dial_title_color_note": {
+    "message": "Использует текущий цвет текста темы, пока не будет выбран пользовательский цвет."
+  },
+  "reset_tile_title_color": {
+    "message": "Использовать цвет текста темы"
+  },
   "dial_background_opacity": {
     "message": "Непрозрачность фона плитки"
   },

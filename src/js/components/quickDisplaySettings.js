@@ -23,9 +23,15 @@ const STYLE_SETTINGS = new Set([
   'dial_shadow',
   'dial_hover_lift',
   'dial_background_color',
+  'dial_title_color',
   'dial_background_opacity',
   'favicon_size'
 ]);
+
+const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
+  dial_background_color: '--theme-background-2',
+  dial_title_color: '--theme-text-color'
+});
 
 function message(id) {
   return getMessage(id);
@@ -143,9 +149,18 @@ function createPanel() {
           <span>${message('dial_background_color')}</span>
           <span class="quick-settings__color">
             <input id="quick_dial_background_color" type="color" data-setting="dial_background_color">
-            <button type="button" data-quick-color-reset
+            <button type="button" data-quick-color-reset="dial_background_color"
               title="${message('reset_tile_background_color')}"
               aria-label="${message('reset_tile_background_color')}">↺</button>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_title_color">
+          <span>${message('dial_title_color')}</span>
+          <span class="quick-settings__color">
+            <input id="quick_dial_title_color" type="color" data-setting="dial_title_color">
+            <button type="button" data-quick-color-reset="dial_title_color"
+              title="${message('reset_tile_title_color')}"
+              aria-label="${message('reset_tile_title_color')}">↺</button>
           </span>
         </label>
         ${createSwitch('vertical_center')}
@@ -191,9 +206,10 @@ export default function initQuickDisplaySettings({
   document.body.append(panel);
   container.append(trigger);
 
-  function getThemeTileColor() {
+  function getThemeColor(settingId) {
+    const variable = COLOR_SETTING_THEME_VARIABLES[settingId];
     return cssColorToHex(window.getComputedStyle(document.documentElement)
-      .getPropertyValue('--theme-background-2'));
+      .getPropertyValue(variable));
   }
 
   function syncControls() {
@@ -202,7 +218,7 @@ export default function initQuickDisplaySettings({
       if (control.type === 'checkbox') {
         control.checked = Boolean(settings.$[key]);
       } else if (control.type === 'color') {
-        const themeColor = getThemeTileColor();
+        const themeColor = getThemeColor(key);
         control.value = settings.$[key]
           ? cssColorToHex(settings.$[key], themeColor)
           : themeColor;
@@ -214,7 +230,9 @@ export default function initQuickDisplaySettings({
         output.textContent = `${settings.$[key]}${control.dataset.unit}`;
       }
     });
-    panel.querySelector('[data-quick-color-reset]').disabled = !settings.$.dial_background_color;
+    panel.querySelectorAll('[data-quick-color-reset]').forEach(button => {
+      button.disabled = !settings.$[button.dataset.quickColorReset];
+    });
   }
 
   function togglePanel(force, restoreFocus = true) {
@@ -267,7 +285,9 @@ export default function initQuickDisplaySettings({
     if (control) {
       applySetting(control);
       if (control.type === 'color') {
-        panel.querySelector('[data-quick-color-reset]').disabled = false;
+        panel.querySelector(
+          `[data-quick-color-reset="${control.dataset.setting}"]`
+        ).disabled = false;
       }
     }
   });
@@ -295,10 +315,12 @@ export default function initQuickDisplaySettings({
     await onRerender();
     syncControls();
   });
-  panel.querySelector('[data-quick-color-reset]').addEventListener('click', async() => {
-    await settings.updateKey('dial_background_color', '');
-    UI.calculateStyles();
-    syncControls();
+  panel.querySelectorAll('[data-quick-color-reset]').forEach(button => {
+    button.addEventListener('click', async() => {
+      await settings.updateKey(button.dataset.quickColorReset, '');
+      UI.calculateStyles();
+      syncControls();
+    });
   });
   document.addEventListener('click', event => {
     if (!panel.hidden && !panel.contains(event.target) && !trigger.contains(event.target)) {

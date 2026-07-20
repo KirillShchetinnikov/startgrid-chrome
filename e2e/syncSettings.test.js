@@ -9,6 +9,7 @@ describe('split Chrome Sync settings', () => {
     const records = splitSyncSettings({
       color_theme: 'dark',
       dial_background_color: '#5b4fd6',
+      dial_title_color: '#ffffff',
       dial_background_opacity: 70,
       search_engine: 'google',
       search_autofocus: true,
@@ -27,6 +28,7 @@ describe('split Chrome Sync settings', () => {
     expect(records.settings).toEqual({
       color_theme: 'dark',
       dial_background_color: '#5b4fd6',
+      dial_title_color: '#ffffff',
       dial_background_opacity: 70,
       home_sort_by: 'usage',
       home_sort_usage_tiebreaker: 'date',

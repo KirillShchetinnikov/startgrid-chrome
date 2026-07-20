@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "使用目前主題顏色，直到選擇自訂顏色。"
   },
+  "dial_title_color": {
+    "message": "圖塊文字顏色"
+  },
+  "dial_title_color_note": {
+    "message": "選擇自訂顏色前，使用目前主題的文字顏色。"
+  },
+  "reset_tile_title_color": {
+    "message": "使用主題文字顏色"
+  },
   "dial_background_opacity": {
     "message": "平鋪背景不透明度"
   },

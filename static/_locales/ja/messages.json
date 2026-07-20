@@ -342,6 +342,15 @@
   "dial_background_color_note": {
     "message": "カスタム色が選択されるまで、現在のテーマの色が使用されます。"
   },
+  "dial_title_color": {
+    "message": "タイルの文字色"
+  },
+  "dial_title_color_note": {
+    "message": "カスタム色が選択されるまで、現在のテーマの文字色が使用されます。"
+  },
+  "reset_tile_title_color": {
+    "message": "テーマの文字色を使用する"
+  },
   "dial_background_opacity": {
     "message": "タイルの背景の不透明度"
   },
