@@ -52,8 +52,16 @@ export default {
       return;
     }
 
+    // Apply the background-dependent toolbar appearance before the page is
+    // revealed. The image itself can continue loading without delaying the UI.
+    document.body.classList.add('has-image');
+
+    const hideBackground = () => {
+      document.body.classList.remove('has-image');
+      bgEl.classList.remove('is-visible');
+    };
+
     const showBackground = () => {
-      document.body.classList.add('has-image');
       bgEl.classList.add('is-visible');
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -83,6 +91,7 @@ export default {
     } else {
       const bingHostPermission = await containsPermissions({ origins: ['https://www.bing.com/*'] });
       if (!bingHostPermission) {
+        hideBackground();
         return Toast.show({
           message: getMessage('bing_permission_toast'),
           delay: 0
@@ -96,7 +105,10 @@ export default {
       }
     }
 
-    if (!resource) return;
+    if (!resource) {
+      hideBackground();
+      return;
+    }
 
     if (hasVideo) {
       const video = $createElement('video', {
@@ -111,11 +123,15 @@ export default {
       video.addEventListener('canplay', () => {
         showBackground();
       }, { once: true });
+      video.addEventListener('error', hideBackground, { once: true });
     } else {
       const image = await $imageLoaded(resource).catch(e => {
         console.warn(`Local background image resource problem: ${e}`);
       });
-      if (!image) return;
+      if (!image) {
+        hideBackground();
+        return;
+      }
 
       bgEl.append(image);
 
