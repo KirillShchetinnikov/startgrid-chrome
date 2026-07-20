@@ -78,12 +78,23 @@ describe('theme contrast styles', () => {
     const variablesCss = readCss('src/css/base/_vars.css');
 
     expect(headerCss.match(/backdrop-filter:\s*var\(--toolbar-backdrop-filter\)/g))
-      .toHaveLength(2);
+      .toHaveLength(4);
     expect(headerCss).not.toMatch(/backdrop-filter:\s*blur/);
     expect(headerCss).not.toMatch(/transition-property:[^;]*background-color/);
     expect(variablesCss).toMatch(/--toolbar-backdrop-filter:\s*none/);
     expect(bookmarkCss.match(/backdrop-filter:\s*var\(--bookmark-backdrop-filter\)/g))
       .toHaveLength(2);
     expect(variablesCss).toMatch(/--bookmark-backdrop-filter:\s*none/);
+  });
+
+  it('keeps search suggestions and the folder picker on the toolbar surface', () => {
+    const headerCss = readCss('src/css/components/_header.css');
+
+    expect(headerCss).toMatch(
+      /\.suggest\s*\{[^}]*background-color:\s*var\(--toolbar-bg\)[^}]*backdrop-filter:\s*var\(--toolbar-backdrop-filter\)/s
+    );
+    expect(headerCss).toMatch(
+      /\.header select::picker\(select\)\s*\{[^}]*background-color:\s*var\(--toolbar-bg\)[^}]*backdrop-filter:\s*var\(--toolbar-backdrop-filter\)/s
+    );
   });
 });

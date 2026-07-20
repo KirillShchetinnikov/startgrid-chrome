@@ -206,9 +206,12 @@
   left: 0;
   right: 0;
   padding: 5px;
-  background-color: var(--theme-background-2);
-  border-radius: var(--base-radius);
-  border: 1px solid var(--color-primary-alpha-40);
+  color: var(--theme-text-color);
+  background-color: var(--toolbar-bg);
+  backdrop-filter: var(--toolbar-backdrop-filter);
+  border: var(--surface-border);
+  border-radius: var(--input-radius);
+  box-shadow: 0 8px 24px rgb(42 35 82 / 12%);
 
   & [data-suggest] {
     padding: 5px 10px;
@@ -217,7 +220,7 @@
     cursor: pointer;
     &:hover,
     &.is-active {
-      background-color: var(--theme-background-3);
+      background-color: var(--theme-invert-alpha-10);
     }
   }
 }
@@ -292,4 +295,21 @@
 
 .page-loading .header .form-control {
   transition: none;
+}
+
+@supports (appearance: base-select) {
+  .header select::picker(select) {
+    color: var(--theme-text-color);
+    background-color: var(--toolbar-bg);
+    backdrop-filter: var(--toolbar-backdrop-filter);
+    border: var(--surface-border);
+    box-shadow: 0 8px 24px rgb(42 35 82 / 12%);
+  }
+}
+
+@supports not (appearance: base-select) {
+  .header select option {
+    color: var(--theme-text-color);
+    background-color: var(--toolbar-bg);
+  }
 }
