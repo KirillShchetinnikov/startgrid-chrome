@@ -55,6 +55,10 @@ export function resolveToolbarOpacity({
   return clampOpacity(matchTileBackground ? tileOpacity : toolbarOpacity);
 }
 
+export function createBackdropFilter(enabled, opacity) {
+  return enabled && clampOpacity(opacity) < 100 ? 'blur(10px)' : 'none';
+}
+
 export function createToolbarBackground({
   matchTileBackground,
   tileColor,

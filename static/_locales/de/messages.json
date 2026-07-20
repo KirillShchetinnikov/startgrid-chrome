@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0 % ist vollständig transparent; 100 % ist undurchsichtig."
   },
+  "dial_background_blur": {
+    "message": "Transparente Kachelhintergründe weichzeichnen"
+  },
   "reset_tile_background_color": {
     "message": "Verwenden Sie die Themenfarbe"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0 % ist vollständig transparent; 100 % ist undurchsichtig."
+  },
+  "toolbar_background_blur": {
+    "message": "Transparentes Such- und Ordnerpanel weichzeichnen"
   },
   "reset_toolbar_background_color": {
     "message": "Designfarbe verwenden"

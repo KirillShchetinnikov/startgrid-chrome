@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0% is fully transparent; 100% is opaque."
   },
+  "dial_background_blur": {
+    "message": "Blur translucent tile backgrounds"
+  },
   "reset_tile_background_color": {
     "message": "Use theme color"
   },
@@ -455,6 +458,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0% is fully transparent; 100% is opaque."
+  },
+  "toolbar_background_blur": {
+    "message": "Blur translucent search and folder panel"
   },
   "reset_toolbar_background_color": {
     "message": "Use theme color"

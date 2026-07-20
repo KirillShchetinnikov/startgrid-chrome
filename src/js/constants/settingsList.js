@@ -123,6 +123,11 @@ const appearanceSettings = [
     }
   },
   {
+    id: 'dial_background_blur',
+    title: getMessage('dial_background_blur'),
+    type: 'switch'
+  },
+  {
     id: 'vertical_center',
     title: getMessage('vertical_center'),
     type: 'switch'
@@ -283,6 +288,11 @@ const legacySettings = [
           outputPostfix: '%'
         },
         hidden: true
+      },
+      {
+        id: 'toolbar_background_blur',
+        title: getMessage('toolbar_background_blur'),
+        type: 'switch'
       },
       {
         id: 'disable_main_page_scroll',
@@ -655,6 +665,7 @@ export default [
           'toolbar_match_tile_background',
           'toolbar_background_color',
           'toolbar_background_opacity',
+          'toolbar_background_blur',
           'show_settings_icon',
           'show_quick_settings_icon',
           'show_extension_icon',
@@ -692,7 +703,8 @@ export default [
           'dial_hover_lift',
           'dial_background_color',
           'dial_title_color',
-          'dial_background_opacity'
+          'dial_background_opacity',
+          'dial_background_blur'
         )
       },
       {

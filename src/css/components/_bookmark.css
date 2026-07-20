@@ -6,6 +6,7 @@
   flex-direction: column;
   text-decoration: none;
   background-color: var(--bookmark-bg);
+  backdrop-filter: var(--bookmark-backdrop-filter);
   border-radius: var(--bookmark-radius);
   border: var(--surface-border);
   box-shadow:
@@ -109,6 +110,7 @@
   cursor: pointer;
   opacity: 0.8;
   background-color: var(--bookmark-bg);
+  backdrop-filter: var(--bookmark-backdrop-filter);
   border-radius: var(--bookmark-radius);
   transition: opacity 0.15s linear;
   &:hover,

@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0% jest w pełni przezroczyste; 100% jest nieprzezroczyste."
   },
+  "dial_background_blur": {
+    "message": "Rozmywaj przezroczyste tła kafelków"
+  },
   "reset_tile_background_color": {
     "message": "Użyj koloru motywu"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0% oznacza pełną przezroczystość; 100% oznacza pełną nieprzezroczystość."
+  },
+  "toolbar_background_blur": {
+    "message": "Rozmywaj przezroczysty panel wyszukiwania i folderów"
   },
   "reset_toolbar_background_color": {
     "message": "Użyj koloru motywu"

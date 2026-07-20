@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0% は完全に透明です。 100% は不透明です。"
   },
+  "dial_background_blur": {
+    "message": "半透明のタイル背景をぼかす"
+  },
   "reset_tile_background_color": {
     "message": "テーマカラーを使用する"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0% は完全に透明です。100% は不透明です。"
+  },
+  "toolbar_background_blur": {
+    "message": "半透明の検索・フォルダーパネルをぼかす"
   },
   "reset_toolbar_background_color": {
     "message": "テーマカラーを使用する"

@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0% é totalmente transparente; 100% é opaco."
   },
+  "dial_background_blur": {
+    "message": "Desfocar fundos translúcidos dos blocos"
+  },
   "reset_tile_background_color": {
     "message": "Use a cor do tema"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0% é totalmente transparente; 100% é opaco."
+  },
+  "toolbar_background_blur": {
+    "message": "Desfocar o painel translúcido de pesquisa e pastas"
   },
   "reset_toolbar_background_color": {
     "message": "Usar a cor do tema"

@@ -6,6 +6,7 @@ import ImageDB from '../api/imageDB';
 import { getBingImage } from '../api/bingImageDay';
 import { containsPermissions } from '../api/permissions';
 import {
+  createBackdropFilter,
   createTileBackground,
   createToolbarBackground,
   cssColorToHex,
@@ -184,6 +185,10 @@ export default {
       themeBackground
     ));
     doc.style.setProperty(
+      '--bookmark-backdrop-filter',
+      createBackdropFilter(settings.$.dial_background_blur, backgroundOpacity)
+    );
+    doc.style.setProperty(
       '--toolbar-bg',
       createToolbarBackground({
         matchTileBackground: settings.$.toolbar_match_tile_background,
@@ -196,7 +201,7 @@ export default {
     );
     doc.style.setProperty(
       '--toolbar-backdrop-filter',
-      toolbarOpacity < 100 ? 'blur(10px)' : 'none'
+      createBackdropFilter(settings.$.toolbar_background_blur, toolbarOpacity)
     );
     doc.style.setProperty(
       '--bookmark-caption-color',

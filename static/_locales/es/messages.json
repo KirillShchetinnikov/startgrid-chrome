@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0% es totalmente transparente; 100% es opaco."
   },
+  "dial_background_blur": {
+    "message": "Desenfocar fondos de mosaicos transparentes"
+  },
   "reset_tile_background_color": {
     "message": "Usar color de tema"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0% es totalmente transparente; 100% es opaco."
+  },
+  "toolbar_background_blur": {
+    "message": "Desenfocar el panel transparente de búsqueda y carpetas"
   },
   "reset_toolbar_background_color": {
     "message": "Usar el color del tema"

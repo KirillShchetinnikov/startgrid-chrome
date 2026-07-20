@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0 % est entièrement transparent ; 100% est opaque."
   },
+  "dial_background_blur": {
+    "message": "Flouter l’arrière-plan des vignettes transparentes"
+  },
   "reset_tile_background_color": {
     "message": "Utiliser la couleur du thème"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0 % est entièrement transparent ; 100 % est opaque."
+  },
+  "toolbar_background_blur": {
+    "message": "Flouter le panneau transparent de recherche et de dossiers"
   },
   "reset_toolbar_background_color": {
     "message": "Utiliser la couleur du thème"

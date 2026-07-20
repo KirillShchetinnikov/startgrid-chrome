@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0% teljesen átlátszó; 100% átlátszatlan."
   },
+  "dial_background_blur": {
+    "message": "Áttetsző csempehátterek elmosása"
+  },
   "reset_tile_background_color": {
     "message": "Használja a téma színét"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0% teljesen átlátszó; 100% átlátszatlan."
+  },
+  "toolbar_background_blur": {
+    "message": "Áttetsző kereső- és mappapanel elmosása"
   },
   "reset_toolbar_background_color": {
     "message": "Témaszín használata"

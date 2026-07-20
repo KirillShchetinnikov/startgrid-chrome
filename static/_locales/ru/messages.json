@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0% — полностью прозрачно; 100% — полностью непрозрачно."
   },
+  "dial_background_blur": {
+    "message": "Размывать фон прозрачных плиток"
+  },
   "reset_tile_background_color": {
     "message": "Использовать цвет темы"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0% — полностью прозрачно; 100% — полностью непрозрачно."
+  },
+  "toolbar_background_blur": {
+    "message": "Размывать фон прозрачной панели поиска и папок"
   },
   "reset_toolbar_background_color": {
     "message": "Использовать цвет темы"

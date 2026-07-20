@@ -53,6 +53,7 @@ const DEFAULTS = Object.freeze({
   dial_background_color: '',
   dial_title_color: '',
   dial_background_opacity: 100,
+  dial_background_blur: false,
   vertical_center: false,
   disable_main_page_scroll: false,
   drag_and_drop: true,
@@ -63,6 +64,7 @@ const DEFAULTS = Object.freeze({
   toolbar_match_tile_background: true,
   toolbar_background_color: '',
   toolbar_background_opacity: 100,
+  toolbar_background_blur: true,
   show_contextmenu_item: true,
   show_settings_icon: true,
   show_quick_settings_icon: true,
@@ -196,6 +198,8 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   currentSettings.background_entrance_duration = Number.isFinite(backgroundEntranceDuration)
     ? Math.min(3000, Math.max(100, backgroundEntranceDuration))
     : DEFAULTS.background_entrance_duration;
+  currentSettings.dial_background_blur = currentSettings.dial_background_blur === true;
+  currentSettings.toolbar_background_blur = currentSettings.toolbar_background_blur !== false;
   if (!['always', 'winter', 'off'].includes(currentSettings.snow_mode)) {
     currentSettings.snow_mode = DEFAULTS.snow_mode;
   }

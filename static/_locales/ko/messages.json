@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0%는 완전히 투명합니다. 100%는 불투명합니다."
   },
+  "dial_background_blur": {
+    "message": "반투명 타일 배경 흐리게"
+  },
   "reset_tile_background_color": {
     "message": "테마 색상 사용"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0%는 완전히 투명하고 100%는 불투명합니다."
+  },
+  "toolbar_background_blur": {
+    "message": "반투명 검색 및 폴더 패널 흐리게"
   },
   "reset_toolbar_background_color": {
     "message": "테마 색상 사용"

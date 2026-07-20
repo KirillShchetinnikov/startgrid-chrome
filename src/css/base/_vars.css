@@ -55,6 +55,7 @@
   --bookmark-hover-shadow-spread: 0;
   --bookmark-hover-lift: 4px;
   --bookmark-bg: var(--theme-background-2);
+  --bookmark-backdrop-filter: none;
   --bookmark-overlay-bg: var(--theme-background-3-alpha-95);
   --bookmark-caption-bg: var(--theme-background-2);
   --bookmark-caption-after-transparent: var(--theme-background-3-alpha-0);

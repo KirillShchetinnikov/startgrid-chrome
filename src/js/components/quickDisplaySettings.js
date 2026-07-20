@@ -25,9 +25,11 @@ const STYLE_SETTINGS = new Set([
   'dial_background_color',
   'dial_title_color',
   'dial_background_opacity',
+  'dial_background_blur',
   'toolbar_match_tile_background',
   'toolbar_background_color',
   'toolbar_background_opacity',
+  'toolbar_background_blur',
   'favicon_size'
 ]);
 
@@ -149,6 +151,7 @@ function createPanel() {
             <output id="quick_dial_background_opacity_value" for="quick_dial_background_opacity"></output>
           </span>
         </label>
+        ${createSwitch('dial_background_blur')}
         <label class="quick-settings__field" for="quick_dial_background_color">
           <span>${message('dial_background_color')}</span>
           <span class="quick-settings__color">
@@ -193,6 +196,7 @@ function createPanel() {
               for="quick_toolbar_background_opacity"></output>
           </span>
         </label>
+        ${createSwitch('toolbar_background_blur')}
         ${createSwitch('show_create_column')}
         ${createSwitch('show_back_column')}
         ${createSwitch('show_bookmark_title')}

@@ -357,6 +357,9 @@
   "dial_background_opacity_note": {
     "message": "0%完全透明； 100% 是不透明的。"
   },
+  "dial_background_blur": {
+    "message": "模糊半透明磁贴背景"
+  },
   "reset_tile_background_color": {
     "message": "使用主题颜色"
   },
@@ -485,6 +488,9 @@
   },
   "toolbar_background_opacity_note": {
     "message": "0% 为完全透明；100% 为完全不透明。"
+  },
+  "toolbar_background_blur": {
+    "message": "模糊半透明搜索和文件夹面板"
   },
   "reset_toolbar_background_color": {
     "message": "使用主题颜色"

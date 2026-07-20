@@ -21,9 +21,11 @@ describe('quick settings reset', () => {
               color_theme: 'dark',
               dial_width: 95,
               dial_title_color: '#ffffff',
+              dial_background_blur: true,
               toolbar_match_tile_background: false,
               toolbar_background_color: '#112233',
               toolbar_background_opacity: 40,
+              toolbar_background_blur: false,
               show_extension_icon: false,
               show_toolbar: false,
               show_settings_icon: false,
@@ -40,9 +42,11 @@ describe('quick settings reset', () => {
               color_theme: 'dark',
               dial_width: 95,
               dial_title_color: '#ffffff',
+              dial_background_blur: true,
               toolbar_match_tile_background: false,
               toolbar_background_color: '#112233',
               toolbar_background_opacity: 40,
+              toolbar_background_blur: false,
               show_extension_icon: false,
               show_toolbar: false,
               show_settings_icon: false
@@ -67,16 +71,20 @@ describe('quick settings reset', () => {
     expect(defaults).toHaveProperty('dial_width', 70);
     expect(defaults).toHaveProperty('color_theme', 'os');
     expect(defaults).toHaveProperty('dial_title_color', '');
+    expect(defaults).toHaveProperty('dial_background_blur', false);
     expect(defaults).toHaveProperty('toolbar_match_tile_background', true);
     expect(defaults).toHaveProperty('toolbar_background_color', '');
     expect(defaults).toHaveProperty('toolbar_background_opacity', 100);
+    expect(defaults).toHaveProperty('toolbar_background_blur', true);
     expect(defaults).toHaveProperty('show_extension_icon', true);
     expect(settings.$.color_theme).toBe('os');
     expect(settings.$.dial_width).toBe(70);
     expect(settings.$.dial_title_color).toBe('');
+    expect(settings.$.dial_background_blur).toBe(false);
     expect(settings.$.toolbar_match_tile_background).toBe(true);
     expect(settings.$.toolbar_background_color).toBe('');
     expect(settings.$.toolbar_background_opacity).toBe(100);
+    expect(settings.$.toolbar_background_blur).toBe(true);
     expect(settings.$.show_extension_icon).toBe(true);
     expect(settings.$.show_toolbar).toBe(true);
     expect(settings.$.show_settings_icon).toBe(false);

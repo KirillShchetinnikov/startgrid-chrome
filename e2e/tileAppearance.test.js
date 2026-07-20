@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import {
+  createBackdropFilter,
   createTileBackground,
   createToolbarBackground,
   cssColorToHex,
@@ -53,6 +54,13 @@ describe('tile appearance settings', () => {
       tileOpacity: 65,
       toolbarOpacity: 100
     })).toBe(100);
+  });
+
+  it('enables blur only for translucent surfaces with blur enabled', () => {
+    expect(createBackdropFilter(true, 65)).toBe('blur(10px)');
+    expect(createBackdropFilter(false, 65)).toBe('none');
+    expect(createBackdropFilter(true, 100)).toBe('none');
+    expect(createBackdropFilter(true, 150)).toBe('none');
   });
 
   it('strengthens tile shadows for the dark theme and preserves zero', () => {
