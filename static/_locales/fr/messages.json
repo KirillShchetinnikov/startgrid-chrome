@@ -445,19 +445,7 @@
     "message": "Désactivé"
   },
   "page_cascade_enabled": {
-    "message": "Animer l’interface à l’ouverture de la page"
-  },
-  "page_entrance_effect": {
-    "message": "Effet d’apparition de la page"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "Effet 1 — Révélation douce"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "Effet 2 — Zoom des panneaux"
-  },
-  "page_entrance_effect_rise": {
-    "message": "Effet 3 — Montée douce"
+    "message": "Animer les vignettes à l'ouverture de la page"
   },
   "page_cascade_mode": {
     "message": "Ordre en cascade"

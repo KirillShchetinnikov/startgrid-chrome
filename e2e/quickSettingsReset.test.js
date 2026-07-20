@@ -30,6 +30,7 @@ describe('quick settings reset', () => {
               show_search: false,
               show_folder_picker: false,
               show_settings_icon: false,
+              page_entrance_effect: 'rise',
               search_engine: 'google'
             }
           }),
@@ -51,7 +52,8 @@ describe('quick settings reset', () => {
               show_extension_icon: false,
               show_search: false,
               show_folder_picker: false,
-              show_settings_icon: false
+              show_settings_icon: false,
+              page_entrance_effect: 'zoom'
             },
             settings_search: { search_engine: 'google' }
           }),
@@ -93,6 +95,7 @@ describe('quick settings reset', () => {
     expect(settings.$.show_settings_icon).toBe(false);
     expect(settings.$.search_engine).toBe('google');
     expect(settings.$.enable_sync).toBe(true);
+    expect(settings.$).not.toHaveProperty('page_entrance_effect');
     expect(localClear).not.toHaveBeenCalled();
     expect(syncClear).not.toHaveBeenCalled();
     expect(syncSet).toHaveBeenCalledTimes(1);

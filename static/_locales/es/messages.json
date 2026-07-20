@@ -445,19 +445,7 @@
     "message": "Apagado"
   },
   "page_cascade_enabled": {
-    "message": "Animar la interfaz al abrir la página"
-  },
-  "page_entrance_effect": {
-    "message": "Efecto de aparición de la página"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "Efecto 1 — Revelado suave"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "Efecto 2 — Ampliación de paneles"
-  },
-  "page_entrance_effect_rise": {
-    "message": "Efecto 3 — Ascenso suave"
+    "message": "Animar mosaicos al abrir la página"
   },
   "page_cascade_mode": {
     "message": "Orden en cascada"

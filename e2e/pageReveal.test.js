@@ -37,6 +37,9 @@ describe('page reveal', () => {
 
     expect(css).toMatch(/\.page-loading \.page-reveal\s*\{[^}]*opacity:\s*0\.999/s);
     expect(css).toMatch(/\.page-revealing \.page-reveal\s*\{[^}]*opacity:\s*0/s);
+    expect(css).toMatch(
+      /\.page-revealing \.page-reveal\s*\{[^}]*transition:\s*opacity 0\.08s ease/s
+    );
     expect(css).not.toMatch(/\.page-loading \.app/);
     expect(css).not.toMatch(/\.page-ready \.app/);
   });

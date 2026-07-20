@@ -25,8 +25,9 @@ describe('options page structure', () => {
       return section.sections.flatMap(group => group.list);
     });
     const ids = settings.map(setting => setting.id);
-    expect(ids).toHaveLength(72);
+    expect(ids).toHaveLength(71);
     expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).not.toContain('page_entrance_effect');
 
     const sectionFor = id => settingsList.find(section => {
       return section.sections.some(group => group.list.some(setting => setting.id === id));
@@ -38,7 +39,6 @@ describe('options page structure', () => {
     expect(sectionFor('show_folder_picker')).toBe('appearance');
     expect(sectionFor('toolbar_background_blur')).toBe('appearance');
     expect(sectionFor('dial_background_blur')).toBe('appearance');
-    expect(sectionFor('page_entrance_effect')).toBe('appearance');
     expect(sectionFor('language')).toBe('appearance');
     expect(sectionFor('show_extension_icon')).toBe('appearance');
     expect(sectionFor('keyboard_shortcuts')).toBe('controls');

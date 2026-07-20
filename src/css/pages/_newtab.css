@@ -9,38 +9,12 @@
 @keyframes page-tile-enter {
   from {
     opacity: 0;
-    transform: translateY(14px) scale(0.97);
+    transform: translate3d(0, 100vh, 0);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes page-panel-zoom-enter {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.94);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes page-soft-rise-enter {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-    clip-path: inset(18% 0 0 round 18px);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-    clip-path: inset(0 round 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -72,48 +46,21 @@ body {
 .page-revealing .page-reveal {
   visibility: visible;
   opacity: 0;
-  transition: opacity 0.24s ease;
+  transition: opacity 0.08s ease;
 }
 
 .page-ready .page-reveal {
   display: none;
 }
 
-.page-entering[data-page-entrance-effect="reveal"] .grid > *,
-.page-entering[data-page-entrance-effect="zoom"] :is(.header__items, .grid > *, .extension-icon, .aside-controls),
-.page-entering[data-page-entrance-effect="rise"] :is(.header__items, .grid > *, .extension-icon, .aside-controls) {
+.page-entering .grid > * {
+  animation-name: page-tile-enter;
   animation-duration: var(--page-cascade-item-duration, 420ms);
   animation-delay: var(--page-cascade-delay, 0ms);
-  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
-  animation-fill-mode: backwards;
-}
-
-.page-entering[data-page-entrance-effect="reveal"] .grid > * {
-  animation-name: page-tile-enter;
-}
-
-.page-entering[data-page-entrance-effect="zoom"] :is(.header__items, .grid > *, .extension-icon, .aside-controls) {
-  animation-name: page-panel-zoom-enter;
-}
-
-.page-entering[data-page-entrance-effect="rise"] :is(.header__items, .grid > *, .extension-icon, .aside-controls) {
-  animation-name: page-soft-rise-enter;
-}
-
-.page-entering .header__items--search {
-  --page-cascade-delay: 0ms;
-}
-
-.page-entering .extension-icon {
-  --page-cascade-delay: 30ms;
-}
-
-.page-entering .header__items--select {
-  --page-cascade-delay: 60ms;
-}
-
-.page-entering .aside-controls {
-  --page-cascade-delay: 90ms;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-fill-mode: both;
+  will-change: opacity, transform;
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -121,7 +68,7 @@ body {
     transition-duration: 0.01ms;
   }
 
-  .page-entering :is(.header__items, .grid > *, .extension-icon, .aside-controls) {
+  .page-entering .grid > * {
     animation: none;
   }
 }

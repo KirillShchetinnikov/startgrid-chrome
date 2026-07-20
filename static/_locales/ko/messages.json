@@ -445,19 +445,7 @@
     "message": "끄다"
   },
   "page_cascade_enabled": {
-    "message": "페이지를 열 때 인터페이스 애니메이션"
-  },
-  "page_entrance_effect": {
-    "message": "페이지 등장 효과"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "효과 1 — 부드러운 표시"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "효과 2 — 패널 확대"
-  },
-  "page_entrance_effect_rise": {
-    "message": "효과 3 — 부드러운 상승"
+    "message": "페이지를 열 때 타일에 애니메이션 적용"
   },
   "page_cascade_mode": {
     "message": "계단식 순서"

@@ -445,19 +445,7 @@
     "message": "Wyłączony"
   },
   "page_cascade_enabled": {
-    "message": "Animuj interfejs przy otwieraniu strony"
-  },
-  "page_entrance_effect": {
-    "message": "Efekt pojawiania się strony"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "Efekt 1 — Łagodne odsłonięcie"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "Efekt 2 — Powiększenie paneli"
-  },
-  "page_entrance_effect_rise": {
-    "message": "Efekt 3 — Łagodne uniesienie"
+    "message": "Animuj kafelki przy otwieraniu strony"
   },
   "page_cascade_mode": {
     "message": "Kolejność kaskadowa"

@@ -445,19 +445,7 @@
     "message": "オフ"
   },
   "page_cascade_enabled": {
-    "message": "ページを開くときにインターフェースをアニメーション化する"
-  },
-  "page_entrance_effect": {
-    "message": "ページの表示エフェクト"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "エフェクト1 — ソフト表示"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "エフェクト2 — パネルのズーム"
-  },
-  "page_entrance_effect_rise": {
-    "message": "エフェクト3 — ソフトリフト"
+    "message": "ページ開始時にタイルをアニメーション化する"
   },
   "page_cascade_mode": {
     "message": "カスケード順序"

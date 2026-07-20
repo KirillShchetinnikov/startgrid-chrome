@@ -445,19 +445,7 @@
     "message": "Выключен"
   },
   "page_cascade_enabled": {
-    "message": "Анимация интерфейса при открытии страницы"
-  },
-  "page_entrance_effect": {
-    "message": "Эффект появления страницы"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "Эффект 1 — Плавное раскрытие"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "Эффект 2 — Увеличение панелей"
-  },
-  "page_entrance_effect_rise": {
-    "message": "Эффект 3 — Мягкий подъём"
+    "message": "Анимация плиток при открытии страницы"
   },
   "page_cascade_mode": {
     "message": "Каскадный порядок"

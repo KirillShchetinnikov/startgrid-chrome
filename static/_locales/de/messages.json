@@ -445,19 +445,7 @@
     "message": "Aus"
   },
   "page_cascade_enabled": {
-    "message": "Oberfläche beim Öffnen der Seite animieren"
-  },
-  "page_entrance_effect": {
-    "message": "Effekt beim Erscheinen der Seite"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "Effekt 1 — Sanftes Einblenden"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "Effekt 2 — Panel-Zoom"
-  },
-  "page_entrance_effect_rise": {
-    "message": "Effekt 3 — Sanftes Anheben"
+    "message": "Animieren Sie Kacheln beim Öffnen der Seite"
   },
   "page_cascade_mode": {
     "message": "Kaskadenordnung"

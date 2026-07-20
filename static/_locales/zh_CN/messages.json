@@ -445,19 +445,7 @@
     "message": "离开"
   },
   "page_cascade_enabled": {
-    "message": "在页面打开时为界面添加动画"
-  },
-  "page_entrance_effect": {
-    "message": "页面显示效果"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "效果 1 — 柔和显现"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "效果 2 — 面板缩放"
-  },
-  "page_entrance_effect_rise": {
-    "message": "效果 3 — 柔和上浮"
+    "message": "在页面打开时对图块进行动画处理"
   },
   "page_cascade_mode": {
     "message": "级联顺序"

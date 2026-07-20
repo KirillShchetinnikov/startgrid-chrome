@@ -16,12 +16,16 @@ export function getCascadeGroupIndexes(items, mode) {
 export function calculateCascadeTiming(items, mode, duration) {
   const groupIndexes = getCascadeGroupIndexes(items, mode);
   const lastGroupIndex = Math.max(0, ...groupIndexes);
-  const itemDuration = Math.round(duration * 0.64);
+  const itemDuration = lastGroupIndex
+    ? Math.max(1, Math.round(duration * 0.52))
+    : duration;
   const delayBudget = duration - itemDuration;
   const delayStep = lastGroupIndex ? delayBudget / lastGroupIndex : 0;
+  const delays = groupIndexes.map(groupIndex => Math.round(groupIndex * delayStep));
 
   return {
     itemDuration,
-    delays: groupIndexes.map(groupIndex => groupIndex * delayStep)
+    delays,
+    totalDuration: duration
   };
 }

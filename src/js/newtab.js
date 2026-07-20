@@ -41,7 +41,6 @@ import { updateMainPageScrollLock } from './mainPageScroll';
 import { storage } from './api/storage';
 import { SYNC_QUOTA_ERROR_KEY } from './syncQuota';
 import { calculateCascadeTiming } from './pageCascade';
-import { normalizePageEntranceEffect } from './pageEntrance';
 import {
   forceBackdropPaint,
   waitForOpacityTransition,
@@ -1263,15 +1262,12 @@ async function prepareModal(target) {
   }
 }
 
-function preparePageEntrance() {
+function preparePageCascade() {
   if (!settings.$.page_cascade_enabled) return 0;
 
   const duration = settings.$.page_cascade_duration;
-  document.body.dataset.pageEntranceEffect = normalizePageEntranceEffect(
-    settings.$.page_entrance_effect
-  );
   const items = Array.from(document.querySelectorAll('#bookmarks > *'));
-  const { itemDuration, delays } = calculateCascadeTiming(
+  const { itemDuration, delays, totalDuration } = calculateCascadeTiming(
     items,
     settings.$.page_cascade_mode,
     duration
@@ -1281,23 +1277,15 @@ function preparePageEntrance() {
   items.forEach((item, index) => {
     item.style.setProperty('--page-cascade-delay', `${delays[index]}ms`);
   });
-  return duration;
+  return totalDuration;
 }
 
 async function revealPage() {
-  const cascadeDuration = preparePageEntrance();
+  const cascadeDuration = preparePageCascade();
   await waitForStablePaint({ forcePaint: forceBackdropPaint });
 
   const curtain = document.getElementById('page_reveal');
   const curtainHidden = waitForOpacityTransition(curtain);
-
-  if (cascadeDuration) {
-    document.body.classList.add('page-entering');
-    window.setTimeout(
-      () => document.body.classList.remove('page-entering'),
-      cascadeDuration + 100
-    );
-  }
 
   document.body.classList.remove('page-loading');
   document.body.classList.add('page-revealing');
@@ -1306,6 +1294,14 @@ async function revealPage() {
   await curtainHidden;
   document.body.classList.remove('page-revealing');
   document.body.classList.add('page-ready');
+
+  if (cascadeDuration) {
+    document.body.classList.add('page-entering');
+    window.setTimeout(
+      () => document.body.classList.remove('page-entering'),
+      cascadeDuration + 100
+    );
+  }
 }
 
 init()

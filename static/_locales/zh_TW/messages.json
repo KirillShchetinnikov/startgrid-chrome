@@ -445,19 +445,7 @@
     "message": "離開"
   },
   "page_cascade_enabled": {
-    "message": "在頁面開啟時為介面添加動畫"
-  },
-  "page_entrance_effect": {
-    "message": "頁面顯示效果"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "效果 1 — 柔和顯現"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "效果 2 — 面板縮放"
-  },
-  "page_entrance_effect_rise": {
-    "message": "效果 3 — 柔和上浮"
+    "message": "在頁面開啟時對圖塊進行動畫處理"
   },
   "page_cascade_mode": {
     "message": "級聯順序"

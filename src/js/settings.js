@@ -27,7 +27,6 @@ import {
   normalizeKeyboardShortcuts
 } from './keyboardShortcuts';
 import { SUPPORTED_LANGUAGES } from './i18n';
-import { normalizePageEntranceEffect } from './pageEntrance';
 
 const DEFAULTS = Object.freeze({
   language: 'auto',
@@ -38,7 +37,6 @@ const DEFAULTS = Object.freeze({
   background_entrance_duration: 500,
   snow_mode: 'winter',
   page_cascade_enabled: true,
-  page_entrance_effect: 'reveal',
   page_cascade_mode: 'items',
   page_cascade_duration: 660,
   default_folder_id: DEFAULT_BOOKMARKS_FOLDER,
@@ -115,7 +113,8 @@ const DEPRECATED_SETTINGS = [
   'enable_virtual_pagination',
   'thumbnails_update_recursive',
   'auto_generate_thumbnail',
-  'background_effect'
+  'background_effect',
+  'page_entrance_effect'
 ];
 
 function removeNotSyncedSettings(currentSettings) {
@@ -220,9 +219,6 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
     currentSettings.snow_mode = DEFAULTS.snow_mode;
   }
   currentSettings.page_cascade_enabled = currentSettings.page_cascade_enabled !== false;
-  currentSettings.page_entrance_effect = normalizePageEntranceEffect(
-    currentSettings.page_entrance_effect
-  );
   if (!['items', 'rows'].includes(currentSettings.page_cascade_mode)) {
     currentSettings.page_cascade_mode = DEFAULTS.page_cascade_mode;
   }

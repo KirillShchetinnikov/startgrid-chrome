@@ -445,19 +445,7 @@
     "message": "Le"
   },
   "page_cascade_enabled": {
-    "message": "A felület animálása az oldal megnyitásakor"
-  },
-  "page_entrance_effect": {
-    "message": "Az oldal megjelenési effektusa"
-  },
-  "page_entrance_effect_reveal": {
-    "message": "1. effektus — Finom felfedés"
-  },
-  "page_entrance_effect_zoom": {
-    "message": "2. effektus — Panelek nagyítása"
-  },
-  "page_entrance_effect_rise": {
-    "message": "3. effektus — Finom felemelkedés"
+    "message": "Csempék animálása az oldal megnyitásakor"
   },
   "page_cascade_mode": {
     "message": "Lépcsőzetes rendelés"
