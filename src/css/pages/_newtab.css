@@ -137,7 +137,7 @@ body {
   min-height: 100%;
 }
 
-.disable-main-page-scroll:not(.has-search) .app {
+.disable-main-page-scroll:not(.has-search, .has-folder-navigation) .app {
   overflow-y: hidden;
   overscroll-behavior: none;
 }

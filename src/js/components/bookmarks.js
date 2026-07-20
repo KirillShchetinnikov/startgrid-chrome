@@ -42,7 +42,10 @@ import {
   getCurrentFolderId,
   initFolderNavigation
 } from '../folderNavigation';
-import { updateBookmarkSearchState } from '../mainPageScroll';
+import {
+  updateBookmarkFolderState,
+  updateBookmarkSearchState
+} from '../mainPageScroll';
 import {
   getBookmarkUsageCounts,
   sortHomeBookmarks,
@@ -109,6 +112,7 @@ const Bookmarks = (() => {
     }
 
     initFolderNavigation(configuredStartFolder());
+    updateBookmarkFolderState(!isDefaultFolder());
 
     // Keep the toolbar available so quick settings can show it without reloading the page.
     await import(/* webpackChunkName: "webcomponents/vb-header" */'./vb-header');
@@ -150,6 +154,7 @@ const Bookmarks = (() => {
     document.addEventListener('folderNavigate', async function({ detail }) {
       const folderId = detail.folderId;
       activeSearchRequest += 1;
+      updateBookmarkFolderState(!isDefaultFolder(folderId));
       if (hasSearch) {
         hasSearch = false;
         updateBookmarkSearchState(false);
