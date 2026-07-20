@@ -46,3 +46,16 @@ export function createTileBackground(color, opacity, themeColor) {
   const channels = parseTileColor(color) || parseTileColor(themeColor) || [255, 255, 255];
   return `rgb(${channels.join(' ')} / ${clampOpacity(opacity)}%)`;
 }
+
+export function createToolbarBackground({
+  matchTileBackground,
+  tileColor,
+  tileOpacity,
+  toolbarColor,
+  toolbarOpacity,
+  themeColor
+}) {
+  return matchTileBackground
+    ? createTileBackground(tileColor, tileOpacity, themeColor)
+    : createTileBackground(toolbarColor, toolbarOpacity, themeColor);
+}

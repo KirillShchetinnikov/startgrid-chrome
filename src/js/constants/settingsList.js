@@ -258,6 +258,33 @@ const legacySettings = [
         type: 'switch'
       },
       {
+        id: 'toolbar_match_tile_background',
+        title: getMessage('toolbar_match_tile_background'),
+        type: 'switch'
+      },
+      {
+        id: 'toolbar_background_color',
+        title: getMessage('toolbar_background_color'),
+        note: getMessage('toolbar_background_color_note'),
+        resetText: getMessage('reset_toolbar_background_color'),
+        type: 'color',
+        hidden: true
+      },
+      {
+        id: 'toolbar_background_opacity',
+        title: getMessage('toolbar_background_opacity'),
+        note: getMessage('toolbar_background_opacity_note'),
+        type: 'range',
+        min: 0,
+        max: 100,
+        step: 1,
+        data: {
+          selectorOutput: '#toolbar_background_opacity_value',
+          outputPostfix: '%'
+        },
+        hidden: true
+      },
+      {
         id: 'disable_main_page_scroll',
         title: getMessage('disable_main_page_scroll'),
         note: getMessage('disable_main_page_scroll_description'),
@@ -625,6 +652,9 @@ export default [
         key: getMessage('settings_group_interface'),
         list: pickSettings(
           'show_toolbar',
+          'toolbar_match_tile_background',
+          'toolbar_background_color',
+          'toolbar_background_opacity',
           'show_settings_icon',
           'show_quick_settings_icon',
           'show_extension_icon',

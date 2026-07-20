@@ -112,7 +112,7 @@
 
   & .form-control {
     min-height: 52px;
-    background: var(--theme-background-2);
+    background: var(--toolbar-bg);
     border: var(--surface-border);
     box-shadow: 0 8px 24px rgb(42 35 82 / 7%);
   }
@@ -224,7 +224,7 @@
 
 .back {
   color: var(--search-reset-btn-color);
-  background-color: var(--input-bg);
+  background-color: var(--toolbar-bg);
   border: var(--input-border);
   border-radius: var(--btn-radius);
   width: 44px;
@@ -257,7 +257,7 @@
 .has-image .header .form-control:not(:focus, :open) {
   color: rgb(255 255 255 / 70%);
   border-color: transparent;
-  background-color: rgb(255 255 255 / 25%);
+  background-color: var(--toolbar-bg);
   backdrop-filter: blur(10px);
 }
 
@@ -284,6 +284,7 @@
 }
 
 .header .form-control {
+  background-color: var(--toolbar-bg);
   transition-property: color, border-color, background-color, backdrop-filter;
   transition-duration: 0.25s;
 }

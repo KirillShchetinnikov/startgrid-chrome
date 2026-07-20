@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "Pokaż pasek wyszukiwania i selektor folderów"
   },
+  "toolbar_match_tile_background": {
+    "message": "Synchronizuj motyw panelu wyszukiwania i folderów z tłem kafelków"
+  },
+  "toolbar_background_color": {
+    "message": "Kolor tła panelu wyszukiwania i folderów"
+  },
+  "toolbar_background_color_note": {
+    "message": "Używany, gdy dopasowanie do koloru tła kafelków jest wyłączone."
+  },
+  "toolbar_background_opacity": {
+    "message": "Nieprzezroczystość tła panelu wyszukiwania i folderów"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% oznacza pełną przezroczystość; 100% oznacza pełną nieprzezroczystość."
+  },
+  "reset_toolbar_background_color": {
+    "message": "Użyj koloru motywu"
+  },
   "show_create_column": {
     "message": "Pokaż kafelek Dodaj zakładkę"
   },

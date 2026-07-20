@@ -7,6 +7,7 @@ import { getBingImage } from '../api/bingImageDay';
 import { containsPermissions } from '../api/permissions';
 import {
   createTileBackground,
+  createToolbarBackground,
   cssColorToHex,
   getTileShadowOpacities
 } from '../tileAppearance';
@@ -160,6 +161,17 @@ export default {
       backgroundOpacity,
       themeBackground
     ));
+    doc.style.setProperty(
+      '--toolbar-bg',
+      createToolbarBackground({
+        matchTileBackground: settings.$.toolbar_match_tile_background,
+        tileColor: settings.$.dial_background_color,
+        tileOpacity: backgroundOpacity,
+        toolbarColor: settings.$.toolbar_background_color,
+        toolbarOpacity: settings.$.toolbar_background_opacity,
+        themeColor: themeBackground
+      })
+    );
     doc.style.setProperty(
       '--bookmark-caption-color',
       settings.$.dial_title_color

@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "顯示搜尋列和資料夾選擇器"
   },
+  "toolbar_match_tile_background": {
+    "message": "將搜尋和資料夾面板主題與圖塊背景同步"
+  },
+  "toolbar_background_color": {
+    "message": "搜尋和資料夾面板背景顏色"
+  },
+  "toolbar_background_color_note": {
+    "message": "關閉使用圖塊背景顏色後生效。"
+  },
+  "toolbar_background_opacity": {
+    "message": "搜尋和資料夾面板背景不透明度"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% 為完全透明；100% 為完全不透明。"
+  },
+  "reset_toolbar_background_color": {
+    "message": "使用主題顏色"
+  },
   "show_create_column": {
     "message": "顯示新增書籤圖塊"
   },

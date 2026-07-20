@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "显示搜索栏和文件夹选择器"
   },
+  "toolbar_match_tile_background": {
+    "message": "将搜索和文件夹面板主题与磁贴背景同步"
+  },
+  "toolbar_background_color": {
+    "message": "搜索和文件夹面板背景颜色"
+  },
+  "toolbar_background_color_note": {
+    "message": "关闭使用磁贴背景颜色后生效。"
+  },
+  "toolbar_background_opacity": {
+    "message": "搜索和文件夹面板背景不透明度"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% 为完全透明；100% 为完全不透明。"
+  },
+  "reset_toolbar_background_color": {
+    "message": "使用主题颜色"
+  },
   "show_create_column": {
     "message": "显示添加书签图块"
   },

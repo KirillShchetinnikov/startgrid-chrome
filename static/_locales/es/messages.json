@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "Mostrar la barra de búsqueda y el selector de carpetas"
   },
+  "toolbar_match_tile_background": {
+    "message": "Sincronizar el tema del panel de búsqueda y carpetas con el fondo de los mosaicos"
+  },
+  "toolbar_background_color": {
+    "message": "Color de fondo del panel de búsqueda y carpetas"
+  },
+  "toolbar_background_color_note": {
+    "message": "Se utiliza cuando está desactivada la coincidencia con el fondo de los mosaicos."
+  },
+  "toolbar_background_opacity": {
+    "message": "Opacidad del fondo del panel de búsqueda y carpetas"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% es totalmente transparente; 100% es opaco."
+  },
+  "reset_toolbar_background_color": {
+    "message": "Usar el color del tema"
+  },
   "show_create_column": {
     "message": "Mostrar el mosaico Agregar marcador"
   },

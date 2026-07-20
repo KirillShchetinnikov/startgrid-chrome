@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "検索バーとフォルダーピッカーを表示する"
   },
+  "toolbar_match_tile_background": {
+    "message": "検索・フォルダーパネルのテーマをタイルの背景と同期する"
+  },
+  "toolbar_background_color": {
+    "message": "検索・フォルダーパネルの背景色"
+  },
+  "toolbar_background_color_note": {
+    "message": "タイルの背景色を使用する設定がオフの場合に使用されます。"
+  },
+  "toolbar_background_opacity": {
+    "message": "検索・フォルダーパネルの背景の不透明度"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% は完全に透明です。100% は不透明です。"
+  },
+  "reset_toolbar_background_color": {
+    "message": "テーマカラーを使用する"
+  },
   "show_create_column": {
     "message": "ブックマークの追加タイルを表示する"
   },

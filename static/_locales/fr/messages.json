@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "Afficher la barre de recherche et le sélecteur de dossiers"
   },
+  "toolbar_match_tile_background": {
+    "message": "Synchroniser le thème du panneau de recherche et de dossiers avec le fond des vignettes"
+  },
+  "toolbar_background_color": {
+    "message": "Couleur de fond du panneau de recherche et de dossiers"
+  },
+  "toolbar_background_color_note": {
+    "message": "Utilisée lorsque la reprise de la couleur de fond des vignettes est désactivée."
+  },
+  "toolbar_background_opacity": {
+    "message": "Opacité du fond du panneau de recherche et de dossiers"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0 % est entièrement transparent ; 100 % est opaque."
+  },
+  "reset_toolbar_background_color": {
+    "message": "Utiliser la couleur du thème"
+  },
   "show_create_column": {
     "message": "Afficher la vignette Ajouter un signet"
   },

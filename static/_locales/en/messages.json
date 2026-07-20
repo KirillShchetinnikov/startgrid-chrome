@@ -441,6 +441,24 @@
   "show_toolbar": {
     "message": "Show the search bar and folder picker"
   },
+  "toolbar_match_tile_background": {
+    "message": "Sync the search and folder panel theme with the tile background"
+  },
+  "toolbar_background_color": {
+    "message": "Search and folder panel background color"
+  },
+  "toolbar_background_color_note": {
+    "message": "Used when matching the tile background color is disabled."
+  },
+  "toolbar_background_opacity": {
+    "message": "Search and folder panel background opacity"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% is fully transparent; 100% is opaque."
+  },
+  "reset_toolbar_background_color": {
+    "message": "Use theme color"
+  },
   "show_create_column": {
     "message": "Show the Add bookmark tile"
   },

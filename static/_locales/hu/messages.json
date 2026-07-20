@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "A keresősáv és a mappaválasztó megjelenítése"
   },
+  "toolbar_match_tile_background": {
+    "message": "A kereső- és mappapanel témájának szinkronizálása a csempék hátterével"
+  },
+  "toolbar_background_color": {
+    "message": "A kereső- és mappapanel háttérszíne"
+  },
+  "toolbar_background_color_note": {
+    "message": "Akkor használatos, ha a csempék háttérszínének átvétele ki van kapcsolva."
+  },
+  "toolbar_background_opacity": {
+    "message": "A kereső- és mappapanel hátterének átlátszatlansága"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% teljesen átlátszó; 100% átlátszatlan."
+  },
+  "reset_toolbar_background_color": {
+    "message": "Témaszín használata"
+  },
   "show_create_column": {
     "message": "Jelenítse meg a Könyvjelző hozzáadása csempét"
   },

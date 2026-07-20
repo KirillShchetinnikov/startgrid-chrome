@@ -35,7 +35,8 @@ let sectionBeforeSearch = null;
 
 const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
   dial_background_color: '--theme-background-2',
-  dial_title_color: '--theme-text-color'
+  dial_title_color: '--theme-text-color',
+  toolbar_background_color: '--theme-background-2'
 });
 
 async function init() {
@@ -410,7 +411,9 @@ function syncConditionalControls() {
     background_entrance_duration: document.getElementById('background_entrance_effect')?.value !== 'none',
     page_cascade_mode: document.getElementById('page_cascade_enabled')?.checked,
     page_cascade_duration: document.getElementById('page_cascade_enabled')?.checked,
-    thumbnails_auto_refresh_interval: document.getElementById('thumbnails_auto_refresh')?.checked
+    thumbnails_auto_refresh_interval: document.getElementById('thumbnails_auto_refresh')?.checked,
+    toolbar_background_color: !document.getElementById('toolbar_match_tile_background')?.checked,
+    toolbar_background_opacity: !document.getElementById('toolbar_match_tile_background')?.checked
   };
 
   Object.entries(conditionalRows).forEach(([id, visible]) => {
@@ -538,7 +541,8 @@ async function handleSetOptions(e) {
     'show_home_folders',
     'background_entrance_effect',
     'page_cascade_enabled',
-    'thumbnails_auto_refresh'
+    'thumbnails_auto_refresh',
+    'toolbar_match_tile_background'
   ].includes(id)) {
     syncConditionalControls();
   }

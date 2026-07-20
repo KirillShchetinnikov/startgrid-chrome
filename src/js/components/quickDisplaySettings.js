@@ -25,12 +25,16 @@ const STYLE_SETTINGS = new Set([
   'dial_background_color',
   'dial_title_color',
   'dial_background_opacity',
+  'toolbar_match_tile_background',
+  'toolbar_background_color',
+  'toolbar_background_opacity',
   'favicon_size'
 ]);
 
 const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
   dial_background_color: '--theme-background-2',
-  dial_title_color: '--theme-text-color'
+  dial_title_color: '--theme-text-color',
+  toolbar_background_color: '--theme-background-2'
 });
 
 function message(id) {
@@ -167,6 +171,28 @@ function createPanel() {
         ${createSwitch('disable_main_page_scroll')}
         ${createSwitch('show_extension_icon')}
         ${createSwitch('show_toolbar')}
+        ${createSwitch('toolbar_match_tile_background')}
+        <label class="quick-settings__field" for="quick_toolbar_background_color"
+          data-quick-toolbar-background>
+          <span>${message('toolbar_background_color')}</span>
+          <span class="quick-settings__color">
+            <input id="quick_toolbar_background_color" type="color"
+              data-setting="toolbar_background_color">
+            <button type="button" data-quick-color-reset="toolbar_background_color"
+              title="${message('reset_toolbar_background_color')}"
+              aria-label="${message('reset_toolbar_background_color')}">↺</button>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_toolbar_background_opacity"
+          data-quick-toolbar-background>
+          <span>${message('toolbar_background_opacity')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_toolbar_background_opacity" type="range" min="0" max="100" step="1"
+              data-setting="toolbar_background_opacity" data-unit="%">
+            <output id="quick_toolbar_background_opacity_value"
+              for="quick_toolbar_background_opacity"></output>
+          </span>
+        </label>
         ${createSwitch('show_create_column')}
         ${createSwitch('show_back_column')}
         ${createSwitch('show_bookmark_title')}
@@ -233,6 +259,9 @@ export default function initQuickDisplaySettings({
     panel.querySelectorAll('[data-quick-color-reset]').forEach(button => {
       button.disabled = !settings.$[button.dataset.quickColorReset];
     });
+    panel.querySelectorAll('[data-quick-toolbar-background]').forEach(control => {
+      control.hidden = Boolean(settings.$.toolbar_match_tile_background);
+    });
   }
 
   function togglePanel(force, restoreFocus = true) {
@@ -263,6 +292,11 @@ export default function initQuickDisplaySettings({
       syncControls();
     } else if (STYLE_SETTINGS.has(key)) {
       UI.calculateStyles();
+      if (key === 'toolbar_match_tile_background') {
+        panel.querySelectorAll('[data-quick-toolbar-background]').forEach(control => {
+          control.hidden = Boolean(value);
+        });
+      }
     } else if (key === 'vertical_center') {
       document.getElementById('bookmarks').classList.toggle('grid--vcenter', Boolean(value));
       document.getElementById('content').classList.toggle('content--vcenter', Boolean(value));
@@ -296,6 +330,14 @@ export default function initQuickDisplaySettings({
       const output = panel.querySelector(`#${event.target.id}_value`);
       output.textContent = `${event.target.value}${event.target.dataset.unit}`;
       applySetting(event.target, false);
+    });
+  });
+  panel.querySelectorAll('input[type="color"][data-setting]').forEach(control => {
+    control.addEventListener('input', event => {
+      applySetting(event.target, false);
+      panel.querySelector(
+        `[data-quick-color-reset="${event.target.dataset.setting}"]`
+      ).disabled = false;
     });
   });
   panel.querySelector('[data-quick-settings-reset]').addEventListener('click', async() => {

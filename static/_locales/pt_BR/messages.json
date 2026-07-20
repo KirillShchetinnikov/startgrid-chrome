@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "Mostrar a barra de pesquisa e o seletor de pastas"
   },
+  "toolbar_match_tile_background": {
+    "message": "Sincronizar o tema do painel de pesquisa e pastas com o fundo dos blocos"
+  },
+  "toolbar_background_color": {
+    "message": "Cor de fundo do painel de pesquisa e pastas"
+  },
+  "toolbar_background_color_note": {
+    "message": "Usada quando a correspondência com a cor de fundo dos blocos está desativada."
+  },
+  "toolbar_background_opacity": {
+    "message": "Opacidade do fundo do painel de pesquisa e pastas"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% é totalmente transparente; 100% é opaco."
+  },
+  "reset_toolbar_background_color": {
+    "message": "Usar a cor do tema"
+  },
   "show_create_column": {
     "message": "Mostrar o bloco Adicionar marcador"
   },

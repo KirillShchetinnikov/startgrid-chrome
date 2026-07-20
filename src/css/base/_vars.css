@@ -67,6 +67,7 @@
   --bookmark-dropzone-background-active: var(--color-primary-alpha-40);
   --bookmark-dropzone-icon-invert: none;
   --dropline-width: 6px;
+  --toolbar-bg: var(--theme-background-2);
 
   /* Options */
   --options-slider-width: 700px;

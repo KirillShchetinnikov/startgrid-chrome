@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "Suchleiste und Ordnerauswahl anzeigen"
   },
+  "toolbar_match_tile_background": {
+    "message": "Design der Such- und Ordnerleiste mit dem Kachelhintergrund synchronisieren"
+  },
+  "toolbar_background_color": {
+    "message": "Hintergrundfarbe der Such- und Ordnerleiste"
+  },
+  "toolbar_background_color_note": {
+    "message": "Wird verwendet, wenn die Übernahme der Kachelhintergrundfarbe deaktiviert ist."
+  },
+  "toolbar_background_opacity": {
+    "message": "Deckkraft der Such- und Ordnerleiste"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0 % ist vollständig transparent; 100 % ist undurchsichtig."
+  },
+  "reset_toolbar_background_color": {
+    "message": "Designfarbe verwenden"
+  },
   "show_create_column": {
     "message": "Zeigen Sie die Kachel „Lesezeichen hinzufügen“ an"
   },

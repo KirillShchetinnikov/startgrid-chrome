@@ -471,6 +471,24 @@
   "show_toolbar": {
     "message": "Показывать строку поиска и выбор папки"
   },
+  "toolbar_match_tile_background": {
+    "message": "Синхронизировать тему панели поиска и выбора папки с фоном плиток"
+  },
+  "toolbar_background_color": {
+    "message": "Цвет фона панели поиска и выбора папки"
+  },
+  "toolbar_background_color_note": {
+    "message": "Используется, если совпадение с цветом фона плиток отключено."
+  },
+  "toolbar_background_opacity": {
+    "message": "Непрозрачность фона панели поиска и выбора папки"
+  },
+  "toolbar_background_opacity_note": {
+    "message": "0% — полностью прозрачно; 100% — полностью непрозрачно."
+  },
+  "reset_toolbar_background_color": {
+    "message": "Использовать цвет темы"
+  },
   "show_create_column": {
     "message": "Показать плитку «Добавить закладку»"
   },

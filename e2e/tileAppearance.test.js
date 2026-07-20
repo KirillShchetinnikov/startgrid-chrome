@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import {
   createTileBackground,
+  createToolbarBackground,
   cssColorToHex,
   getTileShadowOpacities,
   parseTileColor
@@ -23,6 +24,21 @@ describe('tile appearance settings', () => {
       .toBe('rgb(255 0 128 / 100%)');
     expect(createTileBackground('#ff0080', -1, 'rgb(255 255 255)'))
       .toBe('rgb(255 0 128 / 0%)');
+  });
+
+  it('matches the tile background or uses an independent toolbar color', () => {
+    const settings = {
+      tileColor: '#5b4fd6',
+      tileOpacity: 65,
+      toolbarColor: '#112233',
+      toolbarOpacity: 75,
+      themeColor: 'rgb(255 255 255)'
+    };
+
+    expect(createToolbarBackground({ ...settings, matchTileBackground: true }))
+      .toBe('rgb(91 79 214 / 65%)');
+    expect(createToolbarBackground({ ...settings, matchTileBackground: false }))
+      .toBe('rgb(17 34 51 / 75%)');
   });
 
   it('strengthens tile shadows for the dark theme and preserves zero', () => {
