@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "Afficher l'icône StartGrid"
   },
-  "show_toolbar": {
-    "message": "Afficher la barre de recherche et le sélecteur de dossiers"
+  "show_search": {
+    "message": "Afficher la barre de recherche"
+  },
+  "show_folder_picker": {
+    "message": "Afficher le sélecteur de dossiers"
   },
   "toolbar_match_tile_background": {
     "message": "Synchroniser le thème du panneau de recherche et de dossiers avec le fond des vignettes"

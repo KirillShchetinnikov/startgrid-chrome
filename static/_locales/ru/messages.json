@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "Показать значок StartGrid"
   },
-  "show_toolbar": {
-    "message": "Показывать строку поиска и выбор папки"
+  "show_search": {
+    "message": "Показывать строку поиска"
+  },
+  "show_folder_picker": {
+    "message": "Показывать выбор папки"
   },
   "toolbar_match_tile_background": {
     "message": "Синхронизировать тему панели поиска и выбора папки с фоном плиток"

@@ -31,6 +31,17 @@
   min-width: 170px;
 }
 
+.header--folder-only {
+  justify-content: center;
+
+  & .header__items--select {
+    flex: 0 1 320px;
+    width: min(320px, 100%);
+    min-width: 0;
+    margin: 0;
+  }
+}
+
 .header__engine {
   --vb-popup-y: calc(100% + 10px);
   --vb-popup-shadow: 0 0 0 1px rgb(0 0 0 / 10%);

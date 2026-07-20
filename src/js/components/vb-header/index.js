@@ -57,6 +57,8 @@ class VbHeader extends HTMLElement {
     this.folderId = this.getAttribute('folder-id');
 
     this.headerNode = this.querySelector('.header');
+    this.searchSectionNode = this.querySelector('.header__items--search');
+    this.folderSectionNode = this.querySelector('.header__items--select');
     // form nodes
     this.formNode = this.querySelector('form');
     this.inputNode = this.querySelector('input');
@@ -79,8 +81,12 @@ class VbHeader extends HTMLElement {
     this.#setSearchEngines();
     this.#attachEvents();
     this.hashchange();
+    this.setSectionVisibility({
+      showSearch: settings.$.show_search,
+      showFolderPicker: settings.$.show_folder_picker
+    });
 
-    if (settings.$.search_autofocus) {
+    if (settings.$.search_autofocus && settings.$.show_search) {
       this.inputNode.focus();
     }
 
@@ -94,6 +100,13 @@ class VbHeader extends HTMLElement {
 
   get isBrowserEngine() {
     return settings.$.search_engine === 'browser';
+  }
+
+  setSectionVisibility({ showSearch = true, showFolderPicker = true } = {}) {
+    this.searchSectionNode.hidden = !showSearch;
+    this.folderSectionNode.hidden = !showFolderPicker;
+    this.headerNode.classList.toggle('header--folder-only', !showSearch && showFolderPicker);
+    this.hidden = !showSearch && !showFolderPicker;
   }
 
   set engine(engineId) {

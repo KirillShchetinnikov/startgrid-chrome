@@ -236,7 +236,7 @@ async function init() {
     showTrigger: settings.$.show_quick_settings_icon,
     onRerender: () => Bookmarks.refresh(),
     onExtensionIconVisibilityChange: updateExtensionIconVisibility,
-    onToolbarVisibilityChange: visible => Bookmarks.setToolbarVisibility(visible)
+    onHeaderVisibilityChange: visibility => Bookmarks.setHeaderVisibility(visibility)
   });
 
   if (settings.$.show_settings_icon) {

@@ -445,8 +445,11 @@
   "show_extension_icon": {
     "message": "Show the StartGrid icon"
   },
-  "show_toolbar": {
-    "message": "Show the search bar and folder picker"
+  "show_search": {
+    "message": "Show the search bar"
+  },
+  "show_folder_picker": {
+    "message": "Show the folder picker"
   },
   "toolbar_match_tile_background": {
     "message": "Sync the search and folder panel theme with the tile background"

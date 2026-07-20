@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "StartGrid アイコンを表示する"
   },
-  "show_toolbar": {
-    "message": "検索バーとフォルダーピッカーを表示する"
+  "show_search": {
+    "message": "検索バーを表示する"
+  },
+  "show_folder_picker": {
+    "message": "フォルダーピッカーを表示する"
   },
   "toolbar_match_tile_background": {
     "message": "検索・フォルダーパネルのテーマをタイルの背景と同期する"

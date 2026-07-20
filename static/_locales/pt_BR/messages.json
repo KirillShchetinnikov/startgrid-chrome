@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "Mostrar o ícone do StartGrid"
   },
-  "show_toolbar": {
-    "message": "Mostrar a barra de pesquisa e o seletor de pastas"
+  "show_search": {
+    "message": "Mostrar a barra de pesquisa"
+  },
+  "show_folder_picker": {
+    "message": "Mostrar o seletor de pastas"
   },
   "toolbar_match_tile_background": {
     "message": "Sincronizar o tema do painel de pesquisa e pastas com o fundo dos blocos"

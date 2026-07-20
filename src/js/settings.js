@@ -62,7 +62,8 @@ const DEFAULTS = Object.freeze({
   download_favicons_by_default: false,
   favicon_size: 32,
   enable_sync: true,
-  show_toolbar: true,
+  show_search: true,
+  show_folder_picker: true,
   toolbar_match_tile_background: true,
   toolbar_background_color: '',
   toolbar_background_opacity: 100,
@@ -125,6 +126,16 @@ function removeNotSyncedSettings(currentSettings) {
 function migrateSettings(currentSettings = {}) {
   const migrated = { ...currentSettings };
 
+  if (Object.hasOwn(migrated, 'show_toolbar')) {
+    const showToolbar = migrated.show_toolbar !== false;
+    if (!Object.hasOwn(migrated, 'show_search')) {
+      migrated.show_search = showToolbar;
+    }
+    if (!Object.hasOwn(migrated, 'show_folder_picker')) {
+      migrated.show_folder_picker = showToolbar;
+    }
+  }
+
   if (Object.hasOwn(migrated, 'open_link_newtab')) {
     const openInNewTab = Boolean(migrated.open_link_newtab);
     if (!Object.hasOwn(migrated, 'open_bookmarks_newtab')) {
@@ -151,6 +162,7 @@ function migrateSettings(currentSettings = {}) {
   delete migrated.sort_by;
   delete migrated.sort_by_newest;
   delete migrated.open_link_newtab;
+  delete migrated.show_toolbar;
   return migrated;
 }
 
@@ -187,6 +199,8 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   currentSettings.show_usage_count = currentSettings.show_usage_count !== false;
   currentSettings.home_manual_sort_initialized = currentSettings.home_manual_sort_initialized === true;
   currentSettings.show_home_folders = currentSettings.show_home_folders !== false;
+  currentSettings.show_search = currentSettings.show_search !== false;
+  currentSettings.show_folder_picker = currentSettings.show_folder_picker !== false;
   if (!['together', 'folders_top', 'folders_bottom'].includes(currentSettings.bookmarks_sorting_type)) {
     currentSettings.bookmarks_sorting_type = DEFAULTS.bookmarks_sorting_type;
   }

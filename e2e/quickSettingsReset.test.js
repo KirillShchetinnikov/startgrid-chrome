@@ -27,7 +27,8 @@ describe('quick settings reset', () => {
               toolbar_background_opacity: 40,
               toolbar_background_blur: false,
               show_extension_icon: false,
-              show_toolbar: false,
+              show_search: false,
+              show_folder_picker: false,
               show_settings_icon: false,
               search_engine: 'google'
             }
@@ -48,7 +49,8 @@ describe('quick settings reset', () => {
               toolbar_background_opacity: 40,
               toolbar_background_blur: false,
               show_extension_icon: false,
-              show_toolbar: false,
+              show_search: false,
+              show_folder_picker: false,
               show_settings_icon: false
             },
             settings_search: { search_engine: 'google' }
@@ -86,7 +88,8 @@ describe('quick settings reset', () => {
     expect(settings.$.toolbar_background_opacity).toBe(100);
     expect(settings.$.toolbar_background_blur).toBe(true);
     expect(settings.$.show_extension_icon).toBe(true);
-    expect(settings.$.show_toolbar).toBe(true);
+    expect(settings.$.show_search).toBe(true);
+    expect(settings.$.show_folder_picker).toBe(true);
     expect(settings.$.show_settings_icon).toBe(false);
     expect(settings.$.search_engine).toBe('google');
     expect(settings.$.enable_sync).toBe(true);

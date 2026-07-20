@@ -25,7 +25,7 @@ describe('options page structure', () => {
       return section.sections.flatMap(group => group.list);
     });
     const ids = settings.map(setting => setting.id);
-    expect(ids).toHaveLength(71);
+    expect(ids).toHaveLength(72);
     expect(new Set(ids).size).toBe(ids.length);
 
     const sectionFor = id => settingsList.find(section => {
@@ -34,7 +34,8 @@ describe('options page structure', () => {
     expect(sectionFor('navigation_sort_by')).toBe('search');
     expect(sectionFor('open_bookmarks_newtab')).toBe('bookmarks');
     expect(sectionFor('open_search_newtab')).toBe('search');
-    expect(sectionFor('show_toolbar')).toBe('appearance');
+    expect(sectionFor('show_search')).toBe('appearance');
+    expect(sectionFor('show_folder_picker')).toBe('appearance');
     expect(sectionFor('toolbar_background_blur')).toBe('appearance');
     expect(sectionFor('dial_background_blur')).toBe('appearance');
     expect(sectionFor('page_entrance_effect')).toBe('appearance');

@@ -73,14 +73,17 @@ const Bookmarks = (() => {
     updateBookmarkSearchState(false);
   }
 
-  function setToolbarVisibility(visible) {
+  function setHeaderVisibility({
+    showSearch = settings.$.show_search,
+    showFolderPicker = settings.$.show_folder_picker
+  } = {}) {
     if (!vbHeader) return;
 
-    if (!visible && hasSearch) {
+    if (!showSearch && hasSearch) {
       vbHeader.clearBookmarkSearch();
       resetBookmarkSearch();
     }
-    vbHeader.hidden = !visible;
+    vbHeader.setSectionVisibility({ showSearch, showFolderPicker });
   }
 
   async function init() {
@@ -120,7 +123,6 @@ const Bookmarks = (() => {
     vbHeader.setAttribute('placeholder', getMessage('placeholder_input_search'));
     vbHeader.setAttribute('initial-folder-id', settings.defaultFolderId);
     vbHeader.setAttribute('folder-id', startFolder());
-    vbHeader.hidden = !settings.$.show_toolbar;
     document.querySelector('header').append(vbHeader);
     await vbHeader.ready;
 
@@ -1551,7 +1553,7 @@ const Bookmarks = (() => {
   return {
     init,
     refresh: () => createSpeedDial(startFolder()),
-    setToolbarVisibility,
+    setHeaderVisibility,
     createBookmark,
     updateBookmark,
     removeFromBrowser,

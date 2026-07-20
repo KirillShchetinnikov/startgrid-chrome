@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "Mutassa meg a StartGrid ikont"
   },
-  "show_toolbar": {
-    "message": "A keresősáv és a mappaválasztó megjelenítése"
+  "show_search": {
+    "message": "A keresősáv megjelenítése"
+  },
+  "show_folder_picker": {
+    "message": "A mappaválasztó megjelenítése"
   },
   "toolbar_match_tile_background": {
     "message": "A kereső- és mappapanel témájának szinkronizálása a csempék hátterével"

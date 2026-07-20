@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "Zeigen Sie das StartGrid-Symbol an"
   },
-  "show_toolbar": {
-    "message": "Suchleiste und Ordnerauswahl anzeigen"
+  "show_search": {
+    "message": "Suchleiste anzeigen"
+  },
+  "show_folder_picker": {
+    "message": "Ordnerauswahl anzeigen"
   },
   "toolbar_match_tile_background": {
     "message": "Design der Such- und Ordnerleiste mit dem Kachelhintergrund synchronisieren"

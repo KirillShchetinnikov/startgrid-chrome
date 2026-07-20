@@ -173,7 +173,8 @@ function createPanel() {
         ${createSwitch('vertical_center')}
         ${createSwitch('disable_main_page_scroll')}
         ${createSwitch('show_extension_icon')}
-        ${createSwitch('show_toolbar')}
+        ${createSwitch('show_search')}
+        ${createSwitch('show_folder_picker')}
         ${createSwitch('toolbar_match_tile_background')}
         <label class="quick-settings__field" for="quick_toolbar_background_color"
           data-quick-toolbar-background>
@@ -219,7 +220,7 @@ export default function initQuickDisplaySettings({
   showTrigger = true,
   onRerender,
   onExtensionIconVisibilityChange,
-  onToolbarVisibilityChange
+  onHeaderVisibilityChange
 }) {
   const trigger = document.createElement('button');
   trigger.id = 'quick_settings_trigger';
@@ -309,8 +310,11 @@ export default function initQuickDisplaySettings({
     } else if (key === 'show_extension_icon') {
       onExtensionIconVisibilityChange(Boolean(value));
       UI.calculateStyles();
-    } else if (key === 'show_toolbar') {
-      onToolbarVisibilityChange(Boolean(value));
+    } else if (['show_search', 'show_folder_picker'].includes(key)) {
+      onHeaderVisibilityChange({
+        showSearch: settings.$.show_search,
+        showFolderPicker: settings.$.show_folder_picker
+      });
     } else if (RERENDER_SETTINGS.has(key)) {
       await onRerender();
     }
@@ -353,7 +357,10 @@ export default function initQuickDisplaySettings({
     UI.calculateStyles();
     updateMainPageScrollLock(settings.$.disable_main_page_scroll);
     onExtensionIconVisibilityChange(settings.$.show_extension_icon);
-    onToolbarVisibilityChange(settings.$.show_toolbar);
+    onHeaderVisibilityChange({
+      showSearch: settings.$.show_search,
+      showFolderPicker: settings.$.show_folder_picker
+    });
     document.getElementById('bookmarks')
       .classList.toggle('grid--vcenter', settings.$.vertical_center);
     document.getElementById('content')

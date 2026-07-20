@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "Pokaż ikonę StartGrid"
   },
-  "show_toolbar": {
-    "message": "Pokaż pasek wyszukiwania i selektor folderów"
+  "show_search": {
+    "message": "Pokaż pasek wyszukiwania"
+  },
+  "show_folder_picker": {
+    "message": "Pokaż selektor folderów"
   },
   "toolbar_match_tile_background": {
     "message": "Synchronizuj motyw panelu wyszukiwania i folderów z tłem kafelków"

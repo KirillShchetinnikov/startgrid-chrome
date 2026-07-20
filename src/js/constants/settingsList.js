@@ -268,8 +268,13 @@ const legacySettings = [
         }
       },
       {
-        id: 'show_toolbar',
-        title: getMessage('show_toolbar'),
+        id: 'show_search',
+        title: getMessage('show_search'),
+        type: 'switch'
+      },
+      {
+        id: 'show_folder_picker',
+        title: getMessage('show_folder_picker'),
         type: 'switch'
       },
       {
@@ -671,7 +676,8 @@ export default [
       {
         key: getMessage('settings_group_interface'),
         list: pickSettings(
-          'show_toolbar',
+          'show_search',
+          'show_folder_picker',
           'toolbar_match_tile_background',
           'toolbar_background_color',
           'toolbar_background_opacity',

@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "Mostrar el icono de StartGrid"
   },
-  "show_toolbar": {
-    "message": "Mostrar la barra de búsqueda y el selector de carpetas"
+  "show_search": {
+    "message": "Mostrar la barra de búsqueda"
+  },
+  "show_folder_picker": {
+    "message": "Mostrar el selector de carpetas"
   },
   "toolbar_match_tile_background": {
     "message": "Sincronizar el tema del panel de búsqueda y carpetas con el fondo de los mosaicos"

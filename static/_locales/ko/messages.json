@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "StartGrid 아이콘 표시"
   },
-  "show_toolbar": {
-    "message": "검색창 및 폴더 선택기 표시"
+  "show_search": {
+    "message": "검색창 표시"
+  },
+  "show_folder_picker": {
+    "message": "폴더 선택기 표시"
   },
   "toolbar_match_tile_background": {
     "message": "검색 및 폴더 패널 테마를 타일 배경과 동기화"

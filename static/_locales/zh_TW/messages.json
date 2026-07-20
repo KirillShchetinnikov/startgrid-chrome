@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "顯示開始網格圖標"
   },
-  "show_toolbar": {
-    "message": "顯示搜尋列和資料夾選擇器"
+  "show_search": {
+    "message": "顯示搜尋列"
+  },
+  "show_folder_picker": {
+    "message": "顯示資料夾選擇器"
   },
   "toolbar_match_tile_background": {
     "message": "將搜尋和資料夾面板主題與圖塊背景同步"

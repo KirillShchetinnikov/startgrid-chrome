@@ -483,8 +483,11 @@
   "show_extension_icon": {
     "message": "显示开始网格图标"
   },
-  "show_toolbar": {
-    "message": "显示搜索栏和文件夹选择器"
+  "show_search": {
+    "message": "显示搜索栏"
+  },
+  "show_folder_picker": {
+    "message": "显示文件夹选择器"
   },
   "toolbar_match_tile_background": {
     "message": "将搜索和文件夹面板主题与磁贴背景同步"
