@@ -8,12 +8,22 @@
   background-color: var(--bookmark-bg);
   border-radius: var(--bookmark-radius);
   border: var(--surface-border);
-  box-shadow: 0 10px 25px rgb(42 35 82 / var(--bookmark-shadow-opacity));
+  box-shadow:
+    0
+    var(--bookmark-shadow-offset-y)
+    var(--bookmark-shadow-blur)
+    var(--bookmark-shadow-spread)
+    rgb(var(--bookmark-shadow-color) / var(--bookmark-shadow-opacity));
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(calc(var(--bookmark-hover-lift) * -1));
-    box-shadow: 0 18px 34px rgb(42 35 82 / var(--bookmark-hover-shadow-opacity));
+    box-shadow:
+      0
+      var(--bookmark-hover-shadow-offset-y)
+      var(--bookmark-hover-shadow-blur)
+      var(--bookmark-hover-shadow-spread)
+      rgb(var(--bookmark-shadow-color) / var(--bookmark-hover-shadow-opacity));
   }
 
   &:focus-visible {

@@ -331,7 +331,7 @@
     "message": "Amplo (16:9)"
   },
   "dial_shadow": {
-    "message": "Intensidade da sombra do ladrilho"
+    "message": "Opacidade da sombra do bloco"
   },
   "dial_hover_lift": {
     "message": "Levantamento de ladrilho ao pairar"

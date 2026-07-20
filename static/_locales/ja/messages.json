@@ -331,7 +331,7 @@
     "message": "ワイド(16:9)"
   },
   "dial_shadow": {
-    "message": "タイルの影の強度"
+    "message": "タイルの影の不透明度"
   },
   "dial_hover_lift": {
     "message": "ホバー時のタイルリフト"

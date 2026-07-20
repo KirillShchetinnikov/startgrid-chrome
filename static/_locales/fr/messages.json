@@ -331,7 +331,7 @@
     "message": "Large (16:9)"
   },
   "dial_shadow": {
-    "message": "Intensité de l'ombre des carreaux"
+    "message": "Opacité de l'ombre des tuiles"
   },
   "dial_hover_lift": {
     "message": "Lève-carreaux en survol"

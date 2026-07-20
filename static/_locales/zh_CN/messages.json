@@ -331,7 +331,7 @@
     "message": "宽屏 (16:9)"
   },
   "dial_shadow": {
-    "message": "平铺阴影强度"
+    "message": "磁贴阴影不透明度"
   },
   "dial_hover_lift": {
     "message": "悬停时瓷砖升降机"

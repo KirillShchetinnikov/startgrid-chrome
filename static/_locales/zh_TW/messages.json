@@ -331,7 +331,7 @@
     "message": "寬螢幕 (16:9)"
   },
   "dial_shadow": {
-    "message": "平鋪陰影強度"
+    "message": "圖塊陰影不透明度"
   },
   "dial_hover_lift": {
     "message": "懸停時瓷磚升降機"

@@ -331,7 +331,7 @@
     "message": "Wide (16:9)"
   },
   "dial_shadow": {
-    "message": "Tile shadow intensity"
+    "message": "Tile shadow opacity"
   },
   "dial_hover_lift": {
     "message": "Tile lift on hover"

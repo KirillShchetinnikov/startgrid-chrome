@@ -5,6 +5,22 @@ function clampOpacity(value) {
   return Number.isFinite(number) ? Math.min(100, Math.max(0, number)) : 100;
 }
 
+export function getTileShadowOpacities(value, darkTheme = false) {
+  const opacity = Math.min(30, clampOpacity(value));
+
+  if (darkTheme) {
+    return {
+      resting: Math.min(55, opacity * 1.75),
+      hover: Math.min(75, opacity * 2.5)
+    };
+  }
+
+  return {
+    resting: opacity,
+    hover: Math.min(45, opacity * 1.875)
+  };
+}
+
 export function parseTileColor(value) {
   if (HEX_COLOR.test(value || '')) {
     return [

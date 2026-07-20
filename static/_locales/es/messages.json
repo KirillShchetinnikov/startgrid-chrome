@@ -331,7 +331,7 @@
     "message": "Ancho (16:9)"
   },
   "dial_shadow": {
-    "message": "Intensidad de la sombra del azulejo"
+    "message": "Opacidad de la sombra del mosaico"
   },
   "dial_hover_lift": {
     "message": "Levantamiento de mosaicos al pasar el mouse"

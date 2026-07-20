@@ -46,6 +46,13 @@
   --bookmark-radius: 18px;
   --bookmark-shadow-opacity: 8%;
   --bookmark-hover-shadow-opacity: 15%;
+  --bookmark-shadow-color: 42 35 82;
+  --bookmark-shadow-offset-y: 10px;
+  --bookmark-shadow-blur: 25px;
+  --bookmark-shadow-spread: 0;
+  --bookmark-hover-shadow-offset-y: 18px;
+  --bookmark-hover-shadow-blur: 34px;
+  --bookmark-hover-shadow-spread: 0;
   --bookmark-hover-lift: 4px;
   --bookmark-bg: var(--theme-background-2);
   --bookmark-overlay-bg: var(--theme-background-3-alpha-95);
@@ -172,6 +179,13 @@
   --scrollbar-hover-color: rgb(160 151 224 / 70%);
 
   /* bookmark  dark theme */
+  --bookmark-shadow-color: 0 0 0;
+  --bookmark-shadow-offset-y: 14px;
+  --bookmark-shadow-blur: 34px;
+  --bookmark-shadow-spread: -4px;
+  --bookmark-hover-shadow-offset-y: 22px;
+  --bookmark-hover-shadow-blur: 46px;
+  --bookmark-hover-shadow-spread: -3px;
   --bookmark-image-fill: var(--filter-invert-image);
   --bookmark-dropzone-border: 2px dashed #999;
   --bookmark-dropzone-icon-invert: invert(1);

@@ -331,7 +331,7 @@
     "message": "Szeroki (16:9)"
   },
   "dial_shadow": {
-    "message": "Intensywność cienia płytek"
+    "message": "Krycie cienia kafelka"
   },
   "dial_hover_lift": {
     "message": "Podnoszenie płytek po najechaniu myszką"

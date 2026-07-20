@@ -331,7 +331,7 @@
     "message": "Széles (16:9)"
   },
   "dial_shadow": {
-    "message": "Csempe árnyék intenzitása"
+    "message": "Csempeárnyék átlátszatlansága"
   },
   "dial_hover_lift": {
     "message": "Csempe emelés lebegve"

@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import {
   createTileBackground,
   cssColorToHex,
+  getTileShadowOpacities,
   parseTileColor
 } from '../src/js/tileAppearance';
 
@@ -22,5 +23,31 @@ describe('tile appearance settings', () => {
       .toBe('rgb(255 0 128 / 100%)');
     expect(createTileBackground('#ff0080', -1, 'rgb(255 255 255)'))
       .toBe('rgb(255 0 128 / 0%)');
+  });
+
+  it('strengthens tile shadows for the dark theme and preserves zero', () => {
+    expect(getTileShadowOpacities(8, false)).toEqual({
+      resting: 8,
+      hover: 15
+    });
+    expect(getTileShadowOpacities(8, true)).toEqual({
+      resting: 14,
+      hover: 20
+    });
+    expect(getTileShadowOpacities(0, true)).toEqual({
+      resting: 0,
+      hover: 0
+    });
+  });
+
+  it('clamps tile shadow opacity to the supported range', () => {
+    expect(getTileShadowOpacities(100, false)).toEqual({
+      resting: 30,
+      hover: 45
+    });
+    expect(getTileShadowOpacities(100, true)).toEqual({
+      resting: 52.5,
+      hover: 75
+    });
   });
 });

@@ -331,7 +331,7 @@
     "message": "와이드(16:9)"
   },
   "dial_shadow": {
-    "message": "타일 ​​그림자 강도"
+    "message": "타일 그림자 불투명도"
   },
   "dial_hover_lift": {
     "message": "호버에서 타일 리프트"
