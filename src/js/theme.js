@@ -3,6 +3,7 @@ const colorTheme = () => document.documentElement.classList.toggle('dark', color
 
 async function toggleTheme() {
   const { settings } = await browser.storage.local.get('settings');
+  if (!settings) return false;
 
   if (settings.color_theme === 'os') {
     colorScheme.removeListener(colorTheme);
@@ -21,4 +22,5 @@ async function toggleTheme() {
 // make it global to have it in js modules
 window.vbToggleTheme = toggleTheme;
 
-toggleTheme();
+window.vbThemeReady = toggleTheme()
+  .catch(error => console.warn('Could not initialize StartGrid theme', error));

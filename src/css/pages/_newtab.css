@@ -22,19 +22,35 @@ body {
   overflow-y: hidden;
 }
 
-.page-loading .app,
-.page-loading .extension-icon,
-.page-loading .aside-controls {
+.page-reveal {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
   opacity: 0;
-  transform: translateY(8px) scale(0.99);
+  background-color: var(--body-background);
+  background-image:
+    radial-gradient(circle at 8% 0%, rgb(122 83 218 / 9%), transparent 30rem),
+    radial-gradient(circle at 92% 6%, rgb(244 108 132 / 8%), transparent 27rem);
+  will-change: opacity;
 }
 
-.page-ready .app,
-.page-ready .extension-icon,
-.page-ready .aside-controls {
-  opacity: 1;
-  transform: none;
-  transition: opacity 0.36s ease, transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+.page-loading .page-reveal {
+  visibility: visible;
+
+  /* A translucent top layer makes Chromium paint the backdrop-filter layers below it. */
+  opacity: 0.999;
+}
+
+.page-revealing .page-reveal {
+  visibility: visible;
+  opacity: 0;
+  transition: opacity 0.24s ease;
+}
+
+.page-ready .page-reveal {
+  display: none;
 }
 
 .page-entering .grid > * {
@@ -46,9 +62,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-ready .app,
-  .page-ready .extension-icon,
-  .page-ready .aside-controls {
+  .page-revealing .page-reveal {
     transition-duration: 0.01ms;
   }
 

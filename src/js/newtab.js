@@ -43,6 +43,11 @@ import { storage } from './api/storage';
 import { SYNC_QUOTA_ERROR_KEY } from './syncQuota';
 import { calculateCascadeTiming } from './pageCascade';
 import {
+  forceBackdropPaint,
+  waitForOpacityTransition,
+  waitForStablePaint
+} from './pageReveal';
+import {
   eventMatchesSelectionModifier,
   initKeyboardShortcuts,
   normalizeSelectionModifier
@@ -83,6 +88,10 @@ let generateThumbsBtn = null;
 let pendingThumbnailBlob = null;
 let pendingThumbnailSource = null;
 let quickSettingsApi = null;
+let resolvePageRevealStarted;
+const pageRevealStarted = new Promise(resolve => {
+  resolvePageRevealStarted = resolve;
+});
 
 function updateExtensionIconVisibility(visible) {
   extensionIconNode.hidden = !visible;
@@ -161,6 +170,8 @@ async function init() {
    * Settings
    */
   await settings.init();
+  await window.vbThemeReady;
+  await window.vbToggleTheme();
   updateExtensionIconVisibility(settings.$.show_extension_icon);
   updateMainPageScrollLock(settings.$.disable_main_page_scroll);
   await showSyncQuotaError();
@@ -169,7 +180,8 @@ async function init() {
    * UI
    */
   UI.calculateStyles();
-  UI.setBG();
+  UI.setBG(pageRevealStarted)
+    .catch(error => console.warn('Could not initialize StartGrid background', error));
 
   /**
    * Localization
@@ -302,6 +314,7 @@ async function init() {
 
   initSnow(settings.$.snow_mode);
   initKeyboardShortcuts(settings.$.keyboard_shortcuts, handleKeyboardShortcutAction);
+  UI.calculateStyles();
 }
 
 async function handleKeyboardShortcutAction(action) {
@@ -1250,32 +1263,49 @@ async function prepareModal(target) {
   }
 }
 
-function revealPage() {
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(() => {
-      document.body.classList.remove('page-loading');
-      document.body.classList.add('page-ready');
+function preparePageCascade() {
+  if (!settings.$.page_cascade_enabled) return 0;
 
-      if (!settings.$.page_cascade_enabled) return;
+  const duration = settings.$.page_cascade_duration;
+  const items = Array.from(document.querySelectorAll('#bookmarks > *'));
+  const { itemDuration, delays } = calculateCascadeTiming(
+    items,
+    settings.$.page_cascade_mode,
+    duration
+  );
 
-      const duration = settings.$.page_cascade_duration;
-      const items = Array.from(document.querySelectorAll('#bookmarks > *'));
-      const { itemDuration, delays } = calculateCascadeTiming(
-        items,
-        settings.$.page_cascade_mode,
-        duration
-      );
-
-      document.documentElement.style.setProperty('--page-cascade-item-duration', `${itemDuration}ms`);
-      items.forEach((item, index) => {
-        item.style.setProperty('--page-cascade-delay', `${delays[index]}ms`);
-      });
-      document.body.classList.add('page-entering');
-      window.setTimeout(() => document.body.classList.remove('page-entering'), duration + 100);
-    });
+  document.documentElement.style.setProperty('--page-cascade-item-duration', `${itemDuration}ms`);
+  items.forEach((item, index) => {
+    item.style.setProperty('--page-cascade-delay', `${delays[index]}ms`);
   });
+  return duration;
+}
+
+async function revealPage() {
+  const cascadeDuration = preparePageCascade();
+  await waitForStablePaint({ forcePaint: forceBackdropPaint });
+
+  const curtain = document.getElementById('page_reveal');
+  const curtainHidden = waitForOpacityTransition(curtain);
+
+  if (cascadeDuration) {
+    document.body.classList.add('page-entering');
+    window.setTimeout(
+      () => document.body.classList.remove('page-entering'),
+      cascadeDuration + 100
+    );
+  }
+
+  document.body.classList.remove('page-loading');
+  document.body.classList.add('page-revealing');
+  resolvePageRevealStarted();
+
+  await curtainHidden;
+  document.body.classList.remove('page-revealing');
+  document.body.classList.add('page-ready');
 }
 
 init()
   .catch(error => console.error('Could not initialize StartGrid', error))
-  .finally(revealPage);
+  .finally(() => revealPage()
+    .catch(error => console.error('Could not reveal StartGrid', error)));

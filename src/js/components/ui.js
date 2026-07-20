@@ -46,7 +46,7 @@ function createBingInfo(image) {
 }
 
 export default {
-  async setBG() {
+  async setBG(pageRevealStarted = Promise.resolve()) {
     const bgEl = document.getElementById('bg');
     const bgState = settings.$.background_image;
 
@@ -63,8 +63,9 @@ export default {
       bgEl.classList.remove('is-visible');
     };
 
-    const showBackground = () => {
+    const showBackground = async() => {
       bgEl.classList.add('is-visible');
+      await pageRevealStarted;
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const keyframes = getBackgroundEntranceKeyframes(settings.$.background_entrance_effect);
@@ -122,10 +123,15 @@ export default {
 
       bgEl.append(video);
 
-      video.addEventListener('canplay', () => {
-        showBackground();
-      }, { once: true });
-      video.addEventListener('error', hideBackground, { once: true });
+      const canPlay = await new Promise(resolve => {
+        video.addEventListener('canplay', () => resolve(true), { once: true });
+        video.addEventListener('error', () => resolve(false), { once: true });
+      });
+      if (!canPlay) {
+        hideBackground();
+        return;
+      }
+      await showBackground();
     } else {
       const image = await $imageLoaded(resource).catch(e => {
         console.warn(`Local background image resource problem: ${e}`);
@@ -136,10 +142,7 @@ export default {
       }
 
       bgEl.append(image);
-
-      window.requestAnimationFrame(() => {
-        showBackground();
-      });
+      await showBackground();
     }
   },
   calculateStyles() {
