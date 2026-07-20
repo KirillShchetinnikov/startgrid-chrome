@@ -534,7 +534,7 @@
     "message": "每个缩略图均从其选定的来源刷新：网站、图像 URL 或网站图标。本地上传的图像将被保留。更新会影响性能。"
   },
   "thumbnails_update_button": {
-    "message": "更新所有缩略图"
+    "message": "显示“更新所有缩略图”按钮"
   },
   "thumbnails_auto_refresh": {
     "message": "自动刷新缩略图"

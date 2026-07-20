@@ -534,7 +534,7 @@
     "message": "Chaque vignette est actualisée à partir de sa source sélectionnée : site Web, URL de l'image ou favicon. Les images téléchargées localement sont conservées. La mise à jour peut affecter les performances."
   },
   "thumbnails_update_button": {
-    "message": "Mettre à jour toutes les vignettes"
+    "message": "Afficher le bouton « Mettre à jour toutes les vignettes »"
   },
   "thumbnails_auto_refresh": {
     "message": "Actualiser automatiquement les vignettes"

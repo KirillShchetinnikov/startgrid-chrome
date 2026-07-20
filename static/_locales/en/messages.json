@@ -504,7 +504,7 @@
     "message": "Each thumbnail is refreshed from its selected source: website, image URL, or favicon. Locally uploaded images are preserved. Updating can affect performance."
   },
   "thumbnails_update_button": {
-    "message": "Update all thumbnails"
+    "message": "Show the “Update all thumbnails” button"
   },
   "thumbnails_auto_refresh": {
     "message": "Automatically refresh thumbnails"

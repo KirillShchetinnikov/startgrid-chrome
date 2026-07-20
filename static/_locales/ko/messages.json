@@ -534,7 +534,7 @@
     "message": "각 썸네일은 선택한 소스(웹 사이트, 이미지 URL 또는 파비콘)에서 새로 고쳐집니다. 로컬로 업로드된 이미지는 보존됩니다. 업데이트하면 성능에 영향을 미칠 수 있습니다."
   },
   "thumbnails_update_button": {
-    "message": "모든 미리보기 이미지 업데이트"
+    "message": "‘모든 미리보기 이미지 업데이트’ 버튼 표시"
   },
   "thumbnails_auto_refresh": {
     "message": "축소판 자동 새로 고침"

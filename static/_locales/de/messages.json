@@ -534,7 +534,7 @@
     "message": "Jedes Miniaturbild wird anhand der ausgewählten Quelle aktualisiert: Website, Bild-URL oder Favicon. Lokal hochgeladene Bilder bleiben erhalten. Eine Aktualisierung kann sich auf die Leistung auswirken."
   },
   "thumbnails_update_button": {
-    "message": "Aktualisieren Sie alle Miniaturansichten"
+    "message": "Schaltfläche „Alle Miniaturansichten aktualisieren“ anzeigen"
   },
   "thumbnails_auto_refresh": {
     "message": "Miniaturansichten automatisch aktualisieren"

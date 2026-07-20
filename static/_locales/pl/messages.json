@@ -534,7 +534,7 @@
     "message": "Każda miniatura jest odświeżana z wybranego źródła: strony internetowej, adresu URL obrazu lub ikony favicon. Obrazy przesłane lokalnie zostaną zachowane. Aktualizacja może mieć wpływ na wydajność."
   },
   "thumbnails_update_button": {
-    "message": "Zaktualizuj wszystkie miniatury"
+    "message": "Pokaż przycisk „Zaktualizuj wszystkie miniatury”"
   },
   "thumbnails_auto_refresh": {
     "message": "Automatycznie odświeżaj miniatury"

@@ -534,7 +534,7 @@
     "message": "Cada miniatura se actualiza desde la fuente seleccionada: sitio web, URL de imagen o favicon. Las imágenes cargadas localmente se conservan. La actualización puede afectar el rendimiento."
   },
   "thumbnails_update_button": {
-    "message": "Actualizar todas las miniaturas"
+    "message": "Mostrar el botón «Actualizar todas las miniaturas»"
   },
   "thumbnails_auto_refresh": {
     "message": "Actualizar miniaturas automáticamente"

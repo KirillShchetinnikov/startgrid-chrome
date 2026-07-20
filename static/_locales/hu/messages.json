@@ -534,7 +534,7 @@
     "message": "Minden miniatűr a kiválasztott forrásból frissül: webhely, kép URL-je vagy kedvenc ikonja. A helyben feltöltött képeket megőrizzük. A frissítés hatással lehet a teljesítményre."
   },
   "thumbnails_update_button": {
-    "message": "Frissítse az összes miniatűrt"
+    "message": "Az „Összes miniatűr frissítése” gomb megjelenítése"
   },
   "thumbnails_auto_refresh": {
     "message": "A bélyegképek automatikus frissítése"
