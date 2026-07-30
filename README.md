@@ -20,7 +20,11 @@ StartGrid replaces Chrome's default new tab page with a clean, customizable spac
 
 ## Installation
 
-Ready-to-use ZIP archives are available from [GitHub Releases](https://github.com/KirillShchetinnikov/startgrid-chrome/releases).
+Install StartGrid directly from the
+[Chrome Web Store](https://chromewebstore.google.com/detail/startgrid/hjmaamfolnpcdabodcpjobikoaaedoin).
+
+For manual installation, ready-to-use ZIP archives are available from
+[GitHub Releases](https://github.com/KirillShchetinnikov/startgrid-chrome/releases).
 
 1. Download `startgrid-chrome-vX.Y.Z.zip` and extract it to a permanent directory.
 2. Open `chrome://extensions`.

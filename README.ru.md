@@ -19,7 +19,11 @@ StartGrid заменяет стандартную страницу новой в
 
 ## Установка
 
-Готовые ZIP-архивы публикуются в [GitHub Releases](https://github.com/KirillShchetinnikov/startgrid-chrome/releases).
+Установите StartGrid напрямую из
+[Интернет-магазина Chrome](https://chromewebstore.google.com/detail/startgrid/hjmaamfolnpcdabodcpjobikoaaedoin).
+
+Для ручной установки готовые ZIP-архивы публикуются в
+[GitHub Releases](https://github.com/KirillShchetinnikov/startgrid-chrome/releases).
 
 1. Скачайте `startgrid-chrome-vX.Y.Z.zip` и распакуйте его в постоянный каталог.
 2. Откройте `chrome://extensions`.
