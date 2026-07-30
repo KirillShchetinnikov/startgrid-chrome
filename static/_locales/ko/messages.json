@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "URL에서 미리보기 이미지를 다운로드하지 못했습니다."
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "미리보기 이미지용 웹사이트 스크린샷을 만들지 못했습니다."
+  },
+  "notice_background_save_failed": {
+    "message": "선택한 배경 이미지를 저장하지 못했습니다. 이전 이미지는 그대로 유지되었습니다. 다시 시도해 주세요."
+  },
+  "scroll_to_top": {
+    "message": "페이지 맨 위로 이동"
+  },
+  "toast_close": {
+    "message": "알림 닫기"
+  },
   "url_field_tip": {
     "message": "URL을 입력하거나 이 필드를 비워 두어 폴더를 생성하세요."
   },

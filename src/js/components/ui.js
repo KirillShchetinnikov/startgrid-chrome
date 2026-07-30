@@ -96,7 +96,7 @@ export default {
       if (!bingHostPermission) {
         hideBackground();
         return Toast.show({
-          message: getMessage('bing_permission_toast'),
+          trustedHtml: getMessage('bing_permission_toast'),
           delay: 0
         });
       }

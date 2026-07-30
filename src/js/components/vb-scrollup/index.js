@@ -1,5 +1,6 @@
 import styles from './index.css';
 import { $createElement } from '../../utils';
+import { getMessage } from '../../i18n';
 
 class VbScrollup extends HTMLElement {
   scrollButton = null;
@@ -33,7 +34,7 @@ class VbScrollup extends HTMLElement {
     this.classList.add('vb-scrollup');
     this.scrollButton = $createElement('button', {
       class: 'vb-scrollup__button',
-      'aria-label': 'Go to the top'
+      'aria-label': getMessage('scroll_to_top')
     }, {
       html: /* html */
         `<svg width="20" height="20">

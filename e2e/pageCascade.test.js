@@ -1,10 +1,32 @@
 import { readFileSync } from 'node:fs';
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { calculateCascadeTiming, getCascadeGroupIndexes } from '../src/js/pageCascade';
 
 const createItems = (...rowCounts) => rowCounts.flatMap((count, rowIndex) => (
   Array.from({ length: count }, () => ({ offsetTop: rowIndex * 180 }))
 ));
+
+const mockSettingsStorage = storedSettings => {
+  const localSet = jest.fn().mockResolvedValue();
+  global.browser = {
+    i18n: { getMessage: key => key },
+    runtime: { getURL: path => `chrome-extension://test/${path}` },
+    storage: {
+      local: {
+        get: jest.fn().mockResolvedValue({ settings: storedSettings }),
+        set: localSet,
+        remove: jest.fn().mockResolvedValue(),
+        clear: jest.fn().mockResolvedValue()
+      },
+      sync: {
+        get: jest.fn().mockResolvedValue({}),
+        set: jest.fn().mockResolvedValue(),
+        clear: jest.fn().mockResolvedValue()
+      }
+    }
+  };
+  return localSet;
+};
 
 describe('page opening cascade', () => {
   it('places every bookmark in its own group in item mode', () => {
@@ -39,5 +61,49 @@ describe('page opening cascade', () => {
     expect(css).toMatch(/animation-fill-mode:\s*both/);
     expect(css).not.toMatch(/page-panel-zoom-enter|page-soft-rise-enter/);
     expect(css).not.toMatch(/data-page-entrance-effect/);
+  });
+});
+
+describe('approved compatibility and cascade defaults', () => {
+  afterEach(() => {
+    delete global.browser;
+    jest.resetModules();
+  });
+
+  it('targets Chrome 105 and newer in both the build and extension manifest', () => {
+    const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
+    const manifest = JSON.parse(readFileSync('static/manifest.json', 'utf8'));
+
+    expect(packageJson.browserslist).toEqual(['chrome >= 105']);
+    expect(manifest.minimum_chrome_version).toBe('105');
+    expect(packageJson.browserslist[0])
+      .toBe(`chrome >= ${manifest.minimum_chrome_version}`);
+  });
+
+  it('uses 650 ms for a new profile', async() => {
+    mockSettingsStorage({ enable_sync: false });
+    const { settings } = await import('../src/js/settings');
+
+    await settings.init();
+
+    expect(settings.$.page_cascade_duration).toBe(650);
+  });
+
+  it('preserves an existing 660 ms value until the setting is explicitly reset', async() => {
+    const localSet = mockSettingsStorage({
+      enable_sync: false,
+      page_cascade_duration: 660
+    });
+    const { settings } = await import('../src/js/settings');
+
+    await settings.init();
+
+    expect(settings.$.page_cascade_duration).toBe(660);
+    expect(localSet.mock.calls.at(-1)[0].settings.page_cascade_duration).toBe(660);
+
+    await settings.resetKeys(['page_cascade_duration']);
+
+    expect(settings.$.page_cascade_duration).toBe(650);
+    expect(localSet.mock.calls.at(-1)[0].settings.page_cascade_duration).toBe(650);
   });
 });

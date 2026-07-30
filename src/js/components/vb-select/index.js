@@ -1,6 +1,41 @@
 import { $createElement } from '../../utils';
 import { getMessage } from '../../i18n';
 
+export function replaceFolderOptions(selectNode, options) {
+  Array.from(selectNode.children)
+    .filter(node => node.tagName === 'OPTION')
+    .forEach(node => node.remove());
+  selectNode.append(options);
+}
+
+export function renderFolderOptions({
+  folders,
+  folderId,
+  bookmarkId,
+  documentNode = document
+}) {
+  const options = documentNode.createDocumentFragment();
+  const processTree = (tree, pass = 0) => {
+    for (const folder of tree) {
+      if (
+        bookmarkId !== folder.id
+        && folder.parentId !== bookmarkId
+      ) {
+        const prefix = pass > 0 ? `\u00a0${'-'.repeat(pass)}\u00a0` : '';
+        const option = documentNode.createElement('option');
+        option.value = folder.id;
+        option.selected = folder.id === folderId;
+        option.textContent = `${prefix} ${folder.title} (${folder.childrenLength})`;
+        options.append(option);
+
+        if (folder.children.length) processTree(folder.children, pass + 1);
+      }
+    }
+  };
+  processTree(folders);
+  return options;
+}
+
 class VbSelectFolders extends HTMLElement {
   connectedCallback() {
     this.selectNode = $createElement('select', {
@@ -48,9 +83,7 @@ class VbSelectFolders extends HTMLElement {
       throw new Error('custom item must be in the DOM');
     }
 
-    const html = this.#renderOptions(arr);
-    this.selectNode.options.length  = 0;
-    this.selectNode.innerHTML += html.join('');
+    replaceFolderOptions(this.selectNode, this.#renderOptions(arr));
   }
 
   set value(value) {
@@ -71,48 +104,13 @@ class VbSelectFolders extends HTMLElement {
     return this.selectNode.disabled;
   }
 
-  get #optionTemplate() {
-    return /* html */`
-      <option{selected} value="{value}">
-        {name}
-        <span class="vb-select-badge">
-          <span>(</span>{childrenLength}<span>)</span>
-        </span>
-      </option>
-    `;
-  }
-
   #renderOptions(folders) {
     const folderId = this.parentFolderId ? this.parentFolderId : this.folderId;
-    const options = [];
-    const processTree = (three, pass = 0) => {
-      for (let folder of three) {
-        if (
-          this.bookmarkId !== folder.id &&
-          folder.parentId !== this.bookmarkId
-        ) {
-          let prefix = '-'.repeat(pass);
-          if (pass > 0) {
-            prefix = `&nbsp;${prefix}` + '&nbsp;';
-          }
-
-          const name = `${prefix} ${folder.title}`;
-          options.push(
-            this.#optionTemplate
-              .replace('{selected}', folder.id === folderId ? ' selected' : '')
-              .replace('{value}', folder.id)
-              .replace('{name}', name)
-              .replace('{childrenLength}', folder.childrenLength)
-          );
-
-          if (folder.children.length) {
-            processTree(folder.children, pass + 1);
-          }
-        }
-      }
-    };
-    processTree(folders);
-    return options;
+    return renderFolderOptions({
+      folders,
+      folderId,
+      bookmarkId: this.bookmarkId
+    });
   }
 
   #attachEvents() {

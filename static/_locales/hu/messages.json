@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "Nem sikerült letölteni az indexképet az URL-ről"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "Nem sikerült elkészíteni a webhely képernyőképét a bélyegképhez."
+  },
+  "notice_background_save_failed": {
+    "message": "Nem sikerült menteni a kiválasztott háttérképet. A korábbi kép megmaradt. Próbálja újra."
+  },
+  "scroll_to_top": {
+    "message": "Ugrás az oldal tetejére"
+  },
+  "toast_close": {
+    "message": "Értesítés bezárása"
+  },
   "url_field_tip": {
     "message": "Adjon meg egy URL-t, vagy hagyja üresen ezt a mezőt mappa létrehozásához."
   },

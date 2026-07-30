@@ -5,7 +5,7 @@
   "scripts": {
     "lint:es": "eslint \"src/js/**/*.js\"",
     "lint:css": "stylelint \"src/css/**/*.css\"",
-    "lint:html": "htmlhint src/*.html; exit 0",
+    "lint:html": "htmlhint src/*.html",
     "lint": "npm run lint:es && npm run lint:css && npm run lint:html",
     "dev": "webpack --mode=development --watch",
     "build": "webpack --mode=production",
@@ -19,7 +19,7 @@
     "url": "git+https://github.com/KirillShchetinnikov/startgrid-chrome.git"
   },
   "browserslist": [
-    "chrome >= 95"
+    "chrome >= 105"
   ],
   "author": "KirillShchetinnikov",
   "license": "ISC",

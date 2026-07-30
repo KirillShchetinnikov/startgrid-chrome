@@ -4,7 +4,8 @@ const DEFAULTS = {
   total: 20,
   minSize: 7,
   maxSize: 24,
-  image: 'snowflake.png'
+  image: 'snowflake.png',
+  imageLoader: $imageLoaded
 };
 
 const randomMinMax = (min, max) => {
@@ -25,6 +26,7 @@ class Snow {
     this.height    = 0;
     this.timeout   = null;
     this.raf = null;
+    this.destroyed = false;
     this.create();
   }
   dimensions() {
@@ -37,6 +39,7 @@ class Snow {
   resize = () => {
     if (this.timeout) clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
+      if (this.destroyed) return;
       this.dimensions();
     }, 100);
   };
@@ -63,14 +66,16 @@ class Snow {
 
     window.addEventListener('resize', this.resize);
 
-    $imageLoaded(this.options.image)
+    this.options.imageLoader(this.options.image)
       .then((img) => {
+        if (this.destroyed) return;
         this.image = img;
-        window.requestAnimationFrame(() => this.draw());
+        this.raf = window.requestAnimationFrame(() => this.draw());
       })
       .catch(() => console.warn(`Canvas: image ${this.options.image} not found`));
   }
   draw() {
+    if (this.destroyed) return;
     this.context.clearRect(0, 0, this.width, this.height);
 
     this.context.fillStyle = this.options.color;
@@ -105,9 +110,12 @@ class Snow {
     }
   }
   destroy() {
-    window.cancelAnimationFrame(this.raf);
+    if (this.destroyed) return;
+    this.destroyed = true;
+    clearTimeout(this.timeout);
+    if (this.raf !== null) window.cancelAnimationFrame(this.raf);
     window.removeEventListener('resize', this.resize);
-    this.canvas.remove();
+    this.canvas?.remove();
   }
 }
 

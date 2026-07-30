@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "无法从 URL 下载缩略图"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "无法为缩略图创建网站截图。"
+  },
+  "notice_background_save_failed": {
+    "message": "无法保存所选背景图片。之前的图片已保留，请重试。"
+  },
+  "scroll_to_top": {
+    "message": "滚动到顶部"
+  },
+  "toast_close": {
+    "message": "关闭通知"
+  },
   "url_field_tip": {
     "message": "输入 URL，或将此字段留空以创建文件夹。"
   },

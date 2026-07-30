@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "無法從 URL 下載縮圖"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "無法為縮圖建立網站截圖。"
+  },
+  "notice_background_save_failed": {
+    "message": "無法儲存所選的背景圖片。先前的圖片已保留，請再試一次。"
+  },
+  "scroll_to_top": {
+    "message": "捲動至頂端"
+  },
+  "toast_close": {
+    "message": "關閉通知"
+  },
   "url_field_tip": {
     "message": "輸入 URL，或將此欄位留空以建立資料夾。"
   },

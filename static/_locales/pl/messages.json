@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "Nie udało się pobrać miniatury z adresu URL"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "Nie udało się utworzyć zrzutu strony dla miniatury."
+  },
+  "notice_background_save_failed": {
+    "message": "Nie udało się zapisać wybranego obrazu tła. Poprzedni obraz został zachowany. Spróbuj ponownie."
+  },
+  "scroll_to_top": {
+    "message": "Przewiń na górę"
+  },
+  "toast_close": {
+    "message": "Zamknij powiadomienie"
+  },
   "url_field_tip": {
     "message": "Wprowadź adres URL lub pozostaw to pole puste, aby utworzyć folder."
   },

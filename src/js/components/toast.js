@@ -1,4 +1,5 @@
 import { $createElement } from '../utils';
+import { getMessage } from '../i18n';
 
 const Toast = (() => {
   const DEFAULTS = {
@@ -8,6 +9,7 @@ const Toast = (() => {
     delay: 5000,
     progress: false,
     message: '',
+    trustedHtml: null,
     action: undefined,
     onClose: undefined,
     onShow: undefined
@@ -63,9 +65,14 @@ const Toast = (() => {
 
     const toast = $createElement('div', {
       class: `toast toast--${settings.position}`
-    }, {
-      html: `<div class="toast__message">${settings.message}</div>`
     });
+    const messageNode = $createElement('div', { class: 'toast__message' });
+    if (typeof settings.trustedHtml === 'string') {
+      messageNode.innerHTML = settings.trustedHtml;
+    } else {
+      messageNode.textContent = settings.message;
+    }
+    toast.append(messageNode);
     if (settings.modClass) toast.classList.add(settings.modClass);
 
     function onActionClick(evt) {
@@ -111,7 +118,7 @@ const Toast = (() => {
     if (settings.hideByClick) {
       closeBtn = $createElement('button', {
         class: 'toast__btn',
-        'aria-label': 'Close'
+        'aria-label': getMessage('toast_close')
       }, {
         html: '<svg width="20" height="20"><use xlink:href="/img/symbol.svg#close"/></svg>'
       });

@@ -51,6 +51,16 @@ import {
   sortHomeBookmarks,
   sortNestedBookmarks
 } from '../bookmarkSorting';
+import {
+  captureTemporaryThumbnail,
+  finalizeCaptureQueueItem,
+  requestThumbnailCapture,
+  settleCaptureQueueEntry
+} from '../thumbnailCapture';
+import {
+  refreshBookmarkView,
+  replaceLiteralMarker
+} from '../bookmarkEvents';
 
 /**
  * Bookmarks module
@@ -64,10 +74,12 @@ const Bookmarks = (() => {
   let isGeneratedThumbs = false;
   let activeSearchRequest = 0;
   let hasSearch = false;
+  let lastSearchQuery = '';
   let vbHeader = null;
 
   function resetBookmarkSearch() {
     hasSearch = false;
+    lastSearchQuery = '';
     activeSearchRequest += 1;
     createSpeedDial(startFolder());
     updateBookmarkSearchState(false);
@@ -130,6 +142,7 @@ const Bookmarks = (() => {
       if (!detail.isBookmarksEngine) {
         if (hasSearch) {
           hasSearch = false;
+          lastSearchQuery = '';
           activeSearchRequest += 1;
           createSpeedDial(startFolder());
           updateBookmarkSearchState(false);
@@ -140,6 +153,7 @@ const Bookmarks = (() => {
       const query = detail.search.trim();
       if (!query.length) {
         hasSearch = false;
+        lastSearchQuery = '';
         activeSearchRequest += 1;
         createSpeedDial(startFolder());
       } else {
@@ -766,7 +780,7 @@ const Bookmarks = (() => {
         + `<br><br><button class="btn btn--primary md-ripple" data-permissions-info>${getMessage('learn_more')}</button>`;
 
       Toast.show({
-        message,
+        trustedHtml: message,
         delay: 7000
       });
     }
@@ -790,65 +804,57 @@ const Bookmarks = (() => {
 
     isGeneratedThumbs = true;
     $customTrigger('thumbnails:updating', container);
+    let captureFailed = false;
 
-    for (const [index, b] of selectedBookmarks.entries()) {
-      // updating toast progress
-      progressText.textContent = index + 1;
-      const currentThumbnail = await ImageDB.get(b.id);
+    try {
+      for (const [index, b] of selectedBookmarks.entries()) {
+        progressText.textContent = index + 1;
+        try {
+          const currentThumbnail = await ImageDB.get(b.id);
+          if (currentThumbnail?.source === 'local') continue;
 
-      // A local image has no external source that can be refreshed.
-      if (currentThumbnail?.source === 'local') continue;
+          let response;
+          if (!currentThumbnail || ['url', 'favicon'].includes(currentThumbnail.source)) {
+            const source = currentThumbnail?.source || 'favicon';
+            const sourceUrl = currentThumbnail?.sourceUrl || b.url;
+            if (!sourceUrl) continue;
+            response = await requestRemoteThumbnail(b.id, sourceUrl, { source, sourceUrl });
+            if (response?.success === false) continue;
+          } else {
+            response = await captureScreen(b.url, b.id);
+            if (!response.ok) {
+              captureFailed = true;
+              continue;
+            }
+          }
 
-      let response;
-      if (!currentThumbnail || ['url', 'favicon'].includes(currentThumbnail.source)) {
-        const source = currentThumbnail?.source || 'favicon';
-        const sourceUrl = currentThumbnail?.sourceUrl || b.url;
-        if (!sourceUrl) continue;
+          const image = await ImageDB.get(b.id);
+          if (!image?.blob) continue;
+          const blobUrl = URL.createObjectURL(image.blob);
+          const thumbnail = THUMBNAILS_MAP.get(b.id);
+          if (thumbnail) URL.revokeObjectURL(thumbnail.blobUrl);
+          THUMBNAILS_MAP.set(b.id, { ...image, blobUrl });
 
-        response = await requestRemoteThumbnail(b.id, sourceUrl, {
-          source,
-          sourceUrl
-        });
-      } else {
-        // Bookmarks without a saved source use the default website screenshot type.
-        response = await captureScreen(b.url, b.id);
+          const bookmark = document.getElementById(`vb-${b.id}`);
+          if (bookmark) {
+            bookmark.isCustomImage = image.custom;
+            bookmark.image = blobUrl;
+          }
+        } catch (error) {
+          console.warn(`Could not refresh thumbnail ${b.id}`, error);
+          if (b.url) {
+            captureFailed = true;
+          }
+        }
       }
-
-      if (response?.warning || response?.success === false) continue;
-
-      const image = await ImageDB.get(b.id);
-      if (!image?.blob) continue;
-
-      const blobUrl = URL.createObjectURL(image.blob);
-      const thumbnail = THUMBNAILS_MAP.get(b.id);
-
-      if (thumbnail) {
-        URL.revokeObjectURL(thumbnail.blobUrl);
-      }
-      THUMBNAILS_MAP.set(b.id, {
-        ...image,
-        blobUrl
-      });
-
-      try {
-        // if we can, then update the bookmark in the DOM
-        const bookmark = document.getElementById(`vb-${b.id}`);
-        bookmark.isCustomImage = image.custom;
-        bookmark.image = blobUrl;
-      } catch (err) {}
+      if (showNotice) $notifications(getMessage('notice_thumbnails_update_complete'));
+      if (captureFailed) Toast.show(getMessage('notice_thumbnail_capture_failed'));
+    } finally {
+      isGeneratedThumbs = false;
+      $customTrigger('thumbnails:updated', container);
+      progressToastTween.reverse();
+      progressToastTween.onfinish = () => progressToast.remove();
     }
-
-    isGeneratedThumbs = false;
-
-    if (showNotice) {
-      $notifications(getMessage('notice_thumbnails_update_complete'));
-    }
-
-    $customTrigger('thumbnails:updated', container);
-    progressToastTween.reverse();
-    progressToastTween.onfinish = () => {
-      progressToast.remove();
-    };
   }
 
   function autoUpdateThumb() {
@@ -1197,51 +1203,55 @@ const Bookmarks = (() => {
   }
 
   function captureScreen(captureUrl, id) {
-    return new Promise((resolve) => {
-      browser.runtime.sendMessage({
-        capture: {
-          id,
-          captureUrl
-        }
-      }, (response) => {
-        if (response.warning) {
-          console.warn(response.warning);
-        }
-        resolve(response);
-      });
-    });
+    return requestThumbnailCapture(browser.runtime, { id, captureUrl });
   }
 
-  async function captureByTurn() {
-    const { bookmark, resolve } = THUMBNAILS_CREATION_QUEUE[0];
-    const response = await captureScreen(bookmark.url, bookmark.id, bookmark.parentId);
+  function captureByTurn() {
+    const entry = THUMBNAILS_CREATION_QUEUE[0];
+    if (!entry) return;
+    const { bookmark, resolve } = entry;
+    const initialResult = {
+      ok: false,
+      id: String(bookmark.id),
+      code: 'INVALID_RESPONSE'
+    };
 
-    if (!response.warning) {
-      const image = await ImageDB.get(bookmark.id);
-      const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
-
-      if (thumbnail) {
-        // если миниатюра объекта существует удалить его из памяти
-        URL.revokeObjectURL(thumbnail.blobUrl);
+    return settleCaptureQueueEntry({
+      initialResult,
+      execute: async() => {
+        let response = await captureScreen(bookmark.url, bookmark.id);
+        if (response.ok) {
+          const image = await ImageDB.get(bookmark.id);
+          if (!image?.blob) {
+            response = { ok: false, id: String(bookmark.id), code: 'STORE_FAILED' };
+          } else {
+            const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
+            if (thumbnail) URL.revokeObjectURL(thumbnail.blobUrl);
+            bookmark.isCustomImage = false;
+            bookmark.image = URL.createObjectURL(image.blob);
+            THUMBNAILS_MAP.set(bookmark.id, { ...image, blobUrl: bookmark.image });
+          }
+        }
+        if (!response.ok) {
+          console.warn(`Thumbnail capture failed: ${response.code}`);
+          Toast.show(getMessage('notice_thumbnail_capture_failed'));
+        }
+        return response;
+      },
+      onFailure: error => {
+        console.warn('Thumbnail capture queue failed', error);
+        Toast.show(getMessage('notice_thumbnail_capture_failed'));
+      },
+      finalize: response => {
+        finalizeCaptureQueueItem({
+          bookmark,
+          queue: THUMBNAILS_CREATION_QUEUE,
+          response,
+          resolve,
+          runNext: captureByTurn
+        });
       }
-
-      bookmark.isCustomImage = false;
-      bookmark.image = URL.createObjectURL(image.blob);
-
-      // write to the thumbnails map on the page a new blobUrl
-      THUMBNAILS_MAP.set(bookmark.id, {
-        ...image,
-        blobUrl: bookmark.image
-      });
-    }
-
-    bookmark.hasOverlay = false;
-    THUMBNAILS_CREATION_QUEUE.shift();
-    resolve(response);
-
-    if (THUMBNAILS_CREATION_QUEUE.length) {
-      await captureByTurn();
-    }
+    });
   }
 
   async function createScreen(bookmark, access = false) {
@@ -1272,12 +1282,14 @@ const Bookmarks = (() => {
     if (!hostPermissions) return null;
 
     const id = `pending-thumbnail-${Date.now()}`;
-    const response = await captureScreen(url, id);
-    if (!response || response.warning) return null;
-
-    const image = await ImageDB.get(id);
-    await ImageDB.delete(id);
-    return image?.blob || null;
+    const blob = await captureTemporaryThumbnail({
+      id,
+      requestCapture: () => captureScreen(url, id),
+      readRecord: thumbnailId => ImageDB.get(thumbnailId),
+      deleteRecord: thumbnailId => ImageDB.delete(thumbnailId)
+    });
+    if (!blob) Toast.show(getMessage('notice_thumbnail_capture_failed'));
+    return blob;
   }
 
   async function fetchThumbnailBlob(url, access = false, options = {}) {
@@ -1300,6 +1312,7 @@ const Bookmarks = (() => {
    * @param {String} query
    */
   async function search(query) {
+    lastSearchQuery = query;
     const requestId = ++activeSearchRequest;
     try {
       const searchDisplay = settings.$.search_results_display;
@@ -1335,12 +1348,22 @@ const Bookmarks = (() => {
     }
   }
 
+  function refreshCurrentView() {
+    return refreshBookmarkView({
+      hasSearch,
+      lastSearchQuery,
+      search,
+      createSpeedDial,
+      startFolder
+    });
+  }
+
   async function removeFromBrowser(bookmark, isFolder) {
     const id = isFolder
       ? bookmark.id
       : bookmark.dataset.id;
 
-    removeThumbnail(id, isFolder);
+    releaseThumbnailFromMemory(id);
 
     await (isFolder ? removeTree(id) : remove(id));
 
@@ -1422,7 +1445,7 @@ const Bookmarks = (() => {
 
             await Promise.all(selectedBookmarks.map(async(bookmark) => {
               const { id, isFolder } = bookmark;
-              removeThumbnail(id, isFolder);
+              releaseThumbnailFromMemory(id);
               await (isFolder ? removeTree(id) : remove(id));
               bookmark.remove();
             }));
@@ -1446,8 +1469,8 @@ const Bookmarks = (() => {
 
     const id = bookmark.dataset.id;
     const message = isFolder
-      ? getMessage('notice_folder_removed', bookmark.title)
-      : getMessage('notice_bookmark_removed', bookmark.title);
+      ? getPlainRemovalMessage('notice_folder_removed', bookmark.title)
+      : getPlainRemovalMessage('notice_bookmark_removed', bookmark.title);
 
     bookmark.hidden = true;
     bookmarksToDelete[bookmark.id] = {
@@ -1465,7 +1488,7 @@ const Bookmarks = (() => {
       onClose() {
         if (bookmark.hidden) {
           delete bookmarksToDelete[id];
-          removeThumbnail(bookmark.id, isFolder);
+          releaseThumbnailFromMemory(bookmark.id);
           (isFolder ? removeTree : remove)(id)
             .then(() => {
               bookmark.remove();
@@ -1494,6 +1517,19 @@ const Bookmarks = (() => {
     return Promise.all(
       ids.map(id => ImageDB.delete(id))
     );
+  }
+
+  function releaseThumbnailFromMemory(id) {
+    const thumbnail = THUMBNAILS_MAP.get(id);
+    if (thumbnail?.blobUrl) URL.revokeObjectURL(thumbnail.blobUrl);
+    THUMBNAILS_MAP.delete(id);
+  }
+
+  function getPlainRemovalMessage(key, title) {
+    const marker = '__STARTGRID_BOOKMARK_TITLE__';
+    const template = document.createElement('template');
+    template.innerHTML = getMessage(key, marker);
+    return replaceLiteralMarker(template.content.textContent, marker, title);
   }
 
   function createBookmark(title, url) {
@@ -1553,6 +1589,7 @@ const Bookmarks = (() => {
   return {
     init,
     refresh: () => createSpeedDial(startFolder()),
+    refreshCurrentView,
     setHeaderVisibility,
     createBookmark,
     updateBookmark,

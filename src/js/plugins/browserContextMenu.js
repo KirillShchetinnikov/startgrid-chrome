@@ -51,69 +51,111 @@ const generateFolderItems = (foldersThree, rootId) => {
   return flatRecursiveFolders(foldersThree, rootId);
 };
 
-let busy = false;
+let desiredEnabled = false;
+let requestedGeneration = 0;
+let appliedGeneration = 0;
+let reconcilePromise = null;
+
+function callContextMenus(method, ...args) {
+  return new Promise((resolve, reject) => {
+    browser.contextMenus[method](...args, result => {
+      const error = browser.runtime.lastError;
+      if (error) {
+        reject(new Error(error.message || String(error)));
+        return;
+      }
+      resolve(result);
+    });
+  });
+}
+
+async function createItems() {
+  const foldersThree = await getFolders();
+  const linkItems = [
+    {
+      id,
+      title: getMessage('add_bookmark'),
+      contexts: ['page']
+    },
+    {
+      id: 'current_folder',
+      title: getMessage('save_to_current_folder'),
+      contexts: ['page'],
+      parentId: id
+    },
+    {
+      id: 'separator',
+      type: 'separator',
+      contexts: ['page'],
+      parentId: id
+    },
+    ...generateFolderItems(foldersThree, id)
+  ];
+
+  for (const item of linkItems) {
+    await callContextMenus('create', item);
+  }
+}
+
+async function reconcileDesiredState() {
+  while (appliedGeneration !== requestedGeneration) {
+    const generation = requestedGeneration;
+    const enabled = desiredEnabled;
+    await callContextMenus('removeAll');
+    if (enabled) await createItems();
+    appliedGeneration = generation;
+  }
+  return desiredEnabled;
+}
+
+function startReconcile() {
+  let completedSuccessfully = false;
+  const operation = reconcileDesiredState();
+  reconcilePromise = operation;
+  operation.then(
+    () => {
+      completedSuccessfully = true;
+    },
+    () => undefined
+  );
+  operation.finally(() => {
+    if (reconcilePromise === operation) reconcilePromise = null;
+    if (completedSuccessfully && appliedGeneration !== requestedGeneration) {
+      startReconcile();
+    }
+  }).catch(() => undefined);
+  return operation;
+}
+
+function waitForQuiescence() {
+  const operation = reconcilePromise || startReconcile();
+  return operation.then(() => {
+    if (
+      appliedGeneration !== requestedGeneration
+      || (reconcilePromise && reconcilePromise !== operation)
+    ) {
+      return waitForQuiescence();
+    }
+    return desiredEnabled;
+  });
+}
+
+function requestDesiredState(enabled) {
+  desiredEnabled = Boolean(enabled);
+  requestedGeneration += 1;
+  if (!reconcilePromise) startReconcile();
+  return waitForQuiescence();
+}
 
 const browserContextMenu = {
   init(isShow) {
-    if (!isShow) return;
-
-    // prevent a duplicate call, when 2 events fire at the same time
-    // for example: changing and moving a folder
-    if (busy) return;
-
-    busy = true;
-
-    browser.contextMenus.removeAll(() => {
-      if (browser.runtime.lastError) {
-        console.warn(browser.runtime.lastError);
-      }
-      this.create()
-        .then(() => {
-          busy = false;
-        });
-    });
+    return requestDesiredState(isShow);
   },
-  async create() {
-    const foldersThree = await getFolders();
-    const linkItems = [
-      {
-        id,
-        title: getMessage('add_bookmark'),
-        contexts: ['page']
-      },
-      {
-        id: 'current_folder',
-        title: getMessage('save_to_current_folder'),
-        contexts: ['page'],
-        parentId: id
-      },
-      {
-        id: 'separator',
-        type: 'separator',
-        contexts: ['page'],
-        parentId: id
-      }
-    ];
-
-    const folders = generateFolderItems(foldersThree, id);
-    linkItems.push(...folders);
-
-    for (let item of linkItems) {
-      browser.contextMenus.create(item, () => {
-        if (browser.runtime.lastError) {
-          console.warn(browser.runtime.lastError?.message);
-        }
-      });
-    }
+  create() {
+    return requestDesiredState(true);
   },
   toggle(isShow) {
-    if (isShow) {
-      this.create();
-    } else {
-      browser.contextMenus.removeAll(() => {
-        if (browser.runtime.lastError) return;
-      });
-    }
+    return requestDesiredState(isShow);
   }
 };
 

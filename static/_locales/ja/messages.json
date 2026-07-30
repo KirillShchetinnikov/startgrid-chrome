@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "URLからのサムネイルのダウンロードに失敗しました"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "サムネイル用のウェブサイトのスクリーンショットを作成できませんでした。"
+  },
+  "notice_background_save_failed": {
+    "message": "選択した背景画像を保存できませんでした。以前の画像は保持されています。もう一度お試しください。"
+  },
+  "scroll_to_top": {
+    "message": "ページ上部へ移動"
+  },
+  "toast_close": {
+    "message": "通知を閉じる"
+  },
   "url_field_tip": {
     "message": "URL を入力するか、このフィールドを空のままにしてフォルダーを作成します。"
   },

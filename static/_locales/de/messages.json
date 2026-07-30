@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "Das Herunterladen der Miniaturansicht von der URL ist fehlgeschlagen"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "Der Screenshot für die Miniaturansicht konnte nicht erstellt werden."
+  },
+  "notice_background_save_failed": {
+    "message": "Das ausgewählte Hintergrundbild konnte nicht gespeichert werden. Das bisherige Bild bleibt erhalten. Versuchen Sie es erneut."
+  },
+  "scroll_to_top": {
+    "message": "Nach oben scrollen"
+  },
+  "toast_close": {
+    "message": "Benachrichtigung schließen"
+  },
   "url_field_tip": {
     "message": "Geben Sie eine URL ein oder lassen Sie dieses Feld leer, um einen Ordner zu erstellen."
   },

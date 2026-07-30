@@ -18,8 +18,6 @@ import {
   removeTree
 } from './api/bookmark';
 import {
-  THUMBNAIL_POPUP_HEIGHT,
-  THUMBNAIL_POPUP_WIDTH,
   NEWTAB_URLS,
   NEWTAB_EMPTY_URLS
 } from './constants';
@@ -27,6 +25,17 @@ import { containsPermissions } from './api/permissions';
 import { getBlobHash } from './api/remoteThumbnail';
 import { shouldDownloadFavicon } from './api/faviconPreferences';
 import { requestSearchSuggestions } from './searchSuggestions';
+import {
+  cleanupRemovedBookmark,
+  createBookmarkImportGuard,
+  createBookmarksChangedEnvelope,
+  runOptionalSideEffectBeforeBroadcast
+} from './bookmarkEvents';
+import {
+  getCaptureWorkerTimeout,
+  normalizeCaptureDelay,
+  runThumbnailCapture
+} from './thumbnailCapture';
 
 function startI18n(language) {
   return initializeI18n({ language })
@@ -34,6 +43,14 @@ function startI18n(language) {
 }
 
 let i18nReady = startI18n();
+const bookmarkImportGuard = createBookmarkImportGuard({
+  readGuard: async() => {
+    const { importingBookmarks } = await storage.local.get('importingBookmarks');
+    return importingBookmarks;
+  },
+  writeGuard: () => storage.local.set({ importingBookmarks: true }),
+  clearGuard: () => storage.local.remove('importingBookmarks')
+});
 
 function getHtmlAttribute(tag, name) {
   const match = tag.match(new RegExp(`\\s${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
@@ -170,94 +187,38 @@ function browserActionHandler() {
 async function initContextMenu() {
   await i18nReady;
   const { settings } = await storage.local.get('settings');
-  browserContextMenu.init(settings.show_contextmenu_item);
+  return browserContextMenu.init(settings.show_contextmenu_item);
 }
 
-// TODO a refactor is needed to make the function return a promise
-async function captureScreen(link, callback) {
-  const { screen } = await storage.local.get('screen');
+async function captureScreen(request) {
+  const [{ screen }, { settings }] = await Promise.all([
+    storage.local.get('screen'),
+    storage.local.get('settings')
+  ]);
+  const captureDelay = normalizeCaptureDelay(
+    (parseFloat(settings?.thumbnails_update_delay) || 0.5) * 1000
+  );
 
-  browser.windows.create({
-    url: link,
-    state: 'normal',
-    left: 1e5,
-    top: 1e5,
-    width: 1,
-    height: 1,
-    type: 'popup'
-  }, async function(w) {
-    // capture timeout
-    let timeout = 25000;
-
-    const { settings } = await storage.local.get('settings');
-    // delay in milliseconds
-    const captureDelay = (parseFloat(settings.thumbnails_update_delay) || 0.5) * 1000;
-
-    if (captureDelay > 500) {
-      timeout += captureDelay;
-    }
-
-    if (!w.tabs || !w.tabs.length) {
-      browser.windows.remove(w.id);
-      console.error('not found page');
-      return false;
-    }
-
-    let tab = w.tabs[0];
-    let stop = false;
-
-    browser.tabs.update(tab.id, {
-      muted: true
-    });
-
-    let closeWindow = setTimeout(function() {
-      browser.windows.remove(w.id);
-      callback({ error: 'long_load', url: tab.url });
-      stop = true;
-    }, timeout);
-
-    checkerStatus();
-
-    function checkerStatus() {
-      if (stop) {
-        clearTimeout(closeWindow);
-        return false;
-      }
-
-      browser.tabs.get(tab.id, function(tabInfo) {
-        if (tabInfo.status === 'complete') {
-          browser.scripting.insertCSS({
-            target: {
-              tabId: tab.id
-            },
-            css: 'html, body { overflow-y: hidden !important; }'
-          });
-          browser.windows.update(w.id, {
-            left: screen.availWidth - THUMBNAIL_POPUP_WIDTH,
-            top: screen.availHeight - THUMBNAIL_POPUP_HEIGHT,
-            width: THUMBNAIL_POPUP_WIDTH,
-            height: THUMBNAIL_POPUP_HEIGHT,
-            focused: true
-          }, function() {
-            setTimeout(() => {
-              browser.tabs.captureVisibleTab(w.id, function(dataUrl) {
-                callback({
-                  capture: dataUrl,
-                  title: tabInfo.title
-                });
-                try {
-                  browser.windows.remove(w.id, () => {
-                    clearTimeout(closeWindow);
-                  });
-                } catch (e) {}
-              });
-            }, captureDelay);
-          });
-        } else {
-          setTimeout(() => {
-            checkerStatus();
-          }, 300);
-        }
+  return runThumbnailCapture({
+    browserApi: browser,
+    request,
+    screen,
+    captureDelay,
+    timeoutMs: getCaptureWorkerTimeout(captureDelay),
+    cleanupCapture: String(request.id).startsWith('pending-thumbnail-')
+      ? () => ImageDB.delete(request.id)
+      : null,
+    async storeCapture(dataUrl) {
+      const fileBlob = $base64ToBlob(dataUrl, 'image/webp');
+      const blob = await $resizeThumbnail(fileBlob);
+      const existing = await ImageDB.get(request.id);
+      return ImageDB.update({
+        id: request.id,
+        ...(existing || {}),
+        blob,
+        custom: false,
+        source: 'site',
+        checkedAt: Date.now()
       });
     }
   });
@@ -319,14 +280,13 @@ async function handleCreatedTab(tab) {
   }
 }
 
-async function handleCreateThumbnail(id, bookmark, callback) {
-  await updateRemoteThumbnail({
+function handleCreateThumbnail(id, bookmark) {
+  return updateRemoteThumbnail({
     id,
     url: bookmark.url,
     source: 'favicon',
     sourceUrl: bookmark.url
   });
-  callback && callback();
 }
 
 async function removeStoredThumbnails(id) {
@@ -343,14 +303,31 @@ async function removeStoredThumbnails(id) {
 }
 
 async function handleBookmarks(eventType, id, bookmark) {
-  const { importingBookmarks } = await storage.local.get('importingBookmarks');
-  if (importingBookmarks) return;
+  if (await bookmarkImportGuard.isActive()) return;
 
   const isBookmarkUrl = bookmark.url || bookmark.node?.url;
-  // we will start rebuilding the list of folders only if an event happened to the folder
-  // note: in the case of moving, it will also work with a bookmark
-  if (!isBookmarkUrl || eventType === 'moved') {
-    initContextMenu();
+  const broadcast = () => new Promise(resolve => {
+    browser.runtime.sendMessage(
+      createBookmarksChangedEnvelope(eventType, id),
+      () => {
+        browser.runtime.lastError;
+        resolve();
+      }
+    );
+  });
+
+  if (eventType === 'removed') {
+    await cleanupRemovedBookmark({
+      node: bookmark.node,
+      fallbackId: id,
+      deleteById: thumbnailId => ImageDB.delete(thumbnailId),
+      broadcast
+    });
+    if (!isBookmarkUrl) {
+      await initContextMenu()
+        .catch(error => console.warn('Could not rebuild context menu', error));
+    }
+    return;
   }
 
   const { settings } = await storage.local.get('settings');
@@ -370,50 +347,27 @@ async function handleBookmarks(eventType, id, bookmark) {
     await removeStoredThumbnails(id);
   }
 
-  // to avoid duplicating actions when editing bookmarks,
-  // we will ignore further execution if our application is in the active tab
-  const tabs = await browser.tabs.query({ active: true });
-  const tabUrl = tabs[0]?.url?.replace(/#\d*/, '');
   const thumbnail = isHomeBookmark ? await ImageDB.get(id) : null;
   const thumbnailSource = thumbnail?.source
     || (thumbnail?.blob ? (thumbnail.custom ? 'local' : 'site') : 'favicon');
   const downloadFavicon = shouldDownloadFavicon(thumbnail, settings.download_favicons_by_default);
-  if (NEWTAB_URLS.includes(tabUrl)) return;
 
-  const sendMessageCallback = () => {
-    browser.runtime.sendMessage({ bookmarksUpdated: true }, () => {
-      if (browser.runtime.lastError) {
-        return;
-      }
-    });
-  };
-
-  // create a thumbnail if required
-  // send a command to update the list of bookmarks
-  if (
-    ['created', 'changed'].includes(eventType) &&
-    isHomeBookmark &&
-    thumbnailSource === 'favicon' &&
-    downloadFavicon &&
-    currentBookmark.url
-  ) {
-    const allUrlsPermission = await containsPermissions({ origins: ['<all_urls>'] });
-    allUrlsPermission ? handleCreateThumbnail(id, currentBookmark, sendMessageCallback) : sendMessageCallback();
-  } else {
-    sendMessageCallback();
-  }
-
-  // delete all thumbnails associated with the folder being deleted
-  if (eventType === 'removed') {
-    const deletedThumbsPromises = [ImageDB.delete(id)];
-
-    if (!bookmark.node.url) {
-      deletedThumbsPromises.push(
-        ...flattenArrayBookmarks(bookmark.node.children, true).map(({ id }) => ImageDB.delete(id))
-      );
+  await runOptionalSideEffectBeforeBroadcast(async() => {
+    if (
+      ['created', 'changed'].includes(eventType) &&
+      isHomeBookmark &&
+      thumbnailSource === 'favicon' &&
+      downloadFavicon &&
+      currentBookmark.url
+    ) {
+      const allUrlsPermission = await containsPermissions({ origins: ['<all_urls>'] });
+      if (allUrlsPermission) await handleCreateThumbnail(id, currentBookmark);
     }
+  }, broadcast);
 
-    Promise.all(deletedThumbsPromises);
+  if (!isBookmarkUrl || eventType === 'moved') {
+    await initContextMenu()
+      .catch(error => console.warn('Could not rebuild context menu', error));
   }
 }
 
@@ -431,15 +385,18 @@ browser.storage.onChanged.addListener((changes, area) => {
     if (hasLanguageSettingChanged(changes, area)) {
       i18nReady = startI18n(changes.settings.newValue.language);
       i18nReady.then(() => {
-        if (newContextMenu) browserContextMenu.init(true);
-        else browserContextMenu.toggle(false);
+        const operation = newContextMenu
+          ? browserContextMenu.init(true)
+          : browserContextMenu.toggle(false);
+        operation.catch(error => console.warn('Could not update context menu', error));
       });
       return;
     }
 
     // toggle the context menu only if show_contextmenu_item has changed
     if (newContextMenu !== oldContextMenu) {
-      browserContextMenu.toggle(newContextMenu);
+      browserContextMenu.toggle(newContextMenu)
+        .catch(error => console.warn('Could not update context menu', error));
     }
   }
 });
@@ -449,23 +406,33 @@ browser.runtime.onInstalled.addListener(async(event) => {
     await settings.init();
   }
   i18nReady = startI18n();
-  await initContextMenu();
+  await initContextMenu().catch(error => console.warn('Could not initialize context menu', error));
 });
 
-browser.bookmarks.onCreated.addListener((id, bookmark) => handleBookmarks('created', id, bookmark));
-browser.bookmarks.onChanged.addListener((id, bookmark) => handleBookmarks('changed', id, bookmark));
-browser.bookmarks.onRemoved.addListener((id, bookmark) => handleBookmarks('removed', id, bookmark));
-browser.bookmarks.onMoved.addListener((id, bookmark) => handleBookmarks('moved', id, bookmark));
+const runBookmarkHandler = (eventType, id, bookmark) => {
+  handleBookmarks(eventType, id, bookmark)
+    .catch(error => console.warn(`Could not handle bookmark ${eventType}`, error));
+};
+browser.bookmarks.onCreated.addListener((id, bookmark) => runBookmarkHandler('created', id, bookmark));
+browser.bookmarks.onChanged.addListener((id, bookmark) => runBookmarkHandler('changed', id, bookmark));
+browser.bookmarks.onRemoved.addListener((id, bookmark) => runBookmarkHandler('removed', id, bookmark));
+browser.bookmarks.onMoved.addListener((id, bookmark) => runBookmarkHandler('moved', id, bookmark));
 
 browser.bookmarks.onImportBegan.addListener(() => {
-  storage.local.set({ importingBookmarks: true });
+  bookmarkImportGuard.begin()
+    .catch(error => console.warn('Could not persist bookmark import guard', error));
 });
 browser.bookmarks.onImportEnded.addListener(() => {
-  initContextMenu();
-  setTimeout(() => {
-    // Avoid races when bookmark handling is still running after the import ends.
-    storage.local.remove('importingBookmarks');
-  }, 500);
+  bookmarkImportGuard.complete({
+    broadcast: envelope => new Promise(resolve => {
+      browser.runtime.sendMessage(envelope, () => {
+        browser.runtime.lastError;
+        resolve();
+      });
+    }),
+    reconcileContextMenu: initContextMenu
+  })
+    .catch(error => console.warn('Could not finish bookmark import', error));
 });
 
 browser.contextMenus.onClicked.addListener(handleCreateBookmark);
@@ -478,55 +445,42 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     requestSearchSuggestions(engine, query)
       .then(suggestions => sendResponse({ suggestions }))
       .catch(() => sendResponse({ suggestions: [] }));
+    return true;
   }
 
   if (request.remoteThumbnail) {
-    updateRemoteThumbnail(request.remoteThumbnail).then(sendResponse);
+    updateRemoteThumbnail(request.remoteThumbnail)
+      .then(sendResponse)
+      .catch(error => sendResponse({ success: false, error: error.message }));
+    return true;
   }
 
   if (request.capture) {
-    const { id, captureUrl } = request.capture;
-
-    // captureScreen(request.captureUrl, async function(data) {
-    captureScreen(captureUrl, async function(data) {
-      if (data && data.error) {
-        try {
-          sendResponse({ warning: 'Timeout waiting for a screenshot' });
-        } catch (e) {}
-        console.warn(`Timeout waiting for a screenshot ${data.url}`);
-        return false;
-      }
-
-      // If cannot access contents of url
-      if (data && data.capture === undefined) {
-        try {
-          sendResponse({ warning: 'Cannot access contents of url' });
-        } catch (e) {}
-        console.warn(`Cannot access contents of url: ${captureUrl}`);
-        return false;
-      }
-
-      const fileBlob = $base64ToBlob(data.capture, 'image/webp');
-      const blob = await $resizeThumbnail(fileBlob);
-      const existing = await ImageDB.get(id);
-      await ImageDB.update({
-        id,
-        ...(existing || {}),
-        blob,
-        custom: false,
-        source: 'site',
-        checkedAt: Date.now()
-      });
+    const id = String(request.capture?.id ?? '');
+    let responded = false;
+    const respond = response => {
+      if (responded) return;
+      responded = true;
       try {
-        sendResponse('success');
-      } catch (e) {}
-    });
+        sendResponse(response);
+      } catch (error) {
+        console.warn('Could not send thumbnail capture response', error);
+      }
+    };
+    captureScreen(request.capture)
+      .then(respond)
+      .catch(error => {
+        console.warn('Thumbnail capture request failed', error);
+        respond({ ok: false, id, code: 'STORE_FAILED' });
+      });
+    return true;
   }
 
   // Toggle contextmenu item
   if (request.showContextMenuItem) {
     const { checked } = request.showContextMenuItem;
-    browserContextMenu.toggle(checked);
+    browserContextMenu.toggle(checked)
+      .catch(error => console.warn('Could not toggle context menu', error));
   }
 
   // if there is a request to delete bookmarks, they must be deleted.
@@ -543,9 +497,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     });
   }
 
-  // send a response asynchronously (return true)
-  // this will keep the message channel open to the other end until sendResponse is called
-  return true;
+  return false;
 });
 
 browser.tabs.onCreated.addListener(handleCreatedTab);

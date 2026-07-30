@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "Échec du téléchargement de la miniature à partir de l'URL"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "Impossible de créer la capture du site web pour la miniature."
+  },
+  "notice_background_save_failed": {
+    "message": "Impossible d’enregistrer l’image d’arrière-plan sélectionnée. L’image précédente a été conservée. Réessayez."
+  },
+  "scroll_to_top": {
+    "message": "Revenir en haut"
+  },
+  "toast_close": {
+    "message": "Fermer la notification"
+  },
   "url_field_tip": {
     "message": "Saisissez une URL ou laissez ce champ vide pour créer un dossier."
   },

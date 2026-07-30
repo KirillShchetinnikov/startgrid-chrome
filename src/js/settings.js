@@ -38,7 +38,7 @@ const DEFAULTS = Object.freeze({
   snow_mode: 'winter',
   page_cascade_enabled: true,
   page_cascade_mode: 'items',
-  page_cascade_duration: 660,
+  page_cascade_duration: 650,
   default_folder_id: DEFAULT_BOOKMARKS_FOLDER,
   sync_default_folder_id: DEFAULT_BOOKMARKS_FOLDER,
   sync_default_folder_path: null,

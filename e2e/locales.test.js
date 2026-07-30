@@ -62,4 +62,16 @@ describe('extension locales', () => {
     expect(messages.default_title.message).toBe('StartGrid');
     expect([...messages.ext_desc.message].length).toBeLessThanOrEqual(132);
   });
+
+  test.each(expectedLocales)('%s includes lifecycle accessible names without placeholders', locale => {
+    const messages = readLocale(locale);
+    [
+      'scroll_to_top',
+      'toast_close',
+      'notice_thumbnail_capture_failed'
+    ].forEach(key => {
+      expect(messages[key].message.trim()).not.toBe('');
+      expect(messages[key].placeholders).toBeUndefined();
+    });
+  });
 });

@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "Failed to download the thumbnail from URL"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "The website screenshot for this thumbnail could not be created."
+  },
+  "notice_background_save_failed": {
+    "message": "The selected background image could not be saved. Your previous image is unchanged. Try again."
+  },
+  "scroll_to_top": {
+    "message": "Scroll to top"
+  },
+  "toast_close": {
+    "message": "Close notification"
+  },
   "url_field_tip": {
     "message": "Enter a URL, or leave this field empty to create a folder."
   },

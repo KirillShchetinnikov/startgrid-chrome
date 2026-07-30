@@ -15,9 +15,12 @@ import {
 import Range from './components/range';
 import ImageDB from './api/imageDB';
 import {
+  commitBackgroundUpload,
+  createBackgroundPreview,
   FILES_ALLOWED_EXTENSIONS,
-  MAX_FILE_SIZE_BYTES
-} from './constants';
+  MAX_FILE_SIZE_BYTES,
+  validateBackgroundFile
+} from './backgroundFileValidation';
 import settingsList from './constants/settingsList';
 import { displaySettings } from './components/displaySettings';
 import { containsPermissions, removePermissions, requestPermissions } from './api/permissions';
@@ -564,15 +567,14 @@ async function handleUploadFile() {
 
   form.reset();
 
-  const isSizeExceeded = MAX_FILE_SIZE_BYTES < file.size;
-  const isAllowedType = FILES_ALLOWED_EXTENSIONS.some(type => file.type.endsWith(type));
-  if (!isAllowedType) {
+  const validation = validateBackgroundFile(file);
+  if (!validation.ok && validation.reason === 'type') {
     return Toast.show(getMessage(
       'alert_file_type_fail_type',
       [FILES_ALLOWED_EXTENSIONS.join(' | ')]
     ));
   }
-  if (isSizeExceeded) {
+  if (!validation.ok && validation.reason === 'size') {
     return Toast.show(getMessage(
       'alert_file_type_fail_size',
       [MAX_FILE_SIZE_BYTES / 10 ** 6]
@@ -580,33 +582,48 @@ async function handleUploadFile() {
   }
 
   form.classList.add('is-upload');
-
-  const blob = new Blob([new Uint8Array(await file.arrayBuffer())], {
-    type: file.type
-  });
-  const blobThumbnail = file.type.startsWith('video')
-    ? await getVideoPoster(file)
-    : await $resizeThumbnail(blob);
-
-  if (backgroundImage) {
-    URL.revokeObjectURL(backgroundImage);
-  }
-  backgroundImage = URL.createObjectURL(blobThumbnail);
-  ImageDB.update({
-    id: 'background',
-    blob,
-    blobThumbnail
-  });
-
-  form.classList.remove('is-upload');
-
-  document.querySelector('.c-upload__preview').hidden = false;
-  document.getElementById('preview_upload').innerHTML = /* html */
+  try {
+    const blob = new Blob([new Uint8Array(await file.arrayBuffer())], {
+      type: file.type
+    });
+    const blobThumbnail = await createBackgroundPreview({
+      blob,
+      file,
+      validation,
+      resizeImage: value => $resizeThumbnail(value),
+      getVideoPoster: value => getVideoPoster(value)
+    });
+    const previousObjectURL = backgroundImage;
+    const result = await commitBackgroundUpload({
+      record: {
+        id: 'background',
+        blob,
+        blobThumbnail
+      },
+      persist: record => ImageDB.update(record),
+      createObjectURL: value => URL.createObjectURL(value),
+      previousObjectURL,
+      revokeObjectURL: value => URL.revokeObjectURL(value),
+      reportError: () => Toast.show(getMessage('notice_background_save_failed')),
+      apply(objectURL) {
+        document.getElementById('preview_upload').innerHTML = /* html */
           `<div class="c-upload__preview-image"
-            style="background-image: url(${backgroundImage});">
+            style="background-image: url(${objectURL});">
           <div>`;
+        document.querySelector('.c-upload__preview').hidden = false;
+        backgroundImage = objectURL;
+      }
+    });
 
-  Toast.show(getMessage('notice_bg_image_updated'));
+    if (!result.ok) {
+      return;
+    }
+    Toast.show(getMessage('notice_bg_image_updated'));
+  } catch {
+    Toast.show(getMessage('notice_background_save_failed'));
+  } finally {
+    form.classList.remove('is-upload');
+  }
 }
 
 async function handleRemoveFile(evt) {

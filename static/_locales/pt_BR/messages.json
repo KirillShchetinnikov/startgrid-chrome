@@ -112,6 +112,18 @@
   "notice_thumbnail_url_failed": {
     "message": "Falha ao baixar a miniatura do URL"
   },
+  "notice_thumbnail_capture_failed": {
+    "message": "Não foi possível criar a captura do site para a miniatura."
+  },
+  "notice_background_save_failed": {
+    "message": "Não foi possível salvar a imagem de fundo selecionada. A imagem anterior foi mantida. Tente novamente."
+  },
+  "scroll_to_top": {
+    "message": "Voltar ao topo"
+  },
+  "toast_close": {
+    "message": "Fechar notificação"
+  },
   "url_field_tip": {
     "message": "Insira um URL ou deixe este campo vazio para criar uma pasta."
   },

@@ -22,7 +22,6 @@ import {
 import {
   $createElement,
   $copyStr,
-  $unescapeHtml,
   $notifications,
   checkClipboardImage
 } from './utils';
@@ -52,6 +51,7 @@ import {
   normalizeSelectionModifier
 } from './keyboardShortcuts';
 import { recordBookmarkUsage } from './bookmarkSorting';
+import { createRefreshScheduler } from './bookmarkEvents';
 
 const container = document.getElementById('bookmarks');
 const modal = document.getElementById('modal');
@@ -87,6 +87,7 @@ let generateThumbsBtn = null;
 let pendingThumbnailBlob = null;
 let pendingThumbnailSource = null;
 let quickSettingsApi = null;
+let snowController = null;
 let resolvePageRevealStarted;
 const pageRevealStarted = new Promise(resolve => {
   resolvePageRevealStarted = resolve;
@@ -291,10 +292,18 @@ async function init() {
   }
 
   // if tab with bookmarks is open, but hidden, we need to reload, after updating thumbnails
+  const scheduleBookmarkRefresh = createRefreshScheduler(
+    () => Bookmarks.refreshCurrentView()
+  );
   browser.runtime.onMessage.addListener(function(request) {
-    if (request.bookmarksUpdated && document.hidden) {
+    if (!request.bookmarksChanged) return;
+    if (document.hidden) {
       window.location.reload();
+      return;
     }
+    scheduleBookmarkRefresh().catch(error => {
+      console.warn('Could not refresh bookmarks after a Chrome event', error);
+    });
   });
 
   // import(/* webpackChunkName: "webcomponents/vb-actions-panel" */'./components/vb-bookmarks-panel');
@@ -311,7 +320,7 @@ async function init() {
     code === 'Escape' && hideControlMultiplyBookmarks();
   });
 
-  initSnow(settings.$.snow_mode);
+  snowController = initSnow(settings.$.snow_mode);
   initKeyboardShortcuts(settings.$.keyboard_shortcuts, handleKeyboardShortcutAction);
   UI.calculateStyles();
 }
@@ -503,6 +512,9 @@ function handleBeforeUnload(evt) {
 }
 
 function handlePagehide() {
+  snowController?.destroy();
+  snowController = null;
+
   // remove flag from storage to unlock button generate
   if (isGenerateThumbs) {
     localStorage.removeItem('update_thumbnails');
@@ -1191,7 +1203,7 @@ async function prepareModal(target) {
     if (!bookmarkNode) return;
 
     const { id, url, parentId } = bookmarkNode[0];
-    const title = $unescapeHtml(bookmarkNode[0].title);
+    const title = bookmarkNode[0].title;
     const thumbnailEnabled = Bookmarks.isDefaultFolder(parentId);
     const imageData = thumbnailEnabled ? await ImageDB.get(id) : null;
     form.setAttribute('data-action', id);
