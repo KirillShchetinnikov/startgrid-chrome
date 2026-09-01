@@ -1047,6 +1047,14 @@
   "settings_no_results": {
     "message": "Aucun paramètre trouvé"
   },
+  "bookmark_title_size": { "message": "Taille du texte du titre" },
+  "bookmark_title_size_note": { "message": "Définit la taille du titre du favori." },
+  "bookmark_title_position": { "message": "Position du titre" },
+  "bookmark_title_position_inside": { "message": "Dans la tuile" },
+  "bookmark_title_position_outside": { "message": "Sous la tuile" },
+  "bookmark_title_size_individual": { "message": "Taille de titre individuelle" },
+  "bookmark_title_size_individual_note": { "message": "Laissez vide pour utiliser la taille globale." },
+  "bookmark_title_position_individual": { "message": "Position de titre individuelle" },
   "undo": {
     "message": "Défaire"
   }

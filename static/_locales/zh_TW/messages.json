@@ -1047,6 +1047,14 @@
   "settings_no_results": {
     "message": "沒有找到設定"
   },
+  "bookmark_title_size": { "message": "標題文字大小" },
+  "bookmark_title_size_note": { "message": "調整書籤標題的大小。" },
+  "bookmark_title_position": { "message": "標題位置" },
+  "bookmark_title_position_inside": { "message": "圖塊內部" },
+  "bookmark_title_position_outside": { "message": "圖塊下方" },
+  "bookmark_title_size_individual": { "message": "個別標題大小" },
+  "bookmark_title_size_individual_note": { "message": "留空以使用全域標題大小。" },
+  "bookmark_title_position_individual": { "message": "個別標題位置" },
   "undo": {
     "message": "撤銷"
   }

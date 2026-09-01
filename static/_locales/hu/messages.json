@@ -1047,6 +1047,14 @@
   "settings_no_results": {
     "message": "Nem találhatók beállítások"
   },
+  "bookmark_title_size": { "message": "Címszöveg mérete" },
+  "bookmark_title_size_note": { "message": "A könyvjelző címének méretét szabályozza." },
+  "bookmark_title_position": { "message": "Cím helyzete" },
+  "bookmark_title_position_inside": { "message": "A csempén belül" },
+  "bookmark_title_position_outside": { "message": "A csempe alatt" },
+  "bookmark_title_size_individual": { "message": "Egyedi címméret" },
+  "bookmark_title_size_individual_note": { "message": "Hagyja üresen a globális méret használatához." },
+  "bookmark_title_position_individual": { "message": "Egyedi címpozíció" },
   "undo": {
     "message": "Visszavonás"
   }

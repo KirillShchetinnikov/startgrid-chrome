@@ -272,7 +272,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: min(35%, 36px);
+  height: min(26%, 30px);
   padding-left: 10px;
   padding-right: 10px;
   line-height: 1;
@@ -294,6 +294,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: var(--bookmark-title-size);
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--bookmark-caption-color);
@@ -495,4 +496,62 @@
   font-weight: 700;
   text-align: center;
   z-index: 1000;
+}
+
+.bookmark[data-title-position="outside"] {
+  aspect-ratio: auto;
+  overflow: visible;
+  background: transparent;
+  backdrop-filter: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  &:hover,
+  &:focus-visible {
+    box-shadow: none;
+  }
+
+  & .bookmark__img {
+    flex-grow: 0;
+    aspect-ratio: var(--bookmark-aspect-ratio);
+    overflow: hidden;
+    background-color: var(--bookmark-bg);
+    backdrop-filter: var(--bookmark-backdrop-filter);
+    border: var(--surface-border);
+    border-radius: var(--bookmark-radius);
+    box-shadow:
+      0
+      var(--bookmark-shadow-offset-y)
+      var(--bookmark-shadow-blur)
+      var(--bookmark-shadow-spread)
+      rgb(var(--bookmark-shadow-color) / var(--bookmark-shadow-opacity));
+    transition: box-shadow 0.2s ease;
+  }
+
+  &:hover .bookmark__img {
+    box-shadow:
+      0
+      var(--bookmark-hover-shadow-offset-y)
+      var(--bookmark-hover-shadow-blur)
+      var(--bookmark-hover-shadow-spread)
+      rgb(var(--bookmark-shadow-color) / var(--bookmark-hover-shadow-opacity));
+  }
+
+  &:focus-visible .bookmark__img {
+    box-shadow: 0 0 0 3px var(--bookmark-outline-color);
+  }
+
+  &[data-selected] .bookmark__img {
+    box-shadow: 0 0 0 5px var(--bookmark-selected, var(--color-primary));
+  }
+
+  & .bookmark__caption {
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 24px;
+    padding: 7px 4px 0;
+    overflow: visible;
+    border-radius: 0;
+  }
 }

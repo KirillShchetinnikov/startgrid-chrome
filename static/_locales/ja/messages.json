@@ -1047,6 +1047,14 @@
   "settings_no_results": {
     "message": "設定が見つかりません"
   },
+  "bookmark_title_size": { "message": "タイトル文字サイズ" },
+  "bookmark_title_size_note": { "message": "ブックマークのタイトルサイズを調整します。" },
+  "bookmark_title_position": { "message": "タイトルの位置" },
+  "bookmark_title_position_inside": { "message": "タイル内" },
+  "bookmark_title_position_outside": { "message": "タイルの下" },
+  "bookmark_title_size_individual": { "message": "個別のタイトルサイズ" },
+  "bookmark_title_size_individual_note": { "message": "空欄にすると全体設定を使用します。" },
+  "bookmark_title_position_individual": { "message": "個別のタイトル位置" },
   "undo": {
     "message": "元に戻す"
   }

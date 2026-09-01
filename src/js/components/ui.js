@@ -160,6 +160,7 @@ export default {
     const radius = clamp(settings.$.dial_radius, 0, 40, 18);
     const shadow = clamp(settings.$.dial_shadow, 0, 30, 8);
     const thumbnailSize = clamp(settings.$.favicon_size, 16, 128, 32);
+    const titleSize = clamp(settings.$.bookmark_title_size, 10, 24, 14);
     const hoverLift = clamp(settings.$.dial_hover_lift, 0, 12, 4);
     const backgroundOpacity = clamp(settings.$.dial_background_opacity, 0, 100, 100);
     const toolbarOpacity = resolveToolbarOpacity({
@@ -177,6 +178,7 @@ export default {
     doc.style.setProperty('--bookmark-radius', `${radius}px`);
     doc.style.setProperty('--bookmark-aspect-ratio', aspectRatio);
     doc.style.setProperty('--bookmark-thumbnail-size', `${thumbnailSize}px`);
+    doc.style.setProperty('--bookmark-title-size', `${titleSize}px`);
     doc.style.setProperty('--bookmark-shadow-opacity', `${shadowOpacities.resting}%`);
     doc.style.setProperty('--bookmark-hover-shadow-opacity', `${shadowOpacities.hover}%`);
     doc.style.setProperty('--bookmark-hover-lift', `${hoverLift}px`);

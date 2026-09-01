@@ -25,8 +25,10 @@ describe('options page structure', () => {
       return section.sections.flatMap(group => group.list);
     });
     const ids = settings.map(setting => setting.id);
-    expect(ids).toHaveLength(71);
+    expect(ids).toHaveLength(73);
     expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toContain('bookmark_title_size');
+    expect(ids).toContain('bookmark_title_position');
     expect(ids).not.toContain('page_entrance_effect');
 
     const sectionFor = id => settingsList.find(section => {

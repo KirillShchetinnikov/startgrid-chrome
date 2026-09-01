@@ -73,6 +73,8 @@ const DEFAULTS = Object.freeze({
   show_back_column: true,
   show_create_column: true,
   show_bookmark_title: true,
+  bookmark_title_size: 14,
+  bookmark_title_position: 'inside',
   show_favicon: true,
   open_bookmarks_newtab: false,
   open_search_newtab: false,
@@ -200,6 +202,13 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   currentSettings.show_home_folders = currentSettings.show_home_folders !== false;
   currentSettings.show_search = currentSettings.show_search !== false;
   currentSettings.show_folder_picker = currentSettings.show_folder_picker !== false;
+  const bookmarkTitleSize = parseInt(currentSettings.bookmark_title_size);
+  currentSettings.bookmark_title_size = Number.isFinite(bookmarkTitleSize)
+    ? Math.min(24, Math.max(10, bookmarkTitleSize))
+    : DEFAULTS.bookmark_title_size;
+  if (!['inside', 'outside'].includes(currentSettings.bookmark_title_position)) {
+    currentSettings.bookmark_title_position = DEFAULTS.bookmark_title_position;
+  }
   if (!['together', 'folders_top', 'folders_bottom'].includes(currentSettings.bookmarks_sorting_type)) {
     currentSettings.bookmarks_sorting_type = DEFAULTS.bookmarks_sorting_type;
   }

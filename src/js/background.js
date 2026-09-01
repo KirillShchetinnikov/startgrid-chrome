@@ -24,6 +24,7 @@ import {
 import { containsPermissions } from './api/permissions';
 import { getBlobHash } from './api/remoteThumbnail';
 import { shouldDownloadFavicon } from './api/faviconPreferences';
+import { removeBookmarkTextPreference } from './api/bookmarkTextPreferences';
 import { requestSearchSuggestions } from './searchSuggestions';
 import {
   cleanupRemovedBookmark,
@@ -320,7 +321,10 @@ async function handleBookmarks(eventType, id, bookmark) {
     await cleanupRemovedBookmark({
       node: bookmark.node,
       fallbackId: id,
-      deleteById: thumbnailId => ImageDB.delete(thumbnailId),
+      deleteById: thumbnailId => Promise.all([
+        ImageDB.delete(thumbnailId),
+        removeBookmarkTextPreference(thumbnailId)
+      ]),
       broadcast
     });
     if (!isBookmarkUrl) {

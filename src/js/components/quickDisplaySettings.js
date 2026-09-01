@@ -10,6 +10,7 @@ const RERENDER_SETTINGS = new Set([
   'show_create_column',
   'show_back_column',
   'show_bookmark_title',
+  'bookmark_title_position',
   'show_favicon',
   'folder_preview'
 ]);
@@ -30,7 +31,8 @@ const STYLE_SETTINGS = new Set([
   'toolbar_background_color',
   'toolbar_background_opacity',
   'toolbar_background_blur',
-  'favicon_size'
+  'favicon_size',
+  'bookmark_title_size'
 ]);
 
 const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
@@ -127,6 +129,24 @@ function createPanel() {
             <output id="quick_favicon_size_value" for="quick_favicon_size"></output>
           </span>
         </label>
+        <label class="quick-settings__field" for="quick_bookmark_title_size">
+          <span>${message('bookmark_title_size')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_bookmark_title_size" type="range" min="10" max="24" step="1"
+              data-setting="bookmark_title_size" data-unit="px">
+            <output id="quick_bookmark_title_size_value"
+              for="quick_bookmark_title_size"></output>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_bookmark_title_position">
+          <span>${message('bookmark_title_position')}</span>
+          <select class="form-control" id="quick_bookmark_title_position"
+            data-setting="bookmark_title_position">
+            <option value="inside">${message('bookmark_title_position_inside')}</option>
+            <option value="outside">${message('bookmark_title_position_outside')}</option>
+          </select>
+        </label>
+
         <label class="quick-settings__field" for="quick_dial_shadow">
           <span>${message('dial_shadow')}</span>
           <span class="quick-settings__range">

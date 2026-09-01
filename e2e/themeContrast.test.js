@@ -83,7 +83,7 @@ describe('theme contrast styles', () => {
     expect(headerCss).not.toMatch(/transition-property:[^;]*background-color/);
     expect(variablesCss).toMatch(/--toolbar-backdrop-filter:\s*none/);
     expect(bookmarkCss.match(/backdrop-filter:\s*var\(--bookmark-backdrop-filter\)/g))
-      .toHaveLength(2);
+      .toHaveLength(3);
     expect(variablesCss).toMatch(/--bookmark-backdrop-filter:\s*none/);
   });
 

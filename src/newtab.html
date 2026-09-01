@@ -72,6 +72,35 @@
                 <label class="label" for="select-folder" data-locale-message="label_folder"></label>
                 <vb-select-folders id="modalSelectFolders" select-id="select-folder"></vb-select-folders>
               </div>
+              <div class="group">
+                <label class="label" for="bookmarkTitleSize"
+                  data-locale-message="bookmark_title_size_individual">Individual title size</label>
+                <input type="number" class="form-control" id="bookmarkTitleSize"
+                  name="bookmarkTitleSize" min="10" max="24" step="1" placeholder="14">
+                <span class="gmodal__thumbnail-note"
+                  data-locale-message="bookmark_title_size_individual_note">
+                  Leave empty to use the global title size.
+                </span>
+              </div>
+              <div class="group">
+                <label class="label" for="bookmarkTitlePosition"
+                  data-locale-message="bookmark_title_position_individual">
+                  Individual title position
+                </label>
+                <select class="form-control" id="bookmarkTitlePosition"
+                  name="bookmarkTitlePosition">
+                  <option value="" data-locale-message="favicon_download_inherit">
+                    Use global setting
+                  </option>
+                  <option value="inside" data-locale-message="bookmark_title_position_inside">
+                    Inside tile
+                  </option>
+                  <option value="outside" data-locale-message="bookmark_title_position_outside">
+                    Below tile
+                  </option>
+                </select>
+              </div>
+
               <div class="group gmodal__thumbnail-source" id="thumbnailSourceWrap">
                 <label class="label" for="thumbnailSource" data-locale-message="thumbnail_source">Thumbnail source</label>
                 <select class="form-control" id="thumbnailSource" name="thumbnailSource">

@@ -148,6 +148,35 @@ const appearanceSettings = [
     type: 'switch'
   },
   {
+    id: 'bookmark_title_size',
+    title: getMessage('bookmark_title_size'),
+    note: getMessage('bookmark_title_size_note'),
+    type: 'range',
+    min: 10,
+    max: 24,
+    step: 1,
+    data: {
+      selectorOutput: '#bookmark_title_size_value',
+      outputPostfix: 'px'
+    }
+  },
+  {
+    id: 'bookmark_title_position',
+    title: getMessage('bookmark_title_position'),
+    type: 'select',
+    options: [
+      {
+        value: 'inside',
+        title: getMessage('bookmark_title_position_inside')
+      },
+      {
+        value: 'outside',
+        title: getMessage('bookmark_title_position_outside')
+      }
+    ]
+  },
+
+  {
     id: 'show_favicon',
     title: getMessage('show_favicon'),
     type: 'switch'
@@ -715,7 +744,13 @@ export default [
       },
       {
         key: getMessage('settings_group_tile_content'),
-        list: pickSettings('show_bookmark_title', 'show_favicon', 'folder_preview')
+        list: pickSettings(
+          'show_bookmark_title',
+          'bookmark_title_size',
+          'bookmark_title_position',
+          'show_favicon',
+          'folder_preview'
+        )
       }
     ]
   },

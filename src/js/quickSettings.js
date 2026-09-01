@@ -6,6 +6,8 @@ export const QUICK_SETTING_KEYS = Object.freeze([
   'dial_radius',
   'dial_aspect_ratio',
   'favicon_size',
+  'bookmark_title_size',
+  'bookmark_title_position',
   'dial_shadow',
   'dial_hover_lift',
   'dial_background_opacity',

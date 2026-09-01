@@ -1047,6 +1047,14 @@
   "settings_no_results": {
     "message": "没有找到设置"
   },
+  "bookmark_title_size": { "message": "标题文字大小" },
+  "bookmark_title_size_note": { "message": "调整书签标题的大小。" },
+  "bookmark_title_position": { "message": "标题位置" },
+  "bookmark_title_position_inside": { "message": "磁贴内部" },
+  "bookmark_title_position_outside": { "message": "磁贴下方" },
+  "bookmark_title_size_individual": { "message": "单独的标题大小" },
+  "bookmark_title_size_individual_note": { "message": "留空以使用全局标题大小。" },
+  "bookmark_title_position_individual": { "message": "单独的标题位置" },
   "undo": {
     "message": "撤消"
   }

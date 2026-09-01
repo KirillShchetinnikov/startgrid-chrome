@@ -30,6 +30,10 @@ import {
   getThumbnailSizeOverride,
   shouldDownloadFavicon
 } from './api/faviconPreferences';
+import {
+  getBookmarkTitlePositionOverride,
+  getBookmarkTitleSizeOverride
+} from './api/bookmarkTextPreferences';
 import { CONTEXT_MENU, LOCAL_PROTOCOLS } from './constants';
 import { bookmarksToDelete } from './state';
 import Toast from './components/toast';
@@ -68,6 +72,8 @@ const faviconOptionsWrap = document.getElementById('faviconOptionsWrap');
 const thumbnailSizeWrap = document.getElementById('thumbnailSizeWrap');
 const faviconDownloadPreference = document.getElementById('faviconDownloadPreference');
 const thumbnailImageSize = document.getElementById('thumbnailImageSize');
+const bookmarkTitleSize = document.getElementById('bookmarkTitleSize');
+const bookmarkTitlePosition = document.getElementById('bookmarkTitlePosition');
 const thumbnailUrlWrap = document.getElementById('thumbnailUrlWrap');
 const thumbnailActions = document.getElementById('thumbnailActions');
 const captureThumbnailButton = document.getElementById('captureThumbnail');
@@ -1061,6 +1067,8 @@ async function handleSubmitForm(evt) {
   const faviconPreferences = getModalFaviconPreferences();
   const downloadFavicon = usesDownloadedFavicon(faviconPreferences);
   const thumbnailSize = getModalThumbnailSize();
+  const titleSize = getBookmarkTitleSizeOverride(form.bookmarkTitleSize.value);
+  const titlePosition = getBookmarkTitlePositionOverride(form.bookmarkTitlePosition.value);
   const shouldCaptureSite = thumbnailEnabled && thumbnailSourceValue === 'site' && (
     id === 'New'
       ? pendingThumbnailSource !== 'site'
@@ -1099,6 +1107,10 @@ async function handleSubmitForm(evt) {
     bookmark = await Bookmarks.updateBookmark(id, title, url, newLocation);
   } else {
     bookmark = await Bookmarks.createBookmark(title, url);
+  }
+
+  if (bookmark) {
+    await Bookmarks.setTextPreferences(bookmark, { titleSize, titlePosition });
   }
 
   if (bookmark && thumbnailEnabled) {
@@ -1219,6 +1231,10 @@ async function prepareModal(target) {
 
     modalHead.textContent = getMessage('edit_bookmark');
     titleField.value = title;
+    const textPreferences = Bookmarks.getTextPreferences(id);
+    bookmarkTitleSize.value = textPreferences.titleSize ?? '';
+    bookmarkTitleSize.placeholder = String(settings.$.bookmark_title_size);
+    bookmarkTitlePosition.value = textPreferences.titlePosition ?? '';
 
     if (url) {
       urlWrap.style.display = '';
@@ -1253,6 +1269,9 @@ async function prepareModal(target) {
     modalHead.textContent = getMessage('add_bookmark');
     urlWrap.style.display = '';
     titleField.value = '';
+    bookmarkTitleSize.value = '';
+    bookmarkTitleSize.placeholder = String(settings.$.bookmark_title_size);
+    bookmarkTitlePosition.value = '';
     urlField.value = '';
     form.setAttribute('data-action', 'New');
     form.dataset.thumbnailEnabled = String(Bookmarks.isDefaultFolder(container.dataset.folder));

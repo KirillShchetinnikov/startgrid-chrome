@@ -37,6 +37,10 @@ import {
   getThumbnailSizeOverride,
   shouldDownloadFavicon
 } from '../api/faviconPreferences';
+import {
+  getBookmarkTextPreferences,
+  setBookmarkTextPreference
+} from '../api/bookmarkTextPreferences';
 import './vb-bookmark';
 import {
   getCurrentFolderId,
@@ -67,6 +71,7 @@ import {
  */
 const Bookmarks = (() => {
   const THUMBNAILS_MAP = new Map();
+  const TEXT_PREFERENCES_MAP = new Map();
   const THUMBNAILS_CREATION_QUEUE = [];
   const DROPZONE_SELECTOR = '.dropzone-bookmark';
   const container = document.getElementById('bookmarks');
@@ -386,6 +391,7 @@ const Bookmarks = (() => {
     const image = useStoredImage ? thumbnail?.blobUrl : null;
     const custom = thumbnail?.custom || false;
     const thumbnailSize = getStoredThumbnailSize(thumbnail);
+    const textPreferences = getTextPreferences(bookmark.id);
 
     const vbBookmark = document.createElement('a', { is: 'vb-bookmark' });
     Object.assign(vbBookmark, {
@@ -398,6 +404,8 @@ const Bookmarks = (() => {
       openNewTab: settings.$.open_bookmarks_newtab,
       thumbnailSource,
       thumbnailSize,
+      titleSize: textPreferences.titleSize ?? settings.$.bookmark_title_size,
+      titlePosition: textPreferences.titlePosition ?? settings.$.bookmark_title_position,
       usageCount,
       hasTitle: settings.$.show_bookmark_title,
       hasFavicon: settings.$.show_favicon
@@ -409,6 +417,7 @@ const Bookmarks = (() => {
     const folderPreview = settings.$.folder_preview;
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
     const image = thumbnail?.blobUrl;
+    const textPreferences = getTextPreferences(bookmark.id);
 
     const vbBookmark = document.createElement('a', { is: 'vb-bookmark' });
     Object.assign(vbBookmark, {
@@ -420,6 +429,8 @@ const Bookmarks = (() => {
       hasFolderPreview: folderPreview,
       folderChidlren: folderPreview ? renderFolderChildren(bookmark) : [],
       image,
+      titleSize: textPreferences.titleSize ?? settings.$.bookmark_title_size,
+      titlePosition: textPreferences.titlePosition ?? settings.$.bookmark_title_position,
       openNewTab: settings.$.open_bookmarks_newtab,
       hasTitle: settings.$.show_bookmark_title,
       hasFavicon: settings.$.show_favicon,
@@ -616,7 +627,14 @@ const Bookmarks = (() => {
       .map(child => child.id);
     let childrenBookmarks;
 
-    const thumbnails = await ImageDB.getAllByIds(bookmarksIds);
+    const [thumbnails, textPreferences] = await Promise.all([
+      ImageDB.getAllByIds(bookmarksIds),
+      getBookmarkTextPreferences(bookmarksArr.map(bookmark => bookmark.id))
+    ]);
+    TEXT_PREFERENCES_MAP.clear();
+    textPreferences.forEach((preferences, id) => {
+      TEXT_PREFERENCES_MAP.set(id, preferences);
+    });
 
     // Folder previews on the home page use bookmark icons, never nested thumbnails.
     if (isHomeFolder && settings.$.folder_preview) {
@@ -1586,6 +1604,22 @@ const Bookmarks = (() => {
     return bookmark;
   }
 
+  function getTextPreferences(id) {
+    return TEXT_PREFERENCES_MAP.get(String(id)) || {};
+  }
+
+  async function setTextPreferences(bookmark, preferences) {
+    const normalized = await setBookmarkTextPreference(bookmark.id, preferences);
+    if (Object.keys(normalized).length) {
+      TEXT_PREFERENCES_MAP.set(String(bookmark.id), normalized);
+    } else {
+      TEXT_PREFERENCES_MAP.delete(String(bookmark.id));
+    }
+    bookmark.titleSize = normalized.titleSize ?? settings.$.bookmark_title_size;
+    bookmark.titlePosition = normalized.titlePosition ?? settings.$.bookmark_title_position;
+    return normalized;
+  }
+
   return {
     init,
     refresh: () => createSpeedDial(startFolder()),
@@ -1604,6 +1638,8 @@ const Bookmarks = (() => {
     setLocalThumbnailSource,
     setFaviconThumbnailSource,
     setThumbnailSize,
+    getTextPreferences,
+    setTextPreferences,
     clearCachedThumbnail,
     setFaviconPreferences,
     removeThumbnail,

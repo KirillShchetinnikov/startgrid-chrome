@@ -334,6 +334,30 @@ class VbBookmark extends HTMLAnchorElement {
     return Number.isFinite(value) ? value : null;
   }
 
+  get titleSize() {
+    const value = Number.parseInt(this.style.getPropertyValue('--bookmark-title-size'), 10);
+    return Number.isFinite(value) ? value : null;
+  }
+  set titleSize(value) {
+    const size = Number.parseInt(value, 10);
+    if (Number.isFinite(size)) {
+      this.style.setProperty('--bookmark-title-size', `${size}px`);
+    } else {
+      this.style.removeProperty('--bookmark-title-size');
+    }
+  }
+
+  get titlePosition() {
+    return this.getAttribute('data-title-position') || 'inside';
+  }
+  set titlePosition(value) {
+    if (value === 'outside') {
+      this.setAttribute('data-title-position', 'outside');
+    } else {
+      this.setAttribute('data-title-position', 'inside');
+    }
+  }
+
   get usageCount() {
     const value = Number.parseInt(this.getAttribute('usage-count'), 10);
     return Number.isFinite(value) ? value : null;

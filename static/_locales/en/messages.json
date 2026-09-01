@@ -917,6 +917,14 @@
   "settings_search_placeholder": { "message": "Find a setting" },
   "settings_autosave": { "message": "Changes are saved automatically" },
   "settings_no_results": { "message": "No settings found" },
+  "bookmark_title_size": { "message": "Title text size" },
+  "bookmark_title_size_note": { "message": "Controls the bookmark title size." },
+  "bookmark_title_position": { "message": "Title position" },
+  "bookmark_title_position_inside": { "message": "Inside tile" },
+  "bookmark_title_position_outside": { "message": "Below tile" },
+  "bookmark_title_size_individual": { "message": "Individual title size" },
+  "bookmark_title_size_individual_note": { "message": "Leave empty to use the global title size." },
+  "bookmark_title_position_individual": { "message": "Individual title position" },
   "undo": {
     "message": "Undo"
   }

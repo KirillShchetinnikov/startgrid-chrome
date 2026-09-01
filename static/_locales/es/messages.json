@@ -1047,6 +1047,14 @@
   "settings_no_results": {
     "message": "No se encontraron configuraciones"
   },
+  "bookmark_title_size": { "message": "Tamaño del texto del título" },
+  "bookmark_title_size_note": { "message": "Controla el tamaño del título del marcador." },
+  "bookmark_title_position": { "message": "Posición del título" },
+  "bookmark_title_position_inside": { "message": "Dentro del mosaico" },
+  "bookmark_title_position_outside": { "message": "Debajo del mosaico" },
+  "bookmark_title_size_individual": { "message": "Tamaño de título individual" },
+  "bookmark_title_size_individual_note": { "message": "Déjalo vacío para usar el tamaño global." },
+  "bookmark_title_position_individual": { "message": "Posición de título individual" },
   "undo": {
     "message": "Deshacer"
   }

@@ -1047,6 +1047,14 @@
   "settings_no_results": {
     "message": "Настройки не найдены"
   },
+  "bookmark_title_size": { "message": "Размер текста подписи" },
+  "bookmark_title_size_note": { "message": "Изменяет размер названия закладки." },
+  "bookmark_title_position": { "message": "Расположение подписи" },
+  "bookmark_title_position_inside": { "message": "Внутри плитки" },
+  "bookmark_title_position_outside": { "message": "Под плиткой" },
+  "bookmark_title_size_individual": { "message": "Индивидуальный размер подписи" },
+  "bookmark_title_size_individual_note": { "message": "Оставьте пустым, чтобы использовать общий размер." },
+  "bookmark_title_position_individual": { "message": "Индивидуальное расположение подписи" },
   "undo": {
     "message": "Отменить"
   }
