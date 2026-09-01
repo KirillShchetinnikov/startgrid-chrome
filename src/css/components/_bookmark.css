@@ -272,9 +272,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
   height: min(26%, 30px);
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline: 6px;
   line-height: 1;
   white-space: nowrap;
   text-align: center;
@@ -548,9 +549,11 @@
 
   & .bookmark__caption {
     flex: 0 0 auto;
+    align-self: center;
+    width: calc(100% + min(var(--grid-gap), 24px));
     height: auto;
     min-height: 24px;
-    padding: 7px 4px 0;
+    padding: 7px 2px 0;
     overflow: visible;
     border-radius: 0;
   }
