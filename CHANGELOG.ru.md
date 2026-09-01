@@ -2,6 +2,12 @@
 
 В этом файле собраны основные изменения публичных версий StartGrid. Версии расположены от новых к старым.
 
+## [1.8.7](https://github.com/KirillShchetinnikov/startgrid-chrome/releases/tag/v1.8.7) — 2026-09-01
+
+### Интерфейс
+
+- Уменьшена высота внутренней зоны подписи плитки, чтобы освободить больше места для изображения.
+
 ## [1.8.6](https://github.com/KirillShchetinnikov/startgrid-chrome/releases/tag/v1.8.6) — 2026-09-01
 
 ### Исправления
