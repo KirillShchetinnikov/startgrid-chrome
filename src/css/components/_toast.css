@@ -5,7 +5,7 @@
   gap: 10px;
   width: 100%;
   max-width: 380px;
-  z-index: 9997;
+  z-index: 100000;
   pointer-events: none;
 
   @media (max-width: 480px) {

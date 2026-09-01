@@ -1241,8 +1241,7 @@ async function prepareModal(target) {
       document.getElementById('thumbnailSourceWrap').hidden = false;
       handleThumbnailSourceChange();
       if (thumbnailEnabled) {
-        const showStoredImage = thumbnailSource.value !== 'favicon' || usesDownloadedFavicon();
-        await showModalThumbnail(id, showStoredImage);
+        await showModalThumbnail(id);
       }
     } else {
       urlWrap.style.display = 'none';
