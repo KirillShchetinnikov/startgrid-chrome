@@ -33,4 +33,13 @@ describe('bookmark text preferences', () => {
 
     expect(bookmarkCss).toMatch(/width:\s*calc\(100% \+ min\(var\(--grid-gap\), 24px\)\)/);
   });
+
+  it('keeps the inside caption vertically compact', () => {
+    const bookmarkCss = readFileSync('src/css/components/_bookmark.css', 'utf8');
+    const insideCaption = bookmarkCss.match(
+      /\.bookmark__caption\s*\{(?<styles>[\s\S]*?)\n\}/
+    )?.groups?.styles;
+
+    expect(insideCaption).toMatch(/height:\s*min\(22%, 26px\)/);
+  });
 });
