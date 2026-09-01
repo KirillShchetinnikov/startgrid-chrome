@@ -10,7 +10,8 @@ import {
   $notifications,
   $resizeThumbnail,
   $trigger,
-  getVideoPoster
+  getVideoPoster,
+  $filePicker
 } from './utils';
 import Range from './components/range';
 import ImageDB from './api/imageDB';
@@ -113,8 +114,8 @@ async function init() {
   document.getElementById('toggle_clipboard_access').addEventListener('change', handleToggleClipboardAccess);
 
   document.getElementById('export').addEventListener('click', handleExportSettings);
-  document.getElementById('import').addEventListener('change', handleImportSettings);
-  document.getElementById('bgFile').addEventListener('change', handleUploadFile);
+  document.getElementById('import').addEventListener('click', handleImportSettingsFromPicker);
+  document.getElementById('bgFile').addEventListener('click', handleChooseBackgroundFile);
   document.getElementById('back_to_main').addEventListener('click', handleBackToMain);
   document.querySelectorAll('[data-reset-color]').forEach(button => {
     button.addEventListener('click', handleResetColor);
@@ -299,6 +300,57 @@ function handleBackToMain(e) {
   browser.tabs.update({ url: newTabUrl });
 }
 
+const BACKGROUND_FILE_PICKER_OPTIONS = Object.freeze({
+  types: [{
+    description: 'Images and MP4 video',
+    accept: {
+      'image/*': FILES_ALLOWED_EXTENSIONS
+        .filter(extension => extension !== 'mp4')
+        .map(extension => '.' + extension),
+      'video/mp4': ['.mp4']
+    }
+  }],
+  excludeAcceptAllOption: true,
+  multiple: false
+});
+
+function isFilePickerCanceled(error) {
+  return error?.name === 'AbortError';
+}
+
+async function handleImportSettingsFromPicker() {
+  try {
+    const file = await $filePicker({
+      types: [{
+        description: 'StartGrid backup',
+        accept: { 'application/json': ['.backup'] }
+      }],
+      excludeAcceptAllOption: true,
+      multiple: false
+    });
+    handleImportSettings({ target: { files: [file] } });
+  } catch (error) {
+    if (!isFilePickerCanceled(error)) {
+      Toast.show(getMessage('import_settings_failed'));
+      console.warn(error);
+    }
+  }
+}
+
+async function handleChooseBackgroundFile() {
+  try {
+    const file = await $filePicker(BACKGROUND_FILE_PICKER_OPTIONS);
+    await handleUploadFile.call(
+      { files: [file], closest: selector => document.getElementById('bgFile').closest(selector) }
+    );
+  } catch (error) {
+    if (!isFilePickerCanceled(error)) {
+      Toast.show(getMessage('notice_background_save_failed'));
+      console.warn(error);
+    }
+  }
+}
+
 function handleImportSettings(e) {
   const input = e.target;
   if (input.files && input.files[0]) {
@@ -324,7 +376,7 @@ function handleImportSettings(e) {
   }
 }
 
-function handleExportSettings() {
+async function handleExportSettings() {
   const data = Object.keys(settings.$).reduce((acc, cur) => {
     if (
       ![
@@ -338,17 +390,20 @@ function handleExportSettings() {
     return acc;
   }, {});
 
-  const file = new Blob([JSON.stringify(data)], { type: 'text/plain' });
-  // TODO: permission is required to download
-  // browser.downloads.download({
-  //   url: URL.createObjectURL(file),
-  //   filename: 'startgrid-settings.backup'
-  // });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(file);
-  a.download = 'startgrid-settings.backup';
-  a.click();
-  a.remove();
+  const url = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
+  try {
+    await browser.downloads.download({
+      url,
+      filename: 'startgrid-settings.backup',
+      conflictAction: 'uniquify',
+      saveAs: true
+    });
+  } catch (error) {
+    Toast.show(getMessage('import_settings_failed'));
+    console.warn(error);
+  } finally {
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  }
 }
 
 function getThemeColor(settingId) {

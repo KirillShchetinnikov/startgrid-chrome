@@ -1,5 +1,3 @@
-import { getMessage } from '../i18n';
-
 /**
  * Creates a new DOM element with the specified tag, attributes, and children.
  *
@@ -260,26 +258,9 @@ export function $uid() {
   return `id${Math.floor(Math.random() * Date.now()).toString(36)}`;
 }
 
-// TODO: showOpenFilePicker instead upload inputs
-export async function $filePicker(pickerOpts = {
-  types: [{
-    description: 'Images',
-    accept: {
-      'image/*': ['.png', '.gif', '.jpeg', '.jpg', '.webp', '.avif']
-    }
-  }],
-  excludeAcceptAllOption: true,
-  multiple: false
-}) {
+export async function $filePicker(pickerOpts) {
   const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
-  const file = await fileHandle.getFile();
-
-  if (!/image\/(jpe?g|png|webp)$/.test(file.type)) {
-    throw {
-      alert: getMessage('alert_file_type_fail')
-    };
-  }
-  return file;
+  return fileHandle.getFile();
 }
 
 export function faviconURL(url, size = 16) {

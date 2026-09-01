@@ -121,10 +121,7 @@ function createVbSelect(setting) {
 
 function createBackup(setting) {
   return /* html */`<div class="btn-group btn-group--full">
-      <div class="c-upload btn">
-        <input type="file" name="import" id="${setting.import.id}" class="c-upload__input" accept="${setting.import.accept}">
-        <label for="${setting.import.id}" class="c-upload__btn md-ripple"><span class="c-upload__name">${getMessage(setting.import.id)}</span></label>
-      </div>
+      <button type="button" class="btn md-ripple" id="${setting.import.id}">${getMessage(setting.import.id)}</button>
       <button class="btn md-ripple" id="${setting.export.id}">${getMessage(setting.export.id)}</button>
     </div>`;
 }
@@ -150,11 +147,10 @@ function createBackgroundSetting() {
   <div id="background_local" class="tbl__option js-background-settings">
     <div class="c-upload">
       <form action="#0" method="post">
-        <input type="file" name="upload" id="bgFile" class="c-upload__input">
-        <label for="bgFile" class="c-upload__btn md-ripple">
+        <button type="button" id="bgFile" class="c-upload__btn md-ripple">
           <svg width="20" height="20" class="c-upload__icon"><use xlink:href="/img/symbol.svg#upload_outline"></use></svg>
           <span class="c-upload__name" data-locale-message="choose_file">Изображение или видео</span>
-        </label>
+        </button>
         <small class="c-upload__hint text-muted" data-locale-message="background_local_video_note">Локальным фоном может быть изображение или MP4-видео. Видео воспроизводится без звука и автоматически повторяется.</small>
       </form>
       <div class="c-upload__preview">
