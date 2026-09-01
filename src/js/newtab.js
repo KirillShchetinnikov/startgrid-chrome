@@ -775,7 +775,6 @@ async function handleCaptureThumbnail() {
     if (blob) {
       pendingThumbnailBlob = blob;
       pendingThumbnailSource = source;
-      if (source === 'favicon') faviconDownloadPreference.value = 'download';
       showModalBlob(blob);
       handleThumbnailSourceChange();
     }
@@ -815,7 +814,6 @@ async function handleCaptureThumbnail() {
   }
 
   if (response && !response.warning && response.success !== false) {
-    if (source === 'favicon') faviconDownloadPreference.value = 'download';
     form.dataset.oldThumbnailSource = source;
     form.dataset.oldThumbnailUrl = remoteUrl;
     if (['site', 'favicon'].includes(source)) {
