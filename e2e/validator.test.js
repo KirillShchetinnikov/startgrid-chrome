@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 
 describe('form validation messages', () => {
@@ -52,5 +53,14 @@ describe('form validation messages', () => {
       target.validity = { [validityKey]: true };
       expect(getValidationMessageDescriptor(target).key).toBe(expectedKey);
     });
+  });
+
+  it('allows every whole-pixel individual thumbnail size', () => {
+    const newtabHtml = readFileSync('src/newtab.html', 'utf8');
+    const thumbnailSizeInput = newtabHtml.match(
+      /<input type="number"[^>]+id="thumbnailImageSize"[^>]+>/
+    )?.[0];
+
+    expect(thumbnailSizeInput).toContain('step="1"');
   });
 });
