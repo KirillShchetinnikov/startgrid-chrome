@@ -1055,6 +1055,11 @@
   "bookmark_title_size_individual": { "message": "Individuelle Titelgröße" },
   "bookmark_title_size_individual_note": { "message": "Leer lassen, um die globale Titelgröße zu verwenden." },
   "bookmark_title_position_individual": { "message": "Individuelle Titelposition" },
+  "error_input_invalid": { "message": "Ungültiger Wert" },
+  "error_input_number": { "message": "Geben Sie eine gültige Zahl ein" },
+  "error_input_maximum": { "message": "Der Wert darf höchstens $max$ sein", "placeholders": { "max": { "content": "$1" } } },
+  "error_input_minimum": { "message": "Der Wert muss mindestens $min$ sein", "placeholders": { "min": { "content": "$1" } } },
+  "error_input_step": { "message": "Verwenden Sie Schritte von $step$", "placeholders": { "step": { "content": "$1" } } },
   "undo": {
     "message": "Rückgängig machen"
   }

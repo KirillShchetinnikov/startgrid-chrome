@@ -24,10 +24,20 @@ let activeLocale = 'en';
 let selectedLanguage = 'auto';
 
 function nativeMessage(name, substitutions) {
-  if (substitutions === undefined) {
-    return browser.i18n.getMessage(name);
+  if (typeof name !== 'string' || !name.trim()) {
+    console.warn('Ignored invalid i18n message name', name);
+    return '';
   }
-  return browser.i18n.getMessage(name, substitutions);
+
+  try {
+    if (substitutions === undefined) {
+      return browser.i18n.getMessage(name);
+    }
+    return browser.i18n.getMessage(name, substitutions);
+  } catch (error) {
+    console.warn(`Could not translate i18n message "${name}"`, error);
+    return '';
+  }
 }
 
 export function normalizeLocale(locale) {
@@ -106,6 +116,7 @@ export async function initializeI18n({ language } = {}) {
 }
 
 export function getMessage(name, substitutions) {
+  if (typeof name !== 'string' || !name.trim()) return '';
   if (name === '@@ui_locale') return activeLocale;
   if (!activeCatalog) return nativeMessage(name, substitutions);
 

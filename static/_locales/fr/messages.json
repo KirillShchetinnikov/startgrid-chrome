@@ -1055,6 +1055,11 @@
   "bookmark_title_size_individual": { "message": "Taille de titre individuelle" },
   "bookmark_title_size_individual_note": { "message": "Laissez vide pour utiliser la taille globale." },
   "bookmark_title_position_individual": { "message": "Position de titre individuelle" },
+  "error_input_invalid": { "message": "Valeur non valide" },
+  "error_input_number": { "message": "Saisissez un nombre valide" },
+  "error_input_maximum": { "message": "La valeur ne doit pas dépasser $max$", "placeholders": { "max": { "content": "$1" } } },
+  "error_input_minimum": { "message": "La valeur doit être au moins $min$", "placeholders": { "min": { "content": "$1" } } },
+  "error_input_step": { "message": "Utilisez des incréments de $step$", "placeholders": { "step": { "content": "$1" } } },
   "undo": {
     "message": "Défaire"
   }

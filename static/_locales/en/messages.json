@@ -925,6 +925,11 @@
   "bookmark_title_size_individual": { "message": "Individual title size" },
   "bookmark_title_size_individual_note": { "message": "Leave empty to use the global title size." },
   "bookmark_title_position_individual": { "message": "Individual title position" },
+  "error_input_invalid": { "message": "Invalid value" },
+  "error_input_number": { "message": "Enter a valid number" },
+  "error_input_maximum": { "message": "Value must be no greater than $max$", "placeholders": { "max": { "content": "$1" } } },
+  "error_input_minimum": { "message": "Value must be at least $min$", "placeholders": { "min": { "content": "$1" } } },
+  "error_input_step": { "message": "Use increments of $step$", "placeholders": { "step": { "content": "$1" } } },
   "undo": {
     "message": "Undo"
   }

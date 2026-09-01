@@ -1055,6 +1055,11 @@
   "bookmark_title_size_individual": { "message": "個別標題大小" },
   "bookmark_title_size_individual_note": { "message": "留空以使用全域標題大小。" },
   "bookmark_title_position_individual": { "message": "個別標題位置" },
+  "error_input_invalid": { "message": "無效值" },
+  "error_input_number": { "message": "請輸入有效數字" },
+  "error_input_maximum": { "message": "值不能大於 $max$", "placeholders": { "max": { "content": "$1" } } },
+  "error_input_minimum": { "message": "值不能小於 $min$", "placeholders": { "min": { "content": "$1" } } },
+  "error_input_step": { "message": "請按 $step$ 的增量輸入", "placeholders": { "step": { "content": "$1" } } },
   "undo": {
     "message": "撤銷"
   }

@@ -102,6 +102,32 @@ const DEFAULTS = Object.freeze({
   keyboard_shortcuts: DEFAULT_KEYBOARD_SHORTCUTS
 });
 
+export const NUMERIC_SETTING_LIMITS = Object.freeze({
+  dial_columns: { min: 1, max: 10 },
+  dial_width: { min: 50, max: 99 },
+  dial_gap: { min: 0, max: 40 },
+  dial_radius: { min: 0, max: 40 },
+  dial_shadow: { min: 0, max: 30 },
+  dial_hover_lift: { min: 0, max: 12 },
+  dial_background_opacity: { min: 0, max: 100 },
+  bookmark_title_size: { min: 10, max: 24 },
+  background_entrance_duration: { min: 100, max: 3000 },
+  page_cascade_duration: { min: 200, max: 1500 },
+  toolbar_background_opacity: { min: 0, max: 100 },
+  favicon_size: { min: 16, max: 128 },
+  thumbnails_update_delay: { min: 0.5, max: 15 },
+  thumbnails_auto_refresh_interval: { min: 1, max: 168 }
+});
+
+function normalizeNumericSettings(currentSettings) {
+  Object.entries(NUMERIC_SETTING_LIMITS).forEach(([key, limits]) => {
+    const value = Number.parseFloat(currentSettings[key]);
+    currentSettings[key] = Number.isFinite(value)
+      ? Math.min(limits.max, Math.max(limits.min, value))
+      : DEFAULTS[key];
+  });
+}
+
 const SETTINGS_NOT_SYNCED = [
   'language',
   'default_folder_id',
@@ -182,6 +208,7 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   DEPRECATED_SETTINGS.forEach(key => delete currentSettings[key]);
   delete currentSettings.sort_by;
   delete currentSettings.sort_by_newest;
+  normalizeNumericSettings(currentSettings);
   if (!SUPPORTED_LANGUAGES.includes(currentSettings.language)) {
     currentSettings.language = DEFAULTS.language;
   }
@@ -202,10 +229,6 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   currentSettings.show_home_folders = currentSettings.show_home_folders !== false;
   currentSettings.show_search = currentSettings.show_search !== false;
   currentSettings.show_folder_picker = currentSettings.show_folder_picker !== false;
-  const bookmarkTitleSize = parseInt(currentSettings.bookmark_title_size);
-  currentSettings.bookmark_title_size = Number.isFinite(bookmarkTitleSize)
-    ? Math.min(24, Math.max(10, bookmarkTitleSize))
-    : DEFAULTS.bookmark_title_size;
   if (!['inside', 'outside'].includes(currentSettings.bookmark_title_position)) {
     currentSettings.bookmark_title_position = DEFAULTS.bookmark_title_position;
   }
@@ -218,10 +241,6 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   if (!['none', 'zoom', 'blur', 'slide'].includes(currentSettings.background_entrance_effect)) {
     currentSettings.background_entrance_effect = DEFAULTS.background_entrance_effect;
   }
-  const backgroundEntranceDuration = parseInt(currentSettings.background_entrance_duration);
-  currentSettings.background_entrance_duration = Number.isFinite(backgroundEntranceDuration)
-    ? Math.min(3000, Math.max(100, backgroundEntranceDuration))
-    : DEFAULTS.background_entrance_duration;
   currentSettings.dial_background_blur = currentSettings.dial_background_blur === true;
   currentSettings.toolbar_background_blur = currentSettings.toolbar_background_blur !== false;
   if (!['always', 'winter', 'off'].includes(currentSettings.snow_mode)) {
@@ -231,10 +250,6 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   if (!['items', 'rows'].includes(currentSettings.page_cascade_mode)) {
     currentSettings.page_cascade_mode = DEFAULTS.page_cascade_mode;
   }
-  const cascadeDuration = parseInt(currentSettings.page_cascade_duration);
-  currentSettings.page_cascade_duration = Number.isFinite(cascadeDuration)
-    ? Math.min(1500, Math.max(200, cascadeDuration))
-    : DEFAULTS.page_cascade_duration;
   currentSettings.keyboard_shortcuts = normalizeKeyboardShortcuts(currentSettings.keyboard_shortcuts);
   if (!normalizeSearchEngines) return currentSettings;
 
@@ -398,7 +413,10 @@ const settingsStore = () => {
         throw Error('Settings store must be initialized with the init method');
       }
 
-      $settings[key] = value;
+      $settings = sanitizeSettings({
+        ...$settings,
+        [key]: value
+      }, false);
       // resave settings in local storage
       await storage.local.set({ settings: $settings });
 

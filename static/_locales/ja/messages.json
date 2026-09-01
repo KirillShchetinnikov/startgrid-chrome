@@ -1055,6 +1055,11 @@
   "bookmark_title_size_individual": { "message": "個別のタイトルサイズ" },
   "bookmark_title_size_individual_note": { "message": "空欄にすると全体設定を使用します。" },
   "bookmark_title_position_individual": { "message": "個別のタイトル位置" },
+  "error_input_invalid": { "message": "無効な値です" },
+  "error_input_number": { "message": "有効な数値を入力してください" },
+  "error_input_maximum": { "message": "値は $max$ 以下にしてください", "placeholders": { "max": { "content": "$1" } } },
+  "error_input_minimum": { "message": "値は $min$ 以上にしてください", "placeholders": { "min": { "content": "$1" } } },
+  "error_input_step": { "message": "$step$ 単位で入力してください", "placeholders": { "step": { "content": "$1" } } },
   "undo": {
     "message": "元に戻す"
   }

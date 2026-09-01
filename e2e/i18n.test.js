@@ -40,6 +40,22 @@ describe('runtime language selection', () => {
     expect(browser.i18n.getMessage).toHaveBeenCalledWith('options');
   });
 
+  it('filters invalid message names and native translation failures', async() => {
+    mockBrowser();
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => null);
+    const { getMessage, initializeI18n } = await import('../src/js/i18n');
+    await initializeI18n();
+    browser.i18n.getMessage.mockImplementationOnce(() => {
+      throw new TypeError('No matching signature');
+    });
+
+    expect(getMessage(undefined)).toBe('');
+    expect(getMessage('broken_message')).toBe('');
+    expect(browser.i18n.getMessage).not.toHaveBeenCalledWith(undefined);
+    expect(warn).toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
   it('loads the selected catalog and applies Chrome placeholders', async() => {
     mockBrowser({ language: 'ru' });
     global.fetch = jest.fn().mockResolvedValue({
