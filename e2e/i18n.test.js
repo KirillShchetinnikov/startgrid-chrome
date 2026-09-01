@@ -36,6 +36,8 @@ describe('runtime language selection', () => {
     expect(getActiveLocale()).toBe('pt_BR');
     expect(getMessage('options')).toBe('options');
     expect(global.fetch).not.toHaveBeenCalled();
+    expect(browser.i18n.getMessage).toHaveBeenCalledWith('@@ui_locale');
+    expect(browser.i18n.getMessage).toHaveBeenCalledWith('options');
   });
 
   it('loads the selected catalog and applies Chrome placeholders', async() => {

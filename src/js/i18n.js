@@ -24,6 +24,9 @@ let activeLocale = 'en';
 let selectedLanguage = 'auto';
 
 function nativeMessage(name, substitutions) {
+  if (substitutions === undefined) {
+    return browser.i18n.getMessage(name);
+  }
   return browser.i18n.getMessage(name, substitutions);
 }
 
