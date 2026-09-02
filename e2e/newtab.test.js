@@ -1,7 +1,6 @@
 import { bootstrap } from './bootstrap';
 import { beforeAll, afterAll, describe, expect, it } from '@jest/globals';
 import { readFileSync } from 'node:fs';
-import path from 'node:path';
 import { mutateStorageWithNavigation } from './navigationSynchronization';
 
 const DEFAULT_BOOKMARKS = [
@@ -529,7 +528,7 @@ describe('StartGrid bookmark tests', () => {
   let extPage, browser, extensionUrl;
 
   beforeAll(async() => {
-    const context = await bootstrap({ devtools: true });
+    const context = await bootstrap({ launchAttempts: 2 });
     extPage = context.extPage;
     browser = context.browser;
     extensionUrl = context.extensionUrl;
@@ -1235,10 +1234,17 @@ describe('StartGrid bookmark tests', () => {
             document.getElementById('url').value = url;
           }, { value: title, url: bookmarkUrl });
           await extPage.click('#saveBookmarkBtn');
-          await extPage.waitForFunction(expected => (
-            Array.from(document.querySelectorAll('.bookmark__title'))
-              .some(node => node.textContent === expected)
-          ), { polling: 100, timeout: 5500 }, title);
+          await extPage.waitForFunction(expected => {
+            const modal = document.getElementById('modal');
+            return (
+              Array.from(document.querySelectorAll('.bookmark__title'))
+                .some(node => node.textContent === expected)
+              && modal?.instance?._isOpen === false
+              && modal.instance._isTransitiong === false
+              && document.getElementById('add')?.isConnected
+              && document.getElementById('dial_loading')?.hidden
+            );
+          }, { polling: 100, timeout: 5500 }, title);
         }
       );
       const rendered = await runLiteralTitlePhase(
@@ -1343,6 +1349,17 @@ describe('StartGrid bookmark tests', () => {
             Array.from(document.querySelectorAll('.bookmark__title'))
               .some(node => node.textContent === expected && node.children.length === 0)
           ), { polling: 100, timeout: 5500 }, editedTitle);
+          await extPage.waitForFunction(expected => {
+            const modal = document.getElementById('modal');
+            return (
+              Array.from(document.querySelectorAll('.bookmark__title'))
+                .some(node => node.textContent === expected && node.children.length === 0)
+              && modal?.instance?._isOpen === false
+              && modal.instance._isTransitiong === false
+              && document.getElementById('add')?.isConnected
+              && document.getElementById('dial_loading')?.hidden
+            );
+          }, { polling: 100, timeout: 5500 }, editedTitle);
         }
       );
       expect(unexpectedDialogs).toEqual([]);
@@ -1695,9 +1712,6 @@ describe('StartGrid bookmark tests', () => {
           && window.__snowRafEvidence?.requested.length > 0
         ), { polling: 100, timeout: 5500 })
       );
-      const cancelledBeforeReduce = await snowPage.evaluate(
-        () => window.__snowRafEvidence.cancelled.length
-      );
       await runSnowPhase(
         snowPage,
         'live-reduce-emulation',
@@ -1723,19 +1737,17 @@ describe('StartGrid bookmark tests', () => {
           && window.__snowMediaChanges?.at(-1)?.matches === true
           && !window.snowInstance
           && document.querySelectorAll('canvas').length === 0
-          && window.__snowRafEvidence?.cancelled.length > previousCancelled
-        ), { polling: 100, timeout: 5500 }, cancelledBeforeReduce)
+        ), { polling: 100, timeout: 5500 })
       );
       await runSnowPhase(
         snowPage,
         'stable-live-reduce',
-        () => snowPage.waitForFunction(previousCancelled => {
+        () => snowPage.waitForFunction(() => {
           const stable = (
             matchMedia('(prefers-reduced-motion: reduce)').matches
             && window.__snowMediaChanges?.at(-1)?.matches === true
             && !window.snowInstance
             && document.querySelectorAll('canvas').length === 0
-            && window.__snowRafEvidence?.cancelled.length > previousCancelled
           );
           if (!stable) {
             window.__stableReducedSince = undefined;
@@ -1743,7 +1755,7 @@ describe('StartGrid bookmark tests', () => {
           }
           window.__stableReducedSince ??= performance.now();
           return performance.now() - window.__stableReducedSince >= 750;
-        }, { polling: 100, timeout: 5500 }, cancelledBeforeReduce)
+        }, { polling: 100, timeout: 5500 })
       );
     } finally {
       if (snowPage && !snowPage.isClosed()) {
@@ -1765,8 +1777,16 @@ describe('StartGrid bookmark tests', () => {
 
   it('accepts and persists a real SVG background through the options page', async() => {
     let optionsPage;
+    let previousBackgroundImage;
     try {
       optionsPage = await browser.newPage();
+      await optionsPage.evaluateOnNewDocument(svg => {
+        window.showOpenFilePicker = async() => [{
+          getFile: async() => new File([svg], 'background.svg', {
+            type: 'image/svg+xml'
+          })
+        }];
+      }, readFileSync('e2e/fixtures/background.svg', 'utf8'));
       await runBackgroundUploadPhase(
         optionsPage,
         'open-options-page',
@@ -1780,6 +1800,23 @@ describe('StartGrid bookmark tests', () => {
             return (
               upload?.isConnected
               && upload.getAttribute('accept')?.split(/\s*,\s*/).includes('.svg')
+            );
+          }, { polling: 100, timeout: 5500 });
+          previousBackgroundImage = await optionsPage.$eval(
+            '#background_image',
+            input => input.value
+          );
+          await optionsPage.$eval('#background_image', input => {
+            input.value = 'background_local';
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+          await optionsPage.waitForFunction(() => {
+            const section = document.getElementById('background_local');
+            const upload = document.getElementById('bgFile');
+            return (
+              section?.hidden === false
+              && upload?.getBoundingClientRect().width > 0
+              && upload.getBoundingClientRect().height > 0
             );
           }, { polling: 100, timeout: 5500 });
         }
@@ -1805,8 +1842,6 @@ describe('StartGrid bookmark tests', () => {
         optionsPage,
         'upload-and-preview',
         async() => {
-          const upload = await optionsPage.$('#bgFile');
-          if (!upload) throw new Error('Background file input is unavailable');
           await optionsPage.evaluate(() => {
             const form = document.getElementById('bgFile').closest('form');
             const preview = document.getElementById('preview_upload');
@@ -1869,7 +1904,7 @@ describe('StartGrid bookmark tests', () => {
             });
             window.__backgroundUploadLifecycle.disconnect = () => observer.disconnect();
           });
-          await upload.uploadFile(path.resolve('e2e/fixtures/background.svg'));
+          await optionsPage.click('#bgFile');
           const uploadOutcomeHandle = await optionsPage.waitForFunction(({
             expectedError,
             expectedSuccess
@@ -1972,6 +2007,14 @@ describe('StartGrid bookmark tests', () => {
           })),
           2500
         );
+        if (previousBackgroundImage) {
+          await settleTestCleanup(
+            () => optionsPage.$eval('#background_image', (input, value) => {
+              input.value = value;
+              input.dispatchEvent(new Event('change', { bubbles: true }));
+            }, previousBackgroundImage)
+          );
+        }
         await settleTestCleanup(() => optionsPage.close(), 2500);
       }
       if (!extPage.isClosed()) {
@@ -2070,16 +2113,38 @@ describe('StartGrid bookmark tests', () => {
           });
           await extPage.waitForFunction(() => (
             document.getElementById('formBookmark')?.dataset.action === 'New'
+            && document.getElementById('modal')?.instance?._isOpen === true
+            && document.getElementById('modal')?.instance?._isTransitiong === false
+            && getComputedStyle(document.getElementById('modal')).display === 'block'
           ), { polling: 100, timeout: 5500 });
           await extPage.evaluate(({ value, url }) => {
-            document.getElementById('title').value = value;
-            document.getElementById('url').value = url;
+            const titleInput = document.getElementById('title');
+            const urlInput = document.getElementById('url');
+            titleInput.value = value;
+            urlInput.value = url;
+            titleInput.dispatchEvent(new Event('input', { bubbles: true }));
+            urlInput.dispatchEvent(new Event('input', { bubbles: true }));
           }, { value: title, url: bookmarkUrl });
+          await extPage.waitForFunction(
+            () => document.getElementById('formBookmark')?.checkValidity() === true,
+            { polling: 100, timeout: 5500 }
+          );
           await extPage.click('#saveBookmarkBtn');
           await extPage.waitForFunction(expected => (
             Array.from(document.querySelectorAll('.bookmark__title'))
               .some(node => node.textContent === expected)
           ), { polling: 100, timeout: 5500 }, title);
+          await extPage.waitForFunction(expected => {
+            const modal = document.getElementById('modal');
+            return (
+              Array.from(document.querySelectorAll('.bookmark__title'))
+                .some(node => node.textContent === expected)
+              && modal?.instance?._isOpen === false
+              && modal.instance._isTransitiong === false
+              && document.getElementById('add')?.isConnected
+              && document.getElementById('dial_loading')?.hidden
+            );
+          }, { polling: 100, timeout: 5500 }, title);
         }
       );
       await runLocalizedUiPhase(

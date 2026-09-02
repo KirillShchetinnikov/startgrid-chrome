@@ -78,6 +78,7 @@ const Bookmarks = (() => {
   const dialLoading = document.getElementById('dial_loading');
   let isGeneratedThumbs = false;
   let activeSearchRequest = 0;
+  let activeRenderRequest = 0;
   let hasSearch = false;
   let lastSearchQuery = '';
   let vbHeader = null;
@@ -607,7 +608,22 @@ const Bookmarks = (() => {
    * @param {boolean} [hasCreate=false] - show add bookmark button
    * @param {Object} [options] - search result display options
    */
-  async function render(arr, hasCreate = false, options = {}) {
+  function beginRenderRequest() {
+    activeRenderRequest += 1;
+    return activeRenderRequest;
+  }
+
+  function isCurrentRenderRequest(requestId) {
+    return requestId === activeRenderRequest;
+  }
+
+  async function render(
+    arr,
+    hasCreate = false,
+    options = {},
+    requestId = beginRenderRequest()
+  ) {
+    if (!isCurrentRenderRequest(requestId)) return;
     dialLoading.hidden = false;
     clearContainer();
 
@@ -631,6 +647,7 @@ const Bookmarks = (() => {
       ImageDB.getAllByIds(bookmarksIds),
       getBookmarkTextPreferences(bookmarksArr.map(bookmark => bookmark.id))
     ]);
+    if (!isCurrentRenderRequest(requestId)) return;
     TEXT_PREFERENCES_MAP.clear();
     textPreferences.forEach((preferences, id) => {
       TEXT_PREFERENCES_MAP.set(id, preferences);
@@ -723,6 +740,7 @@ const Bookmarks = (() => {
    * @returns {Promise}
    */
   function createSpeedDial(id) {
+    const requestId = beginRenderRequest();
     const canDrag = settings.$.drag_and_drop && (
       isDefaultFolder(id)
         ? settings.$.home_sort_by === 'manual'
@@ -732,6 +750,7 @@ const Bookmarks = (() => {
 
     return getSubTree(id)
       .then(item => {
+        if (!isCurrentRenderRequest(requestId)) return;
         if (!item[0].children) {
           throw new Error('not_folder');
         }
@@ -744,9 +763,10 @@ const Bookmarks = (() => {
           container.removeAttribute('data-parent-folder');
         }
 
-        return render(item[0].children, settings.$.show_create_column);
+        return render(item[0].children, settings.$.show_create_column, {}, requestId);
       })
       .catch(() => {
+        if (!isCurrentRenderRequest(requestId)) return;
         Toast.show(getMessage('notice_cant_find_id'));
         container.innerHTML = /* html */
             `<div class="not-found">
@@ -1555,6 +1575,7 @@ const Bookmarks = (() => {
 
     return create({ title, ...(url && { url }), parentId })
       .then(result => {
+        beginRenderRequest();
         let bookmark;
         if (result.url) {
           bookmark = genBookmark(result);
@@ -1580,6 +1601,7 @@ const Bookmarks = (() => {
     const bookmark = document.getElementById(`vb-${id}`);
 
     const result = await update(id, { title, ...(url && { url }) });
+    beginRenderRequest();
 
     // if the bookmark is moved to another folder
     if (moveId !== id && moveId !== result.parentId) {
