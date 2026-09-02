@@ -297,6 +297,9 @@ const Bookmarks = (() => {
       },
       async onUpdate() {
         const bookmarks = Array.from(container.querySelectorAll('.bookmark'));
+        $customTrigger('vb:bookmarks-sort-persist', document, {
+          detail: { ids: bookmarks.map(item => item.dataset.id) }
+        });
         for (const [index, item] of bookmarks.entries()) {
           await move(item.getAttribute('data-id'), {
             'parentId': container.dataset.folder,

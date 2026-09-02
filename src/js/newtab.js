@@ -321,8 +321,20 @@ async function init() {
   const scheduleBookmarkRefresh = createRefreshScheduler(
     () => Bookmarks.refreshCurrentView()
   );
+  const locallySortedBookmarkIds = new Set();
+  let localSortTimeout = null;
+  document.addEventListener('vb:bookmarks-sort-persist', ({ detail }) => {
+    detail.ids.forEach(id => locallySortedBookmarkIds.add(String(id)));
+    clearTimeout(localSortTimeout);
+    localSortTimeout = setTimeout(() => locallySortedBookmarkIds.clear(), 5000);
+  });
   browser.runtime.onMessage.addListener(function(request) {
     if (!request.bookmarksChanged) return;
+    const { eventType, id } = request.bookmarksChanged;
+    if (eventType === 'moved' && locallySortedBookmarkIds.delete(String(id))) {
+      if (!locallySortedBookmarkIds.size) clearTimeout(localSortTimeout);
+      return;
+    }
     if (document.hidden) {
       window.location.reload();
       return;

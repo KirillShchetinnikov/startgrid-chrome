@@ -1,14 +1,5 @@
-const DROPLINE = {
-  before: 'BEFORE',
-  after: 'AFTER',
-  class: {
-    before: 'dropline-before',
-    after: 'dropline-after'
-  }
-};
-
 const DROPZONE_CLASSNAME = '.dropzone-bookmark';
-const HOVER_CLASSNAME = 'dragover-hover';
+const REORDER_DURATION = 180;
 
 export function multiswap(dnd) {
   const holdDelay = 500;
@@ -17,12 +8,10 @@ export function multiswap(dnd) {
   let draggingCards = [];
   let draggedElement = null;
   let activeDropZone = null;
-  let lastTarget = null;
-  let items = [];
-
-  function hideDropLine(el) {
-    el?.classList?.remove(DROPLINE.class.before, DROPLINE.class.after);
-  }
+  let initialItems = [];
+  let lastInsertion = null;
+  let didReorder = false;
+  let completedDrop = false;
 
   function activateDropZone(dropZone) {
     if (activeDropZone !== dropZone) {
@@ -39,6 +28,54 @@ export function multiswap(dnd) {
     }
     clearTimeout(holdTimer);
     holdTimer = null;
+  }
+
+  function animateReorder(callback) {
+    const before = new Map(
+      [...dnd.el.children]
+        .filter(item => !draggingCards.includes(item))
+        .map(item => [item, item.getBoundingClientRect()])
+    );
+    callback();
+
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
+    before.forEach((rect, item) => {
+      const nextRect = item.getBoundingClientRect();
+      const translateX = rect.left - nextRect.left;
+      const translateY = rect.top - nextRect.top;
+      if (!translateX && !translateY) return;
+      item.animate([
+        { transform: `translate(${translateX}px, ${translateY}px)` },
+        { transform: 'translate(0, 0)' }
+      ], {
+        duration: REORDER_DURATION,
+        easing: 'cubic-bezier(0.2, 0, 0, 1)'
+      });
+    });
+  }
+
+  function reorderCards(target, insertBefore) {
+    if (draggingCards.includes(target)) return false;
+    if (
+      lastInsertion?.target === target
+      && lastInsertion.insertBefore === insertBefore
+    ) return false;
+
+    const reference = insertBefore ? target : target.nextElementSibling;
+    if (reference && draggingCards.includes(reference)) return false;
+
+    animateReorder(() => {
+      draggingCards.forEach(card => dnd.el.insertBefore(card, reference));
+    });
+    lastInsertion = { target, insertBefore };
+    didReorder = true;
+    return true;
+  }
+
+  function restoreInitialOrder() {
+    if (!didReorder) return;
+    animateReorder(() => initialItems.forEach(item => dnd.el.append(item)));
   }
 
   return {
@@ -61,7 +98,10 @@ export function multiswap(dnd) {
         return;
       }
 
-      items = Array.from(dnd.el.children);
+      initialItems = Array.from(dnd.el.children);
+      lastInsertion = null;
+      didReorder = false;
+      completedDrop = false;
 
       if (dnd.draggingItems.includes(draggedElement)) {
         draggingCards = [...dnd.draggingItems];
@@ -84,7 +124,6 @@ export function multiswap(dnd) {
       const dropZone = e.target.closest(DROPZONE_CLASSNAME);
 
       if (activeDropZone) {
-        hideDropLine(closestCard);
         return;
       }
 
@@ -93,72 +132,16 @@ export function multiswap(dnd) {
         if (!holdTimer) {
           holdTimer = setTimeout(() => {
             activateDropZone(dropZone);
-            hideDropLine(closestCard);
           }, holdDelay);
           return;
         }
       }
 
-      // remove the highlight from the previous card, if there was one
-      if (lastTarget && lastTarget !== closestCard) {
-        hideDropLine(lastTarget);
-        lastTarget.classList.remove(HOVER_CLASSNAME);
-      }
-
-      // if there is a target card and it is not draggable
+      // Move the transparent source slot while dragging so the surrounding
+      // tiles immediately reveal the final order.
       if (closestCard && closestCard !== draggedElement) {
-        closestCard.classList.add(HOVER_CLASSNAME);
-
         const rect = closestCard.getBoundingClientRect();
-        const xRatio = (e.clientX - rect.left) / rect.width;
-
-        // obtain the indices of the cards
-        const draggedIndex = items.indexOf(draggedElement);
-        const targetIndex = items.indexOf(closestCard);
-
-        let isInvalidBefore = false;
-        let isInvalidAfter = false;
-
-        if (draggingCards.length > 1) {
-          const leftIndex = items.indexOf(draggingCards.at(0));
-          const rightIndex = items.indexOf(draggingCards.at(-1));
-
-          if (draggingCards.includes(closestCard)) {
-            return;
-          }
-
-          isInvalidBefore = targetIndex === leftIndex + draggingCards.length;
-          isInvalidAfter = targetIndex === rightIndex - draggingCards.length;
-        } else {
-          // check if the order will change
-          isInvalidBefore = targetIndex === draggedIndex + 1;
-          isInvalidAfter = targetIndex === draggedIndex - 1;
-        }
-
-        let position = null;
-        if (xRatio <= 0.5 && !isInvalidBefore) {
-          position = DROPLINE.before;
-        } else if (xRatio > 0.5 && !isInvalidAfter) {
-          position = DROPLINE.after;
-        }
-
-        // apply the highlight
-        if (position === DROPLINE.before) {
-          closestCard.classList.remove(DROPLINE.class.after);
-          closestCard.classList.add(DROPLINE.class.before);
-        } else if (position === DROPLINE.after) {
-          closestCard.classList.remove(DROPLINE.class.before);
-          closestCard.classList.add(DROPLINE.class.after);
-        } else {
-          hideDropLine(closestCard);
-        }
-
-        lastTarget = closestCard;
-      } else {
-        if (lastTarget) {
-          hideDropLine(lastTarget);
-          lastTarget = null;
-        }
+        reorderCards(closestCard, e.clientX < rect.left + rect.width / 2);
       }
       dnd.options?.onDragOver?.(e);
     },
@@ -184,28 +167,12 @@ export function multiswap(dnd) {
         });
 
         deactivateDropZone();
+        completedDrop = true;
       } else if (closestCard && !draggingCards.includes(closestCard)) {
         const cardRect = closestCard.getBoundingClientRect();
         const insertBefore = e.clientX < cardRect.left + cardRect.width / 2;
-
-        // remove all draggable cards from their current positions
-        // draggingCards.forEach((item) => item.remove());
-
-        // insert them into the new location
-        if (insertBefore) {
-          draggingCards.forEach((item) => dnd.el.insertBefore(item, closestCard));
-        } else {
-          const nextSibling = closestCard.nextSibling;
-          draggingCards.forEach((item) => dnd.el.insertBefore(item, nextSibling));
-        }
-
-        dnd.options?.onUpdate?.(e);
-        // if (dnd.options.viewTransition && document.startViewTransition) {
-        //   const a = draggingCards.map(card => {
-        //     return card;
-        //   });
-        //   document.startViewTransition(() => sort(a));
-        // }
+        reorderCards(closestCard, insertBefore);
+        completedDrop = true;
       }
 
       deactivateDropZone();
@@ -215,17 +182,20 @@ export function multiswap(dnd) {
     dragend(e) {
       draggingCards.forEach((el) => {
         dnd.toggleDragging(el, false);
-        el.classList.remove(HOVER_CLASSNAME);
       });
 
+      const hasNativeDrop = e.dataTransfer?.dropEffect === 'move';
+      if (didReorder && (completedDrop || hasNativeDrop)) {
+        dnd.options?.onUpdate?.(e);
+      } else {
+        restoreInitialOrder();
+      }
       draggingCards = [];
       deactivateDropZone();
-
-      if (lastTarget) {
-        hideDropLine(lastTarget);
-        lastTarget.classList.remove(HOVER_CLASSNAME);
-      }
-      lastTarget = null;
+      initialItems = [];
+      lastInsertion = null;
+      didReorder = false;
+      completedDrop = false;
 
       dnd.options?.onDragEnd?.(e);
       draggedElement = null;
@@ -238,11 +208,6 @@ export function multiswap(dnd) {
         deactivateDropZone();
         clearTimeout(holdTimer);
         holdTimer = null;
-      }
-
-      if (!dnd.el.contains(e.relatedTarget) && lastTarget) {
-        hideDropLine(lastTarget);
-        lastTarget.classList.remove(HOVER_CLASSNAME);
       }
 
       dnd.options?.onDragLeave?.(e);
