@@ -14,7 +14,11 @@ import {
   resolveToolbarOpacity
 } from '../tileAppearance';
 import { getBackgroundEntranceKeyframes } from '../backgroundEntrance';
-import { getGridLayoutLimits } from '../gridLayout';
+import {
+  getGridLayoutLimits,
+  getHorizontalGapLimits,
+  getTileSizeLimits
+} from '../gridLayout';
 
 function createBingInfo(image) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -157,7 +161,7 @@ export default {
         ? Math.min(max, Math.max(min, number))
         : fallback;
     };
-    const tileSize = clamp(settings.$.dial_tile_size, 50, 150, 100);
+    const tileSize = clamp(settings.$.dial_tile_size, 50, 300, 100);
     const horizontalGap = clamp(settings.$.dial_horizontal_gap, 0, 160, 16);
     const verticalGap = clamp(settings.$.dial_vertical_gap, 0, 160, 16);
     const radius = clamp(settings.$.dial_radius, 0, 40, 18);
@@ -177,7 +181,6 @@ export default {
       ? settings.$.dial_aspect_ratio
       : '4 / 3';
 
-    doc.style.setProperty('--grid-column-gap', `${horizontalGap}px`);
     doc.style.setProperty('--grid-row-gap', `${verticalGap}px`);
     doc.style.setProperty('--bookmark-radius', `${radius}px`);
     doc.style.setProperty('--bookmark-aspect-ratio', aspectRatio);
@@ -229,7 +232,6 @@ export default {
     const mediaQuery = window.matchMedia('(width > 480px)');
     const containerWidth = mediaQuery.matches ? gridLayout.gridWidth : 100;
     doc.style.setProperty('--container-width', `${containerWidth}%`);
-    doc.style.setProperty('--grid-column-min-width', `${gridLayout.minimumColumnWidth}px`);
 
     // Reserve inline space only for controls at the right edge. The extension icon
     // floats above the page at the lower left and must not narrow the search or grid.
@@ -237,7 +239,7 @@ export default {
       settings.$.show_settings_icon ||
       settings.$.show_quick_settings_icon ||
       settings.$.thumbnails_update_button
-    ) && lsGridWidth >= 85
+    ) && containerWidth >= 85
     ) {
       const circBtnSize = parseInt(window.getComputedStyle(doc).getPropertyValue('--circ-btn-size'));
       // button size + small padding
@@ -248,23 +250,41 @@ export default {
       doc.style.removeProperty('--container-padding-inline');
     }
 
-    // Keep tile size stable when only horizontal spacing changes. Use 16px as the
-    // reference gap so the default layout retains its existing tile dimensions.
-    const referenceGap = 16;
-    const preferredColumnWidth = Math.floor(
-      (grid.offsetWidth - ((columns - 1) * referenceGap)) / columns
+    const availableGridWidth = grid.clientWidth;
+    const tileSizeLimits = getTileSizeLimits({
+      columns,
+      gridWidth: containerWidth,
+      horizontalGap,
+      viewportWidth: doc.clientWidth,
+      availableWidth: availableGridWidth
+    });
+    const displayedTileSize = Math.min(
+      tileSizeLimits.maximumTileSize,
+      Math.max(tileSizeLimits.minimumTileSize, tileSize)
     );
-    const availableColumnWidth = Math.floor(
-      (grid.offsetWidth - ((columns - 1) * horizontalGap)) / columns
+    const horizontalGapLimits = getHorizontalGapLimits({
+      columns,
+      gridWidth: containerWidth,
+      tileSize: displayedTileSize,
+      viewportWidth: doc.clientWidth,
+      availableWidth: availableGridWidth
+    });
+    const displayedHorizontalGap = Math.min(
+      horizontalGapLimits.maximumHorizontalGap,
+      Math.max(horizontalGapLimits.minimumHorizontalGap, horizontalGap)
     );
-    const desiredColumnWidth = Math.floor((preferredColumnWidth * tileSize) / 100);
-    const colWidth = Math.max(
-      gridLayout.minimumColumnWidth,
-      Math.min(desiredColumnWidth, availableColumnWidth)
-    );
-    doc.style.setProperty('--grid-column-width', `${colWidth}px`);
+    doc.style.setProperty('--grid-column-gap', `${displayedHorizontalGap}px`);
+    doc.style.setProperty('--grid-column-min-width', `${displayedTileSize}px`);
+
+    doc.style.setProperty('--grid-column-width', `${displayedTileSize}px`);
     doc.style.setProperty('--grid-columns', columns);
 
-    return gridLayout;
+    return {
+      ...gridLayout,
+      ...tileSizeLimits,
+      ...horizontalGapLimits,
+      horizontalGap: displayedHorizontalGap,
+      tileSize: displayedTileSize
+    };
   }
 };

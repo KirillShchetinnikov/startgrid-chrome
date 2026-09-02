@@ -29,11 +29,11 @@ const appearanceSettings = [
     title: getMessage('dial_tile_size'),
     type: 'range',
     min: 50,
-    max: 150,
+    max: 300,
     step: 1,
     data: {
       selectorOutput: '#dial_tile_size_value',
-      outputPostfix: '%'
+      outputPostfix: 'px'
     }
   },
   {

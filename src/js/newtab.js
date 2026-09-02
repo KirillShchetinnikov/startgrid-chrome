@@ -53,6 +53,7 @@ import {
 } from './keyboardShortcuts';
 import { recordBookmarkUsage } from './bookmarkSorting';
 import { createRefreshScheduler } from './bookmarkEvents';
+import { scaleTileContentSettings } from './tileSizeSync';
 
 const container = document.getElementById('bookmarks');
 const modal = document.getElementById('modal');
@@ -182,11 +183,27 @@ async function init() {
    * UI
    */
   const gridLayout = UI.calculateStyles();
-  if (
-    window.matchMedia('(width > 480px)').matches
-    && Number(settings.$.dial_width) !== gridLayout.gridWidth
-  ) {
-    await settings.updateKey('dial_width', gridLayout.gridWidth);
+  const gridSettingsUpdate = {};
+  if (window.matchMedia('(width > 480px)').matches
+    && Number(settings.$.dial_width) !== gridLayout.gridWidth) {
+    gridSettingsUpdate.dial_width = gridLayout.gridWidth;
+  }
+  if (Number(settings.$.dial_tile_size) !== gridLayout.tileSize) {
+    Object.assign(gridSettingsUpdate, {
+      dial_tile_size: gridLayout.tileSize,
+      ...scaleTileContentSettings({
+        faviconSize: settings.$.favicon_size,
+        fromTileSize: settings.$.dial_tile_size,
+        titleSize: settings.$.bookmark_title_size,
+        toTileSize: gridLayout.tileSize
+      })
+    });
+  }
+  if (Number(settings.$.dial_horizontal_gap) !== gridLayout.horizontalGap) {
+    gridSettingsUpdate.dial_horizontal_gap = gridLayout.horizontalGap;
+  }
+  if (Object.keys(gridSettingsUpdate).length) {
+    await settings.updateAll(gridSettingsUpdate);
     UI.calculateStyles();
   }
   UI.setBG(pageRevealStarted)

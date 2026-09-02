@@ -102,8 +102,8 @@ function createPanel() {
         <label class="quick-settings__field" for="quick_dial_tile_size">
           <span>${message('dial_tile_size')}</span>
           <span class="quick-settings__range">
-            <input id="quick_dial_tile_size" type="range" min="50" max="150" step="1"
-              data-setting="dial_tile_size" data-unit="%">
+            <input id="quick_dial_tile_size" type="range" min="50" max="300" step="1"
+              data-setting="dial_tile_size" data-unit="px">
             <output id="quick_dial_tile_size_value" for="quick_dial_tile_size"></output>
           </span>
         </label>
@@ -286,10 +286,23 @@ export default function initQuickDisplaySettings({
   function syncControls() {
     const gridLayout = UI.calculateStyles();
     const gridWidthControl = panel.querySelector('[data-setting="dial_width"]');
+    const tileSizeControl = panel.querySelector('[data-setting="dial_tile_size"]');
+    const horizontalGapControl = panel.querySelector('[data-setting="dial_horizontal_gap"]');
     gridWidthControl.min = String(gridLayout.minimumGridWidth);
+    tileSizeControl.min = String(gridLayout.minimumTileSize);
+    tileSizeControl.max = String(gridLayout.maximumTileSize);
+    horizontalGapControl.min = String(gridLayout.minimumHorizontalGap);
+    horizontalGapControl.max = String(gridLayout.maximumHorizontalGap);
 
     panel.querySelectorAll('[data-setting]').forEach(control => {
       const key = control.dataset.setting;
+      const value = key === 'dial_width'
+        ? gridLayout.gridWidth
+        : key === 'dial_tile_size'
+          ? gridLayout.tileSize
+          : key === 'dial_horizontal_gap'
+            ? gridLayout.horizontalGap
+            : settings.$[key];
       if (control.type === 'checkbox') {
         control.checked = Boolean(settings.$[key]);
       } else if (control.type === 'color') {
@@ -298,13 +311,10 @@ export default function initQuickDisplaySettings({
           ? cssColorToHex(settings.$[key], themeColor)
           : themeColor;
       } else {
-        control.value = key === 'dial_width'
-          ? gridLayout.gridWidth
-          : settings.$[key];
+        control.value = value;
       }
       if (control.type === 'range') {
         const output = panel.querySelector(`#${control.id}_value`);
-        const value = key === 'dial_width' ? gridLayout.gridWidth : settings.$[key];
         output.textContent = `${value}${control.dataset.unit}`;
       }
     });
@@ -369,7 +379,9 @@ export default function initQuickDisplaySettings({
       syncControls();
     } else if (STYLE_SETTINGS.has(key)) {
       const gridLayout = UI.calculateStyles();
-      if (key === 'dial_tile_size') syncControls();
+      if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(key)) {
+        syncControls();
+      }
       if (
         persist
         && ['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(key)

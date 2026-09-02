@@ -29,7 +29,11 @@ import { getEnabledSearchEngines } from './searchEngines';
 import initSearchEngineSettings from './components/searchEngineSettings';
 import initKeyboardShortcutSettings from './components/keyboardShortcutSettings';
 import { cssColorToHex } from './tileAppearance';
-import { getGridLayoutLimits } from './gridLayout';
+import {
+  getGridLayoutLimits,
+  getHorizontalGapLimits,
+  getTileSizeLimits
+} from './gridLayout';
 import { scaleTileContentSettings } from './tileSizeSync';
 
 let backgroundImage = null;
@@ -650,7 +654,9 @@ function syncTileContentControls(tileContentSettings) {
 
 async function enforceGridWidth() {
   const gridWidthControl = document.getElementById('dial_width');
-  if (!gridWidthControl) return;
+  const tileSizeControl = document.getElementById('dial_tile_size');
+  const horizontalGapControl = document.getElementById('dial_horizontal_gap');
+  if (!gridWidthControl || !tileSizeControl || !horizontalGapControl) return;
 
   const { gridWidth, minimumGridWidth } = getGridLayoutLimits({
     columns: settings.$.dial_columns,
@@ -667,6 +673,61 @@ async function enforceGridWidth() {
   }
   gridWidthControl.value = String(gridWidth);
   ranges.get('dial_width')?.setValue(gridWidth);
+
+  const { minimumTileSize, maximumTileSize } = getTileSizeLimits({
+    columns: settings.$.dial_columns,
+    gridWidth,
+    horizontalGap: settings.$.dial_horizontal_gap,
+    viewportWidth: document.documentElement.clientWidth
+  });
+  const tileSize = Math.min(
+    maximumTileSize,
+    Math.max(minimumTileSize, Number(settings.$.dial_tile_size))
+  );
+
+  if (Number(settings.$.dial_tile_size) !== tileSize) {
+    const tileContentSettings = scaleTileContentSettings({
+      faviconSize: settings.$.favicon_size,
+      fromTileSize: settings.$.dial_tile_size,
+      titleSize: settings.$.bookmark_title_size,
+      toTileSize: tileSize
+    });
+    await settings.updateAll({ dial_tile_size: tileSize, ...tileContentSettings });
+    syncTileContentControls(tileContentSettings);
+  }
+  const { minimumHorizontalGap, maximumHorizontalGap } = getHorizontalGapLimits({
+    columns: settings.$.dial_columns,
+    gridWidth,
+    tileSize,
+    viewportWidth: document.documentElement.clientWidth
+  });
+  const horizontalGap = Math.min(
+    maximumHorizontalGap,
+    Math.max(minimumHorizontalGap, Number(settings.$.dial_horizontal_gap))
+  );
+  if (Number(settings.$.dial_horizontal_gap) !== horizontalGap) {
+    await settings.updateKey('dial_horizontal_gap', horizontalGap);
+  }
+
+  const finalTileSizeLimits = getTileSizeLimits({
+    columns: settings.$.dial_columns,
+    gridWidth,
+    horizontalGap,
+    viewportWidth: document.documentElement.clientWidth
+  });
+  tileSizeControl.min = String(finalTileSizeLimits.minimumTileSize);
+  tileSizeControl.max = String(finalTileSizeLimits.maximumTileSize);
+  ranges.get('dial_tile_size')?.setMin(finalTileSizeLimits.minimumTileSize);
+  ranges.get('dial_tile_size')?.setMax(finalTileSizeLimits.maximumTileSize);
+  tileSizeControl.value = String(tileSize);
+  ranges.get('dial_tile_size')?.setValue(tileSize);
+
+  horizontalGapControl.min = String(minimumHorizontalGap);
+  horizontalGapControl.max = String(maximumHorizontalGap);
+  ranges.get('dial_horizontal_gap')?.setMin(minimumHorizontalGap);
+  ranges.get('dial_horizontal_gap')?.setMax(maximumHorizontalGap);
+  horizontalGapControl.value = String(horizontalGap);
+  ranges.get('dial_horizontal_gap')?.setValue(horizontalGap);
 }
 
 async function handleUploadFile() {
@@ -790,6 +851,7 @@ async function handleResetLocalSettings() {
   }
 
   await window.vbToggleTheme();
+  await enforceGridWidth();
   getOptions();
   toggleBackgroundControls(settings.$.background_image);
   updateDefaultFolderControl();
@@ -800,6 +862,7 @@ async function handleResetSyncSettings() {
   if (!confirmAction) return;
 
   await settings.resetSync();
+  await enforceGridWidth();
   getOptions();
   updateDefaultFolderControl();
   Toast.show(getMessage('notice_sync_settings_cleared'));
@@ -854,6 +917,7 @@ async function handleChangeSync() {
     await settings.updateKey('enable_sync', true);
     await settings.restoreFromSync();
     await window.vbToggleTheme();
+    await enforceGridWidth();
     getOptions();
   } else {
     const localFolderId = settings.$.default_folder_id;

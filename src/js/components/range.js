@@ -66,6 +66,12 @@ export default class Range {
     this.#updateTrackFill(this.#el.value);
   }
 
+  setMax(value) {
+    this.#max = Number(value);
+    this.#el.max = String(value);
+    this.#updateTrackFill(this.#el.value);
+  }
+
   setValue(value) {
     this.#el.value = String(value);
     this.#setOutput(value);

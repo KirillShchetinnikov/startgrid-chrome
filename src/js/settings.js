@@ -107,7 +107,7 @@ const DEFAULTS = Object.freeze({
 export const NUMERIC_SETTING_LIMITS = Object.freeze({
   dial_columns: { min: 1, max: 10 },
   dial_width: { min: 50, max: 99 },
-  dial_tile_size: { min: 50, max: 150 },
+  dial_tile_size: { min: 50, max: 300 },
   dial_horizontal_gap: { min: 0, max: 160 },
   dial_vertical_gap: { min: 0, max: 160 },
   dial_radius: { min: 0, max: 40 },
