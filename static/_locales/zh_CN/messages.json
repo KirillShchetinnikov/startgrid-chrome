@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "网格宽度"
   },
+  "dial_tile_size": {
+    "message": "磁贴大小"
+  },
   "dial_horizontal_gap": {
     "message": "瓷砖之间的水平间距"
   },

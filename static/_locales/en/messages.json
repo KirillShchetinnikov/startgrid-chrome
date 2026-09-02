@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "Grid width"
   },
+  "dial_tile_size": {
+    "message": "Tile size"
+  },
   "dial_horizontal_gap": {
     "message": "Horizontal distance between tiles"
   },

@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "グリッド幅"
   },
+  "dial_tile_size": {
+    "message": "タイルのサイズ"
+  },
   "dial_horizontal_gap": {
     "message": "タイル間の横方向の間隔"
   },

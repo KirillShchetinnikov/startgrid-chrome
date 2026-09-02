@@ -73,6 +73,7 @@ describe('quick settings reset', () => {
     const defaults = await settings.resetKeys(QUICK_SETTING_KEYS);
 
     expect(defaults).toHaveProperty('dial_width', 70);
+    expect(defaults).toHaveProperty('dial_tile_size', 100);
     expect(defaults).toHaveProperty('dial_horizontal_gap', 16);
     expect(defaults).toHaveProperty('dial_vertical_gap', 16);
     expect(defaults).toHaveProperty('color_theme', 'os');
@@ -85,6 +86,7 @@ describe('quick settings reset', () => {
     expect(defaults).toHaveProperty('show_extension_icon', true);
     expect(settings.$.color_theme).toBe('os');
     expect(settings.$.dial_width).toBe(70);
+    expect(settings.$.dial_tile_size).toBe(100);
     expect(settings.$.dial_horizontal_gap).toBe(16);
     expect(settings.$.dial_vertical_gap).toBe(16);
     expect(settings.$.dial_title_color).toBe('');

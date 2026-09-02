@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "그리드 너비"
   },
+  "dial_tile_size": {
+    "message": "타일 크기"
+  },
   "dial_horizontal_gap": {
     "message": "타일 간 가로 간격"
   },

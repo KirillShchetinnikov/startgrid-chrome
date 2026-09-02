@@ -2,6 +2,7 @@ export const QUICK_SETTING_KEYS = Object.freeze([
   'color_theme',
   'dial_columns',
   'dial_width',
+  'dial_tile_size',
   'dial_horizontal_gap',
   'dial_vertical_gap',
   'dial_radius',

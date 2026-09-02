@@ -45,6 +45,7 @@ const DEFAULTS = Object.freeze({
   show_last_opened_folder: false,
   dial_columns: 7,
   dial_width: 70, // value in percent (50,60,70,80,90)
+  dial_tile_size: 100,
   dial_horizontal_gap: 16,
   dial_vertical_gap: 16,
   dial_radius: 18,
@@ -106,6 +107,7 @@ const DEFAULTS = Object.freeze({
 export const NUMERIC_SETTING_LIMITS = Object.freeze({
   dial_columns: { min: 1, max: 10 },
   dial_width: { min: 50, max: 99 },
+  dial_tile_size: { min: 50, max: 150 },
   dial_horizontal_gap: { min: 0, max: 40 },
   dial_vertical_gap: { min: 0, max: 40 },
   dial_radius: { min: 0, max: 40 },

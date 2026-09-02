@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "Largeur de grille"
   },
+  "dial_tile_size": {
+    "message": "Taille des tuiles"
+  },
   "dial_horizontal_gap": {
     "message": "Distance horizontale entre les carreaux"
   },

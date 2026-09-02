@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "Szerokość siatki"
   },
+  "dial_tile_size": {
+    "message": "Rozmiar kafelków"
+  },
   "dial_horizontal_gap": {
     "message": "Odstęp poziomy między płytkami"
   },

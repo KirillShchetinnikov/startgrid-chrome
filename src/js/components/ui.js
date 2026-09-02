@@ -156,6 +156,7 @@ export default {
         ? Math.min(max, Math.max(min, number))
         : fallback;
     };
+    const tileSize = clamp(settings.$.dial_tile_size, 50, 150, 100);
     const horizontalGap = clamp(settings.$.dial_horizontal_gap, 0, 40, 16);
     const verticalGap = clamp(settings.$.dial_vertical_gap, 0, 40, 16);
     const radius = clamp(settings.$.dial_radius, 0, 40, 18);
@@ -250,7 +251,8 @@ export default {
     const maxColumnWidth = Math.floor(
       (doc.clientWidth - ((columns - 1) * horizontalGap)) / columns
     );
-    const colWidth = Math.min(preferredColumnWidth, maxColumnWidth);
+    const desiredColumnWidth = Math.floor((preferredColumnWidth * tileSize) / 100);
+    const colWidth = Math.min(desiredColumnWidth, maxColumnWidth);
     doc.style.setProperty('--grid-column-width', colWidth < 80 ? '1fr' : `${colWidth}px`);
     // If the minimum tile width would not fit, let CSS choose the responsive column count.
     doc.style.setProperty('--grid-columns', colWidth < 80 ? '' : columns);

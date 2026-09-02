@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "Largura da grade"
   },
+  "dial_tile_size": {
+    "message": "Tamanho dos blocos"
+  },
   "dial_horizontal_gap": {
     "message": "Distância horizontal entre ladrilhos"
   },

@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "Ширина сетки"
   },
+  "dial_tile_size": {
+    "message": "Размер плиток"
+  },
   "dial_horizontal_gap": {
     "message": "Расстояние между плитками по горизонтали"
   },

@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "Rasterbreite"
   },
+  "dial_tile_size": {
+    "message": "Kachelgröße"
+  },
   "dial_horizontal_gap": {
     "message": "Horizontaler Abstand zwischen den Fliesen"
   },

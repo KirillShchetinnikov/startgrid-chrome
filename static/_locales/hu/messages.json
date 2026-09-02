@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "Rács szélessége"
   },
+  "dial_tile_size": {
+    "message": "Csempe mérete"
+  },
   "dial_horizontal_gap": {
     "message": "Vízszintes távolság a csempék között"
   },

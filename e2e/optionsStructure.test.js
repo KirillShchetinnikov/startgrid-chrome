@@ -25,12 +25,13 @@ describe('options page structure', () => {
       return section.sections.flatMap(group => group.list);
     });
     const ids = settings.map(setting => setting.id);
-    expect(ids).toHaveLength(74);
+    expect(ids).toHaveLength(75);
     expect(new Set(ids).size).toBe(ids.length);
     expect(ids).toContain('bookmark_title_size');
     expect(ids).toContain('bookmark_title_position');
     expect(ids).toContain('dial_horizontal_gap');
     expect(ids).toContain('dial_vertical_gap');
+    expect(ids).toContain('dial_tile_size');
     expect(ids).not.toContain('dial_gap');
     expect(ids).not.toContain('page_entrance_effect');
 

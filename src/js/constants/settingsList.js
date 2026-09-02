@@ -25,6 +25,18 @@ const appearanceSettings = [
     }
   },
   {
+    id: 'dial_tile_size',
+    title: getMessage('dial_tile_size'),
+    type: 'range',
+    min: 50,
+    max: 150,
+    step: 1,
+    data: {
+      selectorOutput: '#dial_tile_size_value',
+      outputPostfix: '%'
+    }
+  },
+  {
     id: 'dial_horizontal_gap',
     title: getMessage('dial_horizontal_gap'),
     type: 'range',
@@ -736,6 +748,7 @@ export default [
         list: pickSettings(
           'dial_columns',
           'dial_width',
+          'dial_tile_size',
           'dial_horizontal_gap',
           'dial_vertical_gap',
           'dial_aspect_ratio',

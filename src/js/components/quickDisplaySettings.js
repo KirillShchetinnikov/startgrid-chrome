@@ -18,6 +18,7 @@ const RERENDER_SETTINGS = new Set([
 const STYLE_SETTINGS = new Set([
   'dial_columns',
   'dial_width',
+  'dial_tile_size',
   'dial_horizontal_gap',
   'dial_vertical_gap',
   'dial_radius',
@@ -95,6 +96,14 @@ function createPanel() {
             <input id="quick_dial_width" type="range" min="50" max="99" step="1"
               data-setting="dial_width" data-unit="%">
             <output id="quick_dial_width_value" for="quick_dial_width"></output>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_tile_size">
+          <span>${message('dial_tile_size')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_dial_tile_size" type="range" min="50" max="150" step="1"
+              data-setting="dial_tile_size" data-unit="%">
+            <output id="quick_dial_tile_size_value" for="quick_dial_tile_size"></output>
           </span>
         </label>
         <label class="quick-settings__field" for="quick_dial_horizontal_gap">

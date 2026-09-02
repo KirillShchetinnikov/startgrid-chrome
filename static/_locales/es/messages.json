@@ -321,6 +321,9 @@
   "dial_width": {
     "message": "Ancho de cuadrícula"
   },
+  "dial_tile_size": {
+    "message": "Tamaño de los mosaicos"
+  },
   "dial_horizontal_gap": {
     "message": "Distancia horizontal entre azulejos"
   },
