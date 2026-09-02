@@ -30,6 +30,7 @@ import initSearchEngineSettings from './components/searchEngineSettings';
 import initKeyboardShortcutSettings from './components/keyboardShortcutSettings';
 import { cssColorToHex } from './tileAppearance';
 import { getGridLayoutLimits } from './gridLayout';
+import { scaleTileContentSettings } from './tileSizeSync';
 
 let backgroundImage = null;
 let searchEngineSettingsInstance = null;
@@ -561,6 +562,7 @@ async function handleSetOptions(e) {
   if (!target) return;
 
   const id = target.id;
+  const previousTileSize = settings.$.dial_tile_size;
   if (id === 'enable_sync') return;
   if (id === 'language') {
     await settings.updateKey(id, target.value);
@@ -591,6 +593,18 @@ async function handleSetOptions(e) {
 
     if (id === 'default_folder_id') {
       await updateDefaultFolder(target.value);
+    } else if (id === 'dial_tile_size') {
+      const tileContentSettings = scaleTileContentSettings({
+        faviconSize: settings.$.favicon_size,
+        fromTileSize: previousTileSize,
+        titleSize: settings.$.bookmark_title_size,
+        toTileSize: target.value
+      });
+      await settings.updateAll({
+        dial_tile_size: target.value,
+        ...tileContentSettings
+      });
+      syncTileContentControls(tileContentSettings);
     } else {
       await settings.updateKey(id, target.value);
     }
@@ -622,6 +636,16 @@ async function handleSetOptions(e) {
   } else if (Object.hasOwn(COLOR_SETTING_THEME_VARIABLES, target.id)) {
     document.querySelector(`[data-reset-color="${target.id}"]`).disabled = false;
   }
+}
+
+function syncTileContentControls(tileContentSettings) {
+  Object.entries(tileContentSettings).forEach(([key, value]) => {
+    const control = document.getElementById(key);
+    if (!control) return;
+
+    control.value = String(value);
+    ranges.get(key)?.setValue(value);
+  });
 }
 
 async function enforceGridWidth() {

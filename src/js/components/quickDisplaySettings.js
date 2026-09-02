@@ -5,6 +5,7 @@ import confirmPopup from '../plugins/confirmPopup';
 import { updateMainPageScrollLock } from '../mainPageScroll';
 import { cssColorToHex } from '../tileAppearance';
 import { QUICK_SETTING_KEYS } from '../quickSettings';
+import { scaleTileContentSettings } from '../tileSizeSync';
 
 const RERENDER_SETTINGS = new Set([
   'show_create_column',
@@ -274,6 +275,7 @@ export default function initQuickDisplaySettings({
   const panel = createPanel();
   document.body.append(panel);
   container.append(trigger);
+  let tileSizeScaleAnchor = null;
 
   function getThemeColor(settingId) {
     const variable = COLOR_SETTING_THEME_VARIABLES[settingId];
@@ -329,11 +331,36 @@ export default function initQuickDisplaySettings({
   async function applySetting(control, persist = true) {
     const key = control.dataset.setting;
     const value = control.type === 'checkbox' ? control.checked : control.value;
+    let tileContentSettings;
+
+    if (key === 'dial_tile_size') {
+      tileSizeScaleAnchor ??= {
+        faviconSize: settings.$.favicon_size,
+        tileSize: settings.$.dial_tile_size,
+        titleSize: settings.$.bookmark_title_size
+      };
+      tileContentSettings = scaleTileContentSettings({
+        faviconSize: tileSizeScaleAnchor.faviconSize,
+        fromTileSize: tileSizeScaleAnchor.tileSize,
+        titleSize: tileSizeScaleAnchor.titleSize,
+        toTileSize: value
+      });
+    }
 
     if (persist) {
-      await settings.updateKey(key, value);
+      if (tileContentSettings) {
+        await settings.updateAll({
+          dial_tile_size: value,
+          ...tileContentSettings
+        });
+        tileSizeScaleAnchor = null;
+      } else {
+        await settings.updateKey(key, value);
+      }
     } else {
-      settings.$[key] = value;
+      Object.assign(settings.$, tileContentSettings
+        ? { dial_tile_size: value, ...tileContentSettings }
+        : { [key]: value });
     }
 
     if (key === 'color_theme') {
@@ -342,6 +369,7 @@ export default function initQuickDisplaySettings({
       syncControls();
     } else if (STYLE_SETTINGS.has(key)) {
       const gridLayout = UI.calculateStyles();
+      if (key === 'dial_tile_size') syncControls();
       if (
         persist
         && ['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(key)
