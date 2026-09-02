@@ -15,16 +15,10 @@ export function getBookmarkTitleSizeOverride(value) {
   return Math.min(BOOKMARK_TITLE_SIZE_MAX, Math.max(BOOKMARK_TITLE_SIZE_MIN, size));
 }
 
-export function getBookmarkTitlePositionOverride(value) {
-  return ['inside', 'outside'].includes(value) ? value : null;
-}
-
 function normalizePreferences(preferences = {}) {
   const titleSize = getBookmarkTitleSizeOverride(preferences.titleSize);
-  const titlePosition = getBookmarkTitlePositionOverride(preferences.titlePosition);
   return {
-    ...(titleSize !== null && { titleSize }),
-    ...(titlePosition !== null && { titlePosition })
+    ...(titleSize !== null && { titleSize })
   };
 }
 

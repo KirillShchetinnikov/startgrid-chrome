@@ -1054,7 +1054,6 @@
   "bookmark_title_position_outside": { "message": "Unter der Kachel" },
   "bookmark_title_size_individual": { "message": "Individuelle Titelgröße" },
   "bookmark_title_size_individual_note": { "message": "Leer lassen, um die globale Titelgröße zu verwenden." },
-  "bookmark_title_position_individual": { "message": "Individuelle Titelposition" },
   "error_input_invalid": { "message": "Ungültiger Wert" },
   "error_input_number": { "message": "Geben Sie eine gültige Zahl ein" },
   "error_input_maximum": { "message": "Der Wert darf höchstens $max$ sein", "placeholders": { "max": { "content": "$1" } } },

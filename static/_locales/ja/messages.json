@@ -1054,7 +1054,6 @@
   "bookmark_title_position_outside": { "message": "タイルの下" },
   "bookmark_title_size_individual": { "message": "個別のタイトルサイズ" },
   "bookmark_title_size_individual_note": { "message": "空欄にすると全体設定を使用します。" },
-  "bookmark_title_position_individual": { "message": "個別のタイトル位置" },
   "error_input_invalid": { "message": "無効な値です" },
   "error_input_number": { "message": "有効な数値を入力してください" },
   "error_input_maximum": { "message": "値は $max$ 以下にしてください", "placeholders": { "max": { "content": "$1" } } },

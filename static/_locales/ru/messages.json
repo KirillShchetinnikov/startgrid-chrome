@@ -1054,7 +1054,6 @@
   "bookmark_title_position_outside": { "message": "Под плиткой" },
   "bookmark_title_size_individual": { "message": "Индивидуальный размер подписи" },
   "bookmark_title_size_individual_note": { "message": "Оставьте пустым, чтобы использовать общий размер." },
-  "bookmark_title_position_individual": { "message": "Индивидуальное расположение подписи" },
   "error_input_invalid": { "message": "Недопустимое значение" },
   "error_input_number": { "message": "Введите корректное число" },
   "error_input_maximum": { "message": "Значение должно быть не больше $max$", "placeholders": { "max": { "content": "$1" } } },

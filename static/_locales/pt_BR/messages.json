@@ -1054,7 +1054,6 @@
   "bookmark_title_position_outside": { "message": "Abaixo do bloco" },
   "bookmark_title_size_individual": { "message": "Tamanho de título individual" },
   "bookmark_title_size_individual_note": { "message": "Deixe vazio para usar o tamanho global." },
-  "bookmark_title_position_individual": { "message": "Posição de título individual" },
   "error_input_invalid": { "message": "Valor inválido" },
   "error_input_number": { "message": "Digite um número válido" },
   "error_input_maximum": { "message": "O valor não pode ser maior que $max$", "placeholders": { "max": { "content": "$1" } } },

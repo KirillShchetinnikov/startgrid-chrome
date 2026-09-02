@@ -30,10 +30,7 @@ import {
   getThumbnailSizeOverride,
   shouldDownloadFavicon
 } from './api/faviconPreferences';
-import {
-  getBookmarkTitlePositionOverride,
-  getBookmarkTitleSizeOverride
-} from './api/bookmarkTextPreferences';
+import { getBookmarkTitleSizeOverride } from './api/bookmarkTextPreferences';
 import { CONTEXT_MENU, LOCAL_PROTOCOLS } from './constants';
 import { bookmarksToDelete } from './state';
 import Toast from './components/toast';
@@ -73,7 +70,6 @@ const thumbnailSizeWrap = document.getElementById('thumbnailSizeWrap');
 const faviconDownloadPreference = document.getElementById('faviconDownloadPreference');
 const thumbnailImageSize = document.getElementById('thumbnailImageSize');
 const bookmarkTitleSize = document.getElementById('bookmarkTitleSize');
-const bookmarkTitlePosition = document.getElementById('bookmarkTitlePosition');
 const thumbnailUrlWrap = document.getElementById('thumbnailUrlWrap');
 const thumbnailActions = document.getElementById('thumbnailActions');
 const captureThumbnailButton = document.getElementById('captureThumbnail');
@@ -1068,7 +1064,6 @@ async function handleSubmitForm(evt) {
   const downloadFavicon = usesDownloadedFavicon(faviconPreferences);
   const thumbnailSize = getModalThumbnailSize();
   const titleSize = getBookmarkTitleSizeOverride(form.bookmarkTitleSize.value);
-  const titlePosition = getBookmarkTitlePositionOverride(form.bookmarkTitlePosition.value);
   const shouldCaptureSite = thumbnailEnabled && thumbnailSourceValue === 'site' && (
     id === 'New'
       ? pendingThumbnailSource !== 'site'
@@ -1110,7 +1105,7 @@ async function handleSubmitForm(evt) {
   }
 
   if (bookmark) {
-    await Bookmarks.setTextPreferences(bookmark, { titleSize, titlePosition });
+    await Bookmarks.setTextPreferences(bookmark, { titleSize });
   }
 
   if (bookmark && thumbnailEnabled) {
@@ -1234,7 +1229,6 @@ async function prepareModal(target) {
     const textPreferences = Bookmarks.getTextPreferences(id);
     bookmarkTitleSize.value = textPreferences.titleSize ?? '';
     bookmarkTitleSize.placeholder = String(settings.$.bookmark_title_size);
-    bookmarkTitlePosition.value = textPreferences.titlePosition ?? '';
 
     if (url) {
       urlWrap.style.display = '';
@@ -1271,7 +1265,6 @@ async function prepareModal(target) {
     titleField.value = '';
     bookmarkTitleSize.value = '';
     bookmarkTitleSize.placeholder = String(settings.$.bookmark_title_size);
-    bookmarkTitlePosition.value = '';
     urlField.value = '';
     form.setAttribute('data-action', 'New');
     form.dataset.thumbnailEnabled = String(Bookmarks.isDefaultFolder(container.dataset.folder));

@@ -405,7 +405,7 @@ const Bookmarks = (() => {
       thumbnailSource,
       thumbnailSize,
       titleSize: textPreferences.titleSize,
-      titlePosition: textPreferences.titlePosition ?? settings.$.bookmark_title_position,
+      titlePosition: settings.$.bookmark_title_position,
       usageCount,
       hasTitle: settings.$.show_bookmark_title,
       hasFavicon: settings.$.show_favicon
@@ -430,7 +430,7 @@ const Bookmarks = (() => {
       folderChidlren: folderPreview ? renderFolderChildren(bookmark) : [],
       image,
       titleSize: textPreferences.titleSize,
-      titlePosition: textPreferences.titlePosition ?? settings.$.bookmark_title_position,
+      titlePosition: settings.$.bookmark_title_position,
       openNewTab: settings.$.open_bookmarks_newtab,
       hasTitle: settings.$.show_bookmark_title,
       hasFavicon: settings.$.show_favicon,
@@ -1616,7 +1616,7 @@ const Bookmarks = (() => {
       TEXT_PREFERENCES_MAP.delete(String(bookmark.id));
     }
     bookmark.titleSize = normalized.titleSize ?? settings.$.bookmark_title_size;
-    bookmark.titlePosition = normalized.titlePosition ?? settings.$.bookmark_title_position;
+    bookmark.titlePosition = settings.$.bookmark_title_position;
     return normalized;
   }
 

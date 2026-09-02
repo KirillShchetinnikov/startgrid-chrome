@@ -1054,7 +1054,6 @@
   "bookmark_title_position_outside": { "message": "圖塊下方" },
   "bookmark_title_size_individual": { "message": "個別標題大小" },
   "bookmark_title_size_individual_note": { "message": "留空以使用全域標題大小。" },
-  "bookmark_title_position_individual": { "message": "個別標題位置" },
   "error_input_invalid": { "message": "無效值" },
   "error_input_number": { "message": "請輸入有效數字" },
   "error_input_maximum": { "message": "值不能大於 $max$", "placeholders": { "max": { "content": "$1" } } },

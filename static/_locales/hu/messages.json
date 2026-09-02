@@ -1054,7 +1054,6 @@
   "bookmark_title_position_outside": { "message": "A csempe alatt" },
   "bookmark_title_size_individual": { "message": "Egyedi címméret" },
   "bookmark_title_size_individual_note": { "message": "Hagyja üresen a globális méret használatához." },
-  "bookmark_title_position_individual": { "message": "Egyedi címpozíció" },
   "error_input_invalid": { "message": "Érvénytelen érték" },
   "error_input_number": { "message": "Adjon meg egy érvényes számot" },
   "error_input_maximum": { "message": "Az érték legfeljebb $max$ lehet", "placeholders": { "max": { "content": "$1" } } },

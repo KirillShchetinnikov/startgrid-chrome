@@ -924,7 +924,6 @@
   "bookmark_title_position_outside": { "message": "Below tile" },
   "bookmark_title_size_individual": { "message": "Individual title size" },
   "bookmark_title_size_individual_note": { "message": "Leave empty to use the global title size." },
-  "bookmark_title_position_individual": { "message": "Individual title position" },
   "error_input_invalid": { "message": "Invalid value" },
   "error_input_number": { "message": "Enter a valid number" },
   "error_input_maximum": { "message": "Value must be no greater than $max$", "placeholders": { "max": { "content": "$1" } } },

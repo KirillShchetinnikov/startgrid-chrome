@@ -1054,7 +1054,6 @@
   "bookmark_title_position_outside": { "message": "磁贴下方" },
   "bookmark_title_size_individual": { "message": "单独的标题大小" },
   "bookmark_title_size_individual_note": { "message": "留空以使用全局标题大小。" },
-  "bookmark_title_position_individual": { "message": "单独的标题位置" },
   "error_input_invalid": { "message": "无效值" },
   "error_input_number": { "message": "请输入有效数字" },
   "error_input_maximum": { "message": "值不能大于 $max$", "placeholders": { "max": { "content": "$1" } } },

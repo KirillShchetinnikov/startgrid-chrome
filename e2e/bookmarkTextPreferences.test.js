@@ -1,9 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from '@jest/globals';
-import {
-  getBookmarkTitlePositionOverride,
-  getBookmarkTitleSizeOverride
-} from '../src/js/api/bookmarkTextPreferences';
+import { getBookmarkTitleSizeOverride } from '../src/js/api/bookmarkTextPreferences';
 
 describe('bookmark text preferences', () => {
   it('normalizes individual title sizes', () => {
@@ -13,10 +10,16 @@ describe('bookmark text preferences', () => {
     expect(getBookmarkTitleSizeOverride('')).toBeNull();
   });
 
-  it('accepts only supported individual title positions', () => {
-    expect(getBookmarkTitlePositionOverride('inside')).toBe('inside');
-    expect(getBookmarkTitlePositionOverride('outside')).toBe('outside');
-    expect(getBookmarkTitlePositionOverride('inherit')).toBeNull();
+  it('uses the global title position for every tile', () => {
+    const newtabHtml = readFileSync('src/newtab.html', 'utf8');
+    const bookmarksSource = readFileSync('src/js/components/bookmarks.js', 'utf8');
+    const preferencesSource = readFileSync('src/js/api/bookmarkTextPreferences.js', 'utf8');
+
+    expect(newtabHtml).not.toContain('bookmarkTitlePosition');
+    expect(bookmarksSource).not.toContain('textPreferences.titlePosition');
+    expect(bookmarksSource.match(/titlePosition: settings\.\$\.bookmark_title_position,/g))
+      .toHaveLength(2);
+    expect(preferencesSource).not.toContain('titlePosition');
   });
 
   it('lets tiles without an override inherit the live global title size', () => {
