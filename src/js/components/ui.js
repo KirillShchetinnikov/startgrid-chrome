@@ -222,14 +222,11 @@ export default {
     const containerWidth = mediaQuery.matches ? lsGridWidth : 100;
     doc.style.setProperty('--container-width', `${containerWidth}%`);
 
-    // if there is at least one button and the width of the container is greater than 95
-    // set container inline padding
-    // to avoid overlaying the container on the buttons
-    // on the right the padding is larger due to the scrollbar
+    // Reserve inline space only for controls at the right edge. The extension icon
+    // floats above the page at the lower left and must not narrow the search or grid.
     if ((
       settings.$.show_settings_icon ||
       settings.$.show_quick_settings_icon ||
-      settings.$.show_extension_icon ||
       settings.$.thumbnails_update_button
     ) && lsGridWidth >= 85
     ) {

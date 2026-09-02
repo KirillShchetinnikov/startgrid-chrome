@@ -91,8 +91,8 @@ body {
 
 .extension-icon {
   position: fixed;
-  z-index: 1000;
-  top: 24px;
+  z-index: 10001;
+  bottom: 24px;
   left: 24px;
   display: grid;
   place-items: center;
@@ -147,12 +147,8 @@ body {
 
 @media (max-width: 480px) {
   .extension-icon {
-    top: 14px;
+    bottom: 14px;
     left: 14px;
-  }
-
-  .has-extension-icon .header {
-    padding-top: 76px;
   }
 }
 
