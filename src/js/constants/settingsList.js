@@ -41,7 +41,7 @@ const appearanceSettings = [
     title: getMessage('dial_horizontal_gap'),
     type: 'range',
     min: 0,
-    max: 40,
+    max: 160,
     step: 1,
     data: {
       selectorOutput: '#dial_horizontal_gap_value',
@@ -53,7 +53,7 @@ const appearanceSettings = [
     title: getMessage('dial_vertical_gap'),
     type: 'range',
     min: 0,
-    max: 40,
+    max: 160,
     step: 1,
     data: {
       selectorOutput: '#dial_vertical_gap_value',

@@ -109,7 +109,7 @@ function createPanel() {
         <label class="quick-settings__field" for="quick_dial_horizontal_gap">
           <span>${message('dial_horizontal_gap')}</span>
           <span class="quick-settings__range">
-            <input id="quick_dial_horizontal_gap" type="range" min="0" max="40" step="1"
+            <input id="quick_dial_horizontal_gap" type="range" min="0" max="160" step="1"
               data-setting="dial_horizontal_gap" data-unit="px">
             <output id="quick_dial_horizontal_gap_value" for="quick_dial_horizontal_gap"></output>
           </span>
@@ -117,7 +117,7 @@ function createPanel() {
         <label class="quick-settings__field" for="quick_dial_vertical_gap">
           <span>${message('dial_vertical_gap')}</span>
           <span class="quick-settings__range">
-            <input id="quick_dial_vertical_gap" type="range" min="0" max="40" step="1"
+            <input id="quick_dial_vertical_gap" type="range" min="0" max="160" step="1"
               data-setting="dial_vertical_gap" data-unit="px">
             <output id="quick_dial_vertical_gap_value" for="quick_dial_vertical_gap"></output>
           </span>

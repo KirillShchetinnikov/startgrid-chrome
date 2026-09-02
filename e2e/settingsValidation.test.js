@@ -52,6 +52,22 @@ describe('numeric settings validation', () => {
     ].sort());
   });
 
+  it('allows up to 160px between tiles in both directions', async() => {
+    mockStorage({ enable_sync: false });
+    const [{ NUMERIC_SETTING_LIMITS }, { default: settingsList }] = await Promise.all([
+      import('../src/js/settings'),
+      import('../src/js/constants/settingsList')
+    ]);
+    const settings = settingsList
+      .flatMap(section => section.sections)
+      .flatMap(section => section.list);
+
+    expect(NUMERIC_SETTING_LIMITS.dial_horizontal_gap.max).toBe(160);
+    expect(NUMERIC_SETTING_LIMITS.dial_vertical_gap.max).toBe(160);
+    expect(settings.find(setting => setting.id === 'dial_horizontal_gap').max).toBe(160);
+    expect(settings.find(setting => setting.id === 'dial_vertical_gap').max).toBe(160);
+  });
+
   it('clamps every numeric setting during loading and individual updates', async() => {
     mockStorage({ enable_sync: false });
     const { NUMERIC_SETTING_LIMITS, settings } = await import('../src/js/settings');

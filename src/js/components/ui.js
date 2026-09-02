@@ -157,8 +157,8 @@ export default {
         : fallback;
     };
     const tileSize = clamp(settings.$.dial_tile_size, 50, 150, 100);
-    const horizontalGap = clamp(settings.$.dial_horizontal_gap, 0, 40, 16);
-    const verticalGap = clamp(settings.$.dial_vertical_gap, 0, 40, 16);
+    const horizontalGap = clamp(settings.$.dial_horizontal_gap, 0, 160, 16);
+    const verticalGap = clamp(settings.$.dial_vertical_gap, 0, 160, 16);
     const radius = clamp(settings.$.dial_radius, 0, 40, 18);
     const shadow = clamp(settings.$.dial_shadow, 0, 30, 8);
     const thumbnailSize = clamp(settings.$.favicon_size, 16, 128, 32);
