@@ -321,8 +321,11 @@
   "dial_width": {
     "message": "Rasterbreite"
   },
-  "dial_gap": {
-    "message": "Abstand zwischen den Fliesen"
+  "dial_horizontal_gap": {
+    "message": "Horizontaler Abstand zwischen den Fliesen"
+  },
+  "dial_vertical_gap": {
+    "message": "Vertikaler Abstand zwischen den Fliesen"
   },
   "dial_radius": {
     "message": "Eckenradius der Kachel"

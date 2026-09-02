@@ -31,10 +31,12 @@ describe('bookmark text preferences', () => {
     expect(bookmarksSource.match(/titleSize: textPreferences\.titleSize,/g)).toHaveLength(2);
   });
 
-  it('uses the available horizontal gap to widen outside captions', () => {
+  it('uses the horizontal gap to widen outside captions', () => {
     const bookmarkCss = readFileSync('src/css/components/_bookmark.css', 'utf8');
 
-    expect(bookmarkCss).toMatch(/width:\s*calc\(100% \+ min\(var\(--grid-gap\), 24px\)\)/);
+    expect(bookmarkCss).toMatch(
+      /width:\s*calc\(100% \+ min\(var\(--grid-column-gap\), 24px\)\)/
+    );
   });
 
   it('keeps the inside caption vertically compact', () => {

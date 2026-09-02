@@ -321,8 +321,11 @@
   "dial_width": {
     "message": "Ancho de cuadrícula"
   },
-  "dial_gap": {
-    "message": "Distancia entre azulejos"
+  "dial_horizontal_gap": {
+    "message": "Distancia horizontal entre azulejos"
+  },
+  "dial_vertical_gap": {
+    "message": "Distancia vertical entre azulejos"
   },
   "dial_radius": {
     "message": "Radio de esquina del azulejo"

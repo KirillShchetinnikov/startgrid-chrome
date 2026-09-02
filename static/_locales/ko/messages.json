@@ -321,8 +321,11 @@
   "dial_width": {
     "message": "그리드 너비"
   },
-  "dial_gap": {
-    "message": "타일 ​​사이의 거리"
+  "dial_horizontal_gap": {
+    "message": "타일 간 가로 간격"
+  },
+  "dial_vertical_gap": {
+    "message": "타일 간 세로 간격"
   },
   "dial_radius": {
     "message": "타일 ​​코너 반경"

@@ -25,14 +25,26 @@ const appearanceSettings = [
     }
   },
   {
-    id: 'dial_gap',
-    title: getMessage('dial_gap'),
+    id: 'dial_horizontal_gap',
+    title: getMessage('dial_horizontal_gap'),
     type: 'range',
     min: 0,
     max: 40,
     step: 1,
     data: {
-      selectorOutput: '#dial_gap_value',
+      selectorOutput: '#dial_horizontal_gap_value',
+      outputPostfix: 'px'
+    }
+  },
+  {
+    id: 'dial_vertical_gap',
+    title: getMessage('dial_vertical_gap'),
+    type: 'range',
+    min: 0,
+    max: 40,
+    step: 1,
+    data: {
+      selectorOutput: '#dial_vertical_gap_value',
       outputPostfix: 'px'
     }
   },
@@ -724,7 +736,8 @@ export default [
         list: pickSettings(
           'dial_columns',
           'dial_width',
-          'dial_gap',
+          'dial_horizontal_gap',
+          'dial_vertical_gap',
           'dial_aspect_ratio',
           'vertical_center',
           'disable_main_page_scroll'

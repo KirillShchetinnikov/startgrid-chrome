@@ -18,7 +18,8 @@ const RERENDER_SETTINGS = new Set([
 const STYLE_SETTINGS = new Set([
   'dial_columns',
   'dial_width',
-  'dial_gap',
+  'dial_horizontal_gap',
+  'dial_vertical_gap',
   'dial_radius',
   'dial_aspect_ratio',
   'dial_shadow',
@@ -96,12 +97,20 @@ function createPanel() {
             <output id="quick_dial_width_value" for="quick_dial_width"></output>
           </span>
         </label>
-        <label class="quick-settings__field" for="quick_dial_gap">
-          <span>${message('dial_gap')}</span>
+        <label class="quick-settings__field" for="quick_dial_horizontal_gap">
+          <span>${message('dial_horizontal_gap')}</span>
           <span class="quick-settings__range">
-            <input id="quick_dial_gap" type="range" min="0" max="40" step="1"
-              data-setting="dial_gap" data-unit="px">
-            <output id="quick_dial_gap_value" for="quick_dial_gap"></output>
+            <input id="quick_dial_horizontal_gap" type="range" min="0" max="40" step="1"
+              data-setting="dial_horizontal_gap" data-unit="px">
+            <output id="quick_dial_horizontal_gap_value" for="quick_dial_horizontal_gap"></output>
+          </span>
+        </label>
+        <label class="quick-settings__field" for="quick_dial_vertical_gap">
+          <span>${message('dial_vertical_gap')}</span>
+          <span class="quick-settings__range">
+            <input id="quick_dial_vertical_gap" type="range" min="0" max="40" step="1"
+              data-setting="dial_vertical_gap" data-unit="px">
+            <output id="quick_dial_vertical_gap_value" for="quick_dial_vertical_gap"></output>
           </span>
         </label>
         <label class="quick-settings__field" for="quick_dial_radius">

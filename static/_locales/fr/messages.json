@@ -321,8 +321,11 @@
   "dial_width": {
     "message": "Largeur de grille"
   },
-  "dial_gap": {
-    "message": "Distance entre les carreaux"
+  "dial_horizontal_gap": {
+    "message": "Distance horizontale entre les carreaux"
+  },
+  "dial_vertical_gap": {
+    "message": "Distance verticale entre les carreaux"
   },
   "dial_radius": {
     "message": "Rayon de coin de carrelage"

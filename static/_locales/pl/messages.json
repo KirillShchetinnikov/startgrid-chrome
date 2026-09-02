@@ -321,8 +321,11 @@
   "dial_width": {
     "message": "Szerokość siatki"
   },
-  "dial_gap": {
-    "message": "Odległość między płytkami"
+  "dial_horizontal_gap": {
+    "message": "Odstęp poziomy między płytkami"
+  },
+  "dial_vertical_gap": {
+    "message": "Odstęp pionowy między płytkami"
   },
   "dial_radius": {
     "message": "Promień narożnika płytki"

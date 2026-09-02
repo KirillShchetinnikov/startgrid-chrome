@@ -321,8 +321,11 @@
   "dial_width": {
     "message": "網格寬度"
   },
-  "dial_gap": {
-    "message": "磁磚之間的距離"
+  "dial_horizontal_gap": {
+    "message": "磁磚之間的水平間距"
+  },
+  "dial_vertical_gap": {
+    "message": "磁磚之間的垂直間距"
   },
   "dial_radius": {
     "message": "磁磚圓角半徑"

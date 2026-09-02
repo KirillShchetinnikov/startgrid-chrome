@@ -156,7 +156,8 @@ export default {
         ? Math.min(max, Math.max(min, number))
         : fallback;
     };
-    const gap = clamp(settings.$.dial_gap, 0, 40, 16);
+    const horizontalGap = clamp(settings.$.dial_horizontal_gap, 0, 40, 16);
+    const verticalGap = clamp(settings.$.dial_vertical_gap, 0, 40, 16);
     const radius = clamp(settings.$.dial_radius, 0, 40, 18);
     const shadow = clamp(settings.$.dial_shadow, 0, 30, 8);
     const thumbnailSize = clamp(settings.$.favicon_size, 16, 128, 32);
@@ -174,7 +175,8 @@ export default {
       ? settings.$.dial_aspect_ratio
       : '4 / 3';
 
-    doc.style.setProperty('--grid-gap', `${gap}px`);
+    doc.style.setProperty('--grid-column-gap', `${horizontalGap}px`);
+    doc.style.setProperty('--grid-row-gap', `${verticalGap}px`);
     doc.style.setProperty('--bookmark-radius', `${radius}px`);
     doc.style.setProperty('--bookmark-aspect-ratio', aspectRatio);
     doc.style.setProperty('--bookmark-thumbnail-size', `${thumbnailSize}px`);
@@ -239,9 +241,18 @@ export default {
       doc.style.removeProperty('--container-padding-inline');
     }
 
-    // Calculate column dimensions
-    const colWidth = Math.floor((grid.offsetWidth - ((columns - 1) * gap)) / columns);
-    // if column width less than 80px do not update styles
+    // Keep tile size stable when only horizontal spacing changes. Use 16px as the
+    // reference gap so the default layout retains its existing tile dimensions.
+    const referenceGap = 16;
+    const preferredColumnWidth = Math.floor(
+      (grid.offsetWidth - ((columns - 1) * referenceGap)) / columns
+    );
+    const maxColumnWidth = Math.floor(
+      (doc.clientWidth - ((columns - 1) * horizontalGap)) / columns
+    );
+    const colWidth = Math.min(preferredColumnWidth, maxColumnWidth);
+    doc.style.setProperty('--grid-column-width', colWidth < 80 ? '1fr' : `${colWidth}px`);
+    // If the minimum tile width would not fit, let CSS choose the responsive column count.
     doc.style.setProperty('--grid-columns', colWidth < 80 ? '' : columns);
   }
 };

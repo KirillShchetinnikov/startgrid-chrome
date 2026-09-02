@@ -118,7 +118,9 @@
   /* Grid */
   --container-width: 100%;
   --grid-column-min-width: 80px;
-  --grid-gap: 16px;
+  --grid-column-gap: 16px;
+  --grid-row-gap: 16px;
+  --grid-column-width: 1fr;
   --grid-columns: auto-fit;
 
   /* Modal */

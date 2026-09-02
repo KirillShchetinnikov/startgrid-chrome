@@ -321,8 +321,11 @@
   "dial_width": {
     "message": "Rács szélessége"
   },
-  "dial_gap": {
-    "message": "A csempe közötti távolság"
+  "dial_horizontal_gap": {
+    "message": "Vízszintes távolság a csempék között"
+  },
+  "dial_vertical_gap": {
+    "message": "Függőleges távolság a csempék között"
   },
   "dial_radius": {
     "message": "Csempe sarok sugara"

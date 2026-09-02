@@ -79,4 +79,17 @@ describe('numeric settings validation', () => {
       expect(settings.$[key]).toBe(limits.min);
     }
   });
+
+  it('migrates the legacy shared gap into both spacing settings', async() => {
+    mockStorage({ enable_sync: false, dial_gap: 23 });
+    const { settings } = await import('../src/js/settings');
+
+    await settings.init();
+
+    expect(settings.$.dial_horizontal_gap).toBe(23);
+    expect(settings.$.dial_vertical_gap).toBe(23);
+    expect(settings.$).not.toHaveProperty('dial_gap');
+    expect(browser.storage.local.set.mock.calls.at(-1)[0].settings)
+      .not.toHaveProperty('dial_gap');
+  });
 });

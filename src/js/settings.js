@@ -45,7 +45,8 @@ const DEFAULTS = Object.freeze({
   show_last_opened_folder: false,
   dial_columns: 7,
   dial_width: 70, // value in percent (50,60,70,80,90)
-  dial_gap: 16,
+  dial_horizontal_gap: 16,
+  dial_vertical_gap: 16,
   dial_radius: 18,
   dial_aspect_ratio: '4 / 3',
   dial_shadow: 8,
@@ -105,7 +106,8 @@ const DEFAULTS = Object.freeze({
 export const NUMERIC_SETTING_LIMITS = Object.freeze({
   dial_columns: { min: 1, max: 10 },
   dial_width: { min: 50, max: 99 },
-  dial_gap: { min: 0, max: 40 },
+  dial_horizontal_gap: { min: 0, max: 40 },
+  dial_vertical_gap: { min: 0, max: 40 },
   dial_radius: { min: 0, max: 40 },
   dial_shadow: { min: 0, max: 30 },
   dial_hover_lift: { min: 0, max: 12 },
@@ -141,6 +143,7 @@ const DEPRECATED_SETTINGS = [
   'enable_virtual_pagination',
   'thumbnails_update_recursive',
   'auto_generate_thumbnail',
+  'dial_gap',
   'background_effect',
   'page_entrance_effect'
 ];
@@ -152,6 +155,16 @@ function removeNotSyncedSettings(currentSettings) {
 
 function migrateSettings(currentSettings = {}) {
   const migrated = { ...currentSettings };
+
+  if (Object.hasOwn(migrated, 'dial_gap')) {
+    if (!Object.hasOwn(migrated, 'dial_horizontal_gap')) {
+      migrated.dial_horizontal_gap = migrated.dial_gap;
+    }
+    if (!Object.hasOwn(migrated, 'dial_vertical_gap')) {
+      migrated.dial_vertical_gap = migrated.dial_gap;
+    }
+    delete migrated.dial_gap;
+  }
 
   if (Object.hasOwn(migrated, 'show_toolbar')) {
     const showToolbar = migrated.show_toolbar !== false;

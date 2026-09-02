@@ -321,8 +321,11 @@
   "dial_width": {
     "message": "Largura da grade"
   },
-  "dial_gap": {
-    "message": "Distância entre ladrilhos"
+  "dial_horizontal_gap": {
+    "message": "Distância horizontal entre ladrilhos"
+  },
+  "dial_vertical_gap": {
+    "message": "Distância vertical entre ladrilhos"
   },
   "dial_radius": {
     "message": "Raio do canto do ladrilho"

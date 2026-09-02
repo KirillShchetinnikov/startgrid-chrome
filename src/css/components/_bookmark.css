@@ -58,7 +58,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: var(--grid-gap);
+    width: var(--grid-column-gap);
     filter: contrast(2.5) drop-shadow(3px 7px 14px #fff);
   }
 
@@ -79,24 +79,24 @@
   &.dropline-before::after,
   &.dropline-after::after {
     border: 0;
-    border-inline: calc((var(--grid-gap) - 3px) / 2) solid transparent;
+    border-inline: calc((var(--grid-column-gap) - 3px) / 2) solid transparent;
     background-color: var(--dropline-color, var(--color-primary));
     background-clip: padding-box;
   }
   &.dropline-before {
     &::before {
-      left: calc((var(--grid-gap) / -2) - calc(var(--dropline-width) / 2));
+      left: calc((var(--grid-column-gap) / -2) - calc(var(--dropline-width) / 2));
     }
     &::after {
-      left: calc(var(--grid-gap) * -1);
+      left: calc(var(--grid-column-gap) * -1);
     }
   }
   &.dropline-after {
     &::before {
-      right: calc((var(--grid-gap) / -2) - calc(var(--dropline-width) / 2));
+      right: calc((var(--grid-column-gap) / -2) - calc(var(--dropline-width) / 2));
     }
     &::after {
-      right: calc(var(--grid-gap) * -1);
+      right: calc(var(--grid-column-gap) * -1);
     }
   }
 }
@@ -550,7 +550,7 @@
   & .bookmark__caption {
     flex: 0 0 auto;
     align-self: center;
-    width: calc(100% + min(var(--grid-gap), 24px));
+    width: calc(100% + min(var(--grid-column-gap), 24px));
     height: auto;
     min-height: 24px;
     padding: 7px 2px 0;
