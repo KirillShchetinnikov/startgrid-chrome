@@ -29,12 +29,14 @@ import { getEnabledSearchEngines } from './searchEngines';
 import initSearchEngineSettings from './components/searchEngineSettings';
 import initKeyboardShortcutSettings from './components/keyboardShortcutSettings';
 import { cssColorToHex } from './tileAppearance';
+import { getGridLayoutLimits } from './gridLayout';
 
 let backgroundImage = null;
 let searchEngineSettingsInstance = null;
 let keyboardShortcutSettingsInstance = null;
 let activeSettingsSection = null;
 let sectionBeforeSearch = null;
+const ranges = new Map();
 
 const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
   dial_background_color: '--theme-background-2',
@@ -54,6 +56,8 @@ async function init() {
 
   await settings.init();
 
+  await enforceGridWidth();
+
   await window.vbToggleTheme();
 
   Localization();
@@ -68,7 +72,7 @@ async function init() {
   // range settings
   Array.from(document.querySelectorAll('.js-range')).forEach(el => {
     const id = el.id;
-    new Range(el, {
+    const range = new Range(el, {
       value: settings.$[id],
       postfix: el.dataset.outputPostfix,
       onBlur(e) {
@@ -81,6 +85,7 @@ async function init() {
         }
       }
     });
+    ranges.set(id, range);
   });
 
   initSettingsNavigation();
@@ -593,6 +598,10 @@ async function handleSetOptions(e) {
 
   relationToggleOption(target);
 
+  if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(id)) {
+    await enforceGridWidth();
+  }
+
   if ([
     'home_sort_by',
     'show_home_folders',
@@ -613,6 +622,27 @@ async function handleSetOptions(e) {
   } else if (Object.hasOwn(COLOR_SETTING_THEME_VARIABLES, target.id)) {
     document.querySelector(`[data-reset-color="${target.id}"]`).disabled = false;
   }
+}
+
+async function enforceGridWidth() {
+  const gridWidthControl = document.getElementById('dial_width');
+  if (!gridWidthControl) return;
+
+  const { gridWidth, minimumGridWidth } = getGridLayoutLimits({
+    columns: settings.$.dial_columns,
+    gridWidth: settings.$.dial_width,
+    horizontalGap: settings.$.dial_horizontal_gap,
+    tileSize: settings.$.dial_tile_size,
+    viewportWidth: document.documentElement.clientWidth
+  });
+
+  gridWidthControl.min = String(minimumGridWidth);
+  ranges.get('dial_width')?.setMin(minimumGridWidth);
+  if (Number(settings.$.dial_width) !== gridWidth) {
+    await settings.updateKey('dial_width', gridWidth);
+  }
+  gridWidthControl.value = String(gridWidth);
+  ranges.get('dial_width')?.setValue(gridWidth);
 }
 
 async function handleUploadFile() {

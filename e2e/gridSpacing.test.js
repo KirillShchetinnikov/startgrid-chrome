@@ -11,9 +11,10 @@ describe('grid spacing', () => {
     expect(gridCss).toMatch(/row-gap:\s*var\(--grid-row-gap\)/);
     expect(gridCss).toMatch(/var\(--grid-column-width\)/);
     expect(uiSource).toContain('const preferredColumnWidth');
-    expect(uiSource).toContain('const maxColumnWidth');
+    expect(uiSource).toContain('const availableColumnWidth');
     expect(uiSource).toContain('const desiredColumnWidth');
     expect(uiSource).toContain('const tileSize');
+    expect(uiSource).toContain("doc.style.setProperty('--grid-columns', columns)");
     expect(bookmarkCss).toMatch(/\.bookmark\s*\{[\s\S]*?aspect-ratio:\s*var\(--bookmark-aspect-ratio\)/);
   });
 });

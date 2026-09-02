@@ -60,6 +60,18 @@ export default class Range {
     }
   }
 
+  setMin(value) {
+    this.#min = Number(value);
+    this.#el.min = String(value);
+    this.#updateTrackFill(this.#el.value);
+  }
+
+  setValue(value) {
+    this.#el.value = String(value);
+    this.#setOutput(value);
+    this.#updateTrackFill(value);
+  }
+
   #input(e) {
     this.#updateTrackFill(e.target.value);
     this.#setOutput(e.target.value);

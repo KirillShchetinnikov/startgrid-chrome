@@ -282,6 +282,10 @@ export default function initQuickDisplaySettings({
   }
 
   function syncControls() {
+    const gridLayout = UI.calculateStyles();
+    const gridWidthControl = panel.querySelector('[data-setting="dial_width"]');
+    gridWidthControl.min = String(gridLayout.minimumGridWidth);
+
     panel.querySelectorAll('[data-setting]').forEach(control => {
       const key = control.dataset.setting;
       if (control.type === 'checkbox') {
@@ -292,11 +296,14 @@ export default function initQuickDisplaySettings({
           ? cssColorToHex(settings.$[key], themeColor)
           : themeColor;
       } else {
-        control.value = settings.$[key];
+        control.value = key === 'dial_width'
+          ? gridLayout.gridWidth
+          : settings.$[key];
       }
       if (control.type === 'range') {
         const output = panel.querySelector(`#${control.id}_value`);
-        output.textContent = `${settings.$[key]}${control.dataset.unit}`;
+        const value = key === 'dial_width' ? gridLayout.gridWidth : settings.$[key];
+        output.textContent = `${value}${control.dataset.unit}`;
       }
     });
     panel.querySelectorAll('[data-quick-color-reset]').forEach(button => {
@@ -334,7 +341,15 @@ export default function initQuickDisplaySettings({
       UI.calculateStyles();
       syncControls();
     } else if (STYLE_SETTINGS.has(key)) {
-      UI.calculateStyles();
+      const gridLayout = UI.calculateStyles();
+      if (
+        persist
+        && ['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(key)
+        && Number(settings.$.dial_width) !== gridLayout.gridWidth
+      ) {
+        await settings.updateKey('dial_width', gridLayout.gridWidth);
+        syncControls();
+      }
       if (key === 'toolbar_match_tile_background') {
         panel.querySelectorAll('[data-quick-toolbar-background]').forEach(control => {
           control.hidden = Boolean(value);

@@ -181,7 +181,14 @@ async function init() {
   /**
    * UI
    */
-  UI.calculateStyles();
+  const gridLayout = UI.calculateStyles();
+  if (
+    window.matchMedia('(width > 480px)').matches
+    && Number(settings.$.dial_width) !== gridLayout.gridWidth
+  ) {
+    await settings.updateKey('dial_width', gridLayout.gridWidth);
+    UI.calculateStyles();
+  }
   UI.setBG(pageRevealStarted)
     .catch(error => console.warn('Could not initialize StartGrid background', error));
 

@@ -14,6 +14,7 @@ import {
   resolveToolbarOpacity
 } from '../tileAppearance';
 import { getBackgroundEntranceKeyframes } from '../backgroundEntrance';
+import { getGridLayoutLimits } from '../gridLayout';
 
 function createBingInfo(image) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -218,9 +219,17 @@ export default {
         : themeTextColor
     );
 
+    const gridLayout = getGridLayoutLimits({
+      columns,
+      gridWidth: lsGridWidth,
+      horizontalGap,
+      tileSize,
+      viewportWidth: doc.clientWidth
+    });
     const mediaQuery = window.matchMedia('(width > 480px)');
-    const containerWidth = mediaQuery.matches ? lsGridWidth : 100;
+    const containerWidth = mediaQuery.matches ? gridLayout.gridWidth : 100;
     doc.style.setProperty('--container-width', `${containerWidth}%`);
+    doc.style.setProperty('--grid-column-min-width', `${gridLayout.minimumColumnWidth}px`);
 
     // Reserve inline space only for controls at the right edge. The extension icon
     // floats above the page at the lower left and must not narrow the search or grid.
@@ -245,13 +254,17 @@ export default {
     const preferredColumnWidth = Math.floor(
       (grid.offsetWidth - ((columns - 1) * referenceGap)) / columns
     );
-    const maxColumnWidth = Math.floor(
-      (doc.clientWidth - ((columns - 1) * horizontalGap)) / columns
+    const availableColumnWidth = Math.floor(
+      (grid.offsetWidth - ((columns - 1) * horizontalGap)) / columns
     );
     const desiredColumnWidth = Math.floor((preferredColumnWidth * tileSize) / 100);
-    const colWidth = Math.min(desiredColumnWidth, maxColumnWidth);
-    doc.style.setProperty('--grid-column-width', colWidth < 80 ? '1fr' : `${colWidth}px`);
-    // If the minimum tile width would not fit, let CSS choose the responsive column count.
-    doc.style.setProperty('--grid-columns', colWidth < 80 ? '' : columns);
+    const colWidth = Math.max(
+      gridLayout.minimumColumnWidth,
+      Math.min(desiredColumnWidth, availableColumnWidth)
+    );
+    doc.style.setProperty('--grid-column-width', `${colWidth}px`);
+    doc.style.setProperty('--grid-columns', columns);
+
+    return gridLayout;
   }
 };
