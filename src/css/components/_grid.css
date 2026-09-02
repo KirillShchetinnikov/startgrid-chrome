@@ -1,5 +1,13 @@
 .container {
-  max-width: var(--container-width);
+  /* Keep the configured grid width when padding reserves space for corner buttons. */
+  max-width: min(
+    calc(
+      var(--container-width)
+      + var(--container-padding-inline, 0px)
+      + var(--container-padding-inline, 0px)
+    ),
+    100%
+  );
   margin: 0 auto;
   padding-inline: var(--container-padding-inline, 0);
 
