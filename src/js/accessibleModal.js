@@ -27,7 +27,9 @@ export function makeModalAccessible(modal, { initialFocus } = {}) {
   function open() {
     returnFocus = document.activeElement;
     inertElements = [...document.body.children].filter(element => {
-      return element !== modal && !element.classList.contains('gmodal-backdrop');
+      return element !== modal
+        && !element.classList.contains('gmodal-backdrop')
+        && !element.classList.contains('toast-container');
     });
     inertElements.forEach(element => {
       element.inert = true;
