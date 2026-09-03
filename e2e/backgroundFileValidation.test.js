@@ -174,6 +174,27 @@ describe('local background file validation', () => {
     expect(reportError).toHaveBeenCalledTimes(1);
   });
 
+  it('restores the previous background record and preview when applying the UI fails', async() => {
+    const revokeObjectURL = jest.fn();
+    const rollback = jest.fn().mockResolvedValue(undefined);
+
+    await expect(commitBackgroundUpload({
+      record: { id: 'background', blobThumbnail: 'new-thumbnail' },
+      persist: jest.fn().mockResolvedValue('background'),
+      createObjectURL: jest.fn(() => 'blob:new'),
+      previousObjectURL: 'blob:old',
+      revokeObjectURL,
+      rollback,
+      apply: jest.fn(() => {
+        throw new Error('preview unavailable');
+      })
+    })).resolves.toMatchObject({ ok: false, reason: 'persist' });
+
+    expect(rollback).toHaveBeenCalledTimes(1);
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:new');
+    expect(revokeObjectURL).not.toHaveBeenCalledWith('blob:old');
+  });
+
   it('keeps a committed preview when revoking the previous URL fails', async() => {
     await expect(commitBackgroundUpload({
       record: { id: 'background', blobThumbnail: 'thumbnail' },

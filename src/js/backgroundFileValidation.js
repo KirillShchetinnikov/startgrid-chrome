@@ -54,6 +54,7 @@ export async function commitBackgroundUpload({
   previousObjectURL,
   revokeObjectURL,
   apply,
+  rollback,
   reportError
 }) {
   let nextObjectURL;
@@ -72,7 +73,16 @@ export async function commitBackgroundUpload({
     }
 
     nextObjectURL = createObjectURL(record.blobThumbnail);
-    apply(nextObjectURL);
+    try {
+      apply(nextObjectURL);
+    } catch (error) {
+      try {
+        await rollback?.();
+      } catch {
+        // Keep the original apply failure while still releasing the new URL.
+      }
+      throw error;
+    }
     if (previousObjectURL) {
       try {
         revokeObjectURL(previousObjectURL);

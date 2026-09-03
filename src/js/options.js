@@ -756,6 +756,7 @@ async function handleUploadFile() {
       getVideoPoster: value => getVideoPoster(value)
     });
     const previousObjectURL = backgroundImage;
+    const previousRecord = await ImageDB.get('background');
     const result = await commitBackgroundUpload({
       record: {
         id: 'background',
@@ -766,6 +767,18 @@ async function handleUploadFile() {
       createObjectURL: value => URL.createObjectURL(value),
       previousObjectURL,
       revokeObjectURL: value => URL.revokeObjectURL(value),
+      rollback: async() => {
+        const restored = previousRecord
+          ? await ImageDB.update(previousRecord)
+          : await ImageDB.delete('background');
+        if (restored === undefined || restored === false) throw new Error('Background rollback failed');
+        const preview = document.getElementById('preview_upload');
+        preview.innerHTML = previousObjectURL
+          ? `<div class="c-upload__preview-image" style="background-image: url(${previousObjectURL});"><div>`
+          : '';
+        preview.closest('.c-upload__preview').hidden = !previousObjectURL;
+        backgroundImage = previousObjectURL;
+      },
       reportError: () => Toast.show(getMessage('notice_background_save_failed')),
       apply(objectURL) {
         document.getElementById('preview_upload').innerHTML = /* html */
