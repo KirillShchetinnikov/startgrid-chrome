@@ -543,6 +543,9 @@
   "enable_sync": {
     "message": "启用同步"
   },
+  "sync_direction_note": { "message": "选择要保留的设置。" },
+  "sync_replace_local": { "message": "用云端设置替换本地设置" },
+  "sync_replace_cloud": { "message": "用本地设置替换云端设置" },
   "clear_background_locals": {
     "message": "删除所有本地存储的缩略图"
   },

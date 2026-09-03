@@ -543,6 +543,9 @@
   "enable_sync": {
     "message": "Szinkronizálás engedélyezése"
   },
+  "sync_direction_note": { "message": "Válassza ki, mely beállításokat szeretné megtartani." },
+  "sync_replace_local": { "message": "Helyi beállítások cseréje felhőbeli beállításokra" },
+  "sync_replace_cloud": { "message": "Felhőbeli beállítások cseréje helyi beállításokra" },
   "clear_background_locals": {
     "message": "Törölje az összes helyileg tárolt miniatűr képet"
   },

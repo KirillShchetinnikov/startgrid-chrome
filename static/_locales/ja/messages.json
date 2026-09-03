@@ -543,6 +543,9 @@
   "enable_sync": {
     "message": "同期を有効にする"
   },
+  "sync_direction_note": { "message": "保持する設定を選択してください。" },
+  "sync_replace_local": { "message": "ローカル設定をクラウド設定に置き換える" },
+  "sync_replace_cloud": { "message": "クラウド設定をローカル設定に置き換える" },
   "clear_background_locals": {
     "message": "ローカルに保存されているすべてのサムネイル画像を削除します"
   },

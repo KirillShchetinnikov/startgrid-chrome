@@ -543,6 +543,9 @@
   "enable_sync": {
     "message": "啟用同步"
   },
+  "sync_direction_note": { "message": "選擇要保留的設定。" },
+  "sync_replace_local": { "message": "以雲端設定取代本機設定" },
+  "sync_replace_cloud": { "message": "以本機設定取代雲端設定" },
   "clear_background_locals": {
     "message": "刪除所有本地儲存的縮圖"
   },

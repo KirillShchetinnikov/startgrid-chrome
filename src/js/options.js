@@ -121,6 +121,8 @@ async function init() {
   document.getElementById('restore_local').addEventListener('click', handleResetLocalSettings);
   document.getElementById('restore_sync').addEventListener('click', handleResetSyncSettings);
   document.getElementById('enable_sync').addEventListener('change', handleChangeSync);
+  document.getElementById('sync_from_cloud').addEventListener('click', handleSyncFromCloud);
+  document.getElementById('sync_to_cloud').addEventListener('click', handleSyncToCloud);
   document.getElementById('clear_images').addEventListener('click', handleDeleteImages);
   document.getElementById('clear_cache').addEventListener('click', handleClearLocalCache);
   document.getElementById('toggle_clipboard_access').addEventListener('change', handleToggleClipboardAccess);
@@ -472,6 +474,12 @@ function syncConditionalControls() {
     if (row) updateSettingsRowVisibility(row, 'conditionHidden', !visible);
   });
   applySettingsFilter();
+  updateSyncActionsVisibility();
+}
+
+function updateSyncActionsVisibility() {
+  const syncActions = document.getElementById('sync_actions');
+  if (syncActions) syncActions.hidden = !settings.$.enable_sync;
 }
 
 /**
@@ -892,40 +900,30 @@ function updateDefaultFolderControl() {
   }
 }
 
-function getSyncBytesInUse() {
-  return new Promise(resolve => browser.storage.sync.getBytesInUse(null, resolve));
-}
-
 async function handleChangeSync() {
   if (!this.checked) {
     await settings.updateKey('enable_sync', false);
     updateDefaultFolderControl();
+    updateSyncActionsVisibility();
     return;
   }
 
-  const bytes = await getSyncBytesInUse();
-  if (bytes > 0) {
-    const confirmAction = await confirmPopup(getMessage('confirm_sync_remote_settings'));
-
-    if (!confirmAction) {
-      this.checked = false;
-      await settings.updateKey('enable_sync', false);
-      updateDefaultFolderControl();
-      return;
-    }
-
-    await settings.updateKey('enable_sync', true);
-    await settings.restoreFromSync();
-    await window.vbToggleTheme();
-    await enforceGridWidth();
-    getOptions();
-  } else {
-    const localFolderId = settings.$.default_folder_id;
-    await settings.updateKey('enable_sync', true);
-    await updateDefaultFolder(localFolderId);
-  }
-
+  await settings.updateKey('enable_sync', true);
   updateDefaultFolderControl();
+  updateSyncActionsVisibility();
+}
+
+async function handleSyncFromCloud() {
+  await settings.restoreFromSync();
+  await window.vbToggleTheme();
+  await enforceGridWidth();
+  getOptions();
+  updateDefaultFolderControl();
+}
+
+async function handleSyncToCloud() {
+  await updateDefaultFolder(settings.$.default_folder_id);
+  await settings.syncToStorage();
 }
 async function handleToggleClipboardAccess(e) {
   e.preventDefault();

@@ -22,7 +22,20 @@ function createSwitch(setting) {
     })
   );
 
-  return switchElement.outerHTML;
+  if (setting.id !== 'enable_sync') return switchElement.outerHTML;
+
+  return switchElement.outerHTML + /* html */`
+    <div class="sync-actions" id="sync_actions" hidden>
+      <p class="text-muted">${getMessage('sync_direction_note')}</p>
+      <div class="sync-actions__buttons">
+        <button type="button" class="btn md-ripple" id="sync_from_cloud">
+          ${getMessage('sync_replace_local')}
+        </button>
+        <button type="button" class="btn md-ripple" id="sync_to_cloud">
+          ${getMessage('sync_replace_cloud')}
+        </button>
+      </div>
+    </div>`;
 }
 
 function createSelect(setting) {

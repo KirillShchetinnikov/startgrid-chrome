@@ -543,6 +543,9 @@
   "enable_sync": {
     "message": "Włącz synchronizację"
   },
+  "sync_direction_note": { "message": "Wybierz ustawienia, które chcesz zachować." },
+  "sync_replace_local": { "message": "Zastąp ustawienia lokalne ustawieniami z chmury" },
+  "sync_replace_cloud": { "message": "Zastąp ustawienia w chmurze ustawieniami lokalnymi" },
   "clear_background_locals": {
     "message": "Usuń wszystkie przechowywane lokalnie miniatury"
   },

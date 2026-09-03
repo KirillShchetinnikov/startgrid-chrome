@@ -543,6 +543,9 @@
   "enable_sync": {
     "message": "Synchronisierung aktivieren"
   },
+  "sync_direction_note": { "message": "Wählen Sie aus, welche Einstellungen beibehalten werden sollen." },
+  "sync_replace_local": { "message": "Lokale Einstellungen durch Cloud-Einstellungen ersetzen" },
+  "sync_replace_cloud": { "message": "Cloud-Einstellungen durch lokale Einstellungen ersetzen" },
   "clear_background_locals": {
     "message": "Löschen Sie alle lokal gespeicherten Miniaturbilder"
   },

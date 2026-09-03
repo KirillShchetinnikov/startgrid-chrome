@@ -513,6 +513,9 @@
   "enable_sync": {
     "message": "Enable synchronization"
   },
+  "sync_direction_note": { "message": "Choose which settings should be kept." },
+  "sync_replace_local": { "message": "Replace local settings with cloud settings" },
+  "sync_replace_cloud": { "message": "Replace cloud settings with local settings" },
   "clear_background_locals": {
     "message": "Delete all locally stored thumbnail images"
   },

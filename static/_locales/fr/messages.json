@@ -543,6 +543,9 @@
   "enable_sync": {
     "message": "Activer la synchronisation"
   },
+  "sync_direction_note": { "message": "Choisissez les paramètres à conserver." },
+  "sync_replace_local": { "message": "Remplacer les paramètres locaux par ceux du cloud" },
+  "sync_replace_cloud": { "message": "Remplacer les paramètres du cloud par les paramètres locaux" },
   "clear_background_locals": {
     "message": "Supprimer toutes les images miniatures stockées localement"
   },

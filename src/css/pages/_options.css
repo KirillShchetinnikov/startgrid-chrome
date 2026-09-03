@@ -251,6 +251,21 @@ dl {
   opacity: 0.45;
 }
 
+.sync-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+
+  & p {
+    margin: 0;
+  }
+}
+
+.sync-actions__buttons {
+  display: grid;
+  gap: 8px;
+}
+
 .background-color-setting {
   display: flex;
   align-items: center;
