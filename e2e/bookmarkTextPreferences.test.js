@@ -1,6 +1,28 @@
 import { readFileSync } from 'node:fs';
-import { describe, expect, it } from '@jest/globals';
-import { getBookmarkTitleSizeOverride } from '../src/js/api/bookmarkTextPreferences';
+import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
+
+let getBookmarkTitleSizeOverride;
+
+beforeAll(async() => {
+  const storageArea = {
+    get: async() => ({}),
+    set: async() => {},
+    remove: async() => {},
+    clear: async() => {}
+  };
+  global.browser = {
+    runtime: { lastError: null },
+    storage: {
+      local: storageArea,
+      sync: storageArea
+    }
+  };
+  ({ getBookmarkTitleSizeOverride } = await import('../src/js/api/bookmarkTextPreferences'));
+});
+
+afterAll(() => {
+  delete global.browser;
+});
 
 describe('bookmark text preferences', () => {
   it('normalizes individual title sizes', () => {
