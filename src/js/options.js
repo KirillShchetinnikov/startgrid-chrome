@@ -35,7 +35,7 @@ import {
   getTileSizeLimits
 } from './gridLayout';
 import { scaleTileContentSettings } from './tileSizeSync';
-import { exportSettings } from './settingsExport';
+import { exportSettings, SETTINGS_JSON_FILE_TYPES } from './settingsExport';
 
 let backgroundImage = null;
 let searchEngineSettingsInstance = null;
@@ -329,10 +329,7 @@ const BACKGROUND_FILE_PICKER_OPTIONS = Object.freeze({
 async function handleImportSettingsFromPicker() {
   try {
     const file = await $filePicker({
-      types: [{
-        description: 'StartGrid backup',
-        accept: { 'application/json': ['.backup'] }
-      }],
+      types: SETTINGS_JSON_FILE_TYPES,
       excludeAcceptAllOption: true,
       multiple: false
     });

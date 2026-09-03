@@ -1,11 +1,13 @@
-export const SETTINGS_EXPORT_FILE_NAME = 'startgrid-settings.backup';
+export const SETTINGS_EXPORT_FILE_NAME = 'startgrid-settings.json';
+
+export const SETTINGS_JSON_FILE_TYPES = Object.freeze([{
+  description: 'JSON settings',
+  accept: { 'application/json': ['.json'] }
+}]);
 
 const SETTINGS_EXPORT_PICKER_OPTIONS = Object.freeze({
   suggestedName: SETTINGS_EXPORT_FILE_NAME,
-  types: [{
-    description: 'JSON settings backup',
-    accept: { 'application/json': ['.json', '.backup'] }
-  }]
+  types: SETTINGS_JSON_FILE_TYPES
 });
 
 function isPickerCancellation(error) {

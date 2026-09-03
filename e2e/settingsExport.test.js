@@ -13,7 +13,11 @@ describe('settings export', () => {
       .resolves.toEqual({ ok: true, method: 'picker' });
 
     expect(showSaveFilePicker).toHaveBeenCalledWith(expect.objectContaining({
-      suggestedName: SETTINGS_EXPORT_FILE_NAME
+      suggestedName: SETTINGS_EXPORT_FILE_NAME,
+      types: [{
+        description: 'JSON settings',
+        accept: { 'application/json': ['.json'] }
+      }]
     }));
     expect(write).toHaveBeenCalledWith(expect.any(Blob));
     expect(close).toHaveBeenCalledTimes(1);
@@ -51,4 +55,8 @@ describe('settings export', () => {
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:settings');
     expect(schedule).toHaveBeenCalledWith(expect.any(Function), 0);
   });
+});
+
+it('uses the JSON extension for every export path', () => {
+  expect(SETTINGS_EXPORT_FILE_NAME).toBe('startgrid-settings.json');
 });
