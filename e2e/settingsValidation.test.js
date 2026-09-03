@@ -108,4 +108,25 @@ describe('numeric settings validation', () => {
     expect(browser.storage.local.set.mock.calls.at(-1)[0].settings)
       .not.toHaveProperty('dial_gap');
   });
+
+  it('keeps the synchronized default folder when synchronization is disabled', async() => {
+    mockStorage({
+      enable_sync: true,
+      default_folder_id: 'local-folder',
+      sync_default_folder_id: 'synced-folder'
+    });
+    const { settings } = await import('../src/js/settings');
+
+    await settings.init();
+    await settings.updateKey('enable_sync', false);
+
+    expect(settings.defaultFolderId).toBe('synced-folder');
+    expect(settings.$).toMatchObject({
+      enable_sync: false,
+      default_folder_id: 'synced-folder',
+      sync_default_folder_id: 'synced-folder'
+    });
+    expect(browser.storage.local.set.mock.calls.at(-1)[0].settings.default_folder_id)
+      .toBe('synced-folder');
+  });
 });

@@ -424,8 +424,10 @@ const settingsStore = () => {
         throw Error('Settings store must be initialized with the init method');
       }
 
+      const disablingSync = key === 'enable_sync' && $settings.enable_sync && value === false;
       $settings = sanitizeSettings({
         ...$settings,
+        ...(disablingSync && { default_folder_id: this.defaultFolderId }),
         [key]: value
       }, false);
       // resave settings in local storage
