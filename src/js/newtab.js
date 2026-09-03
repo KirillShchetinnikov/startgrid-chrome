@@ -23,7 +23,8 @@ import {
   $createElement,
   $copyStr,
   $notifications,
-  checkClipboardImage
+  checkClipboardImage,
+  faviconURL
 } from './utils';
 import ImageDB from './api/imageDB';
 import {
@@ -760,8 +761,14 @@ function showModalBlob(blob, id = null) {
   const imgElement = customScreen.querySelector('img');
   const image = URL.createObjectURL(blob);
 
-  customScreen.style.display = 'block';
+  showModalImage(image, id);
   imgElement.onload = () => URL.revokeObjectURL(image);
+}
+
+function showModalImage(image, id = null) {
+  const imgElement = customScreen.querySelector('img');
+  customScreen.style.display = 'block';
+  imgElement.onload = null;
   imgElement.src = image;
   if (id) {
     resetCustomImageButton.setAttribute('data-bookmark', id);
@@ -774,7 +781,13 @@ function showModalBlob(blob, id = null) {
 async function showModalThumbnail(id, showStoredImage = true) {
   const imageData = await ImageDB.get(id);
   if (!imageData?.blob || !showStoredImage) {
-    customScreen.style.display = '';
+    const bookmark = document.getElementById(`vb-${id}`);
+    if (bookmark?.url && (imageData?.source || bookmark.thumbnailSource || 'favicon') === 'favicon') {
+      const size = Number(thumbnailImageSize.value) || settings.$.favicon_size;
+      showModalImage(faviconURL(bookmark.url, size));
+    } else {
+      customScreen.style.display = '';
+    }
     deleteThumbnailButton.disabled = true;
     return;
   }
