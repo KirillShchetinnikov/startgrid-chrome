@@ -491,8 +491,8 @@ function toggleBackgroundControls(value) {
     }
     document.querySelector('.c-upload__preview').hidden = !backgroundImage;
   }
-  const activeControl = document.getElementById(value)
-    || document.querySelector(`[data-background-setting="${value}"]`);
+  const activeControl = document.querySelector(`[data-background-setting="${value}"]`)
+    || document.getElementById(value);
   if (activeControl) activeControl.hidden = false;
 }
 
