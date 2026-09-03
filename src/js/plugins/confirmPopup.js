@@ -3,8 +3,13 @@ import { $createElement } from '../utils';
 import { getMessage } from '../i18n';
 import { makeModalAccessible } from '../accessibleModal';
 
-const template = /* html */
-`<div class="gmodal__container gmodal__container--popup has-center">
+function createTemplate(choices = null) {
+  const actionButtons = choices
+    ? choices.map(choice => /* html */`<button type="button" class="btn md-ripple"
+        data-popup="resolve" data-popup-value="${choice.value}">${choice.text}</button>`).join('')
+    : '<button type="button" class="btn md-ripple" data-popup="resolve">Ok</button>';
+
+  return /* html */`<div class="gmodal__container gmodal__container--popup has-center">
   <div class="gmodal__dialog" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
     <div class="gmodal__header">
       <h2 class="gmodal__title" id="popupTitle">${getMessage('ext_name')}</h2>
@@ -17,20 +22,21 @@ const template = /* html */
     <div class="gmodal__body" id="popupBody"></div>
     <div class="gmodal__footer text-right">
       <button type="button" class="btn btn--clear md-ripple" data-popup="reject">${getMessage('btn_close')}</button>
-      <button type="button" class="btn md-ripple" data-popup="resolve">Ok</button>
+      ${actionButtons}
     </div>
   </div>
 </div>`;
+}
 
-function confirmPopup(message) {
-  let confirm = false;
+function confirmPopup(message, { choices = null } = {}) {
+  let result = false;
   const popupEl = $createElement('div',
     {
       class: 'gmodal gmodal--popup',
       id: 'popup'
     },
     {
-      html: template
+      html: createTemplate(choices)
     }
   );
   document.body.appendChild(popupEl);
@@ -54,7 +60,9 @@ function confirmPopup(message) {
   return new Promise((resolve) => {
     const handleClick = function() {
       const target = this.dataset.popup;
-      confirm = (target === 'resolve');
+      result = target === 'resolve'
+        ? (choices ? this.dataset.popupValue : true)
+        : false;
       popupInstance.close();
     };
 
@@ -64,8 +72,8 @@ function confirmPopup(message) {
       });
 
       popupInstance.element.removeEventListener('gmodal:close', closePopup);
-      resolve(confirm);
-      confirm = false;
+      resolve(result);
+      result = false;
       popupInstance.destroy();
       removeAccessibility();
       popupEl.remove();
