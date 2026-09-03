@@ -644,6 +644,7 @@ const legacySettings = [
       {
         id: 'clear_cache',
         title: getMessage('clear_local_cache'),
+        note: getMessage('clear_local_cache_description'),
         type: 'button',
         text: getMessage('btn_apply')
       },

@@ -552,6 +552,9 @@
   "clear_local_cache": {
     "message": "Lokalen Cache leeren"
   },
+  "clear_local_cache_description": {
+    "message": "Entfernt temporäre Daten auf diesem Gerät. Einstellungen, Hintergrund und gespeicherte Miniaturbilder bleiben erhalten."
+  },
   "reset_local_default": {
     "message": "Setzen Sie die Einstellungen auf die Standardwerte zurück"
   },

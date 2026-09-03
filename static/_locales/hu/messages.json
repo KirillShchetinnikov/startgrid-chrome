@@ -552,6 +552,9 @@
   "clear_local_cache": {
     "message": "Törölje a helyi gyorsítótárat"
   },
+  "clear_local_cache_description": {
+    "message": "Eltávolítja az ideiglenes adatokat erről az eszközről. A beállítások, a háttér és a mentett miniatűrök megmaradnak."
+  },
   "reset_local_default": {
     "message": "Állítsa vissza a beállításokat az alapértelmezett értékekre"
   },

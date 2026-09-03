@@ -552,6 +552,9 @@
   "clear_local_cache": {
     "message": "清除本地快取"
   },
+  "clear_local_cache_description": {
+    "message": "刪除此裝置上的暫存資料。設定、背景和已儲存的縮圖會保留。"
+  },
   "reset_local_default": {
     "message": "將設定重設為預設值"
   },

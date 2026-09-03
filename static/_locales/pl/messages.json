@@ -552,6 +552,9 @@
   "clear_local_cache": {
     "message": "Wyczyść lokalną pamięć podręczną"
   },
+  "clear_local_cache_description": {
+    "message": "Usuwa dane tymczasowe z tego urządzenia. Ustawienia, tło i zapisane miniatury pozostają zachowane."
+  },
   "reset_local_default": {
     "message": "Zresetuj ustawienia do wartości domyślnych"
   },

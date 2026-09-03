@@ -552,6 +552,9 @@
   "clear_local_cache": {
     "message": "ローカルキャッシュをクリアする"
   },
+  "clear_local_cache_description": {
+    "message": "このデバイスの一時データを削除します。設定、背景、保存済みのサムネイルは保持されます。"
+  },
   "reset_local_default": {
     "message": "設定をデフォルト値にリセットする"
   },

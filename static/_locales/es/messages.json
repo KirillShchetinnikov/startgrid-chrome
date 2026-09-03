@@ -552,6 +552,9 @@
   "clear_local_cache": {
     "message": "Borrar caché local"
   },
+  "clear_local_cache_description": {
+    "message": "Elimina los datos temporales de este dispositivo. Se conservan la configuración, el fondo y las miniaturas guardadas."
+  },
   "reset_local_default": {
     "message": "Restablecer la configuración a los valores predeterminados"
   },

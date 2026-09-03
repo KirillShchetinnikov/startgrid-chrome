@@ -552,6 +552,9 @@
   "clear_local_cache": {
     "message": "清除本地缓存"
   },
+  "clear_local_cache_description": {
+    "message": "删除此设备上的临时数据。设置、背景和已保存的缩略图会保留。"
+  },
   "reset_local_default": {
     "message": "将设置重置为默认值"
   },

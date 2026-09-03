@@ -522,6 +522,9 @@
   "clear_local_cache": {
     "message": "Clear local cache"
   },
+  "clear_local_cache_description": {
+    "message": "Removes temporary data on this device. Your settings, background, and saved thumbnails are kept."
+  },
   "reset_local_default": {
     "message": "Reset settings to default values"
   },
