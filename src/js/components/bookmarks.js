@@ -794,21 +794,11 @@ const Bookmarks = (() => {
     const i18n = getMessage(
       'thumbnails_creation',
       [
-        '<strong id="progress-text">0</strong>',
+        '<strong class="thumbnail-progress-text">0</strong>',
         sum
       ]
     );
-    const progressToast = $createElement(
-      'div', {
-        class: 'progress-toast'
-      },
-      {
-        html:
-          `<div class="progress-toast__icon">${SVG_LOADER}</div>` +
-          `<div class="progress-toast__text">${i18n}</div>`
-      }
-    );
-    return progressToast;
+    return `<span class="thumbnail-progress-icon">${SVG_LOADER}</span>${i18n}`;
   }
 
   /**
@@ -831,18 +821,17 @@ const Bookmarks = (() => {
 
   async function captureMultipleBookmarks(selectedBookmarks, showNotice) {
     const bookmarksLength = selectedBookmarks.filter(b => !b.isFolder).length;
-    // create notification toast
-    const progressToast = renderProgressToast(bookmarksLength);
-    document.body.append(progressToast);
-    const progressToastTween = progressToast.animate([
-      { transform: 'translate3D(-100%, 0, 0)' },
-      { transform: 'translate3D(0, 0, 0)' }
-    ], {
-      duration: 200,
-      easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-      fill: 'forwards'
+    let cancelled = false;
+    let completed = false;
+    const progressToast = Toast.show({
+      trustedHtml: renderProgressToast(bookmarksLength),
+      modClass: 'toast--thumbnail-progress',
+      delay: 0,
+      onClose: () => {
+        if (!completed) cancelled = true;
+      }
     });
-    const progressText = document.getElementById('progress-text');
+    const progressText = progressToast.element.querySelector('.thumbnail-progress-text');
 
     isGeneratedThumbs = true;
     $customTrigger('thumbnails:updating', container);
@@ -850,7 +839,10 @@ const Bookmarks = (() => {
 
     try {
       for (const [index, b] of selectedBookmarks.entries()) {
+        if (cancelled) break;
         progressText.textContent = index + 1;
+        const bookmark = document.getElementById(`vb-${b.id}`);
+        bookmark?.classList.add('is-thumbnail-updating');
         try {
           const currentThumbnail = await ImageDB.get(b.id);
           if (currentThumbnail?.source === 'local') continue;
@@ -861,11 +853,16 @@ const Bookmarks = (() => {
             const sourceUrl = currentThumbnail?.sourceUrl || b.url;
             if (!sourceUrl) continue;
             response = await requestRemoteThumbnail(b.id, sourceUrl, { source, sourceUrl });
-            if (response?.success === false) continue;
+            if (response?.success === false) {
+              captureFailed = true;
+              bookmark?.classList.add('is-thumbnail-error');
+              continue;
+            }
           } else {
             response = await captureScreen(b.url, b.id);
             if (!response.ok) {
               captureFailed = true;
+              bookmark?.classList.add('is-thumbnail-error');
               continue;
             }
           }
@@ -877,7 +874,6 @@ const Bookmarks = (() => {
           if (thumbnail) URL.revokeObjectURL(thumbnail.blobUrl);
           THUMBNAILS_MAP.set(b.id, { ...image, blobUrl });
 
-          const bookmark = document.getElementById(`vb-${b.id}`);
           if (bookmark) {
             bookmark.isCustomImage = image.custom;
             bookmark.image = blobUrl;
@@ -886,16 +882,20 @@ const Bookmarks = (() => {
           console.warn(`Could not refresh thumbnail ${b.id}`, error);
           if (b.url) {
             captureFailed = true;
+            bookmark?.classList.add('is-thumbnail-error');
           }
+        } finally {
+          bookmark?.classList.remove('is-thumbnail-updating');
+          window.setTimeout(() => bookmark?.classList.remove('is-thumbnail-error'), 1800);
         }
       }
       if (showNotice) $notifications(getMessage('notice_thumbnails_update_complete'));
       if (captureFailed) Toast.show(getMessage('notice_thumbnail_capture_failed'));
     } finally {
+      completed = true;
       isGeneratedThumbs = false;
       $customTrigger('thumbnails:updated', container);
-      progressToastTween.reverse();
-      progressToastTween.onfinish = () => progressToast.remove();
+      progressToast.close();
     }
   }
 

@@ -145,6 +145,8 @@ const Toast = (() => {
 
       timer = setTimeout(hideToast, settings.delay);
     }
+
+    return { element: toast, close: hideToast };
   }
 
   init();
