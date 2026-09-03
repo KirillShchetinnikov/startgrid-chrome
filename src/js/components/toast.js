@@ -97,9 +97,10 @@ const Toast = (() => {
 
       clearTimeout(timer);
 
+      settings.onClose?.();
+
       setTimeout(() => {
         toast.remove();
-        settings.onClose?.();
       }, 250);
     }
 

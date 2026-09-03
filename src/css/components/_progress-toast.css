@@ -28,16 +28,3 @@
   height: 100%;
   margin: 0;
 }
-
-.toast--thumbnail-progress .thumbnail-progress-icon {
-  display: inline-flex;
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-  vertical-align: middle;
-}
-
-.toast--thumbnail-progress .thumbnail-progress-icon .loading {
-  width: 100%;
-  height: 100%;
-}

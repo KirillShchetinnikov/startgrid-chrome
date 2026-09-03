@@ -27,8 +27,7 @@ import {
 } from '../utils';
 import {
   DEFAULT_BOOKMARKS_FOLDER,
-  ROOT_FOLDERS,
-  SVG_LOADER
+  ROOT_FOLDERS
 } from '../constants';
 import { bookmarksToDelete } from '../state';
 import  confirmPopup from '../plugins/confirmPopup.js';
@@ -798,7 +797,7 @@ const Bookmarks = (() => {
         sum
       ]
     );
-    return `<span class="thumbnail-progress-icon">${SVG_LOADER}</span>${i18n}`;
+    return i18n;
   }
 
   /**
@@ -842,10 +841,10 @@ const Bookmarks = (() => {
         if (cancelled) break;
         progressText.textContent = index + 1;
         const bookmark = document.getElementById(`vb-${b.id}`);
-        bookmark?.classList.add('is-thumbnail-updating');
         try {
           const currentThumbnail = await ImageDB.get(b.id);
           if (currentThumbnail?.source === 'local') continue;
+          bookmark?.classList.add('is-thumbnail-updating');
 
           let response;
           if (!currentThumbnail || ['url', 'favicon'].includes(currentThumbnail.source)) {
@@ -853,7 +852,7 @@ const Bookmarks = (() => {
             const sourceUrl = currentThumbnail?.sourceUrl || b.url;
             if (!sourceUrl) continue;
             response = await requestRemoteThumbnail(b.id, sourceUrl, { source, sourceUrl });
-            if (response?.success === false) {
+            if (!response?.success) {
               captureFailed = true;
               bookmark?.classList.add('is-thumbnail-error');
               continue;
@@ -868,7 +867,11 @@ const Bookmarks = (() => {
           }
 
           const image = await ImageDB.get(b.id);
-          if (!image?.blob) continue;
+          if (!image?.blob) {
+            captureFailed = true;
+            bookmark?.classList.add('is-thumbnail-error');
+            continue;
+          }
           const blobUrl = URL.createObjectURL(image.blob);
           const thumbnail = THUMBNAILS_MAP.get(b.id);
           if (thumbnail) URL.revokeObjectURL(thumbnail.blobUrl);
@@ -1030,9 +1033,17 @@ const Bookmarks = (() => {
 
   function requestRemoteThumbnail(id, url, options = {}) {
     return new Promise((resolve) => {
+      let settled = false;
+      const finish = response => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        resolve(response);
+      };
+      const timeout = setTimeout(() => finish({ success: false, code: 'TIMEOUT' }), 2000);
       browser.runtime.sendMessage({
         remoteThumbnail: { id, url, ...options }
-      }, response => resolve(response));
+      }, response => finish(response));
     });
   }
   function applyStoredThumbnail(bookmark, image) {
@@ -1075,8 +1086,8 @@ const Bookmarks = (() => {
     return response;
   }
 
-  function setRemoteThumbnail(bookmark, url) {
-    return applyRemoteThumbnail(bookmark, url, true);
+  function setRemoteThumbnail(bookmark, url, showNotice = true) {
+    return applyRemoteThumbnail(bookmark, url, showNotice);
   }
 
   async function setLocalThumbnailSource(id) {
@@ -1102,11 +1113,11 @@ const Bookmarks = (() => {
     bookmark.thumbnailSource = 'local';
   }
 
-  function setFaviconThumbnailSource(bookmark, pageUrl = bookmark.url) {
+  function setFaviconThumbnailSource(bookmark, pageUrl = bookmark.url, showNotice = true) {
     return applyRemoteThumbnail(
       bookmark,
       pageUrl,
-      true,
+      showNotice,
       { source: 'favicon', sourceUrl: pageUrl }
     );
   }

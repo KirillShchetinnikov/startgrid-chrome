@@ -205,6 +205,9 @@
   "notice_thumb_image_updated": {
     "message": "Миниатюра закладки обновлена."
   },
+  "notice_thumbnail_updating": {
+    "message": "Обновление миниатюры..."
+  },
   "notice_bookmark_exist": {
     "message": "Закладка уже существует"
   },

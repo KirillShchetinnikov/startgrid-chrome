@@ -205,6 +205,9 @@
   "notice_thumb_image_updated": {
     "message": "Miniatura do favorito atualizada"
   },
+  "notice_thumbnail_updating": {
+    "message": "Updating thumbnail..."
+  },
   "notice_bookmark_exist": {
     "message": "O favorito já existe"
   },

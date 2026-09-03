@@ -205,6 +205,9 @@
   "notice_thumb_image_updated": {
     "message": "书签缩略图已更新"
   },
+  "notice_thumbnail_updating": {
+    "message": "Updating thumbnail..."
+  },
   "notice_bookmark_exist": {
     "message": "书签已存在"
   },

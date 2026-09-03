@@ -12,10 +12,9 @@ export const CAPTURE_ERROR_CODES = Object.freeze([
 ]);
 
 export const MAX_CAPTURE_DELAY_MS = 15000;
-export const CAPTURE_WORKER_BASE_TIMEOUT_MS = 25000;
-export const CAPTURE_WORKER_MAX_TIMEOUT_MS =
-  CAPTURE_WORKER_BASE_TIMEOUT_MS + MAX_CAPTURE_DELAY_MS;
-export const CAPTURE_CLIENT_SAFETY_MARGIN_MS = 5000;
+export const CAPTURE_WORKER_BASE_TIMEOUT_MS = 2000;
+export const CAPTURE_WORKER_MAX_TIMEOUT_MS = CAPTURE_WORKER_BASE_TIMEOUT_MS;
+export const CAPTURE_CLIENT_SAFETY_MARGIN_MS = 100;
 export const CAPTURE_CLIENT_TIMEOUT_MS =
   CAPTURE_WORKER_MAX_TIMEOUT_MS + CAPTURE_CLIENT_SAFETY_MARGIN_MS;
 
@@ -79,7 +78,8 @@ export function normalizeCaptureDelay(value) {
 }
 
 export function getCaptureWorkerTimeout(captureDelay) {
-  return CAPTURE_WORKER_BASE_TIMEOUT_MS + normalizeCaptureDelay(captureDelay);
+  normalizeCaptureDelay(captureDelay);
+  return CAPTURE_WORKER_BASE_TIMEOUT_MS;
 }
 
 export function requestThumbnailCapture(

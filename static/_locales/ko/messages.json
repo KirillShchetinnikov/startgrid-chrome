@@ -205,6 +205,9 @@
   "notice_thumb_image_updated": {
     "message": "북마크 미리보기 이미지가 업데이트되었습니다."
   },
+  "notice_thumbnail_updating": {
+    "message": "Updating thumbnail..."
+  },
   "notice_bookmark_exist": {
     "message": "북마크가 이미 존재합니다."
   },

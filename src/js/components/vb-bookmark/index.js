@@ -54,10 +54,8 @@ class VbBookmark extends HTMLAnchorElement {
         html: SVG_LOADER
       });
       this.appendChild(this.#overlayEl);
-      this.classList.add('disable-events');
     } else {
       this.#overlayEl?.remove();
-      this.classList.remove('disable-events');
     }
   }
 

@@ -158,7 +158,7 @@ describe('thumbnail capture RPC', () => {
     callbackHolder.callback({ ok: true, id: '8' });
   });
 
-  it('does not time out the client when a max-delay worker finishes after 35 seconds', async() => {
+  it('does not time out the client when a worker finishes at its deadline', async() => {
     jest.useFakeTimers();
     const pending = requestThumbnailCapture({
       lastError: null,

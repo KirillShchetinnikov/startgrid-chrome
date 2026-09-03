@@ -846,38 +846,56 @@ async function handleCaptureThumbnail() {
     return;
   }
 
-  let response;
-  if (source === 'site') {
-    const permission = await Bookmarks.checkHostPermissions();
-    if (!permission) return;
-    const blob = await Bookmarks.captureThumbnailBlob(pageUrl, permission);
-    if (blob) {
-      await Bookmarks.uploadScreen(bookmark, blob, {
-        source: 'site',
-        custom: false,
-        showNotice: false
-      });
-      response = { success: true };
-    }
-  } else if (source === 'url') {
-    const permission = await Bookmarks.checkHostPermissions();
-    if (!permission) return;
-    response = await Bookmarks.setRemoteThumbnail(bookmark, remoteUrl);
-  } else if (source === 'favicon') {
-    const permission = await Bookmarks.checkHostPermissions();
-    if (!permission) return;
-    response = await Bookmarks.setFaviconThumbnailSource(bookmark, pageUrl);
-  }
+  const progressToast = Toast.show({
+    message: getMessage('notice_thumbnail_updating'),
+    delay: 0
+  });
+  bookmark.hasOverlay = true;
 
-  if (response && !response.warning && response.success !== false) {
-    form.dataset.oldThumbnailSource = source;
-    form.dataset.oldThumbnailUrl = remoteUrl;
-    if (['site', 'favicon'].includes(source)) {
-      form.dataset.oldUrl = pageUrl;
+  try {
+    let response;
+    if (source === 'site') {
+      const permission = await Bookmarks.checkHostPermissions();
+      if (!permission) return;
+      const blob = await Bookmarks.captureThumbnailBlob(pageUrl, permission);
+      if (blob) {
+        await Bookmarks.uploadScreen(bookmark, blob, {
+          source: 'site',
+          custom: false,
+          showNotice: false
+        });
+        response = { success: true };
+      }
+    } else if (source === 'url') {
+      const permission = await Bookmarks.checkHostPermissions();
+      if (!permission) return;
+      response = await Bookmarks.setRemoteThumbnail(bookmark, remoteUrl, false);
+    } else if (source === 'favicon') {
+      const permission = await Bookmarks.checkHostPermissions();
+      if (!permission) return;
+      response = await Bookmarks.setFaviconThumbnailSource(bookmark, pageUrl, false);
     }
-    form.dataset.thumbnailHasImage = 'true';
-    handleThumbnailSourceChange();
-    await showModalThumbnail(bookmark.id);
+
+    if (response && !response.warning && response.success !== false) {
+      form.dataset.oldThumbnailSource = source;
+      form.dataset.oldThumbnailUrl = remoteUrl;
+      if (['site', 'favicon'].includes(source)) {
+        form.dataset.oldUrl = pageUrl;
+      }
+      form.dataset.thumbnailHasImage = 'true';
+      handleThumbnailSourceChange();
+      await showModalThumbnail(bookmark.id);
+      Toast.show(getMessage('notice_thumb_image_updated'));
+    } else {
+      bookmark.classList.add('is-thumbnail-error');
+      window.setTimeout(() => bookmark.classList.remove('is-thumbnail-error'), 1800);
+      if (source !== 'site') {
+        Toast.show(getMessage('notice_thumbnail_url_failed'));
+      }
+    }
+  } finally {
+    bookmark.hasOverlay = false;
+    progressToast.close();
   }
 }
 
