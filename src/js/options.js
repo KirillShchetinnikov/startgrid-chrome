@@ -45,6 +45,7 @@ let sectionBeforeSearch = null;
 const ranges = new Map();
 
 const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
+  background_color: '--theme-background',
   dial_background_color: '--theme-background-2',
   dial_title_color: '--theme-text-color',
   toolbar_background_color: '--theme-background-2'
@@ -414,7 +415,7 @@ function syncColorControl(settingId) {
   const customColor = settings.$[settingId];
   const themeColor = getThemeColor(settingId);
   colorInput.value = customColor ? cssColorToHex(customColor, themeColor) : themeColor;
-  resetButton.disabled = !customColor;
+  if (resetButton) resetButton.disabled = !customColor;
 }
 
 async function handleResetColor(e) {
@@ -493,7 +494,9 @@ function toggleBackgroundControls(value) {
     }
     document.querySelector('.c-upload__preview').hidden = !backgroundImage;
   }
-  document.getElementById(value).hidden = false;
+  const activeControl = document.getElementById(value)
+    || document.querySelector(`[data-background-setting="${value}"]`);
+  if (activeControl) activeControl.hidden = false;
 }
 
 function relationToggleOption(target) {
@@ -624,7 +627,8 @@ async function handleSetOptions(e) {
       if (!settings.$[settingId]) syncColorControl(settingId);
     });
   } else if (Object.hasOwn(COLOR_SETTING_THEME_VARIABLES, target.id)) {
-    document.querySelector(`[data-reset-color="${target.id}"]`).disabled = false;
+    const resetButton = document.querySelector(`[data-reset-color="${target.id}"]`);
+    if (resetButton) resetButton.disabled = false;
   }
 }
 

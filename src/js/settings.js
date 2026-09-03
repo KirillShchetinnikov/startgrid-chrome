@@ -27,6 +27,7 @@ const DEFAULTS = Object.freeze({
   language: 'auto',
   color_theme: 'os',
   background_image: 'background_noimage',
+  background_color: '',
   background_external: '',
   background_entrance_effect: 'none',
   background_entrance_duration: 500,

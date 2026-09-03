@@ -246,6 +246,7 @@ const legacySettings = [
         type: 'select',
         options: [
           { value: 'background_noimage', title: getMessage('background_noimage') },
+          { value: 'background_color', title: getMessage('color') },
           { value: 'background_external', title: getMessage('background_external') },
           { value: 'background_local', title: getMessage('background_local') },
           { value: 'background_bing', title: getMessage('background_bing') }

@@ -54,6 +54,20 @@ export default {
   async setBG(pageRevealStarted = Promise.resolve()) {
     const bgEl = document.getElementById('bg');
     const bgState = settings.$.background_image;
+    const doc = document.documentElement;
+
+    document.body.classList.remove('has-color-background');
+    doc.style.removeProperty('--body-background');
+
+    if (bgState === 'background_color') {
+      const themeBackground = window.getComputedStyle(doc).getPropertyValue('--theme-background');
+      doc.style.setProperty(
+        '--body-background',
+        cssColorToHex(settings.$.background_color, cssColorToHex(themeBackground))
+      );
+      document.body.classList.add('has-color-background');
+      return;
+    }
 
     if (!['background_local', 'background_external', 'background_bing'].includes(bgState)) {
       return;

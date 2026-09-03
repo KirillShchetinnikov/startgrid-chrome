@@ -143,6 +143,12 @@ function createKeyboardShortcuts(setting) {
 function createBackgroundSetting() {
   return (/* html */
   `<div id="background_noimage" class="tbl__option js-background-settings js-change text-muted" hidden>${getMessage('background_noimage_text')}</div>
+  <label id="background_color_setting" data-background-setting="background_color"
+    class="tbl__option js-background-settings background-color-setting" hidden>
+    <span>${getMessage('color')}</span>
+    <input type="color" class="background-color-setting__input js-change" id="background_color"
+      name="background_color" aria-label="${getMessage('color')}">
+  </label>
   <div id="background_bing" class="tbl__option js-background-settings js-change text-muted" hidden>${getMessage('background_bing_text')}</div>
   <div id="background_local" class="tbl__option js-background-settings">
     <div class="c-upload">

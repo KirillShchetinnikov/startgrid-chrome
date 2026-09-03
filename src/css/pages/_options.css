@@ -251,6 +251,22 @@ dl {
   opacity: 0.45;
 }
 
+.background-color-setting {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.background-color-setting__input {
+  width: 52px;
+  height: 40px;
+  padding: 3px;
+  background: var(--input-bg);
+  border: var(--input-border);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .search-engine-editor__item {
   padding: 12px;
   background: var(--theme-background-2);

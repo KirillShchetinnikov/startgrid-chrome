@@ -22,6 +22,11 @@ body {
   overflow-y: hidden;
 }
 
+body.has-color-background,
+body.has-color-background .page-reveal {
+  background-image: none;
+}
+
 .page-reveal {
   position: fixed;
   z-index: 10000;
