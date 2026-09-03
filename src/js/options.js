@@ -35,6 +35,7 @@ import {
   getTileSizeLimits
 } from './gridLayout';
 import { scaleTileContentSettings } from './tileSizeSync';
+import { exportSettings } from './settingsExport';
 
 let backgroundImage = null;
 let searchEngineSettingsInstance = null;
@@ -400,19 +401,10 @@ async function handleExportSettings() {
     return acc;
   }, {});
 
-  const url = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
-  try {
-    await browser.downloads.download({
-      url,
-      filename: 'startgrid-settings.backup',
-      conflictAction: 'uniquify',
-      saveAs: true
-    });
-  } catch (error) {
+  const result = await exportSettings(data);
+  if (!result.ok && !result.cancelled) {
     Toast.show(getMessage('import_settings_failed'));
-    console.warn(error);
-  } finally {
-    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    console.warn(result.error);
   }
 }
 
