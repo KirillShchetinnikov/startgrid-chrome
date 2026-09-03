@@ -259,8 +259,40 @@ export function $uid() {
 }
 
 export async function $filePicker(pickerOpts) {
-  const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
-  return fileHandle.getFile();
+  if (typeof window.showOpenFilePicker === 'function') {
+    try {
+      const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
+      return fileHandle?.getFile();
+    } catch (error) {
+      if (error?.name === 'AbortError') return null;
+      throw error;
+    }
+  }
+
+  return new Promise(resolve => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.multiple = Boolean(pickerOpts?.multiple);
+    input.accept = (pickerOpts?.types || []).flatMap(type => {
+      return Object.values(type.accept || {}).flat();
+    }).join(',');
+    input.hidden = true;
+    document.body.append(input);
+
+    let finished = false;
+    const finish = file => {
+      if (finished) return;
+      finished = true;
+      input.remove();
+      resolve(file || null);
+    };
+    input.addEventListener('change', () => finish(input.files?.[0]));
+    input.addEventListener('cancel', () => finish(null), { once: true });
+    window.addEventListener('focus', () => {
+      setTimeout(() => finish(null), 100);
+    }, { once: true });
+    input.click();
+  });
 }
 
 export function faviconURL(url, size = 16) {

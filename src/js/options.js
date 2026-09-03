@@ -325,10 +325,6 @@ const BACKGROUND_FILE_PICKER_OPTIONS = Object.freeze({
   multiple: false
 });
 
-function isFilePickerCanceled(error) {
-  return error?.name === 'AbortError';
-}
-
 async function handleImportSettingsFromPicker() {
   try {
     const file = await $filePicker({
@@ -339,26 +335,24 @@ async function handleImportSettingsFromPicker() {
       excludeAcceptAllOption: true,
       multiple: false
     });
+    if (!file) return;
     handleImportSettings({ target: { files: [file] } });
   } catch (error) {
-    if (!isFilePickerCanceled(error)) {
-      Toast.show(getMessage('import_settings_failed'));
-      console.warn(error);
-    }
+    Toast.show(getMessage('import_settings_failed'));
+    console.warn(error);
   }
 }
 
 async function handleChooseBackgroundFile() {
   try {
     const file = await $filePicker(BACKGROUND_FILE_PICKER_OPTIONS);
+    if (!file) return;
     await handleUploadFile.call(
       { files: [file], closest: selector => document.getElementById('bgFile').closest(selector) }
     );
   } catch (error) {
-    if (!isFilePickerCanceled(error)) {
-      Toast.show(getMessage('notice_background_save_failed'));
-      console.warn(error);
-    }
+    Toast.show(getMessage('notice_background_save_failed'));
+    console.warn(error);
   }
 }
 
