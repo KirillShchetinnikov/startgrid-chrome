@@ -1,8 +1,3 @@
-/**
- * TODO: temporary promise wrapper for asynchronous work with browser.storage in manifest v2
- * storage[local|sync][set|get]
- * remove after switching to a new manifest (v3)
- */
 import { storage } from './api/storage';
 import { getFolders, resolveFolderSyncPath } from './api/bookmark';
 import { DEFAULT_BOOKMARKS_FOLDER } from './constants';
