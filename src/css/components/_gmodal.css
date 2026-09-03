@@ -79,6 +79,31 @@ body.gmodal-open {
     }
   }
 }
+
+.gmodal--popup .gmodal__container--choices {
+  max-width: min(640px, calc(100vw - 32px));
+
+  & .gmodal__body {
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  & .gmodal__footer {
+    display: grid;
+    gap: 10px;
+    justify-items: center;
+    text-align: center;
+  }
+
+  & .gmodal__footer button + button {
+    margin-left: 0;
+  }
+
+  & .gmodal__footer .btn {
+    max-inline-size: 100%;
+  }
+}
+
 .gmodal--popup {
   --modal-header-border-color: transparent;
   --modal-footer-border-color: transparent;

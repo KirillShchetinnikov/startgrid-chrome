@@ -819,7 +819,19 @@ const Bookmarks = (() => {
   }
 
   async function captureMultipleBookmarks(selectedBookmarks, showNotice) {
-    const bookmarksLength = selectedBookmarks.filter(b => !b.isFolder).length;
+    const visualOrder = new Map(
+      Array.from(container.querySelectorAll('[id^="vb-"]'))
+        .map((bookmark, index) => [bookmark.dataset.id, index])
+    );
+    const bookmarks = selectedBookmarks
+      .filter(bookmark => !bookmark.isFolder)
+      .sort((a, b) => {
+        const aIndex = visualOrder.get(String(a.id)) ?? Number.MAX_SAFE_INTEGER;
+        const bIndex = visualOrder.get(String(b.id)) ?? Number.MAX_SAFE_INTEGER;
+        return aIndex - bIndex;
+      });
+    const bookmarksLength = bookmarks.length;
+    if (!bookmarksLength) return;
     let cancelled = false;
     let completed = false;
     const progressToast = Toast.show({
@@ -834,10 +846,16 @@ const Bookmarks = (() => {
 
     isGeneratedThumbs = true;
     $customTrigger('thumbnails:updating', container);
-    let captureFailed = false;
+    const markCaptureFailure = bookmark => {
+      bookmark?.classList.add('is-thumbnail-error');
+      Toast.show({
+        message: getMessage('notice_thumbnail_capture_failed'),
+        modClass: 'toast--error'
+      });
+    };
 
     try {
-      for (const [index, b] of selectedBookmarks.entries()) {
+      for (const [index, b] of bookmarks.entries()) {
         if (cancelled) break;
         progressText.textContent = index + 1;
         const bookmark = document.getElementById(`vb-${b.id}`);
@@ -853,23 +871,20 @@ const Bookmarks = (() => {
             if (!sourceUrl) continue;
             response = await requestRemoteThumbnail(b.id, sourceUrl, { source, sourceUrl });
             if (!response?.success) {
-              captureFailed = true;
-              bookmark?.classList.add('is-thumbnail-error');
+              markCaptureFailure(bookmark);
               continue;
             }
           } else {
             response = await captureScreen(b.url, b.id);
             if (!response.ok) {
-              captureFailed = true;
-              bookmark?.classList.add('is-thumbnail-error');
+              markCaptureFailure(bookmark);
               continue;
             }
           }
 
           const image = await ImageDB.get(b.id);
           if (!image?.blob) {
-            captureFailed = true;
-            bookmark?.classList.add('is-thumbnail-error');
+            markCaptureFailure(bookmark);
             continue;
           }
           const blobUrl = URL.createObjectURL(image.blob);
@@ -884,8 +899,7 @@ const Bookmarks = (() => {
         } catch (error) {
           console.warn(`Could not refresh thumbnail ${b.id}`, error);
           if (b.url) {
-            captureFailed = true;
-            bookmark?.classList.add('is-thumbnail-error');
+            markCaptureFailure(bookmark);
           }
         } finally {
           bookmark?.classList.remove('is-thumbnail-updating');
@@ -893,7 +907,6 @@ const Bookmarks = (() => {
         }
       }
       if (showNotice) $notifications(getMessage('notice_thumbnails_update_complete'));
-      if (captureFailed) Toast.show(getMessage('notice_thumbnail_capture_failed'));
     } finally {
       completed = true;
       isGeneratedThumbs = false;

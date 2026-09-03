@@ -4,12 +4,13 @@ import { getMessage } from '../i18n';
 import { makeModalAccessible } from '../accessibleModal';
 
 function createTemplate(choices = null) {
+  const containerClass = choices ? ' gmodal__container--choices' : '';
   const actionButtons = choices
     ? choices.map(choice => /* html */`<button type="button" class="btn md-ripple"
         data-popup="resolve" data-popup-value="${choice.value}">${choice.text}</button>`).join('')
     : '<button type="button" class="btn md-ripple" data-popup="resolve">Ok</button>';
 
-  return /* html */`<div class="gmodal__container gmodal__container--popup has-center">
+  return /* html */`<div class="gmodal__container gmodal__container--popup${containerClass} has-center">
   <div class="gmodal__dialog" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
     <div class="gmodal__header">
       <h2 class="gmodal__title" id="popupTitle">${getMessage('ext_name')}</h2>
