@@ -1,12 +1,13 @@
 import Gmodal from 'glory-modal';
 import { $createElement } from '../utils';
 import { getMessage } from '../i18n';
+import { makeModalAccessible } from '../accessibleModal';
 
 const template = /* html */
 `<div class="gmodal__container gmodal__container--popup has-center">
-  <div class="gmodal__dialog">
+  <div class="gmodal__dialog" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
     <div class="gmodal__header">
-      <div class="gmodal__title">${getMessage('ext_name')}</div>
+      <h2 class="gmodal__title" id="popupTitle">${getMessage('ext_name')}</h2>
       <button type="button" class="gmodal__close md-ripple" data-popup="reject" data-ripple-center>
         <svg version="1.1" width="24" height="24" viewBox="0 0 24 24" fill="#000">
           <path d="M18.984 6.422l-5.578 5.578 5.578 5.578-1.406 1.406-5.578-5.578-5.578 5.578-1.406-1.406 5.578-5.578-5.578-5.578 1.406-1.406 5.578 5.578 5.578-5.578z"></path>
@@ -40,6 +41,9 @@ function confirmPopup(message) {
   const popupInstance = new Gmodal(popupEl, {
     closeBackdrop: false
   });
+  const removeAccessibility = makeModalAccessible(popupEl, {
+    initialFocus: () => resolveControl
+  });
   popupInstance.element.addEventListener('gmodal:open', () => {
     resolveControl.focus();
   });
@@ -63,6 +67,7 @@ function confirmPopup(message) {
       resolve(confirm);
       confirm = false;
       popupInstance.destroy();
+      removeAccessibility();
       popupEl.remove();
     };
     controls.forEach(control => {

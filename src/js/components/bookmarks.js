@@ -2,6 +2,7 @@ import { DragSortify } from '../plugins/dragSortify';
 import { getMessage } from '../i18n';
 import { multiswap } from '../plugins/dragSortify/multiswap';
 import Toast from './toast';
+import { announce } from '../liveAnnouncements';
 import ImageDB from '../api/imageDB';
 import { settings, LAST_OPENED_FOLDER_ID } from '../settings';
 import { storage } from '../api/storage';
@@ -1377,13 +1378,16 @@ const Bookmarks = (() => {
           searchDisplay,
           folderPaths: createFolderPathMap(tree)
         });
+        announce(getMessage('search_results_display'));
       } else {
         container.innerHTML = `<div class="empty-search">🙁 ${getMessage('empty_search')}</div>`;
+        announce(getMessage('empty_search'));
       }
     } catch (error) {
       if (requestId !== activeSearchRequest) return;
       console.error('Bookmark search failed', error);
       container.innerHTML = `<div class="empty-search">🙁 ${getMessage('search_failed')}</div>`;
+      announce(getMessage('search_failed'), 'assertive');
     } finally {
       if (requestId === activeSearchRequest) dialLoading.hidden = true;
     }

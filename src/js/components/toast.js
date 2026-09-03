@@ -1,5 +1,6 @@
 import { $createElement } from '../utils';
 import { getMessage } from '../i18n';
+import { announce } from '../liveAnnouncements';
 
 const Toast = (() => {
   const DEFAULTS = {
@@ -74,6 +75,7 @@ const Toast = (() => {
     }
     toast.append(messageNode);
     if (settings.modClass) toast.classList.add(settings.modClass);
+    announce(settings.message, settings.modClass.includes('toast--error') ? 'assertive' : 'polite');
 
     function onActionClick(evt) {
       settings.action?.callback?.(evt, hideToast);

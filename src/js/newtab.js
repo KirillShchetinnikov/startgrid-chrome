@@ -34,6 +34,7 @@ import { getBookmarkTitleSizeOverride } from './api/bookmarkTextPreferences';
 import { CONTEXT_MENU, LOCAL_PROTOCOLS } from './constants';
 import { bookmarksToDelete } from './state';
 import Toast from './components/toast';
+import { makeModalAccessible } from './accessibleModal';
 import { containsPermissions } from './api/permissions';
 import { getCurrentFolderId, navigateToFolder } from './folderNavigation';
 import initQuickDisplaySettings from './components/quickDisplaySettings';
@@ -233,10 +234,14 @@ async function init() {
       form.elements.title.select();
     }
   });
+  makeModalAccessible(modal, {
+    initialFocus: () => form.elements.title
+  });
   const modalPermissionsApi = new Gmodal('#modal-host-permissions', {
     stickySelectors: ['.sticky'],
     closeBackdrop: false
   });
+  makeModalAccessible(document.getElementById('modal-host-permissions'));
 
   const formBookmarkEl = document.getElementById('formBookmark');
 

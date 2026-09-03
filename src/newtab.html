@@ -42,12 +42,12 @@
     </div>
   </main>
   <div class="bg sticky" id="bg"></div>
-  <div class="gmodal" id="modal">
+  <div class="gmodal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalHead">
     <div class="gmodal__container has-center">
       <div class="gmodal__dialog">
         <form class="gmodal__form" id="formBookmark" action="#0" novalidate>
           <div class="gmodal__header">
-            <div class="gmodal__title" id="modalHead"></div>
+            <h2 class="gmodal__title" id="modalHead"></h2>
             <button type="button" class="gmodal__close md-ripple" data-gmodal="dismiss" data-ripple-center data-locale-message="modal_dismiss.aria-label" aria-label="Modal dismiss">
               <svg width="20" height="20" fill="#000">
                 <use xlink:href="/img/symbol.svg#close"/>
@@ -146,11 +146,11 @@
     </div>
   </div>
 
-  <div class="gmodal" id="modal-host-permissions">
+  <div class="gmodal" id="modal-host-permissions" role="dialog" aria-modal="true" aria-labelledby="hostPermissionsTitle">
     <div class="gmodal__container has-center">
       <div class="gmodal__dialog">
         <div class="gmodal__header">
-          <div class="gmodal__title" data-locale-message="why_use_host_permissions"></div>
+          <h2 class="gmodal__title" id="hostPermissionsTitle" data-locale-message="why_use_host_permissions"></h2>
           <button type="button" class="gmodal__close md-ripple" data-gmodal="dismiss" data-ripple-center data-locale-message="modal_dismiss.aria-label" aria-label="Modal dismiss">
             <svg width="20" height="20" fill="#000">
               <use xlink:href="/img/symbol.svg#close"/>
