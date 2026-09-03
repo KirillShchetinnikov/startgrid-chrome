@@ -53,6 +53,11 @@ body {
   display: none;
 }
 
+.page-cascade-prepared .grid > * {
+  opacity: 0;
+  transform: translate3d(0, 100vh, 0);
+}
+
 .page-entering .grid > * {
   animation-name: page-tile-enter;
   animation-duration: var(--page-cascade-item-duration, 420ms);
@@ -70,6 +75,11 @@ body {
 
   .page-entering .grid > * {
     animation: none;
+  }
+
+  .page-cascade-prepared .grid > * {
+    opacity: 1;
+    transform: none;
   }
 }
 

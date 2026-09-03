@@ -1352,6 +1352,7 @@ function preparePageCascade() {
   items.forEach((item, index) => {
     item.style.setProperty('--page-cascade-delay', `${delays[index]}ms`);
   });
+  document.body.classList.add('page-cascade-prepared');
   return totalDuration;
 }
 
@@ -1362,6 +1363,7 @@ async function revealPage() {
   const curtain = document.getElementById('page_reveal');
   const curtainHidden = waitForOpacityTransition(curtain);
 
+  if (cascadeDuration) document.body.classList.add('page-entering');
   document.body.classList.remove('page-loading');
   document.body.classList.add('page-revealing');
   resolvePageRevealStarted();
@@ -1371,9 +1373,8 @@ async function revealPage() {
   document.body.classList.add('page-ready');
 
   if (cascadeDuration) {
-    document.body.classList.add('page-entering');
     window.setTimeout(
-      () => document.body.classList.remove('page-entering'),
+      () => document.body.classList.remove('page-entering', 'page-cascade-prepared'),
       cascadeDuration + 100
     );
   }
