@@ -89,6 +89,16 @@ function createPanel() {
             <option value="os">${message('os_theme')}</option>
           </select>
         </label>
+        <label class="quick-settings__field" for="quick_background_image">
+          <span>${message('background')}</span>
+          <select class="form-control" id="quick_background_image" data-setting="background_image">
+            <option value="background_noimage">${message('background_noimage')}</option>
+            <option value="background_color">${message('color')}</option>
+            <option value="background_external">${message('background_external')}</option>
+            <option value="background_local">${message('background_local')}</option>
+            <option value="background_bing">${message('background_bing')}</option>
+          </select>
+        </label>
         <label class="quick-settings__field" for="quick_dial_columns">
           <span>${message('number_of_columns')}</span>
           <select class="form-control" id="quick_dial_columns" data-setting="dial_columns">${columns}</select>
@@ -349,7 +359,7 @@ export default function initQuickDisplaySettings({
 
   async function applySetting(control, persist = true) {
     const key = control.dataset.setting;
-    const value = control.type === 'checkbox' ? control.checked : control.value;
+    let value = control.type === 'checkbox' ? control.checked : control.value;
     let tileContentSettings;
 
     if (persist && key === 'thumbnail_source' && value === 'site') {
@@ -357,6 +367,14 @@ export default function initQuickDisplaySettings({
       if (!hasPermission) {
         syncControls();
         return;
+      }
+    }
+
+    if (persist && key === 'background_image' && value === 'background_bing') {
+      const hasPermission = await requestPermissions({ origins: ['https://www.bing.com/*'] });
+      if (!hasPermission) {
+        value = 'background_local';
+        control.value = value;
       }
     }
 
@@ -394,6 +412,8 @@ export default function initQuickDisplaySettings({
       await window.vbToggleTheme();
       UI.calculateStyles();
       syncControls();
+    } else if (key === 'background_image') {
+      await UI.setBG();
     } else if (STYLE_SETTINGS.has(key)) {
       const gridLayout = UI.calculateStyles();
       if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(key)) {
@@ -465,6 +485,7 @@ export default function initQuickDisplaySettings({
     await settings.resetKeys(QUICK_SETTING_KEYS);
     await window.vbToggleTheme();
     UI.calculateStyles();
+    await UI.setBG();
     updateMainPageScrollLock(settings.$.disable_main_page_scroll);
     onExtensionIconVisibilityChange(settings.$.show_extension_icon);
     onHeaderVisibilityChange({

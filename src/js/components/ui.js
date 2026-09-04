@@ -56,6 +56,9 @@ export default {
     const bgState = settings.$.background_image;
     const doc = document.documentElement;
 
+    bgEl.replaceChildren();
+    bgEl.classList.remove('is-visible');
+    document.querySelectorAll('.bing-info').forEach(node => node.remove());
     document.body.classList.remove('has-color-background');
     doc.style.removeProperty('--body-background');
 

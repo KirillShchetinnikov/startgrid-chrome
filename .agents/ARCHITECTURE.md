@@ -158,6 +158,7 @@ UI строится декларативно:
 - layout/rerender — повторный рендер сетки;
 - visibility/state — обновление header, иконки и scroll lock;
 - theme — ранний переключатель темы и последующий пересчёт цветов.
+- background — очистка предыдущего ресурса и повторный запуск `UI.setBG`.
 
 Во время движения range/color controls временно меняют `settings.$`; событие
 `change` фиксирует значение в storage.

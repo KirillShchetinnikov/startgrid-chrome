@@ -19,6 +19,7 @@ describe('quick settings reset', () => {
             settings: {
               enable_sync: true,
               color_theme: 'dark',
+              background_image: 'background_bing',
               dial_width: 95,
               dial_title_color: '#ffffff',
               dial_background_blur: true,
@@ -43,6 +44,7 @@ describe('quick settings reset', () => {
           get: jest.fn().mockResolvedValue({
             settings: {
               color_theme: 'dark',
+              background_image: 'background_bing',
               dial_width: 95,
               dial_title_color: '#ffffff',
               dial_background_blur: true,
@@ -78,6 +80,7 @@ describe('quick settings reset', () => {
     expect(defaults).toHaveProperty('dial_horizontal_gap', 16);
     expect(defaults).toHaveProperty('dial_vertical_gap', 16);
     expect(defaults).toHaveProperty('color_theme', 'os');
+    expect(defaults).toHaveProperty('background_image', 'background_noimage');
     expect(defaults).toHaveProperty('thumbnail_source', 'favicon');
     expect(defaults).toHaveProperty('dial_title_color', '');
     expect(defaults).toHaveProperty('dial_background_blur', false);
@@ -87,6 +90,7 @@ describe('quick settings reset', () => {
     expect(defaults).toHaveProperty('toolbar_background_blur', true);
     expect(defaults).toHaveProperty('show_extension_icon', true);
     expect(settings.$.color_theme).toBe('os');
+    expect(settings.$.background_image).toBe('background_noimage');
     expect(settings.$.thumbnail_source).toBe('favicon');
     expect(settings.$.dial_width).toBe(70);
     expect(settings.$.dial_tile_size).toBe(100);
