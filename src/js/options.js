@@ -37,6 +37,7 @@ import {
 } from './gridLayout';
 import { scaleTileContentSettings } from './tileSizeSync';
 import { exportSettings, SETTINGS_JSON_FILE_TYPES } from './settingsExport';
+import { matchesSettingsSearch } from './settingsSearch';
 
 let backgroundImage = null;
 let searchEngineSettingsInstance = null;
@@ -181,21 +182,28 @@ function updateSettingsRowVisibility(row, reason, hidden) {
 
 function applySettingsFilter() {
   const searchInput = document.getElementById('settings_search');
-  const query = searchInput.value.trim().toLocaleLowerCase();
+  const query = searchInput.value.trim();
   const matchingSections = [];
 
   document.querySelectorAll('.settings-panel').forEach(panel => {
-    const panelTitle = panel.querySelector('.settings-panel__title').textContent.toLocaleLowerCase();
-    const panelMatches = Boolean(query) && panelTitle.includes(query);
+    const panelTitle = panel.querySelector('.settings-panel__title').textContent;
+    const panelMatches = Boolean(query) && matchesSettingsSearch(query, panelTitle);
     let panelHasMatches = false;
 
     panel.querySelectorAll('.settings-card').forEach(card => {
-      const cardHeader = card.querySelector('.settings-card__header').textContent.toLocaleLowerCase();
-      const cardMatches = panelMatches || (Boolean(query) && cardHeader.includes(query));
+      const cardHeader = card.querySelector('.settings-card__header').textContent;
+      const cardMatches = panelMatches || (
+        Boolean(query) && matchesSettingsSearch(query, panelTitle, cardHeader)
+      );
       let cardHasMatches = false;
 
       card.querySelectorAll('.settings-card__content > .tbl').forEach(row => {
-        const rowMatches = !query || cardMatches || row.textContent.toLocaleLowerCase().includes(query);
+        const rowMatches = !query || cardMatches || matchesSettingsSearch(
+          query,
+          panelTitle,
+          cardHeader,
+          row.textContent
+        );
         updateSettingsRowVisibility(row, 'searchHidden', !rowMatches);
         if (!row.hidden) cardHasMatches = true;
       });
