@@ -1,5 +1,9 @@
+import { validateThumbnailRequest } from './api/thumbnailErrors';
+
 export const CAPTURE_ERROR_CODES = Object.freeze([
   'INVALID_REQUEST',
+  'UNSUPPORTED_SCHEME',
+  'PROTECTED_BROWSER_PAGE',
   'WINDOW_CREATE_FAILED',
   'WINDOW_HAS_NO_TAB',
   'TAB_READ_FAILED',
@@ -135,15 +139,15 @@ export async function runThumbnailCapture({
   const availHeight = Number.isFinite(Number(screen.availHeight))
     ? Number(screen.availHeight)
     : 720;
-  let parsedUrl;
-  try {
-    parsedUrl = new URL(request?.captureUrl);
-  } catch (error) {
-    return failure(id, 'INVALID_REQUEST');
+  const validation = validateThumbnailRequest(request?.captureUrl, 'site');
+  if (!id) return failure(id, 'INVALID_REQUEST');
+  if (!validation.success) {
+    const code = validation.error?.code === 'INVALID_URL'
+      ? 'INVALID_REQUEST'
+      : validation.error?.code || 'INVALID_REQUEST';
+    return failure(id, code);
   }
-  if (!id || !['http:', 'https:'].includes(parsedUrl.protocol)) {
-    return failure(id, 'INVALID_REQUEST');
-  }
+  const parsedUrl = new URL(validation.url);
 
   let windowId = null;
   let windowClosed = false;
@@ -265,7 +269,6 @@ export async function runThumbnailCapture({
     return await Promise.race([captureOperation, timeout]);
   } catch (error) {
     const code = CAPTURE_ERROR_CODES.includes(error?.code) ? error.code : 'STORE_FAILED';
-    console.warn(`Thumbnail capture failed: ${code}`, error?.cause || error);
     if (cleanupCapture) {
       await cleanupCapture().catch(cleanupError => {
         console.warn('Could not clean up a failed thumbnail capture', cleanupError);

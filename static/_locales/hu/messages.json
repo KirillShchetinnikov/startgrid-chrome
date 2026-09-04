@@ -115,6 +115,102 @@
   "notice_thumbnail_capture_failed": {
     "message": "Nem sikerült elkészíteni a webhely képernyőképét a bélyegképhez."
   },
+  "thumbnail_error_title_favicon": {
+    "message": "Could not load the website icon"
+  },
+  "thumbnail_error_title_site": {
+    "message": "Could not create the website thumbnail"
+  },
+  "thumbnail_error_title_url": {
+    "message": "Could not load the thumbnail image"
+  },
+  "thumbnail_error_title_thumbnail": {
+    "message": "Could not update the thumbnail"
+  },
+  "thumbnail_error_site": {
+    "message": "Website"
+  },
+  "thumbnail_error_problem": {
+    "message": "Problem"
+  },
+  "thumbnail_error_problem_invalid_url": {
+    "message": "Invalid URL"
+  },
+  "thumbnail_error_problem_unsupported_scheme": {
+    "message": "Unsupported address type"
+  },
+  "thumbnail_error_problem_protected_page": {
+    "message": "Protected browser page"
+  },
+  "thumbnail_error_problem_permission": {
+    "message": "Website access was not granted"
+  },
+  "thumbnail_error_problem_network": {
+    "message": "Network request failed"
+  },
+  "thumbnail_error_problem_http": {
+    "message": "Website returned HTTP"
+  },
+  "thumbnail_error_problem_not_image": {
+    "message": "The response is not an image"
+  },
+  "thumbnail_error_problem_no_favicon": {
+    "message": "Website icon not found"
+  },
+  "thumbnail_error_problem_timeout": {
+    "message": "Operation timed out"
+  },
+  "thumbnail_error_problem_runtime": {
+    "message": "Extension communication failed"
+  },
+  "thumbnail_error_problem_storage": {
+    "message": "Local image storage failed"
+  },
+  "thumbnail_error_problem_capture": {
+    "message": "Browser could not capture the page"
+  },
+  "thumbnail_error_problem_unknown": {
+    "message": "Unexpected thumbnail error"
+  },
+  "thumbnail_error_reason_invalid_url": {
+    "message": "The address could not be recognized as a valid URL."
+  },
+  "thumbnail_error_reason_unsupported_scheme": {
+    "message": "Only regular HTTP and HTTPS websites can be downloaded or captured. The Chrome favicon cache remains available."
+  },
+  "thumbnail_error_reason_protected_page": {
+    "message": "Chrome prevents extensions from reading protected browser and Chrome Web Store pages. The Chrome favicon cache remains available."
+  },
+  "thumbnail_error_reason_permission": {
+    "message": "StartGrid does not have permission to access this website."
+  },
+  "thumbnail_error_reason_network": {
+    "message": "The browser blocked the request, the connection failed, or the website is unavailable."
+  },
+  "thumbnail_error_reason_http": {
+    "message": "The website rejected the request or returned an unsuccessful response."
+  },
+  "thumbnail_error_reason_not_image": {
+    "message": "The specified address returned another content type instead of an image."
+  },
+  "thumbnail_error_reason_no_favicon": {
+    "message": "The page did not advertise a usable icon and /favicon.ico was unavailable."
+  },
+  "thumbnail_error_reason_timeout": {
+    "message": "The website did not finish responding within the allowed time."
+  },
+  "thumbnail_error_reason_runtime": {
+    "message": "The background process stopped or did not return a valid response."
+  },
+  "thumbnail_error_reason_storage": {
+    "message": "The downloaded image could not be saved locally. The previous thumbnail is unchanged."
+  },
+  "thumbnail_error_reason_capture": {
+    "message": "The page could not be opened, prepared, or captured by Chrome."
+  },
+  "thumbnail_error_reason_unknown": {
+    "message": "The operation failed for an unexpected reason. The previous thumbnail is unchanged."
+  },
   "notice_background_save_failed": {
     "message": "Nem sikerült menteni a kiválasztott háttérképet. A korábbi kép megmaradt. Próbálja újra."
   },
@@ -546,9 +642,15 @@
   "enable_sync": {
     "message": "Szinkronizálás engedélyezése"
   },
-  "sync_direction_note": { "message": "Válassza ki, mely beállításokat szeretné megtartani." },
-  "sync_replace_local": { "message": "Helyi beállítások cseréje felhőbeli beállításokra" },
-  "sync_replace_cloud": { "message": "Felhőbeli beállítások cseréje helyi beállításokra" },
+  "sync_direction_note": {
+    "message": "Válassza ki, mely beállításokat szeretné megtartani."
+  },
+  "sync_replace_local": {
+    "message": "Helyi beállítások cseréje felhőbeli beállításokra"
+  },
+  "sync_replace_cloud": {
+    "message": "Felhőbeli beállítások cseréje helyi beállításokra"
+  },
   "clear_background_locals": {
     "message": "Törölje az összes helyileg tárolt miniatűr képet"
   },
@@ -1062,18 +1164,57 @@
   "settings_no_results": {
     "message": "Nem találhatók beállítások"
   },
-  "bookmark_title_size": { "message": "Címszöveg mérete" },
-  "bookmark_title_size_note": { "message": "A könyvjelző címének méretét szabályozza." },
-  "bookmark_title_position": { "message": "Cím helyzete" },
-  "bookmark_title_position_inside": { "message": "A csempén belül" },
-  "bookmark_title_position_outside": { "message": "A csempe alatt" },
-  "bookmark_title_size_individual": { "message": "Egyedi címméret" },
-  "bookmark_title_size_individual_note": { "message": "Hagyja üresen a globális méret használatához." },
-  "error_input_invalid": { "message": "Érvénytelen érték" },
-  "error_input_number": { "message": "Adjon meg egy érvényes számot" },
-  "error_input_maximum": { "message": "Az érték legfeljebb $max$ lehet", "placeholders": { "max": { "content": "$1" } } },
-  "error_input_minimum": { "message": "Az érték legalább $min$ legyen", "placeholders": { "min": { "content": "$1" } } },
-  "error_input_step": { "message": "Használjon $step$ lépésközt", "placeholders": { "step": { "content": "$1" } } },
+  "bookmark_title_size": {
+    "message": "Címszöveg mérete"
+  },
+  "bookmark_title_size_note": {
+    "message": "A könyvjelző címének méretét szabályozza."
+  },
+  "bookmark_title_position": {
+    "message": "Cím helyzete"
+  },
+  "bookmark_title_position_inside": {
+    "message": "A csempén belül"
+  },
+  "bookmark_title_position_outside": {
+    "message": "A csempe alatt"
+  },
+  "bookmark_title_size_individual": {
+    "message": "Egyedi címméret"
+  },
+  "bookmark_title_size_individual_note": {
+    "message": "Hagyja üresen a globális méret használatához."
+  },
+  "error_input_invalid": {
+    "message": "Érvénytelen érték"
+  },
+  "error_input_number": {
+    "message": "Adjon meg egy érvényes számot"
+  },
+  "error_input_maximum": {
+    "message": "Az érték legfeljebb $max$ lehet",
+    "placeholders": {
+      "max": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_minimum": {
+    "message": "Az érték legalább $min$ legyen",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_step": {
+    "message": "Használjon $step$ lépésközt",
+    "placeholders": {
+      "step": {
+        "content": "$1"
+      }
+    }
+  },
   "undo": {
     "message": "Visszavonás"
   }

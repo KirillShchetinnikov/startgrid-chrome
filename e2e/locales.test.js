@@ -17,6 +17,40 @@ const expectedLocales = [
   'zh_TW'
 ];
 const runtimeTokenPattern = /\$[^$\s]+\$|\{[^{}\s]+\}|https?:\/\/[^\s"<>]+|<\/?[a-z]+(?:\s[^>]*)?>/g;
+const thumbnailErrorKeys = [
+  'thumbnail_error_title_favicon',
+  'thumbnail_error_title_site',
+  'thumbnail_error_title_url',
+  'thumbnail_error_title_thumbnail',
+  'thumbnail_error_site',
+  'thumbnail_error_problem',
+  'thumbnail_error_problem_invalid_url',
+  'thumbnail_error_problem_unsupported_scheme',
+  'thumbnail_error_problem_protected_page',
+  'thumbnail_error_problem_permission',
+  'thumbnail_error_problem_network',
+  'thumbnail_error_problem_http',
+  'thumbnail_error_problem_not_image',
+  'thumbnail_error_problem_no_favicon',
+  'thumbnail_error_problem_timeout',
+  'thumbnail_error_problem_runtime',
+  'thumbnail_error_problem_storage',
+  'thumbnail_error_problem_capture',
+  'thumbnail_error_problem_unknown',
+  'thumbnail_error_reason_invalid_url',
+  'thumbnail_error_reason_unsupported_scheme',
+  'thumbnail_error_reason_protected_page',
+  'thumbnail_error_reason_permission',
+  'thumbnail_error_reason_network',
+  'thumbnail_error_reason_http',
+  'thumbnail_error_reason_not_image',
+  'thumbnail_error_reason_no_favicon',
+  'thumbnail_error_reason_timeout',
+  'thumbnail_error_reason_runtime',
+  'thumbnail_error_reason_storage',
+  'thumbnail_error_reason_capture',
+  'thumbnail_error_reason_unknown'
+];
 
 function readLocale(locale) {
   return JSON.parse(
@@ -73,5 +107,11 @@ describe('extension locales', () => {
       expect(messages[key].message.trim()).not.toBe('');
       expect(messages[key].placeholders).toBeUndefined();
     });
+  });
+
+  test.each(expectedLocales)('%s includes thumbnail error details', locale => {
+    const messages = readLocale(locale);
+
+    thumbnailErrorKeys.forEach(key => expect(messages[key].message.trim()).not.toBe(''));
   });
 });

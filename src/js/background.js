@@ -23,6 +23,10 @@ import {
 } from './constants';
 import { containsPermissions } from './api/permissions';
 import { getBlobHash } from './api/remoteThumbnail';
+import {
+  createThumbnailFailure,
+  validateThumbnailRequest
+} from './api/thumbnailErrors';
 import { shouldDownloadFavicon } from './api/faviconPreferences';
 import { removeBookmarkTextPreference } from './api/bookmarkTextPreferences';
 import { requestSearchSuggestions } from './searchSuggestions';
@@ -58,10 +62,26 @@ function getHtmlAttribute(tag, name) {
   return match?.[1] ?? match?.[2] ?? match?.[3] ?? null;
 }
 
+class RemoteThumbnailError extends Error {
+  constructor(code, status) {
+    super(code);
+    this.code = code;
+    this.status = status;
+  }
+}
+
+async function fetchRemoteResource(url, options) {
+  try {
+    return await fetch(url, options);
+  } catch (error) {
+    throw new RemoteThumbnailError('NETWORK_ERROR');
+  }
+}
+
 async function fetchFavicon(pageUrl) {
-  const pageResponse = await fetch(pageUrl, { cache: 'no-cache' });
+  const pageResponse = await fetchRemoteResource(pageUrl, { cache: 'no-cache' });
   if (!pageResponse.ok) {
-    throw new Error(`Page returned HTTP ${pageResponse.status}`);
+    throw new RemoteThumbnailError('HTTP_ERROR', pageResponse.status);
   }
 
   const pageContentType = pageResponse.headers.get('content-type') || '';
@@ -78,7 +98,11 @@ async function fetchFavicon(pageUrl) {
       }
 
       try {
-        candidates.push(new URL(href.replaceAll('&amp;', '&'), pageResponse.url).href);
+        const candidate = validateThumbnailRequest(
+          new URL(href.replaceAll('&amp;', '&'), pageResponse.url).href,
+          'favicon'
+        );
+        if (candidate.success) candidates.push(candidate.url);
       } catch (error) {}
     });
   }
@@ -87,7 +111,7 @@ async function fetchFavicon(pageUrl) {
 
   for (const candidate of [...new Set(candidates)]) {
     try {
-      const response = await fetch(candidate, { cache: 'no-cache' });
+      const response = await fetchRemoteResource(candidate, { cache: 'no-cache' });
       const contentType = response.headers.get('content-type') || '';
       if (response.ok && contentType.toLowerCase().startsWith('image/')) {
         return response;
@@ -95,23 +119,29 @@ async function fetchFavicon(pageUrl) {
     } catch (error) {}
   }
 
-  throw new Error('The site did not provide a favicon');
+  throw new RemoteThumbnailError('FAVICON_NOT_FOUND');
 }
 
 async function updateRemoteThumbnail({ id, url, source = 'url', sourceUrl = url }) {
-  const existing = await ImageDB.get(id);
+  const operation = source === 'favicon' ? 'favicon' : 'url';
+  const requestUrl = source === 'favicon' ? sourceUrl : url;
+  const validation = validateThumbnailRequest(requestUrl, operation);
+  if (!validation.success) return validation;
+
+  let existing;
   const checkedAt = Date.now();
   const headers = {};
 
-  if (existing?.source === source && existing?.sourceUrl === sourceUrl) {
-    if (existing.etag) headers['If-None-Match'] = existing.etag;
-    if (existing.lastModified) headers['If-Modified-Since'] = existing.lastModified;
-  }
-
   try {
+    existing = await ImageDB.get(id);
+    if (existing?.source === source && existing?.sourceUrl === sourceUrl) {
+      if (existing.etag) headers['If-None-Match'] = existing.etag;
+      if (existing.lastModified) headers['If-Modified-Since'] = existing.lastModified;
+    }
+
     const response = source === 'favicon'
-      ? await fetchFavicon(sourceUrl)
-      : await fetch(url, {
+      ? await fetchFavicon(validation.url)
+      : await fetchRemoteResource(validation.url, {
         cache: 'no-cache',
         headers
       });
@@ -127,12 +157,12 @@ async function updateRemoteThumbnail({ id, url, source = 'url', sourceUrl = url 
     }
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+      throw new RemoteThumbnailError('HTTP_ERROR', response.status);
     }
 
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.toLowerCase().startsWith('image/')) {
-      throw new Error('URL did not return an image');
+      throw new RemoteThumbnailError('NOT_AN_IMAGE');
     }
 
     const downloadedBlob = await response.blob();
@@ -162,13 +192,22 @@ async function updateRemoteThumbnail({ id, url, source = 'url', sourceUrl = url 
 
     return { success: true, updated: !isSameImage };
   } catch (error) {
-    await ImageDB.update({
-      ...(existing || { id }),
-      source,
-      sourceUrl,
-      checkedAt
+    const code = error?.code || 'STORE_FAILED';
+    try {
+      await ImageDB.update({
+        ...(existing || { id }),
+        source,
+        sourceUrl,
+        checkedAt
+      });
+    } catch (storageError) {
+      return createThumbnailFailure('STORE_FAILED', { operation, url: requestUrl });
+    }
+    return createThumbnailFailure(code, {
+      operation,
+      status: error?.status,
+      url: requestUrl
     });
-    return { success: false, error: error.message };
   }
 }
 
@@ -455,7 +494,10 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.remoteThumbnail) {
     updateRemoteThumbnail(request.remoteThumbnail)
       .then(sendResponse)
-      .catch(error => sendResponse({ success: false, error: error.message }));
+      .catch(() => sendResponse(createThumbnailFailure('STORE_FAILED', {
+        operation: request.remoteThumbnail.source === 'favicon' ? 'favicon' : 'url',
+        url: request.remoteThumbnail.sourceUrl || request.remoteThumbnail.url
+      })));
     return true;
   }
 

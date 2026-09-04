@@ -97,6 +97,13 @@ describe('thumbnail capture RPC', () => {
     });
     expect(invalid.code).toBe('INVALID_REQUEST');
 
+    const protectedPage = await runThumbnailCapture({
+      browserApi: createBrowser(),
+      request: { id: 'protected', captureUrl: 'chrome://extensions/' },
+      storeCapture: jest.fn()
+    });
+    expect(protectedPage.code).toBe('UNSUPPORTED_SCHEME');
+
     const noTabBrowser = createBrowser();
     noTabBrowser.windows.create = (options, callback) => callback({ id: 4, tabs: [] });
     expect((await runThumbnailCapture({

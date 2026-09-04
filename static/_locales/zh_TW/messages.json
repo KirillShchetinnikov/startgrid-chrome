@@ -115,6 +115,102 @@
   "notice_thumbnail_capture_failed": {
     "message": "無法為縮圖建立網站截圖。"
   },
+  "thumbnail_error_title_favicon": {
+    "message": "無法載入網站圖示"
+  },
+  "thumbnail_error_title_site": {
+    "message": "無法建立網站縮圖"
+  },
+  "thumbnail_error_title_url": {
+    "message": "無法載入縮圖圖片"
+  },
+  "thumbnail_error_title_thumbnail": {
+    "message": "無法更新縮圖"
+  },
+  "thumbnail_error_site": {
+    "message": "網站"
+  },
+  "thumbnail_error_problem": {
+    "message": "問題"
+  },
+  "thumbnail_error_problem_invalid_url": {
+    "message": "無效的 URL"
+  },
+  "thumbnail_error_problem_unsupported_scheme": {
+    "message": "不支援的網址類型"
+  },
+  "thumbnail_error_problem_protected_page": {
+    "message": "受保護的瀏覽器頁面"
+  },
+  "thumbnail_error_problem_permission": {
+    "message": "未獲授權存取網站"
+  },
+  "thumbnail_error_problem_network": {
+    "message": "網路要求失敗"
+  },
+  "thumbnail_error_problem_http": {
+    "message": "網站回傳 HTTP"
+  },
+  "thumbnail_error_problem_not_image": {
+    "message": "回應不是圖片"
+  },
+  "thumbnail_error_problem_no_favicon": {
+    "message": "找不到網站圖示"
+  },
+  "thumbnail_error_problem_timeout": {
+    "message": "操作逾時"
+  },
+  "thumbnail_error_problem_runtime": {
+    "message": "與擴充功能通訊失敗"
+  },
+  "thumbnail_error_problem_storage": {
+    "message": "無法在本機儲存圖片"
+  },
+  "thumbnail_error_problem_capture": {
+    "message": "Chrome 無法擷取頁面"
+  },
+  "thumbnail_error_problem_unknown": {
+    "message": "縮圖發生未預期錯誤"
+  },
+  "thumbnail_error_reason_invalid_url": {
+    "message": "Адрес не удалось распознать как корректный URL."
+  },
+  "thumbnail_error_reason_unsupported_scheme": {
+    "message": "Скачивать и снимать можно только обычные сайты HTTP и HTTPS. Значок из кэша Chrome остаётся доступен."
+  },
+  "thumbnail_error_reason_protected_page": {
+    "message": "Chrome запрещает расширениям читать защищённые страницы браузера и Chrome Web Store. Значок из кэша Chrome остаётся доступен."
+  },
+  "thumbnail_error_reason_permission": {
+    "message": "У StartGrid нет разрешения на доступ к этому сайту."
+  },
+  "thumbnail_error_reason_network": {
+    "message": "Браузер заблокировал запрос, соединение прервалось или сайт недоступен."
+  },
+  "thumbnail_error_reason_http": {
+    "message": "Сайт отклонил запрос или вернул неуспешный ответ."
+  },
+  "thumbnail_error_reason_not_image": {
+    "message": "По указанному адресу получен другой тип содержимого вместо изображения."
+  },
+  "thumbnail_error_reason_no_favicon": {
+    "message": "Страница не указала подходящий значок, а /favicon.ico оказался недоступен."
+  },
+  "thumbnail_error_reason_timeout": {
+    "message": "Сайт не успел ответить за отведённое время."
+  },
+  "thumbnail_error_reason_runtime": {
+    "message": "Фоновый процесс остановился или не вернул корректный ответ."
+  },
+  "thumbnail_error_reason_storage": {
+    "message": "Загруженное изображение не удалось сохранить локально. Предыдущая миниатюра не изменена."
+  },
+  "thumbnail_error_reason_capture": {
+    "message": "Chrome не смог открыть, подготовить или снять страницу."
+  },
+  "thumbnail_error_reason_unknown": {
+    "message": "Операция завершилась с неожиданной ошибкой. Предыдущая миниатюра не изменена."
+  },
   "notice_background_save_failed": {
     "message": "無法儲存所選的背景圖片。先前的圖片已保留，請再試一次。"
   },
@@ -546,9 +642,15 @@
   "enable_sync": {
     "message": "啟用同步"
   },
-  "sync_direction_note": { "message": "選擇要保留的設定。" },
-  "sync_replace_local": { "message": "以雲端設定取代本機設定" },
-  "sync_replace_cloud": { "message": "以本機設定取代雲端設定" },
+  "sync_direction_note": {
+    "message": "選擇要保留的設定。"
+  },
+  "sync_replace_local": {
+    "message": "以雲端設定取代本機設定"
+  },
+  "sync_replace_cloud": {
+    "message": "以本機設定取代雲端設定"
+  },
   "clear_background_locals": {
     "message": "刪除所有本地儲存的縮圖"
   },
@@ -1062,18 +1164,57 @@
   "settings_no_results": {
     "message": "沒有找到設定"
   },
-  "bookmark_title_size": { "message": "標題文字大小" },
-  "bookmark_title_size_note": { "message": "調整書籤標題的大小。" },
-  "bookmark_title_position": { "message": "標題位置" },
-  "bookmark_title_position_inside": { "message": "圖塊內部" },
-  "bookmark_title_position_outside": { "message": "圖塊下方" },
-  "bookmark_title_size_individual": { "message": "個別標題大小" },
-  "bookmark_title_size_individual_note": { "message": "留空以使用全域標題大小。" },
-  "error_input_invalid": { "message": "無效值" },
-  "error_input_number": { "message": "請輸入有效數字" },
-  "error_input_maximum": { "message": "值不能大於 $max$", "placeholders": { "max": { "content": "$1" } } },
-  "error_input_minimum": { "message": "值不能小於 $min$", "placeholders": { "min": { "content": "$1" } } },
-  "error_input_step": { "message": "請按 $step$ 的增量輸入", "placeholders": { "step": { "content": "$1" } } },
+  "bookmark_title_size": {
+    "message": "標題文字大小"
+  },
+  "bookmark_title_size_note": {
+    "message": "調整書籤標題的大小。"
+  },
+  "bookmark_title_position": {
+    "message": "標題位置"
+  },
+  "bookmark_title_position_inside": {
+    "message": "圖塊內部"
+  },
+  "bookmark_title_position_outside": {
+    "message": "圖塊下方"
+  },
+  "bookmark_title_size_individual": {
+    "message": "個別標題大小"
+  },
+  "bookmark_title_size_individual_note": {
+    "message": "留空以使用全域標題大小。"
+  },
+  "error_input_invalid": {
+    "message": "無效值"
+  },
+  "error_input_number": {
+    "message": "請輸入有效數字"
+  },
+  "error_input_maximum": {
+    "message": "值不能大於 $max$",
+    "placeholders": {
+      "max": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_minimum": {
+    "message": "值不能小於 $min$",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_step": {
+    "message": "請按 $step$ 的增量輸入",
+    "placeholders": {
+      "step": {
+        "content": "$1"
+      }
+    }
+  },
   "undo": {
     "message": "撤銷"
   }

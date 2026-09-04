@@ -9,12 +9,16 @@ const Toast = (() => {
     hideByClick: true,
     delay: 5000,
     progress: false,
+    title: '',
     message: '',
     trustedHtml: null,
+    details: [],
+    dedupeKey: '',
     action: undefined,
     onClose: undefined,
     onShow: undefined
   };
+  const activeToasts = new Map();
 
   const containers = {
     'top': {
@@ -64,18 +68,51 @@ const Toast = (() => {
       Object.assign(settings, data);
     }
 
+    if (settings.dedupeKey && activeToasts.has(settings.dedupeKey)) {
+      return activeToasts.get(settings.dedupeKey);
+    }
+    const details = Array.isArray(settings.details) ? settings.details : [];
+
     const toast = $createElement('div', {
       class: `toast toast--${settings.position}`
     });
+    const contentNode = $createElement('div', { class: 'toast__content' });
+    if (settings.title) {
+      const titleNode = $createElement('div', { class: 'toast__title' });
+      titleNode.textContent = settings.title;
+      contentNode.append(titleNode);
+    }
     const messageNode = $createElement('div', { class: 'toast__message' });
     if (typeof settings.trustedHtml === 'string') {
       messageNode.innerHTML = settings.trustedHtml;
     } else {
       messageNode.textContent = settings.message;
     }
-    toast.append(messageNode);
-    if (settings.modClass) toast.classList.add(settings.modClass);
-    announce(settings.message, settings.modClass.includes('toast--error') ? 'assertive' : 'polite');
+    contentNode.append(messageNode);
+    if (details.length) {
+      const detailsNode = $createElement('dl', { class: 'toast__details' });
+      details.forEach(detail => {
+        const rowNode = $createElement('div', { class: 'toast__detail' });
+        const labelNode = $createElement('dt', { class: 'toast__detail-label' });
+        const valueNode = $createElement('dd', { class: 'toast__detail-value' });
+        labelNode.textContent = detail.label;
+        valueNode.textContent = detail.value;
+        rowNode.append(labelNode, valueNode);
+        detailsNode.append(rowNode);
+      });
+      contentNode.append(detailsNode);
+    }
+    toast.append(contentNode);
+    const modifierClasses = typeof settings.modClass === 'string'
+      ? settings.modClass.trim().split(/\s+/).filter(Boolean)
+      : [];
+    if (modifierClasses.length) toast.classList.add(...modifierClasses);
+    const announcement = [
+      settings.title,
+      settings.message,
+      ...details.map(detail => `${detail.label}: ${detail.value}`)
+    ].filter(Boolean).join('. ');
+    announce(announcement, modifierClasses.includes('toast--error') ? 'assertive' : 'polite');
 
     function onActionClick(evt) {
       settings.action?.callback?.(evt, hideToast);
@@ -101,6 +138,7 @@ const Toast = (() => {
 
       setTimeout(() => {
         toast.remove();
+        if (settings.dedupeKey) activeToasts.delete(settings.dedupeKey);
       }, 250);
     }
 
@@ -147,7 +185,9 @@ const Toast = (() => {
       timer = setTimeout(hideToast, settings.delay);
     }
 
-    return { element: toast, close: hideToast };
+    const api = { element: toast, close: hideToast };
+    if (settings.dedupeKey) activeToasts.set(settings.dedupeKey, api);
+    return api;
   }
 
   init();

@@ -35,6 +35,8 @@ import { getBookmarkTitleSizeOverride } from './api/bookmarkTextPreferences';
 import { CONTEXT_MENU, LOCAL_PROTOCOLS } from './constants';
 import { bookmarksToDelete } from './state';
 import Toast from './components/toast';
+import { validateThumbnailRequest } from './api/thumbnailErrors';
+import { showThumbnailError } from './thumbnailErrorNotice';
 import { makeModalAccessible } from './accessibleModal';
 import { containsPermissions } from './api/permissions';
 import { getCurrentFolderId, navigateToFolder } from './folderNavigation';
@@ -752,7 +754,6 @@ async function readClipboardImage() {
 
     return await clipboardItem.getType(imageType);
   } catch (err) {
-    console.error(err.name, err.message);
     return null;
   }
 }
@@ -804,6 +805,8 @@ async function handleCaptureThumbnail() {
   const bookmark = getModalBookmark();
   const pageUrl = urlField.value.trim();
   const remoteUrl = thumbnailUrl.value.trim();
+  const requestUrl = source === 'url' ? remoteUrl : pageUrl;
+  const validation = validateThumbnailRequest(requestUrl, source);
 
   if (!bookmark) {
     if (!pageUrl || !urlField.checkValidity()) {
@@ -812,6 +815,10 @@ async function handleCaptureThumbnail() {
     }
     if (source === 'url' && (!remoteUrl || !thumbnailUrl.checkValidity())) {
       thumbnailUrl.reportValidity();
+      return;
+    }
+    if (!validation.success) {
+      showThumbnailError(validation, { operation: source, url: requestUrl });
       return;
     }
 
@@ -843,6 +850,10 @@ async function handleCaptureThumbnail() {
   }
   if (source === 'url' && (!remoteUrl || !thumbnailUrl.checkValidity())) {
     thumbnailUrl.reportValidity();
+    return;
+  }
+  if (!validation.success) {
+    showThumbnailError(validation, { operation: source, url: requestUrl });
     return;
   }
 
@@ -890,7 +901,7 @@ async function handleCaptureThumbnail() {
       bookmark.classList.add('is-thumbnail-error');
       window.setTimeout(() => bookmark.classList.remove('is-thumbnail-error'), 1800);
       if (source !== 'site') {
-        Toast.show(getMessage('notice_thumbnail_url_failed'));
+        showThumbnailError(response, { operation: source, url: requestUrl });
       }
     }
   } finally {
@@ -1136,27 +1147,30 @@ async function handleSubmitForm(evt) {
   const downloadFavicon = usesDownloadedFavicon(faviconPreferences);
   const thumbnailSize = getModalThumbnailSize();
   const titleSize = getBookmarkTitleSizeOverride(form.bookmarkTitleSize.value);
+  const siteValidation = validateThumbnailRequest(url, 'site');
+  const remoteUrlValidation = validateThumbnailRequest(thumbnailUrlValue, 'url');
+  const faviconValidation = validateThumbnailRequest(url, 'favicon');
   const shouldCaptureSite = thumbnailEnabled && thumbnailSourceValue === 'site' && (
     id === 'New'
       ? pendingThumbnailSource !== 'site'
       : form.dataset.oldThumbnailSource !== 'site'
         || form.dataset.oldUrl !== url
         || form.dataset.thumbnailHasImage !== 'true'
-  );
+  ) && siteValidation.success;
   const shouldFetchUrl = thumbnailEnabled && thumbnailSourceValue === 'url' && (
     id === 'New'
       ? pendingThumbnailSource !== 'url'
       : form.dataset.oldThumbnailSource !== 'url'
         || form.dataset.oldThumbnailUrl !== thumbnailUrlValue
         || form.dataset.thumbnailHasImage !== 'true'
-  );
+  ) && remoteUrlValidation.success;
   const shouldFetchFavicon = thumbnailEnabled && thumbnailSourceValue === 'favicon' && downloadFavicon && (
     id === 'New'
       ? pendingThumbnailSource !== 'favicon'
       : form.dataset.oldThumbnailSource !== 'favicon'
         || form.dataset.oldUrl !== url
         || form.dataset.thumbnailHasImage !== 'true'
-  );
+  ) && faviconValidation.success;
 
   let bookmark = false;
   let thumbnailPermission = false;

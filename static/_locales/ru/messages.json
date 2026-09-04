@@ -115,6 +115,102 @@
   "notice_thumbnail_capture_failed": {
     "message": "Не удалось создать снимок сайта для миниатюры."
   },
+  "thumbnail_error_title_favicon": {
+    "message": "Не удалось загрузить значок сайта"
+  },
+  "thumbnail_error_title_site": {
+    "message": "Не удалось создать миниатюру сайта"
+  },
+  "thumbnail_error_title_url": {
+    "message": "Не удалось загрузить изображение миниатюры"
+  },
+  "thumbnail_error_title_thumbnail": {
+    "message": "Не удалось обновить миниатюру"
+  },
+  "thumbnail_error_site": {
+    "message": "Сайт"
+  },
+  "thumbnail_error_problem": {
+    "message": "Проблема"
+  },
+  "thumbnail_error_problem_invalid_url": {
+    "message": "Некорректный URL"
+  },
+  "thumbnail_error_problem_unsupported_scheme": {
+    "message": "Неподдерживаемый тип адреса"
+  },
+  "thumbnail_error_problem_protected_page": {
+    "message": "Защищённая страница браузера"
+  },
+  "thumbnail_error_problem_permission": {
+    "message": "Нет разрешения на доступ к сайту"
+  },
+  "thumbnail_error_problem_network": {
+    "message": "Сетевой запрос не выполнен"
+  },
+  "thumbnail_error_problem_http": {
+    "message": "Сайт вернул HTTP"
+  },
+  "thumbnail_error_problem_not_image": {
+    "message": "Ответ не является изображением"
+  },
+  "thumbnail_error_problem_no_favicon": {
+    "message": "Значок сайта не найден"
+  },
+  "thumbnail_error_problem_timeout": {
+    "message": "Истекло время ожидания"
+  },
+  "thumbnail_error_problem_runtime": {
+    "message": "Ошибка связи внутри расширения"
+  },
+  "thumbnail_error_problem_storage": {
+    "message": "Ошибка локального хранилища изображений"
+  },
+  "thumbnail_error_problem_capture": {
+    "message": "Chrome не смог сделать снимок страницы"
+  },
+  "thumbnail_error_problem_unknown": {
+    "message": "Неожиданная ошибка миниатюры"
+  },
+  "thumbnail_error_reason_invalid_url": {
+    "message": "Адрес не удалось распознать как корректный URL."
+  },
+  "thumbnail_error_reason_unsupported_scheme": {
+    "message": "Скачивать и снимать можно только обычные сайты HTTP и HTTPS. Значок из кэша Chrome остаётся доступен."
+  },
+  "thumbnail_error_reason_protected_page": {
+    "message": "Chrome запрещает расширениям читать защищённые страницы браузера и Chrome Web Store. Значок из кэша Chrome остаётся доступен."
+  },
+  "thumbnail_error_reason_permission": {
+    "message": "У StartGrid нет разрешения на доступ к этому сайту."
+  },
+  "thumbnail_error_reason_network": {
+    "message": "Браузер заблокировал запрос, соединение прервалось или сайт недоступен."
+  },
+  "thumbnail_error_reason_http": {
+    "message": "Сайт отклонил запрос или вернул неуспешный ответ."
+  },
+  "thumbnail_error_reason_not_image": {
+    "message": "По указанному адресу получен другой тип содержимого вместо изображения."
+  },
+  "thumbnail_error_reason_no_favicon": {
+    "message": "Страница не указала подходящий значок, а /favicon.ico оказался недоступен."
+  },
+  "thumbnail_error_reason_timeout": {
+    "message": "Сайт не успел ответить за отведённое время."
+  },
+  "thumbnail_error_reason_runtime": {
+    "message": "Фоновый процесс остановился или не вернул корректный ответ."
+  },
+  "thumbnail_error_reason_storage": {
+    "message": "Загруженное изображение не удалось сохранить локально. Предыдущая миниатюра не изменена."
+  },
+  "thumbnail_error_reason_capture": {
+    "message": "Chrome не смог открыть, подготовить или снять страницу."
+  },
+  "thumbnail_error_reason_unknown": {
+    "message": "Операция завершилась с неожиданной ошибкой. Предыдущая миниатюра не изменена."
+  },
   "notice_background_save_failed": {
     "message": "Не удалось сохранить выбранное фоновое изображение. Предыдущее изображение сохранено. Попробуйте ещё раз."
   },
@@ -546,9 +642,15 @@
   "enable_sync": {
     "message": "Включить синхронизацию"
   },
-  "sync_direction_note": { "message": "Выберите, какие настройки нужно сохранить." },
-  "sync_replace_local": { "message": "Заменить локальные настройки настройками из облака" },
-  "sync_replace_cloud": { "message": "Заменить настройки в облаке локальными" },
+  "sync_direction_note": {
+    "message": "Выберите, какие настройки нужно сохранить."
+  },
+  "sync_replace_local": {
+    "message": "Заменить локальные настройки настройками из облака"
+  },
+  "sync_replace_cloud": {
+    "message": "Заменить настройки в облаке локальными"
+  },
   "clear_background_locals": {
     "message": "Удалить все локально сохранённые изображения миниатюр"
   },
@@ -1062,18 +1164,57 @@
   "settings_no_results": {
     "message": "Настройки не найдены"
   },
-  "bookmark_title_size": { "message": "Размер текста подписи" },
-  "bookmark_title_size_note": { "message": "Изменяет размер названия закладки." },
-  "bookmark_title_position": { "message": "Расположение подписи" },
-  "bookmark_title_position_inside": { "message": "Внутри плитки" },
-  "bookmark_title_position_outside": { "message": "Под плиткой" },
-  "bookmark_title_size_individual": { "message": "Индивидуальный размер подписи" },
-  "bookmark_title_size_individual_note": { "message": "Оставьте пустым, чтобы использовать общий размер." },
-  "error_input_invalid": { "message": "Недопустимое значение" },
-  "error_input_number": { "message": "Введите корректное число" },
-  "error_input_maximum": { "message": "Значение должно быть не больше $max$", "placeholders": { "max": { "content": "$1" } } },
-  "error_input_minimum": { "message": "Значение должно быть не меньше $min$", "placeholders": { "min": { "content": "$1" } } },
-  "error_input_step": { "message": "Используйте шаг $step$", "placeholders": { "step": { "content": "$1" } } },
+  "bookmark_title_size": {
+    "message": "Размер текста подписи"
+  },
+  "bookmark_title_size_note": {
+    "message": "Изменяет размер названия закладки."
+  },
+  "bookmark_title_position": {
+    "message": "Расположение подписи"
+  },
+  "bookmark_title_position_inside": {
+    "message": "Внутри плитки"
+  },
+  "bookmark_title_position_outside": {
+    "message": "Под плиткой"
+  },
+  "bookmark_title_size_individual": {
+    "message": "Индивидуальный размер подписи"
+  },
+  "bookmark_title_size_individual_note": {
+    "message": "Оставьте пустым, чтобы использовать общий размер."
+  },
+  "error_input_invalid": {
+    "message": "Недопустимое значение"
+  },
+  "error_input_number": {
+    "message": "Введите корректное число"
+  },
+  "error_input_maximum": {
+    "message": "Значение должно быть не больше $max$",
+    "placeholders": {
+      "max": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_minimum": {
+    "message": "Значение должно быть не меньше $min$",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_step": {
+    "message": "Используйте шаг $step$",
+    "placeholders": {
+      "step": {
+        "content": "$1"
+      }
+    }
+  },
   "undo": {
     "message": "Отменить"
   }

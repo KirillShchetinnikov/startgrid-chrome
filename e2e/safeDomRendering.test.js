@@ -101,6 +101,42 @@ describe('safe bookmark text rendering', () => {
     expect(message.children).toHaveLength(0);
   });
 
+  it('renders detailed toast fields as literal text', async() => {
+    const body = new FakeNode('body');
+    global.document = {
+      body,
+      createElement: tag => new FakeNode(tag),
+      createTextNode: text => {
+        const node = new FakeNode('#text');
+        node.textContent = text;
+        return node;
+      },
+      createDocumentFragment: () => {
+        const fragment = new FakeNode();
+        fragment.isFragment = true;
+        return fragment;
+      }
+    };
+    global.browser = { i18n: { getMessage: key => key } };
+
+    const { default: Toast } = await import('../src/js/components/toast');
+    const malicious = '<img src=x onerror=alert(1)>';
+    Toast.show({
+      title: malicious,
+      message: malicious,
+      details: [{ label: 'Website', value: malicious }],
+      modClass: 'toast--error toast--detailed',
+      hideByClick: false,
+      delay: 0
+    });
+
+    expect(findByClass(body, 'toast__title').textContent).toBe(malicious);
+    expect(findByClass(body, 'toast__message').textContent).toBe(malicious);
+    expect(findByClass(body, 'toast__detail-value').textContent).toBe(malicious);
+    expect(findByClass(body, 'toast').classList.add)
+      .toHaveBeenCalledWith('toast--error', 'toast--detailed');
+  });
+
   it('replaces only option nodes and preserves customizable-select button content', async() => {
     global.HTMLElement = class {};
     global.window = { customElements: { define: jest.fn() } };

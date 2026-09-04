@@ -115,6 +115,102 @@
   "notice_thumbnail_capture_failed": {
     "message": "No se pudo crear la captura del sitio web para la miniatura."
   },
+  "thumbnail_error_title_favicon": {
+    "message": "Could not load the website icon"
+  },
+  "thumbnail_error_title_site": {
+    "message": "Could not create the website thumbnail"
+  },
+  "thumbnail_error_title_url": {
+    "message": "Could not load the thumbnail image"
+  },
+  "thumbnail_error_title_thumbnail": {
+    "message": "Could not update the thumbnail"
+  },
+  "thumbnail_error_site": {
+    "message": "Website"
+  },
+  "thumbnail_error_problem": {
+    "message": "Problem"
+  },
+  "thumbnail_error_problem_invalid_url": {
+    "message": "Invalid URL"
+  },
+  "thumbnail_error_problem_unsupported_scheme": {
+    "message": "Unsupported address type"
+  },
+  "thumbnail_error_problem_protected_page": {
+    "message": "Protected browser page"
+  },
+  "thumbnail_error_problem_permission": {
+    "message": "Website access was not granted"
+  },
+  "thumbnail_error_problem_network": {
+    "message": "Network request failed"
+  },
+  "thumbnail_error_problem_http": {
+    "message": "Website returned HTTP"
+  },
+  "thumbnail_error_problem_not_image": {
+    "message": "The response is not an image"
+  },
+  "thumbnail_error_problem_no_favicon": {
+    "message": "Website icon not found"
+  },
+  "thumbnail_error_problem_timeout": {
+    "message": "Operation timed out"
+  },
+  "thumbnail_error_problem_runtime": {
+    "message": "Extension communication failed"
+  },
+  "thumbnail_error_problem_storage": {
+    "message": "Local image storage failed"
+  },
+  "thumbnail_error_problem_capture": {
+    "message": "Browser could not capture the page"
+  },
+  "thumbnail_error_problem_unknown": {
+    "message": "Unexpected thumbnail error"
+  },
+  "thumbnail_error_reason_invalid_url": {
+    "message": "The address could not be recognized as a valid URL."
+  },
+  "thumbnail_error_reason_unsupported_scheme": {
+    "message": "Only regular HTTP and HTTPS websites can be downloaded or captured. The Chrome favicon cache remains available."
+  },
+  "thumbnail_error_reason_protected_page": {
+    "message": "Chrome prevents extensions from reading protected browser and Chrome Web Store pages. The Chrome favicon cache remains available."
+  },
+  "thumbnail_error_reason_permission": {
+    "message": "StartGrid does not have permission to access this website."
+  },
+  "thumbnail_error_reason_network": {
+    "message": "The browser blocked the request, the connection failed, or the website is unavailable."
+  },
+  "thumbnail_error_reason_http": {
+    "message": "The website rejected the request or returned an unsuccessful response."
+  },
+  "thumbnail_error_reason_not_image": {
+    "message": "The specified address returned another content type instead of an image."
+  },
+  "thumbnail_error_reason_no_favicon": {
+    "message": "The page did not advertise a usable icon and /favicon.ico was unavailable."
+  },
+  "thumbnail_error_reason_timeout": {
+    "message": "The website did not finish responding within the allowed time."
+  },
+  "thumbnail_error_reason_runtime": {
+    "message": "The background process stopped or did not return a valid response."
+  },
+  "thumbnail_error_reason_storage": {
+    "message": "The downloaded image could not be saved locally. The previous thumbnail is unchanged."
+  },
+  "thumbnail_error_reason_capture": {
+    "message": "The page could not be opened, prepared, or captured by Chrome."
+  },
+  "thumbnail_error_reason_unknown": {
+    "message": "The operation failed for an unexpected reason. The previous thumbnail is unchanged."
+  },
   "notice_background_save_failed": {
     "message": "No se pudo guardar la imagen de fondo seleccionada. Se conservó la imagen anterior. Inténtalo de nuevo."
   },
@@ -546,9 +642,15 @@
   "enable_sync": {
     "message": "Habilitar sincronización"
   },
-  "sync_direction_note": { "message": "Elija qué configuración desea conservar." },
-  "sync_replace_local": { "message": "Reemplazar la configuración local con la de la nube" },
-  "sync_replace_cloud": { "message": "Reemplazar la configuración de la nube con la local" },
+  "sync_direction_note": {
+    "message": "Elija qué configuración desea conservar."
+  },
+  "sync_replace_local": {
+    "message": "Reemplazar la configuración local con la de la nube"
+  },
+  "sync_replace_cloud": {
+    "message": "Reemplazar la configuración de la nube con la local"
+  },
   "clear_background_locals": {
     "message": "Eliminar todas las imágenes en miniatura almacenadas localmente"
   },
@@ -1062,18 +1164,57 @@
   "settings_no_results": {
     "message": "No se encontraron configuraciones"
   },
-  "bookmark_title_size": { "message": "Tamaño del texto del título" },
-  "bookmark_title_size_note": { "message": "Controla el tamaño del título del marcador." },
-  "bookmark_title_position": { "message": "Posición del título" },
-  "bookmark_title_position_inside": { "message": "Dentro del mosaico" },
-  "bookmark_title_position_outside": { "message": "Debajo del mosaico" },
-  "bookmark_title_size_individual": { "message": "Tamaño de título individual" },
-  "bookmark_title_size_individual_note": { "message": "Déjalo vacío para usar el tamaño global." },
-  "error_input_invalid": { "message": "Valor no válido" },
-  "error_input_number": { "message": "Introduce un número válido" },
-  "error_input_maximum": { "message": "El valor no debe ser mayor que $max$", "placeholders": { "max": { "content": "$1" } } },
-  "error_input_minimum": { "message": "El valor debe ser al menos $min$", "placeholders": { "min": { "content": "$1" } } },
-  "error_input_step": { "message": "Usa incrementos de $step$", "placeholders": { "step": { "content": "$1" } } },
+  "bookmark_title_size": {
+    "message": "Tamaño del texto del título"
+  },
+  "bookmark_title_size_note": {
+    "message": "Controla el tamaño del título del marcador."
+  },
+  "bookmark_title_position": {
+    "message": "Posición del título"
+  },
+  "bookmark_title_position_inside": {
+    "message": "Dentro del mosaico"
+  },
+  "bookmark_title_position_outside": {
+    "message": "Debajo del mosaico"
+  },
+  "bookmark_title_size_individual": {
+    "message": "Tamaño de título individual"
+  },
+  "bookmark_title_size_individual_note": {
+    "message": "Déjalo vacío para usar el tamaño global."
+  },
+  "error_input_invalid": {
+    "message": "Valor no válido"
+  },
+  "error_input_number": {
+    "message": "Introduce un número válido"
+  },
+  "error_input_maximum": {
+    "message": "El valor no debe ser mayor que $max$",
+    "placeholders": {
+      "max": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_minimum": {
+    "message": "El valor debe ser al menos $min$",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_step": {
+    "message": "Usa incrementos de $step$",
+    "placeholders": {
+      "step": {
+        "content": "$1"
+      }
+    }
+  },
   "undo": {
     "message": "Deshacer"
   }

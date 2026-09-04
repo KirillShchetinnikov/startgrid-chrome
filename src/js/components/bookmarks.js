@@ -34,6 +34,11 @@ import  confirmPopup from '../plugins/confirmPopup.js';
 import { containsPermissions, requestPermissions } from '../api/permissions';
 import { isThumbnailStale } from '../api/remoteThumbnail';
 import {
+  createThumbnailFailure,
+  validateThumbnailRequest
+} from '../api/thumbnailErrors';
+import { showThumbnailError } from '../thumbnailErrorNotice';
+import {
   getThumbnailSizeOverride,
   shouldDownloadFavicon
 } from '../api/faviconPreferences';
@@ -846,12 +851,9 @@ const Bookmarks = (() => {
 
     isGeneratedThumbs = true;
     $customTrigger('thumbnails:updating', container);
-    const markCaptureFailure = bookmark => {
+    const markCaptureFailure = (bookmark, response, operation, url) => {
       bookmark?.classList.add('is-thumbnail-error');
-      Toast.show({
-        message: getMessage('notice_thumbnail_capture_failed'),
-        modClass: 'toast--error'
-      });
+      showThumbnailError(response, { operation, url });
     };
 
     try {
@@ -871,20 +873,25 @@ const Bookmarks = (() => {
             if (!sourceUrl) continue;
             response = await requestRemoteThumbnail(b.id, sourceUrl, { source, sourceUrl });
             if (!response?.success) {
-              markCaptureFailure(bookmark);
+              markCaptureFailure(bookmark, response, source, sourceUrl);
               continue;
             }
           } else {
             response = await captureScreen(b.url, b.id);
             if (!response.ok) {
-              markCaptureFailure(bookmark);
+              markCaptureFailure(bookmark, response, 'site', b.url);
               continue;
             }
           }
 
           const image = await ImageDB.get(b.id);
           if (!image?.blob) {
-            markCaptureFailure(bookmark);
+            markCaptureFailure(
+              bookmark,
+              createThumbnailFailure('STORE_FAILED', { operation: 'thumbnail', url: b.url }),
+              'thumbnail',
+              b.url
+            );
             continue;
           }
           const blobUrl = URL.createObjectURL(image.blob);
@@ -899,7 +906,7 @@ const Bookmarks = (() => {
         } catch (error) {
           console.warn(`Could not refresh thumbnail ${b.id}`, error);
           if (b.url) {
-            markCaptureFailure(bookmark);
+            markCaptureFailure(bookmark, null, 'thumbnail', b.url);
           }
         } finally {
           bookmark?.classList.remove('is-thumbnail-updating');
@@ -1045,6 +1052,10 @@ const Bookmarks = (() => {
   }
 
   function requestRemoteThumbnail(id, url, options = {}) {
+    const operation = options.source === 'favicon' ? 'favicon' : 'url';
+    const validation = validateThumbnailRequest(url, operation);
+    if (!validation.success) return Promise.resolve(validation);
+
     return new Promise((resolve) => {
       let settled = false;
       const finish = response => {
@@ -1053,10 +1064,18 @@ const Bookmarks = (() => {
         clearTimeout(timeout);
         resolve(response);
       };
-      const timeout = setTimeout(() => finish({ success: false, code: 'TIMEOUT' }), 2000);
+      const timeout = setTimeout(() => finish(
+        createThumbnailFailure('TIMEOUT', { operation, url })
+      ), 2000);
       browser.runtime.sendMessage({
         remoteThumbnail: { id, url, ...options }
-      }, response => finish(response));
+      }, response => {
+        if (browser.runtime.lastError) {
+          finish(createThumbnailFailure('RUNTIME_ERROR', { operation, url }));
+          return;
+        }
+        finish(response);
+      });
     });
   }
   function applyStoredThumbnail(bookmark, image) {
@@ -1092,7 +1111,10 @@ const Bookmarks = (() => {
         Toast.show(getMessage('notice_thumb_image_updated'));
       }
     } else if (showNotice) {
-      Toast.show(getMessage('notice_thumbnail_url_failed'));
+      showThumbnailError(response, {
+        operation: options.source === 'favicon' ? 'favicon' : 'url',
+        url
+      });
     }
 
     bookmark && (bookmark.hasOverlay = false);
@@ -1216,6 +1238,7 @@ const Bookmarks = (() => {
   async function downloadMissingFavicons(bookmarks) {
     const missingFavicons = bookmarks.filter(bookmark => {
       if (!bookmark.url) return false;
+      if (!validateThumbnailRequest(bookmark.url, 'favicon').success) return false;
       const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
       const source = thumbnail?.source || 'favicon';
       return source === 'favicon'
@@ -1261,6 +1284,7 @@ const Bookmarks = (() => {
       }
 
       const sourceUrl = thumbnail.sourceUrl || bookmark.url;
+      if (!validateThumbnailRequest(sourceUrl, thumbnail.source).success) return;
       applyRemoteThumbnail(bookmark, sourceUrl, false, {
         source: thumbnail.source,
         sourceUrl
@@ -1299,14 +1323,19 @@ const Bookmarks = (() => {
           }
         }
         if (!response.ok) {
-          console.warn(`Thumbnail capture failed: ${response.code}`);
-          Toast.show(getMessage('notice_thumbnail_capture_failed'));
+          showThumbnailError(response, { operation: 'site', url: bookmark.url });
         }
         return response;
       },
       onFailure: error => {
         console.warn('Thumbnail capture queue failed', error);
-        Toast.show(getMessage('notice_thumbnail_capture_failed'));
+        showThumbnailError(
+          createThumbnailFailure('UNKNOWN_ERROR', {
+            operation: 'site',
+            url: bookmark.url
+          }),
+          { operation: 'site', url: bookmark.url }
+        );
       },
       finalize: response => {
         finalizeCaptureQueueItem({
@@ -1341,6 +1370,11 @@ const Bookmarks = (() => {
   }
 
   async function captureThumbnailBlob(url, access = false) {
+    const validation = validateThumbnailRequest(url, 'site');
+    if (!validation.success) {
+      showThumbnailError(validation, { operation: 'site', url });
+      return null;
+    }
     let hostPermissions = access;
     try {
       hostPermissions = await checkHostPermissions();
@@ -1354,11 +1388,22 @@ const Bookmarks = (() => {
       readRecord: thumbnailId => ImageDB.get(thumbnailId),
       deleteRecord: thumbnailId => ImageDB.delete(thumbnailId)
     });
-    if (!blob) Toast.show(getMessage('notice_thumbnail_capture_failed'));
+    if (!blob) {
+      showThumbnailError(
+        createThumbnailFailure('CAPTURE_FAILED', { operation: 'site', url }),
+        { operation: 'site', url }
+      );
+    }
     return blob;
   }
 
   async function fetchThumbnailBlob(url, access = false, options = {}) {
+    const operation = options.source === 'favicon' ? 'favicon' : 'url';
+    const validation = validateThumbnailRequest(url, operation);
+    if (!validation.success) {
+      showThumbnailError(validation, { operation, url });
+      return null;
+    }
     let hostPermissions = access;
     try {
       hostPermissions = await checkHostPermissions();
@@ -1369,7 +1414,10 @@ const Bookmarks = (() => {
     const response = await requestRemoteThumbnail(id, url, options);
     const image = await ImageDB.get(id);
     await ImageDB.delete(id);
-    if (!response?.success) return null;
+    if (!response?.success) {
+      showThumbnailError(response, { operation, url });
+      return null;
+    }
     return image?.blob || null;
   }
 

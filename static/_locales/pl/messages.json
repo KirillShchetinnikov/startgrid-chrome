@@ -115,6 +115,102 @@
   "notice_thumbnail_capture_failed": {
     "message": "Nie udało się utworzyć zrzutu strony dla miniatury."
   },
+  "thumbnail_error_title_favicon": {
+    "message": "Nie można załadować ikony witryny"
+  },
+  "thumbnail_error_title_site": {
+    "message": "Nie można utworzyć miniatury witryny"
+  },
+  "thumbnail_error_title_url": {
+    "message": "Nie można załadować obrazu miniatury"
+  },
+  "thumbnail_error_title_thumbnail": {
+    "message": "Nie można zaktualizować miniatury"
+  },
+  "thumbnail_error_site": {
+    "message": "Witryna"
+  },
+  "thumbnail_error_problem": {
+    "message": "Problem"
+  },
+  "thumbnail_error_problem_invalid_url": {
+    "message": "Nieprawidłowy URL"
+  },
+  "thumbnail_error_problem_unsupported_scheme": {
+    "message": "Nieobsługiwany typ adresu"
+  },
+  "thumbnail_error_problem_protected_page": {
+    "message": "Chroniona strona przeglądarki"
+  },
+  "thumbnail_error_problem_permission": {
+    "message": "Brak dostępu do witryny"
+  },
+  "thumbnail_error_problem_network": {
+    "message": "Żądanie sieciowe nie powiodło się"
+  },
+  "thumbnail_error_problem_http": {
+    "message": "Witryna zwróciła HTTP"
+  },
+  "thumbnail_error_problem_not_image": {
+    "message": "Odpowiedź nie jest obrazem"
+  },
+  "thumbnail_error_problem_no_favicon": {
+    "message": "Nie znaleziono ikony witryny"
+  },
+  "thumbnail_error_problem_timeout": {
+    "message": "Przekroczono limit czasu"
+  },
+  "thumbnail_error_problem_runtime": {
+    "message": "Komunikacja z rozszerzeniem nie powiodła się"
+  },
+  "thumbnail_error_problem_storage": {
+    "message": "Lokalny zapis obrazu nie powiódł się"
+  },
+  "thumbnail_error_problem_capture": {
+    "message": "Chrome nie może przechwycić strony"
+  },
+  "thumbnail_error_problem_unknown": {
+    "message": "Nieoczekiwany błąd miniatury"
+  },
+  "thumbnail_error_reason_invalid_url": {
+    "message": "Nie udało się rozpoznać adresu jako prawidłowego URL."
+  },
+  "thumbnail_error_reason_unsupported_scheme": {
+    "message": "Można pobierać i przechwytywać tylko zwykłe witryny HTTP i HTTPS."
+  },
+  "thumbnail_error_reason_protected_page": {
+    "message": "Chrome blokuje odczyt chronionych stron przeglądarki i Chrome Web Store."
+  },
+  "thumbnail_error_reason_permission": {
+    "message": "StartGrid nie ma uprawnień do tej witryny."
+  },
+  "thumbnail_error_reason_network": {
+    "message": "Przeglądarka zablokowała żądanie lub witryna jest niedostępna."
+  },
+  "thumbnail_error_reason_http": {
+    "message": "Witryna odrzuciła żądanie lub zwróciła błąd."
+  },
+  "thumbnail_error_reason_not_image": {
+    "message": "Adres zwrócił treść inną niż obraz."
+  },
+  "thumbnail_error_reason_no_favicon": {
+    "message": "Nie znaleziono użytecznej ikony ani /favicon.ico."
+  },
+  "thumbnail_error_reason_timeout": {
+    "message": "Witryna nie odpowiedziała na czas."
+  },
+  "thumbnail_error_reason_runtime": {
+    "message": "Proces w tle został zatrzymany lub nie zwrócił odpowiedzi."
+  },
+  "thumbnail_error_reason_storage": {
+    "message": "Nie udało się zapisać obrazu lokalnie. Miniatura bez zmian."
+  },
+  "thumbnail_error_reason_capture": {
+    "message": "Chrome nie mógł otworzyć ani przechwycić strony."
+  },
+  "thumbnail_error_reason_unknown": {
+    "message": "Operacja nie powiodła się z nieoczekiwanego powodu. Miniatura bez zmian."
+  },
   "notice_background_save_failed": {
     "message": "Nie udało się zapisać wybranego obrazu tła. Poprzedni obraz został zachowany. Spróbuj ponownie."
   },
@@ -546,9 +642,15 @@
   "enable_sync": {
     "message": "Włącz synchronizację"
   },
-  "sync_direction_note": { "message": "Wybierz ustawienia, które chcesz zachować." },
-  "sync_replace_local": { "message": "Zastąp ustawienia lokalne ustawieniami z chmury" },
-  "sync_replace_cloud": { "message": "Zastąp ustawienia w chmurze ustawieniami lokalnymi" },
+  "sync_direction_note": {
+    "message": "Wybierz ustawienia, które chcesz zachować."
+  },
+  "sync_replace_local": {
+    "message": "Zastąp ustawienia lokalne ustawieniami z chmury"
+  },
+  "sync_replace_cloud": {
+    "message": "Zastąp ustawienia w chmurze ustawieniami lokalnymi"
+  },
   "clear_background_locals": {
     "message": "Usuń wszystkie przechowywane lokalnie miniatury"
   },
@@ -1062,18 +1164,57 @@
   "settings_no_results": {
     "message": "Nie znaleziono ustawień"
   },
-  "bookmark_title_size": { "message": "Rozmiar tekstu tytułu" },
-  "bookmark_title_size_note": { "message": "Określa rozmiar tytułu zakładki." },
-  "bookmark_title_position": { "message": "Położenie tytułu" },
-  "bookmark_title_position_inside": { "message": "Wewnątrz kafelka" },
-  "bookmark_title_position_outside": { "message": "Pod kafelkiem" },
-  "bookmark_title_size_individual": { "message": "Indywidualny rozmiar tytułu" },
-  "bookmark_title_size_individual_note": { "message": "Pozostaw puste, aby użyć ustawienia globalnego." },
-  "error_input_invalid": { "message": "Nieprawidłowa wartość" },
-  "error_input_number": { "message": "Wprowadź prawidłową liczbę" },
-  "error_input_maximum": { "message": "Wartość nie może być większa niż $max$", "placeholders": { "max": { "content": "$1" } } },
-  "error_input_minimum": { "message": "Wartość musi wynosić co najmniej $min$", "placeholders": { "min": { "content": "$1" } } },
-  "error_input_step": { "message": "Użyj przyrostu $step$", "placeholders": { "step": { "content": "$1" } } },
+  "bookmark_title_size": {
+    "message": "Rozmiar tekstu tytułu"
+  },
+  "bookmark_title_size_note": {
+    "message": "Określa rozmiar tytułu zakładki."
+  },
+  "bookmark_title_position": {
+    "message": "Położenie tytułu"
+  },
+  "bookmark_title_position_inside": {
+    "message": "Wewnątrz kafelka"
+  },
+  "bookmark_title_position_outside": {
+    "message": "Pod kafelkiem"
+  },
+  "bookmark_title_size_individual": {
+    "message": "Indywidualny rozmiar tytułu"
+  },
+  "bookmark_title_size_individual_note": {
+    "message": "Pozostaw puste, aby użyć ustawienia globalnego."
+  },
+  "error_input_invalid": {
+    "message": "Nieprawidłowa wartość"
+  },
+  "error_input_number": {
+    "message": "Wprowadź prawidłową liczbę"
+  },
+  "error_input_maximum": {
+    "message": "Wartość nie może być większa niż $max$",
+    "placeholders": {
+      "max": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_minimum": {
+    "message": "Wartość musi wynosić co najmniej $min$",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_step": {
+    "message": "Użyj przyrostu $step$",
+    "placeholders": {
+      "step": {
+        "content": "$1"
+      }
+    }
+  },
   "undo": {
     "message": "Anulować"
   }

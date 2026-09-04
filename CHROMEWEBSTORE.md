@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-09-03
+> Last Updated: 2026-09-04
 
 ## Store Listing
 
@@ -112,7 +112,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| 2.0.0 | 2026-09-03 | Improved file backup, background personalization, synchronization choices, thumbnail updates, and accessibility. | Draft |
+| 2.0.0 | 2026-09-04 | Improved file backup, background personalization, synchronization choices, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
 
 ## Review Notes
 

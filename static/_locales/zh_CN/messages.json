@@ -115,6 +115,102 @@
   "notice_thumbnail_capture_failed": {
     "message": "无法为缩略图创建网站截图。"
   },
+  "thumbnail_error_title_favicon": {
+    "message": "无法加载网站图标"
+  },
+  "thumbnail_error_title_site": {
+    "message": "无法创建网站缩略图"
+  },
+  "thumbnail_error_title_url": {
+    "message": "无法加载缩略图图片"
+  },
+  "thumbnail_error_title_thumbnail": {
+    "message": "无法更新缩略图"
+  },
+  "thumbnail_error_site": {
+    "message": "网站"
+  },
+  "thumbnail_error_problem": {
+    "message": "问题"
+  },
+  "thumbnail_error_problem_invalid_url": {
+    "message": "URL 无效"
+  },
+  "thumbnail_error_problem_unsupported_scheme": {
+    "message": "不支持的地址类型"
+  },
+  "thumbnail_error_problem_protected_page": {
+    "message": "受保护的浏览器页面"
+  },
+  "thumbnail_error_problem_permission": {
+    "message": "未授予网站访问权限"
+  },
+  "thumbnail_error_problem_network": {
+    "message": "网络请求失败"
+  },
+  "thumbnail_error_problem_http": {
+    "message": "网站返回 HTTP"
+  },
+  "thumbnail_error_problem_not_image": {
+    "message": "响应不是图片"
+  },
+  "thumbnail_error_problem_no_favicon": {
+    "message": "未找到网站图标"
+  },
+  "thumbnail_error_problem_timeout": {
+    "message": "操作超时"
+  },
+  "thumbnail_error_problem_runtime": {
+    "message": "与扩展程序通信失败"
+  },
+  "thumbnail_error_problem_storage": {
+    "message": "本地保存图片失败"
+  },
+  "thumbnail_error_problem_capture": {
+    "message": "Chrome 无法捕获页面"
+  },
+  "thumbnail_error_problem_unknown": {
+    "message": "缩略图发生未知错误"
+  },
+  "thumbnail_error_reason_invalid_url": {
+    "message": "Адрес не удалось распознать как корректный URL."
+  },
+  "thumbnail_error_reason_unsupported_scheme": {
+    "message": "Скачивать и снимать можно только обычные сайты HTTP и HTTPS. Значок из кэша Chrome остаётся доступен."
+  },
+  "thumbnail_error_reason_protected_page": {
+    "message": "Chrome запрещает расширениям читать защищённые страницы браузера и Chrome Web Store. Значок из кэша Chrome остаётся доступен."
+  },
+  "thumbnail_error_reason_permission": {
+    "message": "У StartGrid нет разрешения на доступ к этому сайту."
+  },
+  "thumbnail_error_reason_network": {
+    "message": "Браузер заблокировал запрос, соединение прервалось или сайт недоступен."
+  },
+  "thumbnail_error_reason_http": {
+    "message": "Сайт отклонил запрос или вернул неуспешный ответ."
+  },
+  "thumbnail_error_reason_not_image": {
+    "message": "По указанному адресу получен другой тип содержимого вместо изображения."
+  },
+  "thumbnail_error_reason_no_favicon": {
+    "message": "Страница не указала подходящий значок, а /favicon.ico оказался недоступен."
+  },
+  "thumbnail_error_reason_timeout": {
+    "message": "Сайт не успел ответить за отведённое время."
+  },
+  "thumbnail_error_reason_runtime": {
+    "message": "Фоновый процесс остановился или не вернул корректный ответ."
+  },
+  "thumbnail_error_reason_storage": {
+    "message": "Загруженное изображение не удалось сохранить локально. Предыдущая миниатюра не изменена."
+  },
+  "thumbnail_error_reason_capture": {
+    "message": "Chrome не смог открыть, подготовить или снять страницу."
+  },
+  "thumbnail_error_reason_unknown": {
+    "message": "Операция завершилась с неожиданной ошибкой. Предыдущая миниатюра не изменена."
+  },
   "notice_background_save_failed": {
     "message": "无法保存所选背景图片。之前的图片已保留，请重试。"
   },
@@ -546,9 +642,15 @@
   "enable_sync": {
     "message": "启用同步"
   },
-  "sync_direction_note": { "message": "选择要保留的设置。" },
-  "sync_replace_local": { "message": "用云端设置替换本地设置" },
-  "sync_replace_cloud": { "message": "用本地设置替换云端设置" },
+  "sync_direction_note": {
+    "message": "选择要保留的设置。"
+  },
+  "sync_replace_local": {
+    "message": "用云端设置替换本地设置"
+  },
+  "sync_replace_cloud": {
+    "message": "用本地设置替换云端设置"
+  },
   "clear_background_locals": {
     "message": "删除所有本地存储的缩略图"
   },
@@ -1062,18 +1164,57 @@
   "settings_no_results": {
     "message": "没有找到设置"
   },
-  "bookmark_title_size": { "message": "标题文字大小" },
-  "bookmark_title_size_note": { "message": "调整书签标题的大小。" },
-  "bookmark_title_position": { "message": "标题位置" },
-  "bookmark_title_position_inside": { "message": "磁贴内部" },
-  "bookmark_title_position_outside": { "message": "磁贴下方" },
-  "bookmark_title_size_individual": { "message": "单独的标题大小" },
-  "bookmark_title_size_individual_note": { "message": "留空以使用全局标题大小。" },
-  "error_input_invalid": { "message": "无效值" },
-  "error_input_number": { "message": "请输入有效数字" },
-  "error_input_maximum": { "message": "值不能大于 $max$", "placeholders": { "max": { "content": "$1" } } },
-  "error_input_minimum": { "message": "值不能小于 $min$", "placeholders": { "min": { "content": "$1" } } },
-  "error_input_step": { "message": "请按 $step$ 的增量输入", "placeholders": { "step": { "content": "$1" } } },
+  "bookmark_title_size": {
+    "message": "标题文字大小"
+  },
+  "bookmark_title_size_note": {
+    "message": "调整书签标题的大小。"
+  },
+  "bookmark_title_position": {
+    "message": "标题位置"
+  },
+  "bookmark_title_position_inside": {
+    "message": "磁贴内部"
+  },
+  "bookmark_title_position_outside": {
+    "message": "磁贴下方"
+  },
+  "bookmark_title_size_individual": {
+    "message": "单独的标题大小"
+  },
+  "bookmark_title_size_individual_note": {
+    "message": "留空以使用全局标题大小。"
+  },
+  "error_input_invalid": {
+    "message": "无效值"
+  },
+  "error_input_number": {
+    "message": "请输入有效数字"
+  },
+  "error_input_maximum": {
+    "message": "值不能大于 $max$",
+    "placeholders": {
+      "max": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_minimum": {
+    "message": "值不能小于 $min$",
+    "placeholders": {
+      "min": {
+        "content": "$1"
+      }
+    }
+  },
+  "error_input_step": {
+    "message": "请按 $step$ 的增量输入",
+    "placeholders": {
+      "step": {
+        "content": "$1"
+      }
+    }
+  },
   "undo": {
     "message": "撤消"
   }
