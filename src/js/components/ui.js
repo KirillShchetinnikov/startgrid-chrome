@@ -3,6 +3,7 @@ import { getMessage } from '../i18n';
 import { settings } from '../settings';
 import Toast from '../components/toast';
 import ImageDB from '../api/imageDB';
+import { normalizeBackgroundImageURL } from '../backgroundUrlValidation';
 import { getBingImage } from '../api/bingImageDay';
 import { containsPermissions } from '../api/permissions';
 import {
@@ -112,7 +113,12 @@ export default {
         hasVideo = image.blob.type.startsWith('video');
       }
     } else if (bgState === 'background_external') {
-      resource = settings.$.background_external;
+      const externalUrl = settings.$.background_external;
+      resource = normalizeBackgroundImageURL(externalUrl);
+      if (!resource && externalUrl) {
+        await settings.updateKey('background_external', '');
+        Toast.show(getMessage('notice_background_url_invalid'));
+      }
     } else {
       const bingHostPermission = await containsPermissions({ origins: ['https://www.bing.com/*'] });
       if (!bingHostPermission) {
@@ -155,10 +161,21 @@ export default {
       }
       await showBackground();
     } else {
-      const image = await $imageLoaded(resource).catch(e => {
-        console.warn(`Local background image resource problem: ${e}`);
-      });
+      let image;
+      try {
+        image = await $imageLoaded(resource);
+      } catch (e) {
+        console.warn(`Background image resource problem: ${e}`);
+        if (bgState === 'background_local') {
+          Toast.show(getMessage('notice_background_load_failed'));
+          URL.revokeObjectURL(resource);
+        }
+      }
       if (!image) {
+        if (bgState === 'background_external') {
+          await settings.updateKey('background_external', '');
+          Toast.show(getMessage('notice_background_url_load_failed'));
+        }
         hideBackground();
         return;
       }

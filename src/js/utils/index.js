@@ -258,8 +258,8 @@ export function $uid() {
   return `id${Math.floor(Math.random() * Date.now()).toString(36)}`;
 }
 
-export async function $filePicker(pickerOpts, container = document.body) {
-  if (typeof window.showOpenFilePicker === 'function') {
+export async function $filePicker(pickerOpts, container) {
+  if (typeof window !== 'undefined' && typeof window.showOpenFilePicker === 'function') {
     try {
       const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
       return fileHandle?.getFile();
@@ -270,6 +270,7 @@ export async function $filePicker(pickerOpts, container = document.body) {
   }
 
   return new Promise(resolve => {
+    const target = container || document.body;
     const input = document.createElement('input');
     input.type = 'file';
     input.multiple = Boolean(pickerOpts?.multiple);
@@ -277,7 +278,7 @@ export async function $filePicker(pickerOpts, container = document.body) {
       return Object.values(type.accept || {}).flat();
     }).join(',');
     input.hidden = true;
-    container.append(input);
+    target.append(input);
 
     let finished = false;
     const finish = file => {

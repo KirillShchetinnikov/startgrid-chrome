@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "No se pudo guardar la imagen de fondo seleccionada. Se conservó la imagen anterior. Inténtalo de nuevo."
   },
+  "notice_background_load_failed": {
+    "message": "No se pudo cargar la imagen de fondo local. Elige otro archivo."
+  },
+  "notice_background_url_invalid": { "message": "Introduce una URL de imagen HTTP o HTTPS válida." },
+  "notice_background_url_load_failed": { "message": "No se pudo cargar la imagen de esta URL. Se eliminó el enlace." },
   "scroll_to_top": {
     "message": "Volver arriba"
   },

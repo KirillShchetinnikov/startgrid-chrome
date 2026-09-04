@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "Nie udało się zapisać wybranego obrazu tła. Poprzedni obraz został zachowany. Spróbuj ponownie."
   },
+  "notice_background_load_failed": {
+    "message": "Nie udało się wczytać lokalnego obrazu tła. Wybierz inny plik."
+  },
+  "notice_background_url_invalid": { "message": "Wprowadź prawidłowy adres URL obrazu HTTP lub HTTPS." },
+  "notice_background_url_load_failed": { "message": "Nie udało się wczytać obrazu z tego adresu URL. Link został usunięty." },
   "scroll_to_top": {
     "message": "Przewiń na górę"
   },

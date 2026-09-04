@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "Не удалось сохранить выбранное фоновое изображение. Предыдущее изображение сохранено. Попробуйте ещё раз."
   },
+  "notice_background_load_failed": {
+    "message": "Не удалось загрузить локальное фоновое изображение. Выберите другой файл."
+  },
+  "notice_background_url_invalid": { "message": "Введите корректный HTTP- или HTTPS-адрес изображения." },
+  "notice_background_url_load_failed": { "message": "Не удалось загрузить изображение по этому адресу. Ссылка удалена." },
   "scroll_to_top": {
     "message": "Прокрутить в начало страницы"
   },

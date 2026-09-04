@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "The selected background image could not be saved. Your previous image is unchanged. Try again."
   },
+  "notice_background_load_failed": {
+    "message": "The local background image could not be loaded. Choose another file."
+  },
+  "notice_background_url_invalid": { "message": "Enter a valid HTTP or HTTPS image URL." },
+  "notice_background_url_load_failed": { "message": "The image at this URL could not be loaded. The link was removed." },
   "scroll_to_top": {
     "message": "Scroll to top"
   },

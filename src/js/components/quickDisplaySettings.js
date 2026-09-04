@@ -9,6 +9,7 @@ import { QUICK_SETTING_KEYS } from '../quickSettings';
 import { scaleTileContentSettings } from '../tileSizeSync';
 import { requestPermissions } from '../api/permissions';
 import ImageDB from '../api/imageDB';
+import { canLoadBackgroundImageURL, normalizeBackgroundImageURL } from '../backgroundUrlValidation';
 import { $filePicker, $resizeThumbnail, getVideoPoster } from '../utils';
 import {
   BACKGROUND_FILE_PICKER_OPTIONS,
@@ -378,12 +379,24 @@ export default function initQuickDisplaySettings({
     const input = panel.querySelector('#quick_background_external');
     if (!input.reportValidity()) return;
 
+    const url = normalizeBackgroundImageURL(input.value);
+    if (!url) {
+      Toast.show(message('notice_background_url_invalid'));
+      return;
+    }
+
     const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
     if (!hasPermission) return;
 
+    if (!await canLoadBackgroundImageURL(url)) {
+      input.value = '';
+      Toast.show(message('notice_background_url_load_failed'));
+      return;
+    }
+
     await settings.updateAll({
       background_image: 'background_external',
-      background_external: input.value.trim()
+      background_external: url
     });
     await UI.setBG();
     Toast.show(message('notice_bg_image_updated'));

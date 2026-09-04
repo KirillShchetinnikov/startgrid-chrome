@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "无法保存所选背景图片。之前的图片已保留，请重试。"
   },
+  "notice_background_load_failed": {
+    "message": "无法加载本地背景图片。请选择其他文件。"
+  },
+  "notice_background_url_invalid": { "message": "请输入有效的 HTTP 或 HTTPS 图片网址。" },
+  "notice_background_url_load_failed": { "message": "无法加载该网址的图片。链接已被删除。" },
   "scroll_to_top": {
     "message": "滚动到顶部"
   },

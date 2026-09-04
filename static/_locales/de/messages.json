@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "Das ausgewählte Hintergrundbild konnte nicht gespeichert werden. Das bisherige Bild bleibt erhalten. Versuchen Sie es erneut."
   },
+  "notice_background_load_failed": {
+    "message": "Das lokale Hintergrundbild konnte nicht geladen werden. Wählen Sie eine andere Datei aus."
+  },
+  "notice_background_url_invalid": { "message": "Geben Sie eine gültige HTTP- oder HTTPS-Bild-URL ein." },
+  "notice_background_url_load_failed": { "message": "Das Bild unter dieser URL konnte nicht geladen werden. Der Link wurde entfernt." },
   "scroll_to_top": {
     "message": "Nach oben scrollen"
   },

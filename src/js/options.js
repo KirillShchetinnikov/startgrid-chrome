@@ -15,6 +15,7 @@ import {
 } from './utils';
 import Range from './components/range';
 import ImageDB from './api/imageDB';
+import { canLoadBackgroundImageURL, normalizeBackgroundImageURL } from './backgroundUrlValidation';
 import {
   commitBackgroundUpload,
   BACKGROUND_FILE_PICKER_OPTIONS,
@@ -524,12 +525,24 @@ async function handleExternalBackgroundSave() {
   const input = document.getElementById('background_external_url');
   if (!input.reportValidity()) return;
 
+  const url = normalizeBackgroundImageURL(input.value);
+  if (!url) {
+    Toast.show(getMessage('notice_background_url_invalid'));
+    return;
+  }
+
   const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
   if (!hasPermission) return;
 
+  if (!await canLoadBackgroundImageURL(url)) {
+    input.value = '';
+    Toast.show(getMessage('notice_background_url_load_failed'));
+    return;
+  }
+
   await settings.updateAll({
     background_image: 'background_external',
-    background_external: input.value.trim()
+    background_external: url
   });
   toggleBackgroundControls('background_external');
   Toast.show(getMessage('notice_bg_image_updated'));

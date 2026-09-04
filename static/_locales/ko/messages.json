@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "선택한 배경 이미지를 저장하지 못했습니다. 이전 이미지는 그대로 유지되었습니다. 다시 시도해 주세요."
   },
+  "notice_background_load_failed": {
+    "message": "로컬 배경 이미지를 불러올 수 없습니다. 다른 파일을 선택하세요."
+  },
+  "notice_background_url_invalid": { "message": "올바른 HTTP 또는 HTTPS 이미지 URL을 입력하세요." },
+  "notice_background_url_load_failed": { "message": "이 URL의 이미지를 불러올 수 없습니다. 링크가 삭제되었습니다." },
   "scroll_to_top": {
     "message": "페이지 맨 위로 이동"
   },

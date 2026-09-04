@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "無法儲存所選的背景圖片。先前的圖片已保留，請再試一次。"
   },
+  "notice_background_load_failed": {
+    "message": "無法載入本機背景圖片。請選擇其他檔案。"
+  },
+  "notice_background_url_invalid": { "message": "請輸入有效的 HTTP 或 HTTPS 圖片網址。" },
+  "notice_background_url_load_failed": { "message": "無法載入此網址的圖片。連結已被刪除。" },
   "scroll_to_top": {
     "message": "捲動至頂端"
   },

@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "選択した背景画像を保存できませんでした。以前の画像は保持されています。もう一度お試しください。"
   },
+  "notice_background_load_failed": {
+    "message": "ローカルの背景画像を読み込めませんでした。別のファイルを選択してください。"
+  },
+  "notice_background_url_invalid": { "message": "有効な HTTP または HTTPS の画像 URL を入力してください。" },
+  "notice_background_url_load_failed": { "message": "この URL の画像を読み込めませんでした。リンクは削除されました。" },
   "scroll_to_top": {
     "message": "ページ上部へ移動"
   },

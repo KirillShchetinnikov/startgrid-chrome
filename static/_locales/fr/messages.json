@@ -214,6 +214,11 @@
   "notice_background_save_failed": {
     "message": "Impossible d’enregistrer l’image d’arrière-plan sélectionnée. L’image précédente a été conservée. Réessayez."
   },
+  "notice_background_load_failed": {
+    "message": "Impossible de charger l’image d’arrière-plan locale. Choisissez un autre fichier."
+  },
+  "notice_background_url_invalid": { "message": "Saisissez une URL d’image HTTP ou HTTPS valide." },
+  "notice_background_url_load_failed": { "message": "Impossible de charger l’image à cette URL. Le lien a été supprimé." },
   "scroll_to_top": {
     "message": "Revenir en haut"
   },

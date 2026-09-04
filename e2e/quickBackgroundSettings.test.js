@@ -42,6 +42,8 @@ describe('quick background settings', () => {
     expect(quickSource).toContain("event.target.closest('.gmodal, .gmodal-backdrop')");
     expect(quickSource).toContain('data-quick-background-confirmation');
     expect(quickSource).toContain('showBackgroundRemovalConfirmation');
+    expect(quickSource).toContain('normalizeBackgroundImageURL');
+    expect(quickSource).toContain('canLoadBackgroundImageURL');
     expect(quickSource).toContain("data-quick-background-external-remove]').disabled");
     expect(quickSource).toContain("data-quick-background-remove]').disabled");
     expect(displaySource).toContain('delete_local_background" class="btn btn--clear md-ripple" disabled');
@@ -53,5 +55,7 @@ describe('quick background settings', () => {
 
     expect(source).toMatch(/bgEl\.replaceChildren\(\);[\s\S]*?bgEl\.classList\.remove\('is-visible'\)/);
     expect(source).toContain("document.querySelectorAll('.bing-info').forEach(node => node.remove())");
+    expect(source).toContain("getMessage('notice_background_load_failed')");
+    expect(source).toContain("getMessage('notice_background_url_load_failed')");
   });
 });
