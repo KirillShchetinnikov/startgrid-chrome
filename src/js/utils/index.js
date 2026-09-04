@@ -258,7 +258,7 @@ export function $uid() {
   return `id${Math.floor(Math.random() * Date.now()).toString(36)}`;
 }
 
-export async function $filePicker(pickerOpts) {
+export async function $filePicker(pickerOpts, container = document.body) {
   if (typeof window.showOpenFilePicker === 'function') {
     try {
       const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
@@ -277,7 +277,7 @@ export async function $filePicker(pickerOpts) {
       return Object.values(type.accept || {}).flat();
     }).join(',');
     input.hidden = true;
-    document.body.append(input);
+    container.append(input);
 
     let finished = false;
     const finish = file => {

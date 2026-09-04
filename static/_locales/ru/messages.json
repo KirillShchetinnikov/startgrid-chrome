@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "Применить"
   },
+  "btn_open": {
+    "message": "Открыть"
+  },
   "contextmenu_tab": {
     "message": "Открыть в новой вкладке"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "Изображение с URL"
+  },
+  "background_external_note": {
+    "message": "Вставьте прямую ссылку на изображение. Доступ к сайту будет запрошен при установке."
   },
   "background_local": {
     "message": "Изображение или видео с компьютера"

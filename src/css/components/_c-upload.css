@@ -41,7 +41,8 @@
 }
 
 .c-upload .is-upload {
-  & .c-upload__btn {
+  & .c-upload__btn,
+  & .c-upload__open {
     color: transparent;
     pointer-events: none;
     user-select: none;
@@ -57,6 +58,12 @@
       animation: rotate 0.7s linear infinite;
     }
   }
+}
+
+.c-upload__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 @keyframes rotate {

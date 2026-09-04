@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "Alkalmazni"
   },
+  "btn_open": {
+    "message": "Megnyitás"
+  },
   "contextmenu_tab": {
     "message": "Megnyitás új lapon"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "Kép az URL-ről"
+  },
+  "background_external_note": {
+    "message": "Illesszen be egy közvetlen hivatkozást egy képre. Alkalmazáskor a rendszer hozzáférést kér a webhelyhez."
   },
   "background_local": {
     "message": "Kép vagy videó számítógépről"

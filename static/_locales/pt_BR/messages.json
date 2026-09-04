@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "Aplicar"
   },
+  "btn_open": {
+    "message": "Abrir"
+  },
   "contextmenu_tab": {
     "message": "Abrir em nova aba"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "Imagem do URL"
+  },
+  "background_external_note": {
+    "message": "Cole um link direto para uma imagem. O acesso ao site será solicitado ao aplicar."
   },
   "background_local": {
     "message": "Imagem ou vídeo do computador"

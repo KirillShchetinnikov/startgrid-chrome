@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "Anwenden"
   },
+  "btn_open": {
+    "message": "Öffnen"
+  },
   "contextmenu_tab": {
     "message": "In neuem Tab öffnen"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "Bild von URL"
+  },
+  "background_external_note": {
+    "message": "Fügen Sie einen direkten Link zu einem Bild ein. Beim Anwenden wird der Zugriff auf die Website angefordert."
   },
   "background_local": {
     "message": "Bild oder Video vom Computer"

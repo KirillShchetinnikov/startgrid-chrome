@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "適用する"
   },
+  "btn_open": {
+    "message": "開く"
+  },
   "contextmenu_tab": {
     "message": "新しいタブで開く"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "URLからの画像"
+  },
+  "background_external_note": {
+    "message": "画像への直接リンクを貼り付けます。適用時にサイトへのアクセス許可を求めます。"
   },
   "background_local": {
     "message": "コンピューターからの画像またはビデオ"

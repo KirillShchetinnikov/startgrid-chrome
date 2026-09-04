@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "申請"
   },
+  "btn_open": {
+    "message": "開啟"
+  },
   "contextmenu_tab": {
     "message": "在新分頁中開啟"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "圖片來自網址"
+  },
+  "background_external_note": {
+    "message": "貼上圖片的直接連結。套用時將要求存取該網站的權限。"
   },
   "background_local": {
     "message": "來自電腦的圖像或視頻"

@@ -131,6 +131,8 @@ async function init() {
   document.getElementById('export').addEventListener('click', handleExportSettings);
   document.getElementById('import').addEventListener('click', handleImportSettingsFromPicker);
   document.getElementById('bgFile').addEventListener('click', handleChooseBackgroundFile);
+  document.getElementById('set_background_external').addEventListener('click', handleExternalBackgroundSave);
+  document.getElementById('delete_background_external').addEventListener('click', handleExternalBackgroundRemove);
   document.getElementById('back_to_main').addEventListener('click', handleBackToMain);
   document.querySelectorAll('[data-reset-color]').forEach(button => {
     button.addEventListener('click', handleResetColor);
@@ -487,9 +489,53 @@ function toggleBackgroundControls(value) {
     }
     document.querySelector('.c-upload__preview').hidden = !backgroundImage;
   }
+  if (value === 'background_external') {
+    syncExternalBackgroundControls();
+  }
   const activeControl = document.querySelector(`[data-background-setting="${value}"]`)
     || document.getElementById(value);
   if (activeControl) activeControl.hidden = false;
+}
+
+function syncExternalBackgroundControls() {
+  const input = document.getElementById('background_external_url');
+  const preview = document.getElementById('preview_external');
+  const image = document.getElementById('preview_external_image');
+  const url = settings.$.background_external;
+
+  input.value = url;
+  preview.hidden = true;
+  image.removeAttribute('src');
+  if (!url) return;
+
+  image.addEventListener('load', () => {
+    preview.hidden = false;
+  }, { once: true });
+  image.src = url;
+}
+
+async function handleExternalBackgroundSave() {
+  const input = document.getElementById('background_external_url');
+  if (!input.reportValidity()) return;
+
+  const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
+  if (!hasPermission) return;
+
+  await settings.updateAll({
+    background_image: 'background_external',
+    background_external: input.value.trim()
+  });
+  toggleBackgroundControls('background_external');
+  Toast.show(getMessage('notice_bg_image_updated'));
+}
+
+async function handleExternalBackgroundRemove() {
+  const confirmAction = await confirmPopup(getMessage('confirm_delete_image'));
+  if (!confirmAction) return;
+
+  await settings.updateKey('background_external', '');
+  syncExternalBackgroundControls();
+  Toast.show(getMessage('notice_image_removed'));
 }
 
 function relationToggleOption(target) {
@@ -801,7 +847,7 @@ async function handleUploadFile() {
 }
 
 async function handleRemoveFile(evt) {
-  const target = evt.target.closest('#delete_upload');
+  const target = evt.target.closest('#delete_upload, #delete_local_background');
   if (!target) return;
 
   const confirmAction = await confirmPopup(getMessage('confirm_delete_image'));

@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "申请"
   },
+  "btn_open": {
+    "message": "打开"
+  },
   "contextmenu_tab": {
     "message": "在新选项卡中打开"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "图片来自网址"
+  },
+  "background_external_note": {
+    "message": "粘贴图片的直接链接。应用时将请求访问该网站的权限。"
   },
   "background_local": {
     "message": "来自计算机的图像或视频"

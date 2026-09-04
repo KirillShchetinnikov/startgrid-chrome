@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "적용하다"
   },
+  "btn_open": {
+    "message": "열기"
+  },
   "contextmenu_tab": {
     "message": "새 탭에서 열기"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "URL의 이미지"
+  },
+  "background_external_note": {
+    "message": "이미지의 직접 링크를 붙여 넣으세요. 적용할 때 사이트 접근 권한을 요청합니다."
   },
   "background_local": {
     "message": "컴퓨터의 이미지 또는 비디오"

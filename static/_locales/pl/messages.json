@@ -238,6 +238,9 @@
   "btn_apply": {
     "message": "Stosować"
   },
+  "btn_open": {
+    "message": "Otwórz"
+  },
   "contextmenu_tab": {
     "message": "Otwórz w nowej karcie"
   },
@@ -524,6 +527,9 @@
   },
   "background_external": {
     "message": "Obraz z adresu URL"
+  },
+  "background_external_note": {
+    "message": "Wklej bezpośredni link do obrazu. Podczas stosowania zostanie poproszony dostęp do witryny."
   },
   "background_local": {
     "message": "Obraz lub wideo z komputera"

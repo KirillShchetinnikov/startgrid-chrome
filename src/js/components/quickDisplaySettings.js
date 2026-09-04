@@ -120,23 +120,34 @@ function createPanel() {
             <span>${message('color')}</span>
             <input id="quick_background_color" type="color" data-setting="background_color">
           </label>
-          <label class="quick-settings__field quick-settings__background-url"
-            data-quick-background-setting="background_external" for="quick_background_external" hidden>
-            <span>${message('background_external')}</span>
-            <input class="form-control" id="quick_background_external" type="url"
-              data-setting="background_external" autocomplete="url" spellcheck="false">
-          </label>
+          <section class="quick-settings__background-external"
+            data-quick-background-setting="background_external" hidden>
+            <label for="quick_background_external">${message('background_external')}</label>
+            <input class="form-control" id="quick_background_external" type="url" required
+              autocomplete="url" spellcheck="false" aria-describedby="quick_background_external_note">
+            <small id="quick_background_external_note">${message('background_external_note')}</small>
+            <div class="quick-settings__background-actions">
+              <button class="btn md-ripple" type="button" data-quick-background-external-set>
+                ${message('btn_apply')}
+              </button>
+              <button class="btn btn--clear md-ripple" type="button" data-quick-background-external-remove>
+                ${message('contextmenu_remove')}
+              </button>
+            </div>
+          </section>
           <section class="quick-settings__background-local" data-quick-background-setting="background_local" hidden>
             <div>
               <strong>${message('background_local')}</strong>
               <small>${message('background_local_video_note')}</small>
             </div>
-            <button class="btn md-ripple" type="button" data-quick-background-upload>
-              ${message('choose_file')}
-            </button>
-            <button class="btn btn--clear md-ripple" type="button" data-quick-background-remove>
-              ${message('contextmenu_remove')}
-            </button>
+            <div class="quick-settings__background-actions">
+              <button class="btn md-ripple" type="button" data-quick-background-upload>
+                ${message('btn_open')}
+              </button>
+              <button class="btn btn--clear md-ripple" type="button" data-quick-background-remove>
+                ${message('contextmenu_remove')}
+              </button>
+            </div>
           </section>
           <p class="quick-settings__background-note" data-quick-background-setting="background_bing" hidden>
             ${message('background_bing_text')}
@@ -341,14 +352,40 @@ export default function initQuickDisplaySettings({
 
   function syncBackgroundControls() {
     const backgroundMode = settings.$.background_image;
+    panel.querySelector('#quick_background_external').value = settings.$.background_external;
     panel.querySelectorAll('[data-quick-background-setting]').forEach(control => {
       control.hidden = control.dataset.quickBackgroundSetting !== backgroundMode;
     });
   }
 
+  async function handleExternalBackgroundSave() {
+    const input = panel.querySelector('#quick_background_external');
+    if (!input.reportValidity()) return;
+
+    const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
+    if (!hasPermission) return;
+
+    await settings.updateAll({
+      background_image: 'background_external',
+      background_external: input.value.trim()
+    });
+    await UI.setBG();
+    Toast.show(message('notice_bg_image_updated'));
+  }
+
+  async function handleExternalBackgroundRemove() {
+    const confirmed = await confirmPopup(message('confirm_delete_image'));
+    if (!confirmed) return;
+
+    await settings.updateKey('background_external', '');
+    syncBackgroundControls();
+    await UI.setBG();
+    Toast.show(message('notice_image_removed'));
+  }
+
   async function handleLocalBackgroundUpload() {
     try {
-      const file = await $filePicker(BACKGROUND_FILE_PICKER_OPTIONS);
+      const file = await $filePicker(BACKGROUND_FILE_PICKER_OPTIONS, panel);
       if (!file) return;
 
       const validation = validateBackgroundFile(file);
@@ -526,12 +563,6 @@ export default function initQuickDisplaySettings({
       await UI.setBG();
     } else if (key === 'background_color' && settings.$.background_image === 'background_color') {
       await UI.setBG();
-    } else if (
-      persist
-      && key === 'background_external'
-      && settings.$.background_image === 'background_external'
-    ) {
-      await UI.setBG();
     } else if (STYLE_SETTINGS.has(key)) {
       const gridLayout = UI.calculateStyles();
       if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(key)) {
@@ -572,6 +603,10 @@ export default function initQuickDisplaySettings({
   panel.querySelector('[data-quick-settings-close]').addEventListener('click', () => togglePanel(false));
   panel.querySelector('[data-quick-background-upload]').addEventListener('click', handleLocalBackgroundUpload);
   panel.querySelector('[data-quick-background-remove]').addEventListener('click', handleLocalBackgroundRemove);
+  panel.querySelector('[data-quick-background-external-set]')
+    .addEventListener('click', handleExternalBackgroundSave);
+  panel.querySelector('[data-quick-background-external-remove]')
+    .addEventListener('click', handleExternalBackgroundRemove);
   panel.addEventListener('change', event => {
     const control = event.target.closest('[data-setting]');
     if (control) {
@@ -629,7 +664,8 @@ export default function initQuickDisplaySettings({
     });
   });
   document.addEventListener('click', event => {
-    if (!panel.hidden && !panel.contains(event.target) && !trigger.contains(event.target)) {
+    const isModalInteraction = event.target.closest('.gmodal, .gmodal-backdrop');
+    if (!panel.hidden && !isModalInteraction && !panel.contains(event.target) && !trigger.contains(event.target)) {
       togglePanel(false, false);
     }
   });

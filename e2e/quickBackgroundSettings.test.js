@@ -17,11 +17,30 @@ describe('quick background settings', () => {
     });
     expect(source).toMatch(/key === 'background_image'[\s\S]*?await UI\.setBG\(\)/);
     expect(source).toContain('data-setting="background_color"');
-    expect(source).toContain('data-setting="background_external"');
+    expect(source).toContain('data-quick-background-external-set');
+    expect(source).toContain('data-quick-background-external-remove');
     expect(source).toContain('data-quick-background-upload');
     expect(source).toContain('data-quick-background-remove');
     expect(source).not.toContain('data-quick-background-preview');
     expect(source).toMatch(/key === 'background_color'[\s\S]*?await UI\.setBG\(\)/);
+  });
+
+  it('uses explicit URL actions and previews the URL background only in full settings', () => {
+    const quickSource = readFileSync('src/js/components/quickDisplaySettings.js', 'utf8');
+    const displaySource = readFileSync('src/js/components/displaySettings.js', 'utf8');
+    const optionsSource = readFileSync('src/js/options.js', 'utf8');
+
+    expect(quickSource).toContain('background_external_note');
+    expect(quickSource).toContain('handleExternalBackgroundSave');
+    expect(displaySource).toContain('set_background_external');
+    expect(displaySource).toContain('delete_background_external');
+    expect(displaySource).toContain('preview_external_image');
+    expect(displaySource).toContain('delete_local_background');
+    expect(displaySource).toContain("getMessage('btn_open')");
+    expect(quickSource).toContain("message('btn_open')");
+    expect(quickSource).toContain('$filePicker(BACKGROUND_FILE_PICKER_OPTIONS, panel)');
+    expect(quickSource).toContain("event.target.closest('.gmodal, .gmodal-backdrop')");
+    expect(optionsSource).toContain('syncExternalBackgroundControls');
   });
 
   it('removes the previous background resource before applying the next one', () => {

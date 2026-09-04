@@ -153,10 +153,14 @@ function createBackgroundSetting() {
   <div id="background_local" class="tbl__option js-background-settings">
     <div class="c-upload">
       <form action="#0" method="post">
-        <button type="button" id="bgFile" class="c-upload__btn md-ripple">
-          <svg width="20" height="20" class="c-upload__icon"><use xlink:href="/img/symbol.svg#upload_outline"></use></svg>
-          <span class="c-upload__name" data-locale-message="choose_file">Изображение или видео</span>
-        </button>
+        <div class="c-upload__actions">
+          <button type="button" id="bgFile" class="btn c-upload__open md-ripple">
+            ${getMessage('btn_open')}
+          </button>
+          <button type="button" id="delete_local_background" class="btn btn--clear md-ripple">
+            ${getMessage('contextmenu_remove')}
+          </button>
+        </div>
         <small class="c-upload__hint text-muted" data-locale-message="background_local_video_note">Локальным фоном может быть изображение или MP4-видео. Видео воспроизводится без звука и автоматически повторяется.</small>
       </form>
       <div class="c-upload__preview">
@@ -171,7 +175,19 @@ function createBackgroundSetting() {
       </div>
     </div>
   </div>
-  <input type="url" id="background_external" name="external" class="form-control js-change tbl__option js-background-settings" placeholder="https://source.unsplash.com/1920x1080/daily?landscape" spellcheck="false">`);
+  <section id="background_external" class="tbl__option js-background-settings background-external-setting" hidden>
+    <label for="background_external_url">${getMessage('background_external')}</label>
+    <input type="url" id="background_external_url" class="form-control" required autocomplete="url"
+      spellcheck="false" aria-describedby="background_external_note">
+    <small id="background_external_note" class="text-muted">${getMessage('background_external_note')}</small>
+    <div class="background-external-setting__actions">
+      <button type="button" id="set_background_external" class="btn md-ripple">${getMessage('btn_apply')}</button>
+      <button type="button" id="delete_background_external" class="btn btn--clear md-ripple">${getMessage('contextmenu_remove')}</button>
+    </div>
+    <div id="preview_external" class="background-external-setting__preview" hidden>
+      <img id="preview_external_image" alt="">
+    </div>
+  </section>`);
 }
 
 function create(setting) {

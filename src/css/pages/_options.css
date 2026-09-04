@@ -267,6 +267,37 @@ dl {
   cursor: pointer;
 }
 
+.background-external-setting {
+  display: grid;
+  gap: 10px;
+}
+
+.background-external-setting > label {
+  font-weight: 600;
+}
+
+.background-external-setting > small {
+  line-height: 1.4;
+}
+
+.background-external-setting__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.background-external-setting__preview {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.background-external-setting__preview img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
 .search-engine-editor__item {
   padding: 12px;
   background: var(--theme-background-2);
