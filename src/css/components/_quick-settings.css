@@ -66,7 +66,8 @@
 
 .quick-settings__background-note,
 .quick-settings__background-local,
-.quick-settings__background-external {
+.quick-settings__background-external,
+.quick-settings__background-confirmation {
   margin: 0;
   padding: 10px 9px;
   line-height: 1.4;
@@ -106,6 +107,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.quick-settings__background-confirmation {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--theme-invert-alpha-10);
+
+  & p {
+    margin: 0;
+    font-weight: 600;
+  }
 }
 
 .quick-settings__field,

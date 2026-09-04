@@ -157,7 +157,7 @@ function createBackgroundSetting() {
           <button type="button" id="bgFile" class="btn c-upload__open md-ripple">
             ${getMessage('btn_open')}
           </button>
-          <button type="button" id="delete_local_background" class="btn btn--clear md-ripple">
+          <button type="button" id="delete_local_background" class="btn btn--clear md-ripple" disabled>
             ${getMessage('contextmenu_remove')}
           </button>
         </div>
@@ -182,7 +182,7 @@ function createBackgroundSetting() {
     <small id="background_external_note" class="text-muted">${getMessage('background_external_note')}</small>
     <div class="background-external-setting__actions">
       <button type="button" id="set_background_external" class="btn md-ripple">${getMessage('btn_apply')}</button>
-      <button type="button" id="delete_background_external" class="btn btn--clear md-ripple">${getMessage('contextmenu_remove')}</button>
+      <button type="button" id="delete_background_external" class="btn btn--clear md-ripple" disabled>${getMessage('contextmenu_remove')}</button>
     </div>
     <div id="preview_external" class="background-external-setting__preview" hidden>
       <img id="preview_external_image" alt="">

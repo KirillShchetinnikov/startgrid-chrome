@@ -40,6 +40,11 @@ describe('quick background settings', () => {
     expect(quickSource).toContain("message('btn_open')");
     expect(quickSource).toContain('$filePicker(BACKGROUND_FILE_PICKER_OPTIONS, panel)');
     expect(quickSource).toContain("event.target.closest('.gmodal, .gmodal-backdrop')");
+    expect(quickSource).toContain('data-quick-background-confirmation');
+    expect(quickSource).toContain('showBackgroundRemovalConfirmation');
+    expect(quickSource).toContain("data-quick-background-external-remove]').disabled");
+    expect(quickSource).toContain("data-quick-background-remove]').disabled");
+    expect(displaySource).toContain('delete_local_background" class="btn btn--clear md-ripple" disabled');
     expect(optionsSource).toContain('syncExternalBackgroundControls');
   });
 

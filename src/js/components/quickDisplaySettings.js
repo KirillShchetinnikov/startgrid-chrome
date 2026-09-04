@@ -130,7 +130,7 @@ function createPanel() {
               <button class="btn md-ripple" type="button" data-quick-background-external-set>
                 ${message('btn_apply')}
               </button>
-              <button class="btn btn--clear md-ripple" type="button" data-quick-background-external-remove>
+              <button class="btn btn--clear md-ripple" type="button" data-quick-background-external-remove disabled>
                 ${message('contextmenu_remove')}
               </button>
             </div>
@@ -144,7 +144,7 @@ function createPanel() {
               <button class="btn md-ripple" type="button" data-quick-background-upload>
                 ${message('btn_open')}
               </button>
-              <button class="btn btn--clear md-ripple" type="button" data-quick-background-remove>
+              <button class="btn btn--clear md-ripple" type="button" data-quick-background-remove disabled>
                 ${message('contextmenu_remove')}
               </button>
             </div>
@@ -152,6 +152,18 @@ function createPanel() {
           <p class="quick-settings__background-note" data-quick-background-setting="background_bing" hidden>
             ${message('background_bing_text')}
           </p>
+          <section class="quick-settings__background-confirmation" data-quick-background-confirmation
+            aria-live="polite" hidden>
+            <p>${message('confirm_delete_image')}</p>
+            <div class="quick-settings__background-actions">
+              <button class="btn btn--clear md-ripple" type="button" data-quick-background-confirm-cancel>
+                ${message('btn_close')}
+              </button>
+              <button class="btn md-ripple" type="button" data-quick-background-confirm-remove>
+                ${message('contextmenu_remove')}
+              </button>
+            </div>
+          </section>
         </div>
         <label class="quick-settings__field" for="quick_dial_columns">
           <span>${message('number_of_columns')}</span>
@@ -349,10 +361,14 @@ export default function initQuickDisplaySettings({
   document.body.append(panel);
   container.append(trigger);
   let tileSizeScaleAnchor = null;
+  let pendingBackgroundRemoval = null;
+  let hasLocalBackground = false;
 
   function syncBackgroundControls() {
     const backgroundMode = settings.$.background_image;
     panel.querySelector('#quick_background_external').value = settings.$.background_external;
+    panel.querySelector('[data-quick-background-external-remove]').disabled = !settings.$.background_external;
+    panel.querySelector('[data-quick-background-remove]').disabled = !hasLocalBackground;
     panel.querySelectorAll('[data-quick-background-setting]').forEach(control => {
       control.hidden = control.dataset.quickBackgroundSetting !== backgroundMode;
     });
@@ -373,14 +389,11 @@ export default function initQuickDisplaySettings({
     Toast.show(message('notice_bg_image_updated'));
   }
 
-  async function handleExternalBackgroundRemove() {
-    const confirmed = await confirmPopup(message('confirm_delete_image'));
-    if (!confirmed) return;
-
-    await settings.updateKey('background_external', '');
-    syncBackgroundControls();
-    await UI.setBG();
-    Toast.show(message('notice_image_removed'));
+  function showBackgroundRemovalConfirmation(source) {
+    pendingBackgroundRemoval = source;
+    const confirmation = panel.querySelector('[data-quick-background-confirmation]');
+    confirmation.hidden = false;
+    confirmation.querySelector('[data-quick-background-confirm-cancel]').focus();
   }
 
   async function handleLocalBackgroundUpload() {
@@ -424,6 +437,8 @@ export default function initQuickDisplaySettings({
       });
       if (!result.ok) return;
 
+      hasLocalBackground = true;
+      syncBackgroundControls();
       await UI.setBG();
       Toast.show(message('notice_bg_image_updated'));
     } catch (error) {
@@ -432,11 +447,21 @@ export default function initQuickDisplaySettings({
     }
   }
 
-  async function handleLocalBackgroundRemove() {
-    const confirmed = await confirmPopup(message('confirm_delete_image'));
-    if (!confirmed) return;
+  async function handleConfirmedBackgroundRemove() {
+    const source = pendingBackgroundRemoval;
+    pendingBackgroundRemoval = null;
+    panel.querySelector('[data-quick-background-confirmation]').hidden = true;
 
-    await ImageDB.delete('background');
+    if (source === 'external') {
+      await settings.updateKey('background_external', '');
+      syncBackgroundControls();
+    } else if (source === 'local') {
+      await ImageDB.delete('background');
+      hasLocalBackground = false;
+      syncBackgroundControls();
+    } else {
+      return;
+    }
     await UI.setBG();
     Toast.show(message('notice_image_removed'));
   }
@@ -602,11 +627,20 @@ export default function initQuickDisplaySettings({
   trigger.addEventListener('click', () => togglePanel());
   panel.querySelector('[data-quick-settings-close]').addEventListener('click', () => togglePanel(false));
   panel.querySelector('[data-quick-background-upload]').addEventListener('click', handleLocalBackgroundUpload);
-  panel.querySelector('[data-quick-background-remove]').addEventListener('click', handleLocalBackgroundRemove);
+  panel.querySelector('[data-quick-background-remove]').addEventListener('click', () => {
+    showBackgroundRemovalConfirmation('local');
+  });
   panel.querySelector('[data-quick-background-external-set]')
     .addEventListener('click', handleExternalBackgroundSave);
-  panel.querySelector('[data-quick-background-external-remove]')
-    .addEventListener('click', handleExternalBackgroundRemove);
+  panel.querySelector('[data-quick-background-external-remove]').addEventListener('click', () => {
+    showBackgroundRemovalConfirmation('external');
+  });
+  panel.querySelector('[data-quick-background-confirm-cancel]').addEventListener('click', () => {
+    pendingBackgroundRemoval = null;
+    panel.querySelector('[data-quick-background-confirmation]').hidden = true;
+  });
+  panel.querySelector('[data-quick-background-confirm-remove]')
+    .addEventListener('click', handleConfirmedBackgroundRemove);
   panel.addEventListener('change', event => {
     const control = event.target.closest('[data-setting]');
     if (control) {
@@ -673,6 +707,10 @@ export default function initQuickDisplaySettings({
     if (event.key === 'Escape' && !panel.hidden) togglePanel(false);
   });
 
+  ImageDB.get('background').then(record => {
+    hasLocalBackground = Boolean(record?.blob);
+    syncBackgroundControls();
+  });
   syncControls();
   return {
     toggle: () => togglePanel()

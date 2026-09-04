@@ -78,6 +78,7 @@ async function init() {
   if (background) {
     backgroundImage = URL.createObjectURL(background.blobThumbnail);
   }
+  syncLocalBackgroundRemoveControl();
 
   // range settings
   Array.from(document.querySelectorAll('.js-range')).forEach(el => {
@@ -497,6 +498,10 @@ function toggleBackgroundControls(value) {
   if (activeControl) activeControl.hidden = false;
 }
 
+function syncLocalBackgroundRemoveControl() {
+  document.getElementById('delete_local_background').disabled = !backgroundImage;
+}
+
 function syncExternalBackgroundControls() {
   const input = document.getElementById('background_external_url');
   const preview = document.getElementById('preview_external');
@@ -504,6 +509,7 @@ function syncExternalBackgroundControls() {
   const url = settings.$.background_external;
 
   input.value = url;
+  document.getElementById('delete_background_external').disabled = !url;
   preview.hidden = true;
   image.removeAttribute('src');
   if (!url) return;
@@ -832,6 +838,7 @@ async function handleUploadFile() {
           <div>`;
         document.querySelector('.c-upload__preview').hidden = false;
         backgroundImage = objectURL;
+        syncLocalBackgroundRemoveControl();
       }
     });
 
@@ -862,6 +869,7 @@ async function handleRemoveFile(evt) {
     URL.revokeObjectURL(backgroundImage);
     backgroundImage = null;
   }
+  syncLocalBackgroundRemoveControl();
 
   preview.innerHTML = '';
   previewParent.hidden = true;
