@@ -70,6 +70,11 @@ import {
   refreshBookmarkView,
   replaceLiteralMarker
 } from '../bookmarkEvents';
+import {
+  canUseStoredThumbnail,
+  getThumbnailSourceOverride,
+  resolveThumbnailSource
+} from '../thumbnailSource';
 
 /**
  * Bookmarks module
@@ -393,10 +398,11 @@ const Bookmarks = (() => {
 
   function genBookmark(bookmark, usageCount = null) {
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
-    const thumbnailSource = thumbnail?.source
-      || (thumbnail?.blob ? (thumbnail.custom ? 'local' : 'site') : 'favicon');
-    const useStoredImage = thumbnailSource !== 'favicon'
-      || shouldDownloadFavicon(thumbnail, settings.$.download_favicons_by_default);
+    const thumbnailSource = resolveThumbnailSource(thumbnail, settings.$.thumbnail_source);
+    const useStoredImage = canUseStoredThumbnail(thumbnail, thumbnailSource) && (
+      thumbnailSource !== 'favicon'
+      || shouldDownloadFavicon(thumbnail, settings.$.download_favicons_by_default)
+    );
     const image = useStoredImage ? thumbnail?.blobUrl : null;
     const custom = thumbnail?.custom || false;
     const thumbnailSize = getStoredThumbnailSize(thumbnail);
@@ -701,14 +707,17 @@ const Bookmarks = (() => {
     container.appendChild(fragment);
     if (isHomeFolder) {
       downloadMissingFavicons(bookmarksArr).catch(error => console.warn(error));
+      captureMissingSiteThumbnails(bookmarksArr).catch(error => console.warn(error));
     }
 
     if (isHomeFolder && settings.$.thumbnails_auto_refresh) {
-      const staleThumbnails = thumbnails.filter(thumbnail => (
-        (thumbnail.source !== 'favicon'
-          || shouldDownloadFavicon(thumbnail, settings.$.download_favicons_by_default))
-        && isThumbnailStale(thumbnail, settings.$.thumbnails_auto_refresh_interval)
-      ));
+      const staleThumbnails = thumbnails.filter(thumbnail => {
+        const source = resolveThumbnailSource(thumbnail, settings.$.thumbnail_source);
+        return canUseStoredThumbnail(thumbnail, source)
+          && (source !== 'favicon'
+            || shouldDownloadFavicon(thumbnail, settings.$.download_favicons_by_default))
+          && isThumbnailStale(thumbnail, settings.$.thumbnails_auto_refresh_interval);
+      });
       refreshStaleThumbnails(staleThumbnails);
     }
 
@@ -863,21 +872,26 @@ const Bookmarks = (() => {
         const bookmark = document.getElementById(`vb-${b.id}`);
         try {
           const currentThumbnail = await ImageDB.get(b.id);
-          if (currentThumbnail?.source === 'local') continue;
+          const source = resolveThumbnailSource(currentThumbnail, settings.$.thumbnail_source);
+          const sourceOverride = getThumbnailSourceOverride(currentThumbnail) !== 'inherit';
+          if (source === 'local') continue;
           bookmark?.classList.add('is-thumbnail-updating');
 
           let response;
-          if (!currentThumbnail || ['url', 'favicon'].includes(currentThumbnail.source)) {
-            const source = currentThumbnail?.source || 'favicon';
+          if (['url', 'favicon'].includes(source)) {
             const sourceUrl = currentThumbnail?.sourceUrl || b.url;
             if (!sourceUrl) continue;
-            response = await requestRemoteThumbnail(b.id, sourceUrl, { source, sourceUrl });
+            response = await requestRemoteThumbnail(b.id, sourceUrl, {
+              source,
+              sourceUrl,
+              sourceOverride
+            });
             if (!response?.success) {
               markCaptureFailure(bookmark, response, source, sourceUrl);
               continue;
             }
           } else {
-            response = await captureScreen(b.url, b.id);
+            response = await captureScreen(b.url, b.id, { sourceOverride });
             if (!response.ok) {
               markCaptureFailure(bookmark, response, 'site', b.url);
               continue;
@@ -1001,7 +1015,8 @@ const Bookmarks = (() => {
       source = 'local',
       custom = true,
       showNotice = true,
-      sourceUrl = null
+      sourceUrl = null,
+      sourceOverride = true
     } = options;
     const checkedAt = source === 'site' ? Date.now() : null;
     bookmark.hasOverlay = true;
@@ -1018,6 +1033,7 @@ const Bookmarks = (() => {
       blob,
       custom,
       source,
+      sourceOverride,
       ...(checkedAt && { checkedAt }),
       ...(sourceUrl && { sourceUrl })
     });
@@ -1033,6 +1049,7 @@ const Bookmarks = (() => {
       blobUrl,
       custom,
       source,
+      sourceOverride,
       ...(checkedAt && { checkedAt }),
       ...(sourceUrl && { sourceUrl }),
       ...(thumbnail?.children && { children: thumbnail.children })
@@ -1088,9 +1105,11 @@ const Bookmarks = (() => {
     const storedThumbnail = { ...image, blobUrl };
     THUMBNAILS_MAP.set(bookmark.id, storedThumbnail);
 
-    const source = image.source || 'favicon';
-    const useStoredImage = source !== 'favicon'
-      || shouldDownloadFavicon(image, settings.$.download_favicons_by_default);
+    const source = resolveThumbnailSource(image, settings.$.thumbnail_source);
+    const useStoredImage = canUseStoredThumbnail(image, source) && (
+      source !== 'favicon'
+      || shouldDownloadFavicon(image, settings.$.download_favicons_by_default)
+    );
     bookmark.thumbnailSource = source;
     bookmark.thumbnailSize = getStoredThumbnailSize(image);
     bookmark.isCustomImage = image.custom;
@@ -1122,7 +1141,7 @@ const Bookmarks = (() => {
   }
 
   function setRemoteThumbnail(bookmark, url, showNotice = true) {
-    return applyRemoteThumbnail(bookmark, url, showNotice);
+    return applyRemoteThumbnail(bookmark, url, showNotice, { sourceOverride: true });
   }
 
   async function setLocalThumbnailSource(id) {
@@ -1139,21 +1158,46 @@ const Bookmarks = (() => {
       ...image,
       blob: image.blob,
       custom: image.custom,
-      source: 'local'
+      source: 'local',
+      sourceOverride: true
     });
     const thumbnail = THUMBNAILS_MAP.get(id);
     if (thumbnail) {
-      THUMBNAILS_MAP.set(id, { ...thumbnail, source: 'local' });
+      THUMBNAILS_MAP.set(id, { ...thumbnail, source: 'local', sourceOverride: true });
     }
     bookmark.thumbnailSource = 'local';
   }
 
-  function setFaviconThumbnailSource(bookmark, pageUrl = bookmark.url, showNotice = true) {
+  async function setInheritedThumbnailSource(bookmark) {
+    if (!canUseThumbnail(bookmark)) return false;
+
+    const source = resolveThumbnailSource(null, settings.$.thumbnail_source);
+    const existing = await ImageDB.get(bookmark.id);
+    const payload = { ...(existing || {}), id: bookmark.id, sourceOverride: false };
+    await ImageDB.update(payload);
+    const thumbnail = THUMBNAILS_MAP.get(bookmark.id) || {};
+    const storedThumbnail = { ...thumbnail, ...payload };
+    THUMBNAILS_MAP.set(bookmark.id, storedThumbnail);
+    bookmark.thumbnailSource = source;
+    bookmark.isCustomImage = payload.custom || false;
+    bookmark.image = canUseStoredThumbnail(storedThumbnail, source) && (
+      source !== 'favicon'
+      || shouldDownloadFavicon(payload, settings.$.download_favicons_by_default)
+    ) ? storedThumbnail.blobUrl || null : null;
+    return payload;
+  }
+
+  function setFaviconThumbnailSource(
+    bookmark,
+    pageUrl = bookmark.url,
+    showNotice = true,
+    { sourceOverride = true } = {}
+  ) {
     return applyRemoteThumbnail(
       bookmark,
       pageUrl,
       showNotice,
-      { source: 'favicon', sourceUrl: pageUrl }
+      { source: 'favicon', sourceUrl: pageUrl, sourceOverride }
     );
   }
 
@@ -1180,7 +1224,11 @@ const Bookmarks = (() => {
     return payload;
   }
 
-  async function setFaviconPreferences(bookmark, preferences = {}) {
+  async function setFaviconPreferences(
+    bookmark,
+    preferences = {},
+    { sourceOverride = true } = {}
+  ) {
     if (!canUseThumbnail(bookmark)) return false;
 
     const existing = await ImageDB.get(bookmark.id);
@@ -1188,7 +1236,8 @@ const Bookmarks = (() => {
       ...(existing || {}),
       id: bookmark.id,
       source: 'favicon',
-      sourceUrl: bookmark.url
+      sourceUrl: bookmark.url,
+      sourceOverride
     };
 
     if (typeof preferences.downloadFavicon === 'boolean') {
@@ -1207,7 +1256,7 @@ const Bookmarks = (() => {
     return payload;
   }
 
-  async function clearCachedThumbnail(bookmark, source) {
+  async function clearCachedThumbnail(bookmark, source, sourceOverride = true) {
     if (!canUseThumbnail(bookmark)) return false;
 
     const existing = await ImageDB.get(bookmark.id);
@@ -1223,6 +1272,7 @@ const Bookmarks = (() => {
     const payload = {
       id: bookmark.id,
       source,
+      sourceOverride,
       ...(typeof existing?.downloadFavicon === 'boolean' && { downloadFavicon: existing.downloadFavicon }),
       ...(thumbnailSize && { thumbnailSize }),
       ...(sourceUrl && { sourceUrl })
@@ -1240,9 +1290,9 @@ const Bookmarks = (() => {
       if (!bookmark.url) return false;
       if (!validateThumbnailRequest(bookmark.url, 'favicon').success) return false;
       const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
-      const source = thumbnail?.source || 'favicon';
+      const source = resolveThumbnailSource(thumbnail, settings.$.thumbnail_source);
       return source === 'favicon'
-        && !thumbnail?.blob
+        && !canUseStoredThumbnail(thumbnail, 'favicon')
         && shouldDownloadFavicon(thumbnail, settings.$.download_favicons_by_default);
     });
     if (!missingFavicons.length) return;
@@ -1253,7 +1303,10 @@ const Bookmarks = (() => {
     for (const bookmarkData of missingFavicons) {
       const response = await requestRemoteThumbnail(bookmarkData.id, bookmarkData.url, {
         source: 'favicon',
-        sourceUrl: bookmarkData.url
+        sourceUrl: bookmarkData.url,
+        sourceOverride: getThumbnailSourceOverride(
+          THUMBNAILS_MAP.get(bookmarkData.id)
+        ) !== 'inherit'
       });
       if (!response?.success) continue;
 
@@ -1268,6 +1321,22 @@ const Bookmarks = (() => {
     }
   }
 
+  async function captureMissingSiteThumbnails(bookmarks) {
+    if (settings.$.thumbnail_source !== 'site') return;
+
+    const missingThumbnails = bookmarks.filter(bookmark => {
+      if (!bookmark.url) return false;
+      const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
+      return getThumbnailSourceOverride(thumbnail) === 'inherit'
+        && resolveThumbnailSource(thumbnail, settings.$.thumbnail_source) === 'site'
+        && !canUseStoredThumbnail(thumbnail, 'site');
+    });
+    if (!missingThumbnails.length) return;
+
+    const hasAccess = await containsPermissions({ origins: ['<all_urls>'] });
+    if (hasAccess) await captureMultipleBookmarks(missingThumbnails, false);
+  }
+
   async function refreshStaleThumbnails(thumbnails) {
     if (!thumbnails.length) return;
 
@@ -1277,9 +1346,10 @@ const Bookmarks = (() => {
     thumbnails.forEach(thumbnail => {
       const bookmark = document.getElementById(`vb-${thumbnail.id}`);
       if (!bookmark) return;
+      const sourceOverride = getThumbnailSourceOverride(thumbnail) !== 'inherit';
 
       if (thumbnail.source === 'site') {
-        createScreen(bookmark, true);
+        createScreen(bookmark, true, { sourceOverride });
         return;
       }
 
@@ -1287,19 +1357,20 @@ const Bookmarks = (() => {
       if (!validateThumbnailRequest(sourceUrl, thumbnail.source).success) return;
       applyRemoteThumbnail(bookmark, sourceUrl, false, {
         source: thumbnail.source,
-        sourceUrl
+        sourceUrl,
+        sourceOverride
       });
     });
   }
 
-  function captureScreen(captureUrl, id) {
-    return requestThumbnailCapture(browser.runtime, { id, captureUrl });
+  function captureScreen(captureUrl, id, options = {}) {
+    return requestThumbnailCapture(browser.runtime, { id, captureUrl, ...options });
   }
 
   function captureByTurn() {
     const entry = THUMBNAILS_CREATION_QUEUE[0];
     if (!entry) return;
-    const { bookmark, resolve } = entry;
+    const { bookmark, resolve, sourceOverride } = entry;
     const initialResult = {
       ok: false,
       id: String(bookmark.id),
@@ -1309,7 +1380,9 @@ const Bookmarks = (() => {
     return settleCaptureQueueEntry({
       initialResult,
       execute: async() => {
-        let response = await captureScreen(bookmark.url, bookmark.id);
+        let response = await captureScreen(bookmark.url, bookmark.id, {
+          sourceOverride
+        });
         if (response.ok) {
           const image = await ImageDB.get(bookmark.id);
           if (!image?.blob) {
@@ -1318,6 +1391,7 @@ const Bookmarks = (() => {
             const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
             if (thumbnail) URL.revokeObjectURL(thumbnail.blobUrl);
             bookmark.isCustomImage = false;
+            bookmark.thumbnailSource = 'site';
             bookmark.image = URL.createObjectURL(image.blob);
             THUMBNAILS_MAP.set(bookmark.id, { ...image, blobUrl: bookmark.image });
           }
@@ -1349,7 +1423,7 @@ const Bookmarks = (() => {
     });
   }
 
-  async function createScreen(bookmark, access = false) {
+  async function createScreen(bookmark, access = false, { sourceOverride = true } = {}) {
     let hostPermissions = access;
     try {
       hostPermissions = await checkHostPermissions();
@@ -1361,7 +1435,7 @@ const Bookmarks = (() => {
 
     bookmark.hasOverlay = true;
     return new Promise(resolve => {
-      THUMBNAILS_CREATION_QUEUE.push({ bookmark, resolve });
+      THUMBNAILS_CREATION_QUEUE.push({ bookmark, resolve, sourceOverride });
 
       if (THUMBNAILS_CREATION_QUEUE.length === 1) {
         captureByTurn();
@@ -1738,6 +1812,7 @@ const Bookmarks = (() => {
     setRemoteThumbnail,
     setLocalThumbnailSource,
     setFaviconThumbnailSource,
+    setInheritedThumbnailSource,
     setThumbnailSize,
     getTextPreferences,
     setTextPreferences,

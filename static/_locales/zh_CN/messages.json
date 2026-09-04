@@ -59,16 +59,16 @@
     "message": "缩略图操作"
   },
   "thumbnail_source_local": {
-    "message": "本地存储"
+    "message": "选择图片"
   },
   "thumbnail_source_site": {
-    "message": "从网站创建"
+    "message": "网站截图"
   },
   "thumbnail_source_url": {
     "message": "来自网址"
   },
   "thumbnail_source_favicon": {
-    "message": "网站图标（默认）"
+    "message": "网站图标"
   },
   "favicon_download_preference": {
     "message": "图标来源"

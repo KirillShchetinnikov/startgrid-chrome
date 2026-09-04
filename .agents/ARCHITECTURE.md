@@ -326,6 +326,7 @@ Adapter: `src/js/api/imageDB.js`.
   blob?,
   custom?,
   source: "favicon" | "local" | "site" | "url",
+  sourceOverride?,
   sourceUrl?,
   checkedAt?,
   contentHash?,
@@ -335,6 +336,10 @@ Adapter: `src/js/api/imageDB.js`.
   thumbnailSize?
 }
 ```
+
+`sourceOverride: false` означает наследование общей настройки `thumbnail_source`.
+Для старых записей локальные изображения, URL и снимки считаются явными
+переопределениями, а обычный кэш favicon без индивидуальной настройки — наследуемым.
 
 Старое поле `faviconSize` читается как fallback и удаляется при следующем
 сохранении размера. `clearThumbnails()` удаляет всё, кроме `background`.
@@ -446,6 +451,9 @@ UI сначала скрывает элемент и кладёт его опи�
 - `local`: файл/clipboard Blob, автоматическое обновление запрещено;
 - `site`: снимок временного окна;
 - `url`: remote image с локальным кэшем.
+
+Общий `thumbnail_source` выбирает `favicon` или `site`. Запись конкретной закладки
+может наследовать его либо явно переопределить любым из четырёх source.
 
 Remote URL/favicon:
 

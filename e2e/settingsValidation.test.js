@@ -129,4 +129,13 @@ describe('numeric settings validation', () => {
     expect(browser.storage.local.set.mock.calls.at(-1)[0].settings.default_folder_id)
       .toBe('synced-folder');
   });
+
+  it('normalizes an unsupported global thumbnail source to favicon', async() => {
+    mockStorage({ enable_sync: false, thumbnail_source: 'remote' });
+    const { settings } = await import('../src/js/settings');
+
+    await settings.init();
+
+    expect(settings.$.thumbnail_source).toBe('favicon');
+  });
 });

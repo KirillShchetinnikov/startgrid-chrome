@@ -59,16 +59,16 @@
     "message": "Acciones en miniatura"
   },
   "thumbnail_source_local": {
-    "message": "Almacenamiento local"
+    "message": "Elegir imagen"
   },
   "thumbnail_source_site": {
-    "message": "Crear desde sitio web"
+    "message": "Captura del sitio web"
   },
   "thumbnail_source_url": {
     "message": "Desde URL"
   },
   "thumbnail_source_favicon": {
-    "message": "Favicon del sitio web (predeterminado)"
+    "message": "Favicon del sitio web"
   },
   "favicon_download_preference": {
     "message": "fuente de favicon"

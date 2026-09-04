@@ -59,16 +59,16 @@
     "message": "サムネイルのアクション"
   },
   "thumbnail_source_local": {
-    "message": "ローカルストレージ"
+    "message": "画像を選択"
   },
   "thumbnail_source_site": {
-    "message": "ウェブサイトから作成する"
+    "message": "ウェブサイトのスクリーンショット"
   },
   "thumbnail_source_url": {
     "message": "URLから"
   },
   "thumbnail_source_favicon": {
-    "message": "ウェブサイトのファビコン (デフォルト)"
+    "message": "ウェブサイトのファビコン"
   },
   "favicon_download_preference": {
     "message": "ファビコンのソース"

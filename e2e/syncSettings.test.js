@@ -18,6 +18,7 @@ describe('split Chrome Sync settings', () => {
       toolbar_background_blur: false,
       search_engine: 'google',
       search_autofocus: true,
+      thumbnail_source: 'site',
       favicon_size: 48,
       thumbnails_auto_refresh: true,
       home_sort_by: 'usage',
@@ -53,6 +54,7 @@ describe('split Chrome Sync settings', () => {
       open_search_newtab: true
     });
     expect(records.settings_thumbnails).toEqual({
+      thumbnail_source: 'site',
       favicon_size: 48,
       thumbnails_auto_refresh: true
     });
@@ -66,17 +68,19 @@ describe('split Chrome Sync settings', () => {
       settings: {
         color_theme: 'dark',
         search_engine: 'bookmarks',
+        thumbnail_source: 'favicon',
         favicon_size: 32,
         keyboard_shortcuts: { focus_search: 'KeyF' }
       },
       settings_search: { search_engine: 'google' },
-      settings_thumbnails: { favicon_size: 64 },
+      settings_thumbnails: { thumbnail_source: 'site', favicon_size: 64 },
       settings_shortcuts: { keyboard_shortcuts: { focus_search: 'Slash' } }
     });
 
     expect(settings).toEqual({
       color_theme: 'dark',
       search_engine: 'google',
+      thumbnail_source: 'site',
       favicon_size: 64,
       keyboard_shortcuts: { focus_search: 'Slash' }
     });
@@ -87,6 +91,7 @@ describe('split Chrome Sync settings', () => {
       settings: {
         color_theme: 'dark',
         search_engine: 'google',
+        thumbnail_source: 'site',
         favicon_size: 64,
         keyboard_shortcuts: { focus_search: 'Slash' }
       }

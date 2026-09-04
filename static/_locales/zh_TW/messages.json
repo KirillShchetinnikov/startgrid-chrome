@@ -59,16 +59,16 @@
     "message": "縮圖操作"
   },
   "thumbnail_source_local": {
-    "message": "本地儲存"
+    "message": "選擇圖片"
   },
   "thumbnail_source_site": {
-    "message": "從網站創建"
+    "message": "網站截圖"
   },
   "thumbnail_source_url": {
     "message": "來自網址"
   },
   "thumbnail_source_favicon": {
-    "message": "網站圖示（預設）"
+    "message": "網站圖示"
   },
   "favicon_download_preference": {
     "message": "圖標來源"

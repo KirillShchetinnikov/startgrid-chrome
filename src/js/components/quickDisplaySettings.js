@@ -6,6 +6,7 @@ import { updateMainPageScrollLock } from '../mainPageScroll';
 import { cssColorToHex } from '../tileAppearance';
 import { QUICK_SETTING_KEYS } from '../quickSettings';
 import { scaleTileContentSettings } from '../tileSizeSync';
+import { requestPermissions } from '../api/permissions';
 
 const RERENDER_SETTINGS = new Set([
   'show_create_column',
@@ -13,7 +14,8 @@ const RERENDER_SETTINGS = new Set([
   'show_bookmark_title',
   'bookmark_title_position',
   'show_favicon',
-  'folder_preview'
+  'folder_preview',
+  'thumbnail_source'
 ]);
 
 const STYLE_SETTINGS = new Set([
@@ -147,6 +149,13 @@ function createPanel() {
               data-setting="favicon_size" data-unit="px">
             <output id="quick_favicon_size_value" for="quick_favicon_size"></output>
           </span>
+        </label>
+        <label class="quick-settings__field" for="quick_thumbnail_source">
+          <span>${message('thumbnail_source')}</span>
+          <select class="form-control" id="quick_thumbnail_source" data-setting="thumbnail_source">
+            <option value="favicon">${message('thumbnail_source_favicon')}</option>
+            <option value="site">${message('thumbnail_source_site')}</option>
+          </select>
         </label>
         <label class="quick-settings__field" for="quick_bookmark_title_size">
           <span>${message('bookmark_title_size')}</span>
@@ -342,6 +351,14 @@ export default function initQuickDisplaySettings({
     const key = control.dataset.setting;
     const value = control.type === 'checkbox' ? control.checked : control.value;
     let tileContentSettings;
+
+    if (persist && key === 'thumbnail_source' && value === 'site') {
+      const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
+      if (!hasPermission) {
+        syncControls();
+        return;
+      }
+    }
 
     if (key === 'dial_tile_size') {
       tileSizeScaleAnchor ??= {

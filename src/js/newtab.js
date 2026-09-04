@@ -58,6 +58,11 @@ import {
 import { recordBookmarkUsage } from './bookmarkSorting';
 import { createRefreshScheduler } from './bookmarkEvents';
 import { scaleTileContentSettings } from './tileSizeSync';
+import {
+  canUseStoredThumbnail,
+  getThumbnailSourceOverride,
+  resolveThumbnailSource
+} from './thumbnailSource';
 
 const container = document.getElementById('bookmarks');
 const modal = document.getElementById('modal');
@@ -781,9 +786,10 @@ function showModalImage(image, id = null) {
 
 async function showModalThumbnail(id, showStoredImage = true) {
   const imageData = await ImageDB.get(id);
-  if (!imageData?.blob || !showStoredImage) {
+  const source = resolveThumbnailSource(imageData, settings.$.thumbnail_source);
+  if (!canUseStoredThumbnail(imageData, source) || !showStoredImage) {
     const bookmark = document.getElementById(`vb-${id}`);
-    if (bookmark?.url && (imageData?.source || bookmark.thumbnailSource || 'favicon') === 'favicon') {
+    if (bookmark?.url && source === 'favicon') {
       const size = Number(thumbnailImageSize.value) || settings.$.favicon_size;
       showModalImage(faviconURL(bookmark.url, size));
     } else {
@@ -801,7 +807,11 @@ function getModalBookmark() {
 }
 
 async function handleCaptureThumbnail() {
-  const source = thumbnailSource.value;
+  const selectedSource = thumbnailSource.value;
+  const source = selectedSource === 'inherit'
+    ? settings.$.thumbnail_source
+    : selectedSource;
+  const sourceOverride = selectedSource !== 'inherit';
   const bookmark = getModalBookmark();
   const pageUrl = urlField.value.trim();
   const remoteUrl = thumbnailUrl.value.trim();
@@ -872,6 +882,7 @@ async function handleCaptureThumbnail() {
       if (blob) {
         await Bookmarks.uploadScreen(bookmark, blob, {
           source: 'site',
+          sourceOverride,
           custom: false,
           showNotice: false
         });
@@ -884,11 +895,16 @@ async function handleCaptureThumbnail() {
     } else if (source === 'favicon') {
       const permission = await Bookmarks.checkHostPermissions();
       if (!permission) return;
-      response = await Bookmarks.setFaviconThumbnailSource(bookmark, pageUrl, false);
+      response = await Bookmarks.setFaviconThumbnailSource(
+        bookmark,
+        pageUrl,
+        false,
+        { sourceOverride }
+      );
     }
 
     if (response && !response.warning && response.success !== false) {
-      form.dataset.oldThumbnailSource = source;
+      form.dataset.oldThumbnailSource = selectedSource;
       form.dataset.oldThumbnailUrl = remoteUrl;
       if (['site', 'favicon'].includes(source)) {
         form.dataset.oldUrl = pageUrl;
@@ -970,7 +986,10 @@ function handleThumbnailSourceChange() {
   }
 
   resetCustomImageButton.hidden = false;
-  const source = thumbnailSource.value;
+  const selectedSource = thumbnailSource.value;
+  const source = selectedSource === 'inherit'
+    ? settings.$.thumbnail_source
+    : selectedSource;
   const isNew = form.getAttribute('data-action') === 'New';
   const isUrl = source === 'url';
   const isLocal = source === 'local';
@@ -1141,7 +1160,11 @@ async function handleSubmitForm(evt) {
     ? container.dataset.folder
     : modalSelectFolders.value;
   const thumbnailEnabled = Bookmarks.isDefaultFolder(destinationFolderId);
-  const thumbnailSourceValue = form.thumbnailSource.value;
+  const thumbnailSourceSelection = form.thumbnailSource.value;
+  const thumbnailSourceValue = thumbnailSourceSelection === 'inherit'
+    ? settings.$.thumbnail_source
+    : thumbnailSourceSelection;
+  const thumbnailSourceOverride = thumbnailSourceSelection !== 'inherit';
   const thumbnailUrlValue = form.thumbnailUrl.value.trim();
   const faviconPreferences = getModalFaviconPreferences();
   const downloadFavicon = usesDownloadedFavicon(faviconPreferences);
@@ -1153,7 +1176,7 @@ async function handleSubmitForm(evt) {
   const shouldCaptureSite = thumbnailEnabled && thumbnailSourceValue === 'site' && (
     id === 'New'
       ? pendingThumbnailSource !== 'site'
-      : form.dataset.oldThumbnailSource !== 'site'
+      : form.dataset.oldThumbnailSource !== thumbnailSourceSelection
         || form.dataset.oldUrl !== url
         || form.dataset.thumbnailHasImage !== 'true'
   ) && siteValidation.success;
@@ -1167,7 +1190,7 @@ async function handleSubmitForm(evt) {
   const shouldFetchFavicon = thumbnailEnabled && thumbnailSourceValue === 'favicon' && downloadFavicon && (
     id === 'New'
       ? pendingThumbnailSource !== 'favicon'
-      : form.dataset.oldThumbnailSource !== 'favicon'
+      : form.dataset.oldThumbnailSource !== thumbnailSourceSelection
         || form.dataset.oldUrl !== url
         || form.dataset.thumbnailHasImage !== 'true'
   ) && faviconValidation.success;
@@ -1201,6 +1224,50 @@ async function handleSubmitForm(evt) {
   if (bookmark) {
     if (!thumbnailEnabled) {
       await Bookmarks.removeThumbnail(bookmark.id, bookmark.isFolder);
+    } else if (thumbnailSourceSelection === 'inherit') {
+      await Bookmarks.setInheritedThumbnailSource(bookmark);
+
+      if (url && thumbnailSourceValue === 'site') {
+        if (pendingThumbnailBlob && pendingThumbnailSource === 'site') {
+          await Bookmarks.uploadScreen(bookmark, pendingThumbnailBlob, {
+            source: 'site',
+            sourceOverride: false,
+            custom: false,
+            showNotice: false
+          });
+        } else if (shouldCaptureSite && thumbnailPermission) {
+          Bookmarks.createScreen(bookmark, thumbnailPermission, { sourceOverride: false });
+        }
+      } else if (url && thumbnailSourceValue === 'favicon') {
+        const shouldResetFavicon = id !== 'New' && (
+          form.dataset.oldThumbnailSource !== 'inherit'
+          || form.dataset.oldUrl !== url
+        );
+        if (shouldResetFavicon) {
+          await Bookmarks.clearCachedThumbnail(bookmark, 'favicon', false);
+        }
+        await Bookmarks.setFaviconPreferences(
+          bookmark,
+          faviconPreferences,
+          { sourceOverride: false }
+        );
+
+        if (pendingThumbnailBlob && pendingThumbnailSource === 'favicon') {
+          await Bookmarks.uploadScreen(bookmark, pendingThumbnailBlob, {
+            source: 'favicon',
+            sourceOverride: false,
+            sourceUrl: url,
+            showNotice: false
+          });
+        } else if (shouldFetchFavicon && thumbnailPermission) {
+          Bookmarks.setFaviconThumbnailSource(
+            bookmark,
+            bookmark.url,
+            true,
+            { sourceOverride: false }
+          );
+        }
+      }
     } else if (thumbnailSourceValue === 'local') {
       if (pendingThumbnailBlob && pendingThumbnailSource === 'local') {
         await Bookmarks.uploadScreen(bookmark, pendingThumbnailBlob);
@@ -1219,6 +1286,7 @@ async function handleSubmitForm(evt) {
     ) {
       await Bookmarks.uploadScreen(bookmark, pendingThumbnailBlob, {
         source: 'site',
+        sourceOverride: thumbnailSourceOverride,
         custom: false,
         showNotice: false
       });
@@ -1226,6 +1294,7 @@ async function handleSubmitForm(evt) {
       if (pendingThumbnailBlob && pendingThumbnailSource === 'url') {
         await Bookmarks.uploadScreen(bookmark, pendingThumbnailBlob, {
           source: 'url',
+          sourceOverride: thumbnailSourceOverride,
           sourceUrl: thumbnailUrlValue,
           showNotice: false
         });
@@ -1237,12 +1306,19 @@ async function handleSubmitForm(evt) {
         form.dataset.oldThumbnailSource !== 'favicon'
         || form.dataset.oldUrl !== url
       );
-      if (shouldResetFavicon) await Bookmarks.clearCachedThumbnail(bookmark, 'favicon');
-      await Bookmarks.setFaviconPreferences(bookmark, faviconPreferences);
+      if (shouldResetFavicon) {
+        await Bookmarks.clearCachedThumbnail(bookmark, 'favicon', thumbnailSourceOverride);
+      }
+      await Bookmarks.setFaviconPreferences(
+        bookmark,
+        faviconPreferences,
+        { sourceOverride: thumbnailSourceOverride }
+      );
 
       if (pendingThumbnailBlob && pendingThumbnailSource === 'favicon') {
         await Bookmarks.uploadScreen(bookmark, pendingThumbnailBlob, {
           source: 'favicon',
+          sourceOverride: thumbnailSourceOverride,
           sourceUrl: url,
           showNotice: false
         });
@@ -1275,7 +1351,11 @@ async function handleResetThumb(evt) {
   const bookmark = document.getElementById(`vb-${id}`);
   if (!bookmark) return;
 
-  await Bookmarks.clearCachedThumbnail(bookmark, thumbnailSource.value);
+  const selectedSource = thumbnailSource.value;
+  const source = selectedSource === 'inherit'
+    ? settings.$.thumbnail_source
+    : selectedSource;
+  await Bookmarks.clearCachedThumbnail(bookmark, source, selectedSource !== 'inherit');
   form.dataset.thumbnailHasImage = 'false';
   customScreen.style.display = '';
   deleteThumbnailButton.disabled = true;
@@ -1320,11 +1400,16 @@ async function prepareModal(target) {
       urlWrap.style.display = '';
       urlField.value = url;
       form.dataset.oldUrl = url;
-      thumbnailSource.value = imageData?.source
-        || (imageData?.blob ? (imageData.custom ? 'local' : 'site') : 'favicon');
+      thumbnailSource.value = getThumbnailSourceOverride(imageData);
+      const resolvedThumbnailSource = resolveThumbnailSource(
+        imageData,
+        settings.$.thumbnail_source
+      );
       form.dataset.oldThumbnailSource = thumbnailSource.value;
       form.dataset.oldThumbnailUrl = imageData?.source === 'url' ? imageData.sourceUrl : '';
-      form.dataset.thumbnailHasImage = String(Boolean(imageData?.blob));
+      form.dataset.thumbnailHasImage = String(
+        canUseStoredThumbnail(imageData, resolvedThumbnailSource)
+      );
       thumbnailUrl.value = imageData?.source === 'url' ? imageData.sourceUrl : '';
       faviconDownloadPreference.value = imageData?.downloadFavicon === true
         ? 'download'
@@ -1354,7 +1439,7 @@ async function prepareModal(target) {
     urlField.value = '';
     form.setAttribute('data-action', 'New');
     form.dataset.thumbnailEnabled = String(Bookmarks.isDefaultFolder(container.dataset.folder));
-    thumbnailSource.value = 'favicon';
+    thumbnailSource.value = 'inherit';
     thumbnailUrl.value = '';
     deleteThumbnailButton.disabled = true;
     document.getElementById('thumbnailSourceWrap').hidden = false;

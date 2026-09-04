@@ -17,6 +17,7 @@ export const SEARCH_SETTINGS_KEYS = new Set([
 export const SHORTCUT_SETTINGS_KEYS = new Set(['keyboard_shortcuts']);
 
 export const THUMBNAIL_SETTINGS_KEYS = new Set([
+  'thumbnail_source',
   'thumbnails_update_button',
   'download_favicons_by_default',
   'favicon_size',

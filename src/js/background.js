@@ -41,6 +41,10 @@ import {
   normalizeCaptureDelay,
   runThumbnailCapture
 } from './thumbnailCapture';
+import {
+  getThumbnailSourceOverride,
+  resolveThumbnailSource
+} from './thumbnailSource';
 
 function startI18n(language) {
   return initializeI18n({ language })
@@ -122,7 +126,13 @@ async function fetchFavicon(pageUrl) {
   throw new RemoteThumbnailError('FAVICON_NOT_FOUND');
 }
 
-async function updateRemoteThumbnail({ id, url, source = 'url', sourceUrl = url }) {
+async function updateRemoteThumbnail({
+  id,
+  url,
+  source = 'url',
+  sourceUrl = url,
+  sourceOverride
+}) {
   const operation = source === 'favicon' ? 'favicon' : 'url';
   const requestUrl = source === 'favicon' ? sourceUrl : url;
   const validation = validateThumbnailRequest(requestUrl, operation);
@@ -151,6 +161,7 @@ async function updateRemoteThumbnail({ id, url, source = 'url', sourceUrl = url 
         ...existing,
         source,
         sourceUrl,
+        ...(typeof sourceOverride === 'boolean' && { sourceOverride }),
         checkedAt
       });
       return { success: true, updated: false };
@@ -184,6 +195,7 @@ async function updateRemoteThumbnail({ id, url, source = 'url', sourceUrl = url 
       custom: true,
       source,
       sourceUrl,
+      ...(typeof sourceOverride === 'boolean' && { sourceOverride }),
       contentHash,
       etag: response.headers.get('etag'),
       lastModified: response.headers.get('last-modified'),
@@ -198,6 +210,7 @@ async function updateRemoteThumbnail({ id, url, source = 'url', sourceUrl = url 
         ...(existing || { id }),
         source,
         sourceUrl,
+        ...(typeof sourceOverride === 'boolean' && { sourceOverride }),
         checkedAt
       });
     } catch (storageError) {
@@ -258,6 +271,9 @@ async function captureScreen(request) {
         blob,
         custom: false,
         source: 'site',
+        ...(typeof request.sourceOverride === 'boolean' && {
+          sourceOverride: request.sourceOverride
+        }),
         checkedAt: Date.now()
       });
     }
@@ -320,12 +336,13 @@ async function handleCreatedTab(tab) {
   }
 }
 
-function handleCreateThumbnail(id, bookmark) {
+function handleCreateThumbnail(id, bookmark, sourceOverride = false) {
   return updateRemoteThumbnail({
     id,
     url: bookmark.url,
     source: 'favicon',
-    sourceUrl: bookmark.url
+    sourceUrl: bookmark.url,
+    sourceOverride
   });
 }
 
@@ -391,8 +408,8 @@ async function handleBookmarks(eventType, id, bookmark) {
   }
 
   const thumbnail = isHomeBookmark ? await ImageDB.get(id) : null;
-  const thumbnailSource = thumbnail?.source
-    || (thumbnail?.blob ? (thumbnail.custom ? 'local' : 'site') : 'favicon');
+  const thumbnailSource = resolveThumbnailSource(thumbnail, settings.thumbnail_source);
+  const thumbnailSourceOverride = getThumbnailSourceOverride(thumbnail) !== 'inherit';
   const downloadFavicon = shouldDownloadFavicon(thumbnail, settings.download_favicons_by_default);
 
   await runOptionalSideEffectBeforeBroadcast(async() => {
@@ -404,7 +421,9 @@ async function handleBookmarks(eventType, id, bookmark) {
       currentBookmark.url
     ) {
       const allUrlsPermission = await containsPermissions({ origins: ['<all_urls>'] });
-      if (allUrlsPermission) await handleCreateThumbnail(id, currentBookmark);
+      if (allUrlsPermission) {
+        await handleCreateThumbnail(id, currentBookmark, thumbnailSourceOverride);
+      }
     }
   }, broadcast);
 

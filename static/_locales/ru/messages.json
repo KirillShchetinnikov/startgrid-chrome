@@ -59,16 +59,16 @@
     "message": "Действия с миниатюрами"
   },
   "thumbnail_source_local": {
-    "message": "Локальное хранилище"
+    "message": "Выбрать картинку"
   },
   "thumbnail_source_site": {
-    "message": "Создать с сайта"
+    "message": "Снимок сайта"
   },
   "thumbnail_source_url": {
     "message": "С URL-адреса"
   },
   "thumbnail_source_favicon": {
-    "message": "Значок сайта (по умолчанию)"
+    "message": "Значок сайта"
   },
   "favicon_download_preference": {
     "message": "Источник значка сайта"

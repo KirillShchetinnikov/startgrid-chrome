@@ -59,16 +59,16 @@
     "message": "Miniaturansicht-Aktionen"
   },
   "thumbnail_source_local": {
-    "message": "Lokaler Speicher"
+    "message": "Bild auswählen"
   },
   "thumbnail_source_site": {
-    "message": "Von der Website erstellen"
+    "message": "Website-Screenshot"
   },
   "thumbnail_source_url": {
     "message": "Von URL"
   },
   "thumbnail_source_favicon": {
-    "message": "Website-Favicon (Standard)"
+    "message": "Website-Favicon"
   },
   "favicon_download_preference": {
     "message": "Favicon-Quelle"

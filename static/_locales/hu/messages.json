@@ -59,16 +59,16 @@
     "message": "Indexkép-műveletek"
   },
   "thumbnail_source_local": {
-    "message": "Helyi tárolás"
+    "message": "Kép kiválasztása"
   },
   "thumbnail_source_site": {
-    "message": "Készítsen webhelyről"
+    "message": "Webhely képernyőképe"
   },
   "thumbnail_source_url": {
     "message": "Az URL-ből"
   },
   "thumbnail_source_favicon": {
-    "message": "Webhely favicon (alapértelmezett)"
+    "message": "Webhely ikonja"
   },
   "favicon_download_preference": {
     "message": "Favicon forrás"

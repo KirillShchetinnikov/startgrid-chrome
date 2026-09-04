@@ -25,13 +25,14 @@ describe('options page structure', () => {
       return section.sections.flatMap(group => group.list);
     });
     const ids = settings.map(setting => setting.id);
-    expect(ids).toHaveLength(75);
+    expect(ids).toHaveLength(76);
     expect(new Set(ids).size).toBe(ids.length);
     expect(ids).toContain('bookmark_title_size');
     expect(ids).toContain('bookmark_title_position');
     expect(ids).toContain('dial_horizontal_gap');
     expect(ids).toContain('dial_vertical_gap');
     expect(ids).toContain('dial_tile_size');
+    expect(ids).toContain('thumbnail_source');
     expect(ids).not.toContain('dial_gap');
     expect(ids).not.toContain('page_entrance_effect');
 
@@ -48,6 +49,7 @@ describe('options page structure', () => {
     expect(sectionFor('language')).toBe('appearance');
     expect(sectionFor('show_extension_icon')).toBe('appearance');
     expect(sectionFor('keyboard_shortcuts')).toBe('controls');
+    expect(sectionFor('thumbnail_source')).toBe('thumbnails');
     expect(sectionFor('restore_sync')).toBe('data');
 
     const controlsSection = settingsList.find(section => section.id === 'controls');

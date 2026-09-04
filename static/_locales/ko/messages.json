@@ -59,16 +59,16 @@
     "message": "썸네일 액션"
   },
   "thumbnail_source_local": {
-    "message": "로컬 저장소"
+    "message": "이미지 선택"
   },
   "thumbnail_source_site": {
-    "message": "웹사이트에서 만들기"
+    "message": "웹사이트 스크린샷"
   },
   "thumbnail_source_url": {
     "message": "URL에서"
   },
   "thumbnail_source_favicon": {
-    "message": "웹사이트 파비콘(기본값)"
+    "message": "웹사이트 파비콘"
   },
   "favicon_download_preference": {
     "message": "파비콘 소스"

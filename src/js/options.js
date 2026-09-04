@@ -579,6 +579,14 @@ async function handleSetOptions(e) {
     }
     await settings.updateKey(id, target.checked);
   } else {
+    if (id === 'thumbnail_source' && target.value === 'site') {
+      const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
+      if (!hasPermission) {
+        target.value = settings.$.thumbnail_source;
+        return;
+      }
+    }
+
     if (id === 'background_image') {
       if (target.value === 'background_bing') {
         const bingHostPermission = await requestPermissions({ origins: ['https://www.bing.com/*'] });

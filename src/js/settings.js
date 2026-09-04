@@ -22,6 +22,7 @@ import {
   normalizeKeyboardShortcuts
 } from './keyboardShortcuts';
 import { SUPPORTED_LANGUAGES } from './i18n';
+import { normalizeGlobalThumbnailSource } from './thumbnailSource';
 
 const DEFAULTS = Object.freeze({
   language: 'auto',
@@ -55,6 +56,7 @@ const DEFAULTS = Object.freeze({
   vertical_center: false,
   disable_main_page_scroll: false,
   drag_and_drop: true,
+  thumbnail_source: 'favicon',
   download_favicons_by_default: false,
   favicon_size: 32,
   enable_sync: true,
@@ -240,6 +242,7 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   currentSettings.show_home_folders = currentSettings.show_home_folders !== false;
   currentSettings.show_search = currentSettings.show_search !== false;
   currentSettings.show_folder_picker = currentSettings.show_folder_picker !== false;
+  currentSettings.thumbnail_source = normalizeGlobalThumbnailSource(currentSettings.thumbnail_source);
   if (!['inside', 'outside'].includes(currentSettings.bookmark_title_position)) {
     currentSettings.bookmark_title_position = DEFAULTS.bookmark_title_position;
   }

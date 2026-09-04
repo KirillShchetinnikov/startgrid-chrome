@@ -59,16 +59,16 @@
     "message": "Thumbnail actions"
   },
   "thumbnail_source_local": {
-    "message": "Local storage"
+    "message": "Choose image"
   },
   "thumbnail_source_site": {
-    "message": "Create from website"
+    "message": "Website screenshot"
   },
   "thumbnail_source_url": {
     "message": "From URL"
   },
   "thumbnail_source_favicon": {
-    "message": "Website favicon (default)"
+    "message": "Website favicon"
   },
   "favicon_download_preference": {
     "message": "Favicon source"

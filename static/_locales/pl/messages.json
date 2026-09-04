@@ -59,16 +59,16 @@
     "message": "Akcje miniatur"
   },
   "thumbnail_source_local": {
-    "message": "Magazyn lokalny"
+    "message": "Wybierz obraz"
   },
   "thumbnail_source_site": {
-    "message": "Utwórz ze strony internetowej"
+    "message": "Zrzut strony internetowej"
   },
   "thumbnail_source_url": {
     "message": "Z adresu URL"
   },
   "thumbnail_source_favicon": {
-    "message": "Favikona strony internetowej (domyślna)"
+    "message": "Favikona strony internetowej"
   },
   "favicon_download_preference": {
     "message": "Źródło Favikony"

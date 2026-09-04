@@ -31,6 +31,7 @@ describe('quick settings reset', () => {
               show_folder_picker: false,
               show_settings_icon: false,
               page_entrance_effect: 'rise',
+              thumbnail_source: 'site',
               search_engine: 'google'
             }
           }),
@@ -77,6 +78,7 @@ describe('quick settings reset', () => {
     expect(defaults).toHaveProperty('dial_horizontal_gap', 16);
     expect(defaults).toHaveProperty('dial_vertical_gap', 16);
     expect(defaults).toHaveProperty('color_theme', 'os');
+    expect(defaults).toHaveProperty('thumbnail_source', 'favicon');
     expect(defaults).toHaveProperty('dial_title_color', '');
     expect(defaults).toHaveProperty('dial_background_blur', false);
     expect(defaults).toHaveProperty('toolbar_match_tile_background', true);
@@ -85,6 +87,7 @@ describe('quick settings reset', () => {
     expect(defaults).toHaveProperty('toolbar_background_blur', true);
     expect(defaults).toHaveProperty('show_extension_icon', true);
     expect(settings.$.color_theme).toBe('os');
+    expect(settings.$.thumbnail_source).toBe('favicon');
     expect(settings.$.dial_width).toBe(70);
     expect(settings.$.dial_tile_size).toBe(100);
     expect(settings.$.dial_horizontal_gap).toBe(16);

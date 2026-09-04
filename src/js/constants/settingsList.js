@@ -569,6 +569,15 @@ const legacySettings = [
     description: getMessage('thumbnails_setting_description'),
     list: [
       {
+        id: 'thumbnail_source',
+        title: getMessage('thumbnail_source'),
+        type: 'select',
+        options: [
+          { value: 'favicon', title: getMessage('thumbnail_source_favicon') },
+          { value: 'site', title: getMessage('thumbnail_source_site') }
+        ]
+      },
+      {
         id: 'thumbnails_update_button',
         title: getMessage('thumbnails_update_button'),
         note: getMessage('thumbnails_update_warn'),
@@ -847,6 +856,7 @@ export default [
         key: getMessage('settings_group_thumbnail_generation'),
         description: getMessage('thumbnails_setting_description'),
         list: pickSettings(
+          'thumbnail_source',
           'thumbnails_update_button',
           'download_favicons_by_default',
           'favicon_size',
