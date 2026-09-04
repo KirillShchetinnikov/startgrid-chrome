@@ -16,6 +16,12 @@ describe('quick background settings', () => {
       expect(source).toContain(`option value="${value}"`);
     });
     expect(source).toMatch(/key === 'background_image'[\s\S]*?await UI\.setBG\(\)/);
+    expect(source).toContain('data-setting="background_color"');
+    expect(source).toContain('data-setting="background_external"');
+    expect(source).toContain('data-quick-background-upload');
+    expect(source).toContain('data-quick-background-remove');
+    expect(source).not.toContain('data-quick-background-preview');
+    expect(source).toMatch(/key === 'background_color'[\s\S]*?await UI\.setBG\(\)/);
   });
 
   it('removes the previous background resource before applying the next one', () => {

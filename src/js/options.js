@@ -17,6 +17,7 @@ import Range from './components/range';
 import ImageDB from './api/imageDB';
 import {
   commitBackgroundUpload,
+  BACKGROUND_FILE_PICKER_OPTIONS,
   createBackgroundPreview,
   FILES_ALLOWED_EXTENSIONS,
   MAX_FILE_SIZE_BYTES,
@@ -320,20 +321,6 @@ function handleBackToMain(e) {
 
   browser.tabs.update({ url: newTabUrl });
 }
-
-const BACKGROUND_FILE_PICKER_OPTIONS = Object.freeze({
-  types: [{
-    description: 'Images and MP4 video',
-    accept: {
-      'image/*': FILES_ALLOWED_EXTENSIONS
-        .filter(extension => extension !== 'mp4')
-        .map(extension => '.' + extension),
-      'video/mp4': ['.mp4']
-    }
-  }],
-  excludeAcceptAllOption: true,
-  multiple: false
-});
 
 async function handleImportSettingsFromPicker() {
   try {

@@ -112,7 +112,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| 2.0.0 | 2026-09-04 | Improved file backup, background personalization and quick controls, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
+| 2.0.0 | 2026-09-04 | Improved file backup, background personalization with complete quick controls, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
 
 ## Review Notes
 

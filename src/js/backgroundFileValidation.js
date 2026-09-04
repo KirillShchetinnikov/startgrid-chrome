@@ -11,6 +11,19 @@ const BACKGROUND_TYPES = Object.freeze({
 
 export const FILES_ALLOWED_EXTENSIONS = Object.freeze(Object.keys(BACKGROUND_TYPES));
 export const MAX_FILE_SIZE_BYTES = 50_000_000;
+export const BACKGROUND_FILE_PICKER_OPTIONS = Object.freeze({
+  types: [{
+    description: 'Images and MP4 video',
+    accept: {
+      'image/*': FILES_ALLOWED_EXTENSIONS
+        .filter(extension => extension !== 'mp4')
+        .map(extension => '.' + extension),
+      'video/mp4': ['.mp4']
+    }
+  }],
+  excludeAcceptAllOption: true,
+  multiple: false
+});
 
 export function validateBackgroundFile({ name = '', type = '', size = 0 } = {}) {
   const nameParts = String(name).trim().toLowerCase().split('.');

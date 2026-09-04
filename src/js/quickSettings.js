@@ -1,6 +1,8 @@
 export const QUICK_SETTING_KEYS = Object.freeze([
   'color_theme',
   'background_image',
+  'background_color',
+  'background_external',
   'dial_columns',
   'dial_width',
   'dial_tile_size',

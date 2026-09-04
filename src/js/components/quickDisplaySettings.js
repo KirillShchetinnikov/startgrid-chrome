@@ -1,12 +1,23 @@
 import { settings } from '../settings';
 import { getMessage } from '../i18n';
 import UI from './ui';
+import Toast from './toast';
 import confirmPopup from '../plugins/confirmPopup';
 import { updateMainPageScrollLock } from '../mainPageScroll';
 import { cssColorToHex } from '../tileAppearance';
 import { QUICK_SETTING_KEYS } from '../quickSettings';
 import { scaleTileContentSettings } from '../tileSizeSync';
 import { requestPermissions } from '../api/permissions';
+import ImageDB from '../api/imageDB';
+import { $filePicker, $resizeThumbnail, getVideoPoster } from '../utils';
+import {
+  BACKGROUND_FILE_PICKER_OPTIONS,
+  commitBackgroundUpload,
+  createBackgroundPreview,
+  FILES_ALLOWED_EXTENSIONS,
+  MAX_FILE_SIZE_BYTES,
+  validateBackgroundFile
+} from '../backgroundFileValidation';
 
 const RERENDER_SETTINGS = new Set([
   'show_create_column',
@@ -41,13 +52,14 @@ const STYLE_SETTINGS = new Set([
 ]);
 
 const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
+  background_color: '--theme-background',
   dial_background_color: '--theme-background-2',
   dial_title_color: '--theme-text-color',
   toolbar_background_color: '--theme-background-2'
 });
 
-function message(id) {
-  return getMessage(id);
+function message(id, substitutions) {
+  return getMessage(id, substitutions);
 }
 
 function createSwitch(id) {
@@ -99,6 +111,37 @@ function createPanel() {
             <option value="background_bing">${message('background_bing')}</option>
           </select>
         </label>
+        <div class="quick-settings__background-settings">
+          <p class="quick-settings__background-note" data-quick-background-setting="background_noimage" hidden>
+            ${message('background_noimage_text')}
+          </p>
+          <label class="quick-settings__field" data-quick-background-setting="background_color"
+            for="quick_background_color" hidden>
+            <span>${message('color')}</span>
+            <input id="quick_background_color" type="color" data-setting="background_color">
+          </label>
+          <label class="quick-settings__field quick-settings__background-url"
+            data-quick-background-setting="background_external" for="quick_background_external" hidden>
+            <span>${message('background_external')}</span>
+            <input class="form-control" id="quick_background_external" type="url"
+              data-setting="background_external" autocomplete="url" spellcheck="false">
+          </label>
+          <section class="quick-settings__background-local" data-quick-background-setting="background_local" hidden>
+            <div>
+              <strong>${message('background_local')}</strong>
+              <small>${message('background_local_video_note')}</small>
+            </div>
+            <button class="btn md-ripple" type="button" data-quick-background-upload>
+              ${message('choose_file')}
+            </button>
+            <button class="btn btn--clear md-ripple" type="button" data-quick-background-remove>
+              ${message('contextmenu_remove')}
+            </button>
+          </section>
+          <p class="quick-settings__background-note" data-quick-background-setting="background_bing" hidden>
+            ${message('background_bing_text')}
+          </p>
+        </div>
         <label class="quick-settings__field" for="quick_dial_columns">
           <span>${message('number_of_columns')}</span>
           <select class="form-control" id="quick_dial_columns" data-setting="dial_columns">${columns}</select>
@@ -296,6 +339,71 @@ export default function initQuickDisplaySettings({
   container.append(trigger);
   let tileSizeScaleAnchor = null;
 
+  function syncBackgroundControls() {
+    const backgroundMode = settings.$.background_image;
+    panel.querySelectorAll('[data-quick-background-setting]').forEach(control => {
+      control.hidden = control.dataset.quickBackgroundSetting !== backgroundMode;
+    });
+  }
+
+  async function handleLocalBackgroundUpload() {
+    try {
+      const file = await $filePicker(BACKGROUND_FILE_PICKER_OPTIONS);
+      if (!file) return;
+
+      const validation = validateBackgroundFile(file);
+      if (!validation.ok) {
+        const messageId = validation.reason === 'size'
+          ? 'alert_file_type_fail_size'
+          : 'alert_file_type_fail_type';
+        const value = validation.reason === 'size'
+          ? MAX_FILE_SIZE_BYTES / 10 ** 6
+          : FILES_ALLOWED_EXTENSIONS.join(' | ');
+        Toast.show(message(messageId, [value]));
+        return;
+      }
+
+      const blob = new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
+      const blobThumbnail = await createBackgroundPreview({
+        blob,
+        file,
+        validation,
+        resizeImage: value => $resizeThumbnail(value),
+        getVideoPoster: value => getVideoPoster(value)
+      });
+      const previousRecord = await ImageDB.get('background');
+      const result = await commitBackgroundUpload({
+        record: { id: 'background', blob, blobThumbnail },
+        persist: record => ImageDB.update(record),
+        createObjectURL: value => URL.createObjectURL(value),
+        previousObjectURL: null,
+        revokeObjectURL: value => URL.revokeObjectURL(value),
+        apply: objectURL => URL.revokeObjectURL(objectURL),
+        rollback: async() => {
+          if (previousRecord) await ImageDB.update(previousRecord);
+          else await ImageDB.delete('background');
+        },
+        reportError: () => Toast.show(message('notice_background_save_failed'))
+      });
+      if (!result.ok) return;
+
+      await UI.setBG();
+      Toast.show(message('notice_bg_image_updated'));
+    } catch (error) {
+      Toast.show(message('notice_background_save_failed'));
+      console.warn(error);
+    }
+  }
+
+  async function handleLocalBackgroundRemove() {
+    const confirmed = await confirmPopup(message('confirm_delete_image'));
+    if (!confirmed) return;
+
+    await ImageDB.delete('background');
+    await UI.setBG();
+    Toast.show(message('notice_image_removed'));
+  }
+
   function getThemeColor(settingId) {
     const variable = COLOR_SETTING_THEME_VARIABLES[settingId];
     return cssColorToHex(window.getComputedStyle(document.documentElement)
@@ -343,6 +451,7 @@ export default function initQuickDisplaySettings({
     panel.querySelectorAll('[data-quick-toolbar-background]').forEach(control => {
       control.hidden = Boolean(settings.$.toolbar_match_tile_background);
     });
+    syncBackgroundControls();
   }
 
   function togglePanel(force, restoreFocus = true) {
@@ -413,6 +522,15 @@ export default function initQuickDisplaySettings({
       UI.calculateStyles();
       syncControls();
     } else if (key === 'background_image') {
+      syncBackgroundControls();
+      await UI.setBG();
+    } else if (key === 'background_color' && settings.$.background_image === 'background_color') {
+      await UI.setBG();
+    } else if (
+      persist
+      && key === 'background_external'
+      && settings.$.background_image === 'background_external'
+    ) {
       await UI.setBG();
     } else if (STYLE_SETTINGS.has(key)) {
       const gridLayout = UI.calculateStyles();
@@ -452,14 +570,17 @@ export default function initQuickDisplaySettings({
 
   trigger.addEventListener('click', () => togglePanel());
   panel.querySelector('[data-quick-settings-close]').addEventListener('click', () => togglePanel(false));
+  panel.querySelector('[data-quick-background-upload]').addEventListener('click', handleLocalBackgroundUpload);
+  panel.querySelector('[data-quick-background-remove]').addEventListener('click', handleLocalBackgroundRemove);
   panel.addEventListener('change', event => {
     const control = event.target.closest('[data-setting]');
     if (control) {
       applySetting(control);
       if (control.type === 'color') {
-        panel.querySelector(
+        const resetButton = panel.querySelector(
           `[data-quick-color-reset="${control.dataset.setting}"]`
-        ).disabled = false;
+        );
+        if (resetButton) resetButton.disabled = false;
       }
     }
   });
@@ -473,9 +594,10 @@ export default function initQuickDisplaySettings({
   panel.querySelectorAll('input[type="color"][data-setting]').forEach(control => {
     control.addEventListener('input', event => {
       applySetting(event.target, false);
-      panel.querySelector(
+      const resetButton = panel.querySelector(
         `[data-quick-color-reset="${event.target.dataset.setting}"]`
-      ).disabled = false;
+      );
+      if (resetButton) resetButton.disabled = false;
     });
   });
   panel.querySelector('[data-quick-settings-reset]').addEventListener('click', async() => {

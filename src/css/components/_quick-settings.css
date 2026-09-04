@@ -59,6 +59,39 @@
   gap: 4px;
 }
 
+.quick-settings__background-settings {
+  display: grid;
+  gap: 4px;
+}
+
+.quick-settings__background-note,
+.quick-settings__background-local {
+  margin: 0;
+  padding: 10px 9px;
+  line-height: 1.4;
+  border-radius: 12px;
+  background: var(--option-tbl-hover-bg);
+}
+
+.quick-settings__background-url {
+  align-items: flex-start;
+}
+
+.quick-settings__background-url .form-control {
+  min-width: 0;
+}
+
+.quick-settings__background-local {
+  display: grid;
+  gap: 10px;
+
+  & small {
+    display: block;
+    margin-top: 3px;
+    opacity: 0.72;
+  }
+}
+
 .quick-settings__field,
 .quick-settings__switch-row {
   display: flex;
