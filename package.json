@@ -1,6 +1,6 @@
 {
   "name": "startgrid-chrome",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "StartGrid visual bookmarks for Chrome",
   "scripts": {
     "lint:es": "eslint \"src/js/**/*.js\"",
