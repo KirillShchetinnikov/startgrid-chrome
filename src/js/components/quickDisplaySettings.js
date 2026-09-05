@@ -1,4 +1,5 @@
 import { settings } from '../settings';
+import { FULL_MODE_SETTINGS } from '../folderMode';
 import { getMessage } from '../i18n';
 import UI from './ui';
 import Toast from './toast';
@@ -30,7 +31,8 @@ const RERENDER_SETTINGS = new Set([
   'bookmark_title_position',
   'show_favicon',
   'folder_preview',
-  'thumbnail_source'
+  'thumbnail_source',
+  'download_favicons_by_default'
 ]);
 
 const STYLE_SETTINGS = new Set([
@@ -102,7 +104,8 @@ function createPanel() {
         <option>${message('select_folder')}</option>
       </select>
     </label>
-    ${createSwitch('show_last_opened_folder')}`;
+    ${createSwitch('show_last_opened_folder')}
+    <p class="quick-settings__hint">${message('show_last_opened_folder_note')}</p>`;
 
   const pageAndBackground = /* html */`
     <label class="quick-settings__field" for="quick_color_theme">
@@ -288,6 +291,13 @@ function createPanel() {
         <option value="site">${message('thumbnail_source_site')}</option>
       </select>
     </label>
+    <label class="quick-settings__field" for="quick_download_favicons_by_default">
+      <span>${message('favicon_download_preference')}</span>
+      <select class="form-control" id="quick_download_favicons_by_default" data-setting="download_favicons_by_default">
+        <option value="false">${message('favicon_download_chrome')}</option>
+        <option value="true">${message('favicon_download_site')}</option>
+      </select>
+    </label>
     <label class="quick-settings__field quick-settings__field--range" for="quick_favicon_size">
       <span>${message('favicon_size')}</span>
       <span class="quick-settings__range">
@@ -357,8 +367,8 @@ function createPanel() {
         </button>
       </header>
       <div class="quick-settings__controls">
-        ${createGroup('start', message('settings_group_start'), startPage, true)}
-        ${createGroup('page', message('settings_group_page'), pageAndBackground, true)}
+        ${createGroup('start', message('settings_group_start'), startPage)}
+        ${createGroup('page', message('settings_group_page'), pageAndBackground)}
         ${createGroup('grid', message('settings_group_grid'), grid)}
         ${createGroup('tile-style', message('settings_group_tile_style'), tileAppearance)}
         ${createGroup('tile-content', message('settings_group_tile_content'), tileContent)}
@@ -381,6 +391,7 @@ export default function initQuickDisplaySettings({
   showTrigger = true,
   onRerender,
   onDefaultFolderChange,
+  onFolderModeChange,
   onExtensionIconVisibilityChange,
   onHeaderVisibilityChange
 }) {
@@ -422,6 +433,10 @@ export default function initQuickDisplaySettings({
     const folderSelect = panel.querySelector('[data-quick-default-folder]');
     folderSelect.value = settings.defaultFolderId;
     folderSelect.disabled = !folderTree || settings.$.show_last_opened_folder;
+    FULL_MODE_SETTINGS.forEach(key => {
+      const control = panel.querySelector(`[data-setting="${key}"]`);
+      if (control) control.closest('label').hidden = Boolean(settings.$.show_last_opened_folder);
+    });
   }
 
   function syncToolbarBackgroundControls() {
@@ -633,9 +648,11 @@ export default function initQuickDisplaySettings({
   async function applySetting(control, persist = true) {
     const key = control.dataset.setting;
     let value = control.type === 'checkbox' ? control.checked : control.value;
+    if (key === 'download_favicons_by_default') value = control.value === 'true';
     let tileContentSettings;
 
-    if (persist && key === 'thumbnail_source' && value === 'site') {
+    if (persist && ((key === 'thumbnail_source' && value === 'site')
+      || (key === 'download_favicons_by_default' && value))) {
       const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
       if (!hasPermission) {
         syncControls();
@@ -713,6 +730,7 @@ export default function initQuickDisplaySettings({
       updateMainPageScrollLock(value);
     } else if (key === 'show_last_opened_folder') {
       syncDefaultFolderControls();
+      await onFolderModeChange();
     } else if (key === 'show_extension_icon') {
       onExtensionIconVisibilityChange(Boolean(value));
       UI.calculateStyles();

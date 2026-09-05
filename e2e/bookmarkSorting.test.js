@@ -18,7 +18,6 @@ const defaults = {
   home_sort_date_direction: 'desc',
   home_sort_alphabet_direction: 'desc',
   home_sort_usage_tiebreaker: 'alphabet',
-  home_manual_sort_initialized: false,
   show_home_folders: true,
   bookmarks_sorting_type: 'together'
 };
@@ -39,13 +38,13 @@ describe('home page bookmark sorting', () => {
     delete global.localStorage;
   });
 
-  it('starts uninitialized manual sorting alphabetically', () => {
+  it('uses Chrome order immediately for manual sorting', () => {
     expect(sortHomeBookmarks(bookmarks, defaults).map(item => item.id))
-      .toEqual(['3', '2', '1', '4']);
+      .toEqual(['1', '2', '3', '4']);
   });
 
-  it('keeps the browser order after manual sorting was initialized', () => {
-    const settings = { ...defaults, home_manual_sort_initialized: true };
+  it('uses Chrome order for the limited mode usage fallback', () => {
+    const settings = { ...defaults, show_last_opened_folder: true, home_sort_by: 'usage' };
     expect(sortHomeBookmarks(bookmarks, settings).map(item => item.id))
       .toEqual(['1', '2', '3', '4']);
   });
@@ -80,11 +79,11 @@ describe('home page bookmark sorting', () => {
     expect(sortHomeBookmarks(bookmarks, {
       ...defaults,
       show_home_folders: false
-    }).map(item => item.id)).toEqual(['3', '2', '1']);
+    }).map(item => item.id)).toEqual(['1', '2', '3']);
     expect(sortHomeBookmarks(bookmarks, {
       ...defaults,
       bookmarks_sorting_type: 'folders_top'
-    }).map(item => item.id)).toEqual(['4', '3', '2', '1']);
+    }).map(item => item.id)).toEqual(['4', '1', '2', '3']);
   });
 });
 

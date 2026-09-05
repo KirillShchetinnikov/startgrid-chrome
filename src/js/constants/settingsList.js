@@ -387,6 +387,7 @@ const legacySettings = [
           {
             id: 'show_last_opened_folder',
             title: getMessage('show_last_opened_folder'),
+            note: getMessage('show_last_opened_folder_note'),
             type: 'switch',
             data: {
               relationToggleId: 'default_folder_id',
@@ -585,9 +586,13 @@ const legacySettings = [
       },
       {
         id: 'download_favicons_by_default',
-        title: getMessage('download_favicons_by_default'),
+        title: getMessage('favicon_download_preference'),
         note: getMessage('download_favicons_by_default_note'),
-        type: 'switch'
+        type: 'select',
+        options: [
+          { value: 'false', title: getMessage('favicon_download_chrome') },
+          { value: 'true', title: getMessage('favicon_download_site') }
+        ]
       },
       {
         id: 'favicon_size',

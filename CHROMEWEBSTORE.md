@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-09-04
+> Last Updated: 2026-09-05
 
 ## Store Listing
 
@@ -17,6 +17,8 @@ Customizable visual bookmarks on every new tab, using your existing Chrome bookm
 StartGrid replaces Chrome's new tab with a visual, customizable view of your existing bookmarks and folders.
 
 Organize, open, edit, move, and search bookmarks without creating a separate account. Use grouped quick settings to choose the start folder, grid layout, theme, background, tile appearance, and interface controls without leaving the new tab. Settings can be backed up as a JSON file and optionally synchronized with Chrome Sync.
+
+Optionally reopen the last folder visited on this device. This simplified mode applies global display settings to every folder and uses website icons, without individual bookmark appearance, screenshots, or usage-based sorting. Choose icons from Chrome's cache or download them from websites in either the quick or full settings.
 
 Open a new tab to use StartGrid. Select a folder, open a bookmark, or use the search bar. Chrome's Back and Forward buttons navigate between folders opened in StartGrid. Use the tile menu to edit a bookmark or its thumbnail, and open Settings to personalize the page.
 
@@ -112,6 +114,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| Unreleased | 2026-09-05 | Simplified last-folder mode with consistent navigation and settings, global icon source controls, recovery from deleted folders, and immediate Chrome order for manual sorting. | Pending |
 | 2.0.0 | 2026-09-05 | Improved file backup, grouped quick settings with start-folder controls, background personalization with explicit URL actions, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
 
 ## Review Notes

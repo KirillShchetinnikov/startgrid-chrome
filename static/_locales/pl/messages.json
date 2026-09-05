@@ -953,6 +953,9 @@
   "show_last_opened_folder": {
     "message": "Pokaż ostatnio otwarty folder"
   },
+  "show_last_opened_folder_note": {
+    "message": "Reopens the last visited folder on this device when the tab is refreshed. Global display settings apply to all folders. Only website icons are available; individual bookmark appearance, website screenshots, and sorting by usage are unavailable. The selected folder is not synced to the cloud and is set separately on each device."
+  },
   "history_back": {
     "message": "Wracać"
   },

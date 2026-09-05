@@ -5,7 +5,7 @@ import './components/vb-bookmarks-panel';
 
 import Gmodal from 'glory-modal';
 import { getMessage, hasLanguageSettingChanged } from './i18n';
-import { settings } from './settings';
+import { settings, LAST_OPENED_FOLDER_ID } from './settings';
 import Bookmarks from './components/bookmarks';
 import Localization from './plugins/localization';
 import { Validator } from './plugins/validator';
@@ -125,13 +125,23 @@ function updateExtensionIconVisibility(visible) {
 }
 
 function handleLanguageStorageChange(changes, areaName) {
+  const incoming = changes.settings?.newValue;
+  if (areaName === 'local' && incoming
+    && changes.settings.oldValue?.show_last_opened_folder !== incoming.show_last_opened_folder
+    && typeof settings.$.show_last_opened_folder === 'boolean'
+    && incoming.show_last_opened_folder !== settings.$.show_last_opened_folder) {
+    window.location.reload();
+    return;
+  }
   if (hasLanguageSettingChanged(changes, areaName)) {
     window.location.reload();
   }
 }
 
 function updateThumbnailControls(folderId) {
-  const enabled = Bookmarks.isDefaultFolder(folderId);
+  const enabled = settings.$.show_last_opened_folder
+    ? settings.$.download_favicons_by_default
+    : Bookmarks.isDefaultFolder(folderId);
   if (generateThumbsBtn) {
     generateThumbsBtn.hidden = !enabled;
   }
@@ -139,6 +149,7 @@ function updateThumbnailControls(folderId) {
 }
 
 function incrementBookmarkUsage(bookmark) {
+  if (settings.$.show_last_opened_folder) return;
   const count = recordBookmarkUsage(bookmark.id);
   const badge = bookmark.querySelector?.('.bookmark__usage-count');
   if (!badge) return;
@@ -287,7 +298,22 @@ async function init() {
   quickSettingsApi = initQuickDisplaySettings({
     container: asideControlsNode,
     showTrigger: settings.$.show_quick_settings_icon,
-    onRerender: () => Bookmarks.refresh(),
+    onRerender: () => {
+      updateThumbnailControls();
+      return Bookmarks.refresh();
+    },
+    onFolderModeChange: async() => {
+      ctxMenuEl.close();
+      modalApi.close();
+      await hideControlMultiplyBookmarks();
+      if (settings.$.show_last_opened_folder) {
+        localStorage.setItem(LAST_OPENED_FOLDER_ID, getCurrentFolderId());
+        await Bookmarks.applyFolderMode();
+      } else {
+        navigateHome(settings.defaultFolderId, true);
+      }
+      updateThumbnailControls();
+    },
     onDefaultFolderChange: folderId => {
       Bookmarks.setDefaultFolder(folderId);
       navigateHome(folderId, true);
@@ -352,7 +378,10 @@ async function init() {
 
   // if tab with bookmarks is open, but hidden, we need to reload, after updating thumbnails
   const scheduleBookmarkRefresh = createRefreshScheduler(
-    () => Bookmarks.refreshCurrentView()
+    async() => {
+      await Bookmarks.ensureDefaultFolder();
+      return Bookmarks.refreshCurrentView();
+    }
   );
   const locallySortedBookmarkIds = new Set();
   let localSortTimeout = null;
@@ -609,7 +638,7 @@ async function handleGenerateThumbs() {
 }
 
 async function startGenerateThumbs(trigger = null) {
-  if (!Bookmarks.isDefaultFolder()) return;
+  if (!updateThumbnailControls()) return;
 
   if (!(await Bookmarks.checkHostPermissions())) {
     return;
@@ -1234,7 +1263,7 @@ async function handleSubmitForm(evt) {
     bookmark = await Bookmarks.createBookmark(title, url);
   }
 
-  if (bookmark) {
+  if (bookmark && !settings.$.show_last_opened_folder) {
     await Bookmarks.setTextPreferences(bookmark, { titleSize });
   }
 
@@ -1242,7 +1271,7 @@ async function handleSubmitForm(evt) {
     await Bookmarks.setThumbnailSize(bookmark, thumbnailSize);
   }
 
-  if (bookmark) {
+  if (bookmark && !settings.$.show_last_opened_folder) {
     if (!thumbnailEnabled) {
       await Bookmarks.removeThumbnail(bookmark.id, bookmark.isFolder);
     } else if (thumbnailSourceSelection === 'inherit') {
@@ -1389,6 +1418,7 @@ async function prepareModal(target) {
   form.reset();
 
   if (target) {
+    bookmarkTitleSize.closest('.group').hidden = settings.$.show_last_opened_folder;
     modal.classList.add('has-edit');
 
     const bookmarkNode = await get(target.id).catch(err => console.warn(err));
@@ -1452,6 +1482,7 @@ async function prepareModal(target) {
     }
   } else {
     modal.classList.add('has-add');
+    bookmarkTitleSize.closest('.group').hidden = settings.$.show_last_opened_folder;
     modalHead.textContent = getMessage('add_bookmark');
     urlWrap.style.display = '';
     titleField.value = '';

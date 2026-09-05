@@ -94,7 +94,6 @@ const DEFAULTS = Object.freeze({
   home_sort_alphabet_direction: 'desc',
   home_sort_usage_tiebreaker: 'alphabet',
   show_usage_count: true,
-  home_manual_sort_initialized: false,
   show_home_folders: true,
   bookmarks_sorting_type: 'together',
   navigation_sort_by: '', // '' | date | alphabet
@@ -190,9 +189,6 @@ function migrateSettings(currentSettings = {}) {
     migrated.home_sort_by = ['date', 'alphabet'].includes(migrated.sort_by)
       ? migrated.sort_by
       : 'manual';
-    // Existing profiles already have a browser-managed bookmark order that may
-    // contain a manual arrangement, even if an automatic view was selected.
-    migrated.home_manual_sort_initialized = true;
   }
 
   if (migrated.bookmarks_sorting_type === '') {
@@ -200,6 +196,7 @@ function migrateSettings(currentSettings = {}) {
   }
 
   delete migrated.sort_by;
+  delete migrated.home_manual_sort_initialized;
   delete migrated.sort_by_newest;
   delete migrated.open_link_newtab;
   delete migrated.show_toolbar;
@@ -238,7 +235,7 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
     currentSettings.home_sort_usage_tiebreaker = DEFAULTS.home_sort_usage_tiebreaker;
   }
   currentSettings.show_usage_count = currentSettings.show_usage_count !== false;
-  currentSettings.home_manual_sort_initialized = currentSettings.home_manual_sort_initialized === true;
+  delete currentSettings.home_manual_sort_initialized;
   currentSettings.show_home_folders = currentSettings.show_home_folders !== false;
   currentSettings.show_search = currentSettings.show_search !== false;
   currentSettings.show_folder_picker = currentSettings.show_folder_picker !== false;

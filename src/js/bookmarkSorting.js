@@ -1,3 +1,5 @@
+import { effectiveHomeSort } from './folderMode';
+
 export const BOOKMARK_USAGE_STORAGE_KEY = 'bookmark_usage_counts';
 
 function compareAlphabetically(a, b) {
@@ -40,18 +42,14 @@ export function sortHomeBookmarks(items, currentSettings, usageCounts = {}) {
     ? [...items]
     : items.filter(item => !Object.hasOwn(item, 'children'));
 
-  if (
-    currentSettings.home_sort_by === 'manual'
-    && !currentSettings.home_manual_sort_initialized
-  ) {
-    sorted.sort(compareAlphabetically);
-  } else if (currentSettings.home_sort_by === 'date') {
+  const sortBy = effectiveHomeSort(currentSettings);
+  if (sortBy === 'date') {
     sorted.sort(compareByDate);
     if (currentSettings.home_sort_date_direction === 'asc') sorted.reverse();
-  } else if (currentSettings.home_sort_by === 'alphabet') {
+  } else if (sortBy === 'alphabet') {
     sorted.sort(compareAlphabetically);
     if (currentSettings.home_sort_alphabet_direction === 'desc') sorted.reverse();
-  } else if (currentSettings.home_sort_by === 'usage') {
+  } else if (sortBy === 'usage') {
     const tieBreaker = currentSettings.home_sort_usage_tiebreaker === 'date'
       ? compareByDate
       : compareAlphabetically;

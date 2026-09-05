@@ -131,7 +131,8 @@ async function updateRemoteThumbnail({
   url,
   source = 'url',
   sourceUrl = url,
-  sourceOverride
+  sourceOverride,
+  temporary = false
 }) {
   const operation = source === 'favicon' ? 'favicon' : 'url';
   const requestUrl = source === 'favicon' ? sourceUrl : url;
@@ -143,7 +144,7 @@ async function updateRemoteThumbnail({
   const headers = {};
 
   try {
-    existing = await ImageDB.get(id);
+    existing = temporary ? null : await ImageDB.get(id);
     if (existing?.source === source && existing?.sourceUrl === sourceUrl) {
       if (existing.etag) headers['If-None-Match'] = existing.etag;
       if (existing.lastModified) headers['If-Modified-Since'] = existing.lastModified;
@@ -177,6 +178,17 @@ async function updateRemoteThumbnail({
     }
 
     const downloadedBlob = await response.blob();
+    if (temporary) {
+      if (source !== 'favicon' || downloadedBlob.size > 512 * 1024) {
+        return createThumbnailFailure('NOT_AN_IMAGE', { operation, url: requestUrl });
+      }
+      const bytes = new Uint8Array(await downloadedBlob.arrayBuffer());
+      let binary = '';
+      for (let offset = 0; offset < bytes.length; offset += 8192) {
+        binary += String.fromCharCode(...bytes.subarray(offset, offset + 8192));
+      }
+      return { success: true, image: `data:${downloadedBlob.type};base64,${btoa(binary)}` };
+    }
     const contentHash = await getBlobHash(downloadedBlob);
     const isSameImage = existing?.source === source
       && existing?.sourceUrl === sourceUrl
@@ -205,6 +217,7 @@ async function updateRemoteThumbnail({
     return { success: true, updated: !isSameImage };
   } catch (error) {
     const code = error?.code || 'STORE_FAILED';
+    if (temporary) return createThumbnailFailure(code, { operation, url: requestUrl });
     try {
       await ImageDB.update({
         ...(existing || { id }),
@@ -402,6 +415,7 @@ async function handleBookmarks(eventType, id, bookmark) {
 
   if (
     ['created', 'changed', 'moved'].includes(eventType)
+    && !settings.show_last_opened_folder
     && !isHomeBookmark
   ) {
     await removeStoredThumbnails(id);
@@ -415,6 +429,7 @@ async function handleBookmarks(eventType, id, bookmark) {
   await runOptionalSideEffectBeforeBroadcast(async() => {
     if (
       ['created', 'changed'].includes(eventType) &&
+      !settings.show_last_opened_folder &&
       isHomeBookmark &&
       thumbnailSource === 'favicon' &&
       downloadFavicon &&

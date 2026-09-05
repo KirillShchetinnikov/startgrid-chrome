@@ -1,6 +1,7 @@
 import './components/vb-select';
 import { getMessage } from './i18n';
 import { settings } from './settings';
+import { FULL_MODE_SETTINGS, effectiveHomeSort } from './folderMode';
 import Localization from './plugins/localization';
 import Ripple from './components/ripple';
 import Toast from './components/toast';
@@ -67,6 +68,13 @@ async function init() {
   window.settings.innerHTML = displaySettings(settingsList);
 
   await settings.init();
+  browser.storage.onChanged.addListener((changes, area) => {
+    const incoming = changes.settings?.newValue;
+    if (area === 'local' && incoming
+      && incoming.show_last_opened_folder !== settings.$.show_last_opened_folder) {
+      window.location.reload();
+    }
+  });
 
   await enforceGridWidth();
 
@@ -200,11 +208,13 @@ function updateSettingsRowVisibility(row, reason, hidden) {
       });
     }
     row.hidden = row.dataset.searchHidden === 'true';
+    row.hidden ||= row.dataset.modeHidden === 'true';
     return;
   }
 
   row.dataset[reason] = String(hidden);
   row.hidden = row.dataset.searchHidden === 'true';
+  row.hidden ||= row.dataset.modeHidden === 'true';
 }
 
 function applySettingsFilter() {
@@ -474,7 +484,12 @@ function getOptions() {
 }
 
 function syncConditionalControls() {
-  const sortMode = document.getElementById('home_sort_by')?.value;
+  const limited = Boolean(settings.$.show_last_opened_folder);
+  const sortSelect = document.getElementById('home_sort_by');
+  const usageOption = sortSelect?.querySelector('[value="usage"]');
+  if (usageOption) usageOption.hidden = usageOption.disabled = limited;
+  if (sortSelect) sortSelect.value = effectiveHomeSort(settings.$);
+  const sortMode = sortSelect?.value;
   const conditionalRows = {
     home_sort_date_direction: sortMode === 'date',
     home_sort_alphabet_direction: sortMode === 'alphabet',
@@ -489,6 +504,15 @@ function syncConditionalControls() {
     toolbar_background_opacity: !document.getElementById('toolbar_match_tile_background')?.checked,
     toolbar_background_blur: !document.getElementById('toolbar_match_tile_background')?.checked
   };
+  FULL_MODE_SETTINGS.forEach(id => {
+    const row = document.getElementById(`setting_${id}`);
+    if (row) updateSettingsRowVisibility(row, 'modeHidden', limited);
+    if (limited) conditionalRows[id] = false;
+    else if (!Object.hasOwn(conditionalRows, id)) conditionalRows[id] = true;
+  });
+  conditionalRows.thumbnails_update_button = !limited || settings.$.download_favicons_by_default;
+  const updateRow = document.getElementById('setting_thumbnails_update_button');
+  if (updateRow) updateSettingsRowVisibility(updateRow, 'modeHidden', !conditionalRows.thumbnails_update_button);
 
   Object.entries(conditionalRows).forEach(([id, visible]) => {
     const row = document.getElementById(`setting_${id}`);
@@ -638,6 +662,14 @@ async function handleSetOptions(e) {
   const id = target.id;
   const previousTileSize = settings.$.dial_tile_size;
   if (id === 'enable_sync') return;
+  if (id === 'download_favicons_by_default') {
+    let enabled = target.value === 'true';
+    if (enabled) enabled = await requestPermissions({ origins: ['<all_urls>'] });
+    await settings.updateKey(id, enabled);
+    target.value = String(enabled);
+    syncConditionalControls();
+    return;
+  }
   if (id === 'language') {
     await settings.updateKey(id, target.value);
     window.location.reload();
@@ -700,6 +732,7 @@ async function handleSetOptions(e) {
 
   if ([
     'home_sort_by',
+    'show_last_opened_folder',
     'show_home_folders',
     'background_entrance_effect',
     'page_cascade_enabled',

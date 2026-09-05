@@ -11,6 +11,7 @@ export const QUICK_SETTING_KEYS = Object.freeze([
   'dial_radius',
   'dial_aspect_ratio',
   'thumbnail_source',
+  'download_favicons_by_default',
   'favicon_size',
   'bookmark_title_size',
   'bookmark_title_position',

@@ -301,7 +301,8 @@ class VbHeader extends HTMLElement {
   hashchange() {
     const folderId = getCurrentFolderId() || this.initialFolderId;
 
-    const isNestedFolder = folderId !== this.initialFolderId;
+    const limited = settings.$.show_last_opened_folder;
+    const isNestedFolder = !limited && folderId !== this.initialFolderId;
     const isBookmarkSearch = this.isBookmarksEngine && Boolean(this.inputNode.value.trim());
 
     if (isNestedFolder) {
@@ -328,7 +329,7 @@ class VbHeader extends HTMLElement {
       this.backNode = null;
     }
 
-    if (isNestedFolder || isBookmarkSearch) {
+    if (!limited && (isNestedFolder || isBookmarkSearch)) {
       if (!this.homeNode) {
         const homeLabel = getMessage('default_folder_home');
         this.homeNode = $createElement(
@@ -435,10 +436,12 @@ class VbHeader extends HTMLElement {
   }
 
   handleBack() {
+    if (settings.$.show_last_opened_folder) return;
     navigateBack(this.initialFolderId);
   }
 
   handleHome() {
+    if (settings.$.show_last_opened_folder) return;
     const forceNavigation = this.isBookmarksEngine && Boolean(this.inputNode.value.trim());
     if (forceNavigation) this.clearBookmarkSearch();
     navigateHome(settings.defaultFolderId, forceNavigation);

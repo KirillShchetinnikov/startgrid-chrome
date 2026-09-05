@@ -5,6 +5,8 @@ import Toast from './toast';
 import { announce } from '../liveAnnouncements';
 import ImageDB from '../api/imageDB';
 import { settings, LAST_OPENED_FOLDER_ID } from '../settings';
+import { usesHomeLayout, allowsIndividualAppearance, effectiveHomeSort } from '../folderMode';
+import { updateDefaultFolder } from '../defaultFolderSettings';
 import { storage } from '../api/storage';
 import {
   move,
@@ -49,7 +51,8 @@ import {
 import './vb-bookmark';
 import {
   getCurrentFolderId,
-  initFolderNavigation
+  initFolderNavigation,
+  navigateToFolder
 } from '../folderNavigation';
 import {
   updateBookmarkFolderState,
@@ -92,13 +95,14 @@ const Bookmarks = (() => {
   let hasSearch = false;
   let lastSearchQuery = '';
   let vbHeader = null;
+  const faviconCache = new Map();
 
   function resetBookmarkSearch() {
     hasSearch = false;
     lastSearchQuery = '';
     activeSearchRequest += 1;
-    createSpeedDial(startFolder());
     updateBookmarkSearchState(false);
+    return createSpeedDial(startFolder());
   }
 
   function setHeaderVisibility({
@@ -118,6 +122,25 @@ const Bookmarks = (() => {
     if (!vbHeader) return;
     vbHeader.initialFolderId = String(folderId);
     vbHeader.setAttribute('initial-folder-id', String(folderId));
+    vbHeader.hashchange();
+    updateBookmarkFolderState(!isHomeLayout());
+  }
+
+  function findFolder(items, folderId) {
+    return items.some(item => item.children
+      && (String(item.id) === String(folderId) || findFolder(item.children, folderId)));
+  }
+
+  async function ensureDefaultFolder() {
+    if (settings.$.show_last_opened_folder) return;
+    const selected = settings.defaultFolderId;
+    const tree = await getThree().catch(() => null);
+    if (!tree || settings.$.show_last_opened_folder || selected !== settings.defaultFolderId
+      || findFolder(tree, selected)) return;
+    const fallback = tree.find(item => item.folderType === 'bookmarks-bar')?.id || DEFAULT_BOOKMARKS_FOLDER;
+    if (!findFolder(tree, fallback)) return;
+    await updateDefaultFolder(settings, fallback);
+    setDefaultFolder(fallback);
   }
 
   async function init() {
@@ -148,8 +171,9 @@ const Bookmarks = (() => {
       localStorage.setItem(LAST_OPENED_FOLDER_ID, settings.defaultFolderId);
     }
 
+    await ensureDefaultFolder();
     initFolderNavigation(configuredStartFolder());
-    updateBookmarkFolderState(!isDefaultFolder());
+    updateBookmarkFolderState(!isHomeLayout());
 
     // Keep the toolbar available so quick settings can show it without reloading the page.
     await import(/* webpackChunkName: "webcomponents/vb-header" */'./vb-header');
@@ -192,17 +216,18 @@ const Bookmarks = (() => {
     document.addEventListener('folderNavigate', async function({ detail }) {
       const folderId = detail.folderId;
       activeSearchRequest += 1;
-      updateBookmarkFolderState(!isDefaultFolder(folderId));
+      updateBookmarkFolderState(!isHomeLayout(folderId));
       if (hasSearch) {
         hasSearch = false;
         updateBookmarkSearchState(false);
       }
       vbHeader?.clearBookmarkSearch();
 
-      await createSpeedDial(folderId);
-
       // Save the ID of the last opened folder
       localStorage.setItem(LAST_OPENED_FOLDER_ID, folderId);
+
+      await createSpeedDial(folderId);
+      if (getCurrentFolderId() !== String(folderId)) return;
 
       $customTrigger('changeFolder', container, {
         detail: { folderId },
@@ -322,9 +347,6 @@ const Bookmarks = (() => {
             'index': index
           }).catch(console.warn);
         }
-        if (isDefaultFolder() && !settings.$.home_manual_sort_initialized) {
-          await settings.updateKey('home_manual_sort_initialized', true);
-        }
       },
       onAdd({ item, target }) {
         const id = item.dataset.id;
@@ -391,7 +413,11 @@ const Bookmarks = (() => {
   }
 
   function isDefaultFolder(folderId = startFolder()) {
-    return String(folderId) === String(settings.defaultFolderId);
+    return allowsIndividualAppearance(settings.$, folderId, settings.defaultFolderId);
+  }
+
+  function isHomeLayout(folderId = startFolder()) {
+    return usesHomeLayout(settings.$, folderId, settings.defaultFolderId);
   }
 
   function canUseThumbnail(bookmark) {
@@ -404,15 +430,18 @@ const Bookmarks = (() => {
 
   function genBookmark(bookmark, usageCount = null) {
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
-    const thumbnailSource = resolveThumbnailSource(thumbnail, settings.$.thumbnail_source);
+    const limited = settings.$.show_last_opened_folder;
+    const thumbnailSource = limited ? 'favicon' : resolveThumbnailSource(thumbnail, settings.$.thumbnail_source);
     const useStoredImage = canUseStoredThumbnail(thumbnail, thumbnailSource) && (
       thumbnailSource !== 'favicon'
       || shouldDownloadFavicon(thumbnail, settings.$.download_favicons_by_default)
     );
-    const image = useStoredImage ? thumbnail?.blobUrl : null;
-    const custom = thumbnail?.custom || false;
-    const thumbnailSize = getStoredThumbnailSize(thumbnail);
-    const textPreferences = getTextPreferences(bookmark.id);
+    const image = limited
+      ? (settings.$.download_favicons_by_default ? faviconCache.get(bookmark.url) : null)
+      : (useStoredImage ? thumbnail?.blobUrl : null);
+    const custom = !limited && (thumbnail?.custom || false);
+    const thumbnailSize = limited ? null : getStoredThumbnailSize(thumbnail);
+    const textPreferences = limited ? {} : getTextPreferences(bookmark.id);
 
     const vbBookmark = document.createElement('a', { is: 'vb-bookmark' });
     Object.assign(vbBookmark, {
@@ -647,9 +676,11 @@ const Bookmarks = (() => {
     dialLoading.hidden = false;
     clearContainer();
 
-    const isHomeFolder = isDefaultFolder();
-    const usageCounts = getBookmarkUsageCounts();
+    const isHomeFolder = isHomeLayout();
+    const limited = settings.$.show_last_opened_folder;
+    const usageCounts = limited ? {} : getBookmarkUsageCounts();
     const showUsageCount = isHomeFolder
+      && !limited
       && !options.isSearch
       && settings.$.home_sort_by === 'usage'
       && settings.$.show_usage_count;
@@ -665,7 +696,7 @@ const Bookmarks = (() => {
 
     const [thumbnails, textPreferences] = await Promise.all([
       ImageDB.getAllByIds(bookmarksIds),
-      getBookmarkTextPreferences(bookmarksArr.map(bookmark => bookmark.id))
+      limited ? new Map() : getBookmarkTextPreferences(bookmarksArr.map(bookmark => bookmark.id))
     ]);
     if (!isCurrentRenderRequest(requestId)) return;
     TEXT_PREFERENCES_MAP.clear();
@@ -711,12 +742,14 @@ const Bookmarks = (() => {
     }
 
     container.appendChild(fragment);
-    if (isHomeFolder) {
+    if (limited) {
+      refreshLimitedFavicons(bookmarksArr).catch(console.warn);
+    } else if (isHomeFolder) {
       downloadMissingFavicons(bookmarksArr).catch(error => console.warn(error));
       captureMissingSiteThumbnails(bookmarksArr).catch(error => console.warn(error));
     }
 
-    if (isHomeFolder && settings.$.thumbnails_auto_refresh) {
+    if (!limited && isHomeFolder && settings.$.thumbnails_auto_refresh) {
       const staleThumbnails = thumbnails.filter(thumbnail => {
         const source = resolveThumbnailSource(thumbnail, settings.$.thumbnail_source);
         return canUseStoredThumbnail(thumbnail, source)
@@ -728,7 +761,7 @@ const Bookmarks = (() => {
     }
 
     const hasBack = container.dataset?.parentFolder
-      && startFolder() !== String(settings.defaultFolderId)
+      && (limited || startFolder() !== String(settings.defaultFolderId))
       && settings.$.show_back_column;
 
     if (hasBack) {
@@ -765,8 +798,8 @@ const Bookmarks = (() => {
   function createSpeedDial(id) {
     const requestId = beginRenderRequest();
     const canDrag = settings.$.drag_and_drop && (
-      isDefaultFolder(id)
-        ? settings.$.home_sort_by === 'manual'
+      isHomeLayout(id)
+        ? effectiveHomeSort(settings.$) === 'manual'
         : settings.$.navigation_sort_by === ''
     );
     container.sortInstance?.toggleDisable(!canDrag);
@@ -779,6 +812,7 @@ const Bookmarks = (() => {
         }
 
         // folder by id exists
+        if (String(id) === getCurrentFolderId()) localStorage.setItem(LAST_OPENED_FOLDER_ID, id);
         container.setAttribute('data-folder', id);
         if (item[0].parentId && !ROOT_FOLDERS.includes(item[0].parentId)) {
           container.setAttribute('data-parent-folder', item[0].parentId);
@@ -788,8 +822,25 @@ const Bookmarks = (() => {
 
         return render(item[0].children, settings.$.show_create_column, {}, requestId);
       })
-      .catch(() => {
+      .catch(async() => {
         if (!isCurrentRenderRequest(requestId)) return;
+        // A successful tree read distinguishes a deleted folder from an API failure.
+        const tree = await getThree().catch(() => null);
+        if (!isCurrentRenderRequest(requestId)) return;
+        if (tree && !findFolder(tree, id)) {
+          const fallback = tree.find(item => item.folderType === 'bookmarks-bar')?.id
+            || DEFAULT_BOOKMARKS_FOLDER;
+          if (String(id) !== String(fallback) && findFolder(tree, fallback)) {
+            if (!settings.$.show_last_opened_folder && !findFolder(tree, settings.defaultFolderId)) {
+              await updateDefaultFolder(settings, fallback);
+              setDefaultFolder(fallback);
+            }
+            if (!isCurrentRenderRequest(requestId)) return;
+            localStorage.setItem(LAST_OPENED_FOLDER_ID, fallback);
+            navigateToFolder(fallback);
+            return;
+          }
+        }
         Toast.show(getMessage('notice_cant_find_id'));
         container.innerHTML = /* html */
             `<div class="not-found">
@@ -943,6 +994,10 @@ const Bookmarks = (() => {
   }
 
   function autoUpdateThumb() {
+    if (settings.$.show_last_opened_folder) {
+      if (isGeneratedThumbs || !settings.$.download_favicons_by_default) return;
+      return getSubTree(startFolder()).then(items => refreshLimitedFavicons(items[0].children, true));
+    }
     if (isGeneratedThumbs || !isDefaultFolder()) return;
     const id = String(settings.defaultFolderId);
     getSubTree(id)
@@ -997,7 +1052,7 @@ const Bookmarks = (() => {
         ...(settings.$.move_to_start && { index: 0 })
       })
         .then(async() => {
-          if (!isDefaultFolder(destinationId)) {
+          if (!settings.$.show_last_opened_folder && !isDefaultFolder(destinationId)) {
             await removeThumbnail(bookmark.id, bookmark.isFolder);
           }
           $customTrigger('updateFolderList', document);
@@ -1289,6 +1344,38 @@ const Bookmarks = (() => {
     bookmark.thumbnailSize = thumbnailSize;
     bookmark.isCustomImage = false;
     bookmark.image = null;
+  }
+
+  async function refreshLimitedFavicons(bookmarks, force = false) {
+    if (!settings.$.show_last_opened_folder || !settings.$.download_favicons_by_default) return;
+    if (!await containsPermissions({ origins: ['<all_urls>'] })) return;
+    if (force) {
+      isGeneratedThumbs = true;
+      $customTrigger('thumbnails:updating', container);
+    }
+    try {
+      for (const item of bookmarks) {
+        if (!settings.$.show_last_opened_folder || !settings.$.download_favicons_by_default) break;
+        if (!item.url || !validateThumbnailRequest(item.url, 'favicon').success) continue;
+        if (force || !faviconCache.has(item.url)) {
+          const response = await requestRemoteThumbnail(item.id, item.url, {
+            source: 'favicon', temporary: true
+          });
+          // Bound the page-local cache; never overwrite an individual image in ImageDB.
+          if (faviconCache.size >= 64) faviconCache.delete(faviconCache.keys().next().value);
+          faviconCache.set(item.url, response?.success ? response.image : null);
+          if (force && !response?.success) showThumbnailError(response, { operation: 'favicon', url: item.url });
+        }
+        const node = document.getElementById(`vb-${item.id}`);
+        if (settings.$.show_last_opened_folder && settings.$.download_favicons_by_default
+          && node?.url === item.url) node.image = faviconCache.get(item.url);
+      }
+    } finally {
+      if (force) {
+        isGeneratedThumbs = false;
+        $customTrigger('thumbnails:updated', container);
+      }
+    }
   }
 
   async function downloadMissingFavicons(bookmarks) {
@@ -1769,7 +1856,7 @@ const Bookmarks = (() => {
         ...(settings.$.move_to_start && { index: 0 })
       };
       await move(id, destination);
-      if (!isDefaultFolder(moveId)) {
+      if (!settings.$.show_last_opened_folder && !isDefaultFolder(moveId)) {
         await removeThumbnail(id, !result.url);
       }
       $customTrigger('updateFolderList', document);
@@ -1790,6 +1877,7 @@ const Bookmarks = (() => {
   }
 
   async function setTextPreferences(bookmark, preferences) {
+    if (settings.$.show_last_opened_folder) return;
     const normalized = await setBookmarkTextPreference(bookmark.id, preferences);
     if (Object.keys(normalized).length) {
       TEXT_PREFERENCES_MAP.set(String(bookmark.id), normalized);
@@ -1803,10 +1891,21 @@ const Bookmarks = (() => {
 
   return {
     init,
-    refresh: () => createSpeedDial(startFolder()),
+    refresh: () => {
+      updateBookmarkFolderState(!isHomeLayout());
+      vbHeader?.hashchange();
+      return createSpeedDial(startFolder());
+    },
+    applyFolderMode: () => {
+      vbHeader?.clearBookmarkSearch();
+      vbHeader?.hashchange();
+      updateBookmarkFolderState(!isHomeLayout());
+      return resetBookmarkSearch();
+    },
     refreshCurrentView,
     setHeaderVisibility,
     setDefaultFolder,
+    ensureDefaultFolder,
     createBookmark,
     updateBookmark,
     removeFromBrowser,
@@ -1830,7 +1929,8 @@ const Bookmarks = (() => {
     updateSelectedThumbnails,
     moveSelectedBookmarks,
     checkHostPermissions,
-    isDefaultFolder
+    isDefaultFolder,
+    isHomeLayout
   };
 })();
 
