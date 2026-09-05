@@ -310,7 +310,7 @@
     "message": "Miniatura do favorito atualizada"
   },
   "notice_thumbnail_updating": {
-    "message": "Updating thumbnail..."
+    "message": "Atualizando miniatura..."
   },
   "notice_bookmark_exist": {
     "message": "O favorito já existe"
@@ -954,7 +954,7 @@
     "message": "Mostrar última pasta aberta"
   },
   "show_last_opened_folder_note": {
-    "message": "Reopens the last visited folder on this device when the tab is refreshed. Global display settings apply to all folders. Only website icons are available; individual bookmark appearance, website screenshots, and sorting by usage are unavailable. The selected folder is not synced to the cloud and is set separately on each device."
+    "message": "Reabre a última pasta visitada neste dispositivo quando a aba é atualizada. As configurações globais de exibição se aplicam a todas as pastas. Apenas ícones de sites estão disponíveis; a aparência individual dos favoritos, capturas de tela de sites e a ordenação por uso não estão disponíveis. A pasta selecionada não é sincronizada com a nuvem e é definida separadamente em cada dispositivo."
   },
   "history_back": {
     "message": "Volte"

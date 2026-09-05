@@ -310,7 +310,7 @@
     "message": "书签缩略图已更新"
   },
   "notice_thumbnail_updating": {
-    "message": "Updating thumbnail..."
+    "message": "正在更新缩略图..."
   },
   "notice_bookmark_exist": {
     "message": "书签已存在"
@@ -954,7 +954,7 @@
     "message": "显示上次打开的文件夹"
   },
   "show_last_opened_folder_note": {
-    "message": "Reopens the last visited folder on this device when the tab is refreshed. Global display settings apply to all folders. Only website icons are available; individual bookmark appearance, website screenshots, and sorting by usage are unavailable. The selected folder is not synced to the cloud and is set separately on each device."
+    "message": "刷新标签页时，会重新打开此设备上最后访问的文件夹。全局显示设置会应用到所有文件夹。只有网站图标可用；单独的书签外观、网站截图和按使用情况排序不可用。所选文件夹不会同步到云端，并且需要在每台设备上单独设置。"
   },
   "history_back": {
     "message": "回去"

@@ -310,7 +310,7 @@
     "message": "ブックマークのサムネイルが更新されました"
   },
   "notice_thumbnail_updating": {
-    "message": "Updating thumbnail..."
+    "message": "サムネイルを更新中..."
   },
   "notice_bookmark_exist": {
     "message": "ブックマークはすでに存在します"
@@ -954,7 +954,7 @@
     "message": "最後に開いたフォルダーを表示"
   },
   "show_last_opened_folder_note": {
-    "message": "Reopens the last visited folder on this device when the tab is refreshed. Global display settings apply to all folders. Only website icons are available; individual bookmark appearance, website screenshots, and sorting by usage are unavailable. The selected folder is not synced to the cloud and is set separately on each device."
+    "message": "タブを更新すると、このデバイスで最後に開いたフォルダーを再び開きます。グローバルな表示設定はすべてのフォルダーに適用されます。利用できるのはウェブサイトのアイコンのみで、個別のブックマークの外観、ウェブサイトのスクリーンショット、使用頻度順の並べ替えは利用できません。選択したフォルダーはクラウドに同期されず、デバイスごとに個別に設定されます。"
   },
   "history_back": {
     "message": "戻る"

@@ -310,7 +310,7 @@
     "message": "書籤縮圖已更新"
   },
   "notice_thumbnail_updating": {
-    "message": "Updating thumbnail..."
+    "message": "正在更新縮圖..."
   },
   "notice_bookmark_exist": {
     "message": "書籤已存在"
@@ -954,7 +954,7 @@
     "message": "顯示上次開啟的資料夾"
   },
   "show_last_opened_folder_note": {
-    "message": "Reopens the last visited folder on this device when the tab is refreshed. Global display settings apply to all folders. Only website icons are available; individual bookmark appearance, website screenshots, and sorting by usage are unavailable. The selected folder is not synced to the cloud and is set separately on each device."
+    "message": "重新整理分頁時，會重新開啟此裝置上最後造訪的資料夾。全域顯示設定會套用至所有資料夾。僅可使用網站圖示；個別書籤外觀、網站螢幕截圖和依使用情況排序無法使用。所選資料夾不會同步到雲端，且必須在每台裝置上分別設定。"
   },
   "history_back": {
     "message": "回去"

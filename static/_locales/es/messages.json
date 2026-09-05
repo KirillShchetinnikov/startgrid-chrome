@@ -310,7 +310,7 @@
     "message": "Miniatura del marcador actualizada"
   },
   "notice_thumbnail_updating": {
-    "message": "Updating thumbnail..."
+    "message": "Actualizando miniatura..."
   },
   "notice_bookmark_exist": {
     "message": "El marcador ya existe"
@@ -954,7 +954,7 @@
     "message": "Mostrar la última carpeta abierta"
   },
   "show_last_opened_folder_note": {
-    "message": "Reopens the last visited folder on this device when the tab is refreshed. Global display settings apply to all folders. Only website icons are available; individual bookmark appearance, website screenshots, and sorting by usage are unavailable. The selected folder is not synced to the cloud and is set separately on each device."
+    "message": "Al actualizar la pestaña, vuelve a abrir la última carpeta visitada en este dispositivo. La configuración de visualización global se aplica a todas las carpetas. Solo están disponibles los iconos de sitios web; no están disponibles la apariencia individual de los marcadores, las capturas de sitios web ni la ordenación por uso. La carpeta seleccionada no se sincroniza con la nube y se configura por separado en cada dispositivo."
   },
   "history_back": {
     "message": "Volver"

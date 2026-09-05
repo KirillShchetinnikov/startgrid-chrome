@@ -310,7 +310,7 @@
     "message": "Vignette du favori mise à jour"
   },
   "notice_thumbnail_updating": {
-    "message": "Updating thumbnail..."
+    "message": "Mise à jour de la miniature..."
   },
   "notice_bookmark_exist": {
     "message": "Le favori existe déjà"
@@ -954,7 +954,7 @@
     "message": "Afficher le dernier dossier ouvert"
   },
   "show_last_opened_folder_note": {
-    "message": "Reopens the last visited folder on this device when the tab is refreshed. Global display settings apply to all folders. Only website icons are available; individual bookmark appearance, website screenshots, and sorting by usage are unavailable. The selected folder is not synced to the cloud and is set separately on each device."
+    "message": "Rouvre le dernier dossier visité sur cet appareil lors de l’actualisation de l’onglet. Les paramètres d’affichage globaux s’appliquent à tous les dossiers. Seules les icônes des sites web sont disponibles ; l’apparence individuelle des favoris, les captures d’écran des sites web et le tri par utilisation ne sont pas disponibles. Le dossier sélectionné n’est pas synchronisé avec le cloud et est défini séparément sur chaque appareil."
   },
   "history_back": {
     "message": "Retourner"
