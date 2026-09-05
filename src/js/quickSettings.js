@@ -1,4 +1,12 @@
 export const QUICK_SETTING_KEYS = Object.freeze([
+  'drag_and_drop',
+  'home_sort_by',
+  'home_sort_date_direction',
+  'home_sort_alphabet_direction',
+  'home_sort_usage_tiebreaker',
+  'show_usage_count',
+  'show_home_folders',
+  'bookmarks_sorting_type',
   'color_theme',
   'background_image',
   'background_color',

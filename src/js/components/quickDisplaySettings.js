@@ -25,6 +25,14 @@ import {
 } from '../backgroundFileValidation';
 
 const RERENDER_SETTINGS = new Set([
+  'drag_and_drop',
+  'home_sort_by',
+  'home_sort_date_direction',
+  'home_sort_alphabet_direction',
+  'home_sort_usage_tiebreaker',
+  'show_usage_count',
+  'show_home_folders',
+  'bookmarks_sorting_type',
   'show_create_column',
   'show_back_column',
   'show_bookmark_title',
@@ -106,6 +114,52 @@ function createPanel() {
     </label>
     ${createSwitch('show_last_opened_folder')}
     <p class="quick-settings__hint">${message('show_last_opened_folder_note')}</p>`;
+
+  const sorting = /* html */`
+    ${createSwitch('drag_and_drop')}
+    <label class="quick-settings__field" for="quick_home_sort_by">
+      <span>${message('home_sort_by')}</span>
+      <select class="form-control" id="quick_home_sort_by" data-setting="home_sort_by">
+        <option value="manual">${message('manual_sorting')}</option>
+        <option value="date">${message('sort_by_date')}</option>
+        <option value="alphabet">${message('sort_by_alphabet')}</option>
+        <option value="usage">${message('sort_by_usage')}</option>
+      </select>
+    </label>
+    <label class="quick-settings__field" for="quick_home_sort_date_direction"
+      data-quick-sort-mode="date" hidden>
+      <span>${message('sort_direction')}</span>
+      <select class="form-control" id="quick_home_sort_date_direction" data-setting="home_sort_date_direction">
+        <option value="desc">${message('newest_first')}</option>
+        <option value="asc">${message('oldest_first')}</option>
+      </select>
+    </label>
+    <label class="quick-settings__field" for="quick_home_sort_alphabet_direction"
+      data-quick-sort-mode="alphabet" hidden>
+      <span>${message('sort_direction')}</span>
+      <select class="form-control" id="quick_home_sort_alphabet_direction" data-setting="home_sort_alphabet_direction">
+        <option value="desc">${message('alphabet_descending')}</option>
+        <option value="asc">${message('alphabet_ascending')}</option>
+      </select>
+    </label>
+    <label class="quick-settings__field" for="quick_home_sort_usage_tiebreaker"
+      data-quick-sort-mode="usage" hidden>
+      <span>${message('usage_tiebreaker')}</span>
+      <select class="form-control" id="quick_home_sort_usage_tiebreaker" data-setting="home_sort_usage_tiebreaker">
+        <option value="alphabet">${message('sort_by_alphabet')}</option>
+        <option value="date">${message('sort_by_date')}</option>
+      </select>
+    </label>
+    ${createSwitch('show_usage_count', 'data-quick-sort-mode="usage" hidden')}
+    ${createSwitch('show_home_folders')}
+    <label class="quick-settings__field" for="quick_bookmarks_sorting_type">
+      <span>${message('bookmarks_sorting_type')}</span>
+      <select class="form-control" id="quick_bookmarks_sorting_type" data-setting="bookmarks_sorting_type">
+        <option value="together">${message('folders_together')}</option>
+        <option value="folders_top">${message('folders_on_top')}</option>
+        <option value="folders_bottom">${message('folders_at_the_bottom')}</option>
+      </select>
+    </label>`;
 
   const pageAndBackground = /* html */`
     <label class="quick-settings__field" for="quick_color_theme">
@@ -368,6 +422,7 @@ function createPanel() {
       </header>
       <div class="quick-settings__controls">
         ${createGroup('start', message('settings_group_start'), startPage)}
+        ${createGroup('sorting', message('settings_group_sorting'), sorting)}
         ${createGroup('page', message('settings_group_page'), pageAndBackground)}
         ${createGroup('grid', message('settings_group_grid'), grid)}
         ${createGroup('tile-style', message('settings_group_tile_style'), tileAppearance)}
@@ -449,6 +504,15 @@ export default function initQuickDisplaySettings({
           && !settings.$[field.dataset.quickColorReset];
         field.disabled = disabled || hasNoCustomColor;
       });
+    });
+  }
+
+  function syncSortingControls() {
+    const sortMode = settings.$.home_sort_by;
+    panel.querySelectorAll('[data-quick-sort-mode]').forEach(control => {
+      const setting = control.querySelector('[data-setting]')?.dataset.setting;
+      control.hidden = control.dataset.quickSortMode !== sortMode
+        || FULL_MODE_SETTINGS.includes(setting) && settings.$.show_last_opened_folder;
     });
   }
 
@@ -629,6 +693,7 @@ export default function initQuickDisplaySettings({
     syncToolbarBackgroundControls();
     syncBackgroundControls();
     syncDefaultFolderControls();
+    syncSortingControls();
   }
 
   function togglePanel(force, restoreFocus = true) {
@@ -731,6 +796,9 @@ export default function initQuickDisplaySettings({
     } else if (key === 'show_last_opened_folder') {
       syncDefaultFolderControls();
       await onFolderModeChange();
+    } else if (key === 'home_sort_by') {
+      syncSortingControls();
+      await onRerender();
     } else if (key === 'show_extension_icon') {
       onExtensionIconVisibilityChange(Boolean(value));
       UI.calculateStyles();

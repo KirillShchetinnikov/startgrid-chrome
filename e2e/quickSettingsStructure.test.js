@@ -5,12 +5,13 @@ describe('quick settings structure', () => {
   const source = readFileSync('src/js/components/quickDisplaySettings.js', 'utf8');
   const styles = readFileSync('src/css/components/_quick-settings.css', 'utf8');
 
-  it('groups controls into six stable sections', () => {
+  it('groups controls into seven stable sections', () => {
     const groups = [...source.matchAll(/createGroup\('([^']+)'/g)]
       .map(match => match[1]);
 
     expect(groups).toEqual([
       'start',
+      'sorting',
       'page',
       'grid',
       'tile-style',
@@ -19,6 +20,36 @@ describe('quick settings structure', () => {
     ]);
     expect(source).toContain('<details class="quick-settings__group"');
     expect(source).toContain('<summary class="quick-settings__group-summary">');
+  });
+
+  it('includes every sorting control and reveals only the active mode details', () => {
+    const resetKeys = readFileSync('src/js/quickSettings.js', 'utf8');
+
+    [
+      'drag_and_drop',
+      'home_sort_by',
+      'home_sort_date_direction',
+      'home_sort_alphabet_direction',
+      'home_sort_usage_tiebreaker',
+      'show_usage_count',
+      'show_home_folders',
+      'bookmarks_sorting_type'
+    ].forEach(key => {
+      const renderedAsSwitch = [
+        'drag_and_drop',
+        'show_usage_count',
+        'show_home_folders'
+      ].includes(key);
+      expect(source).toContain(renderedAsSwitch
+        ? `createSwitch('${key}'`
+        : `data-setting="${key}"`);
+    });
+    expect(source).toContain('data-quick-sort-mode="date"');
+    expect(source).toContain('data-quick-sort-mode="alphabet"');
+    expect(source).toContain('data-quick-sort-mode="usage"');
+    expect(source).toContain('function syncSortingControls()');
+    expect(source).toContain("key === 'home_sort_by'");
+    expect(resetKeys).toContain("'bookmarks_sorting_type'");
   });
 
   it('offers default and last-opened folder controls without resetting them', () => {
