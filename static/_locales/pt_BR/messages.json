@@ -173,43 +173,43 @@
     "message": "Erro inesperado na miniatura"
   },
   "thumbnail_error_reason_invalid_url": {
-    "message": "The address could not be recognized as a valid URL."
+    "message": "Não foi possível reconhecer o endereço como um URL válido."
   },
   "thumbnail_error_reason_unsupported_scheme": {
-    "message": "Only regular HTTP and HTTPS websites can be downloaded or captured. The Chrome favicon cache remains available."
+    "message": "Somente sites HTTP e HTTPS comuns podem ser baixados ou capturados. O cache de ícones do Chrome continua disponível."
   },
   "thumbnail_error_reason_protected_page": {
-    "message": "Chrome prevents extensions from reading protected browser and Chrome Web Store pages. The Chrome favicon cache remains available."
+    "message": "O Chrome impede extensões de ler páginas protegidas do navegador e da Chrome Web Store. O cache de ícones do Chrome continua disponível."
   },
   "thumbnail_error_reason_permission": {
-    "message": "StartGrid does not have permission to access this website."
+    "message": "O StartGrid não tem permissão para acessar este site."
   },
   "thumbnail_error_reason_network": {
-    "message": "The browser blocked the request, the connection failed, or the website is unavailable."
+    "message": "O navegador bloqueou a solicitação, a conexão falhou ou o site está indisponível."
   },
   "thumbnail_error_reason_http": {
-    "message": "The website rejected the request or returned an unsuccessful response."
+    "message": "O site recusou a solicitação ou retornou uma resposta sem sucesso."
   },
   "thumbnail_error_reason_not_image": {
-    "message": "The specified address returned another content type instead of an image."
+    "message": "O endereço informado retornou outro tipo de conteúdo em vez de uma imagem."
   },
   "thumbnail_error_reason_no_favicon": {
-    "message": "The page did not advertise a usable icon and /favicon.ico was unavailable."
+    "message": "A página não informou um ícone utilizável e /favicon.ico não estava disponível."
   },
   "thumbnail_error_reason_timeout": {
-    "message": "The website did not finish responding within the allowed time."
+    "message": "O site não concluiu a resposta dentro do tempo permitido."
   },
   "thumbnail_error_reason_runtime": {
-    "message": "The background process stopped or did not return a valid response."
+    "message": "O processo em segundo plano parou ou não retornou uma resposta válida."
   },
   "thumbnail_error_reason_storage": {
-    "message": "The downloaded image could not be saved locally. The previous thumbnail is unchanged."
+    "message": "Não foi possível salvar a imagem baixada localmente. A miniatura anterior não foi alterada."
   },
   "thumbnail_error_reason_capture": {
-    "message": "The page could not be opened, prepared, or captured by Chrome."
+    "message": "O Chrome não conseguiu abrir, preparar ou capturar a página."
   },
   "thumbnail_error_reason_unknown": {
-    "message": "The operation failed for an unexpected reason. The previous thumbnail is unchanged."
+    "message": "A operação falhou por um motivo inesperado. A miniatura anterior não foi alterada."
   },
   "notice_background_save_failed": {
     "message": "Não foi possível salvar a imagem de fundo selecionada. A imagem anterior foi mantida. Tente novamente."
