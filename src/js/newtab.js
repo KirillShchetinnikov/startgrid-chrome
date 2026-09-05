@@ -39,7 +39,7 @@ import { validateThumbnailRequest } from './api/thumbnailErrors';
 import { showThumbnailError } from './thumbnailErrorNotice';
 import { makeModalAccessible } from './accessibleModal';
 import { containsPermissions } from './api/permissions';
-import { getCurrentFolderId, navigateToFolder } from './folderNavigation';
+import { getCurrentFolderId, navigateHome, navigateToFolder } from './folderNavigation';
 import initQuickDisplaySettings from './components/quickDisplaySettings';
 import { updateMainPageScrollLock } from './mainPageScroll';
 import { storage } from './api/storage';
@@ -96,6 +96,15 @@ let lastSelectedBookmark = null;
 let isGenerateThumbs = false;
 let modalApi;
 let generateThumbsBtn = null;
+
+function setThumbnailUpdateButtonActive(active) {
+  if (!generateThumbsBtn) return;
+  generateThumbsBtn.disabled = active;
+  generateThumbsBtn.classList.toggle('is-active', active);
+  generateThumbsBtn.setAttribute('aria-busy', String(active));
+  generateThumbsBtn.setAttribute('aria-pressed', String(active));
+}
+
 let pendingThumbnailBlob = null;
 let pendingThumbnailSource = null;
 let quickSettingsApi = null;
@@ -274,6 +283,10 @@ async function init() {
     container: asideControlsNode,
     showTrigger: settings.$.show_quick_settings_icon,
     onRerender: () => Bookmarks.refresh(),
+    onDefaultFolderChange: folderId => {
+      Bookmarks.setDefaultFolder(folderId);
+      navigateHome(folderId, true);
+    },
     onExtensionIconVisibilityChange: updateExtensionIconVisibility,
     onHeaderVisibilityChange: visibility => Bookmarks.setHeaderVisibility(visibility)
   });
@@ -303,6 +316,8 @@ async function init() {
     generateThumbsBtn = $createElement('button', {
       class: 'circ-btn update-thumbnails',
       'aria-label': thumbnailsUpdateLabel,
+      'aria-busy': 'false',
+      'aria-pressed': 'false',
       title: thumbnailsUpdateLabel
     }, {
       html: `<svg width="20" height="20"><use xlink:href="/img/symbol.svg#capture_fill"/></svg>`
@@ -315,16 +330,16 @@ async function init() {
     // Reset the flag when you close the window
     if (localStorage.getItem('update_thumbnails') === 'true') {
       // if the storage has a launch flag for generating thumbnails, disable button
-      generateThumbsBtn.disabled = true;
+      setThumbnailUpdateButtonActive(true);
     }
     container.addEventListener('thumbnails:updating', function() {
       isGenerateThumbs = true;
-      generateThumbsBtn.disabled = true;
+      setThumbnailUpdateButtonActive(true);
       localStorage.setItem('update_thumbnails', true);
     });
     container.addEventListener('thumbnails:updated', function() {
       isGenerateThumbs = false;
-      generateThumbsBtn.disabled = false;
+      setThumbnailUpdateButtonActive(false);
       localStorage.removeItem('update_thumbnails');
     });
     generateThumbsBtn.addEventListener('click', handleGenerateThumbs);
@@ -579,7 +594,7 @@ function handlePagehide() {
 function handleUpdateStorage(e) {
   // If several tabs are open, on the rest of them we will update the attribute at the button
   if (e.key === 'update_thumbnails' && generateThumbsBtn) {
-    generateThumbsBtn.disabled = !!e.newValue;
+    setThumbnailUpdateButtonActive(Boolean(e.newValue));
   }
 }
 

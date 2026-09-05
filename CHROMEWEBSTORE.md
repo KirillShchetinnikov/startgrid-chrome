@@ -16,7 +16,7 @@ Customizable visual bookmarks on every new tab, using your existing Chrome bookm
 
 StartGrid replaces Chrome's new tab with a visual, customizable view of your existing bookmarks and folders.
 
-Organize, open, edit, move, and search bookmarks without creating a separate account. Choose the grid layout, theme, background, tile appearance, animations, thumbnail source, and search providers. Settings can be backed up as a JSON file and optionally synchronized with Chrome Sync.
+Organize, open, edit, move, and search bookmarks without creating a separate account. Use grouped quick settings to choose the start folder, grid layout, theme, background, tile appearance, and interface controls without leaving the new tab. Settings can be backed up as a JSON file and optionally synchronized with Chrome Sync.
 
 Open a new tab to use StartGrid. Select a folder, open a bookmark, or use the search bar. Use the tile menu to edit a bookmark or its thumbnail, and open Settings to personalize the page.
 
@@ -47,7 +47,7 @@ English
 
 ### Screenshot Notes
 
-Show a populated new-tab grid with the folder picker and search bar, then a settings page demonstrating visual customization and thumbnail controls.
+Show a populated new-tab grid with the folder picker and search bar, a new-tab view with the redesigned grouped quick-settings panel open, then the full settings page demonstrating visual customization and thumbnail controls.
 
 ## Permissions Justification
 
@@ -112,7 +112,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| 2.0.0 | 2026-09-04 | Improved file backup, background personalization with complete quick controls and explicit URL background actions, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
+| 2.0.0 | 2026-09-05 | Improved file backup, grouped quick settings with start-folder controls, background personalization with explicit URL actions, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
 
 ## Review Notes
 

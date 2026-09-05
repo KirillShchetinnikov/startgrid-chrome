@@ -114,6 +114,12 @@ const Bookmarks = (() => {
     vbHeader.setSectionVisibility({ showSearch, showFolderPicker });
   }
 
+  function setDefaultFolder(folderId) {
+    if (!vbHeader) return;
+    vbHeader.initialFolderId = String(folderId);
+    vbHeader.setAttribute('initial-folder-id', String(folderId));
+  }
+
   async function init() {
     // screen sizes needed for the service worker
     storage.local.set({
@@ -1800,6 +1806,7 @@ const Bookmarks = (() => {
     refresh: () => createSpeedDial(startFolder()),
     refreshCurrentView,
     setHeaderVisibility,
+    setDefaultFolder,
     createBookmark,
     updateBookmark,
     removeFromBrowser,

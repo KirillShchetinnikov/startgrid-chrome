@@ -7,6 +7,9 @@ import { updateMainPageScrollLock } from '../mainPageScroll';
 import { cssColorToHex } from '../tileAppearance';
 import { QUICK_SETTING_KEYS } from '../quickSettings';
 import { scaleTileContentSettings } from '../tileSizeSync';
+import { getFolders } from '../api/bookmark';
+import { updateDefaultFolder } from '../defaultFolderSettings';
+import { renderFolderOptions, replaceFolderOptions } from './vb-select';
 import { requestPermissions } from '../api/permissions';
 import ImageDB from '../api/imageDB';
 import { canLoadBackgroundImageURL, normalizeBackgroundImageURL } from '../backgroundUrlValidation';
@@ -63,9 +66,9 @@ function message(id, substitutions) {
   return getMessage(id, substitutions);
 }
 
-function createSwitch(id) {
+function createSwitch(id, attributes = '') {
   return /* html */`
-    <label class="quick-settings__switch-row" for="quick_${id}">
+    <label class="quick-settings__switch-row" for="quick_${id}" ${attributes}>
       <span>${message(id)}</span>
       <span class="switch">
         <input class="switch__input" id="quick_${id}" type="checkbox" data-setting="${id}">
@@ -74,267 +77,300 @@ function createSwitch(id) {
     </label>`;
 }
 
+function createGroup(id, title, content, open = false) {
+  return /* html */`
+    <details class="quick-settings__group" data-quick-group="${id}"${open ? ' open' : ''}>
+      <summary class="quick-settings__group-summary">
+        <span class="quick-settings__group-marker" aria-hidden="true"></span>
+        <span>${title}</span>
+        <span class="quick-settings__group-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="quick-settings__group-content">${content}</div>
+    </details>`;
+}
+
 function createPanel() {
   const columns = Array.from({ length: 10 }, (_, index) => {
     const value = index + 1;
     return `<option value="${value}">${value}</option>`;
   }).join('');
 
+  const startPage = /* html */`
+    <label class="quick-settings__field quick-settings__field--stacked" for="quick_default_folder_id">
+      <span>${message('default_folder_id')}</span>
+      <select class="form-control" id="quick_default_folder_id" data-quick-default-folder disabled>
+        <option>${message('select_folder')}</option>
+      </select>
+    </label>
+    ${createSwitch('show_last_opened_folder')}`;
+
+  const pageAndBackground = /* html */`
+    <label class="quick-settings__field" for="quick_color_theme">
+      <span>${message('color_theme')}</span>
+      <select class="form-control" id="quick_color_theme" data-setting="color_theme">
+        <option value="dark">${message('dark_theme')}</option>
+        <option value="light">${message('light_theme')}</option>
+        <option value="os">${message('os_theme')}</option>
+      </select>
+    </label>
+    <label class="quick-settings__field" for="quick_background_image">
+      <span>${message('background')}</span>
+      <select class="form-control" id="quick_background_image" data-setting="background_image">
+        <option value="background_noimage">${message('background_noimage')}</option>
+        <option value="background_color">${message('color')}</option>
+        <option value="background_external">${message('background_external')}</option>
+        <option value="background_local">${message('background_local')}</option>
+        <option value="background_bing">${message('background_bing')}</option>
+      </select>
+    </label>
+    <div class="quick-settings__background-settings">
+      <p class="quick-settings__background-note" data-quick-background-setting="background_noimage" hidden>
+        ${message('background_noimage_text')}
+      </p>
+      <label class="quick-settings__field" data-quick-background-setting="background_color"
+        for="quick_background_color" hidden>
+        <span>${message('color')}</span>
+        <input id="quick_background_color" type="color" data-setting="background_color">
+      </label>
+      <section class="quick-settings__background-external"
+        data-quick-background-setting="background_external" hidden>
+        <label for="quick_background_external">${message('background_external')}</label>
+        <input class="form-control" id="quick_background_external" type="url" required
+          autocomplete="url" spellcheck="false" aria-describedby="quick_background_external_note">
+        <small id="quick_background_external_note">${message('background_external_note')}</small>
+        <div class="quick-settings__background-actions">
+          <button class="btn md-ripple" type="button" data-quick-background-external-set>
+            ${message('btn_apply')}
+          </button>
+          <button class="btn btn--clear md-ripple" type="button" data-quick-background-external-remove disabled>
+            ${message('contextmenu_remove')}
+          </button>
+        </div>
+      </section>
+      <section class="quick-settings__background-local" data-quick-background-setting="background_local" hidden>
+        <div>
+          <strong>${message('background_local')}</strong>
+          <small>${message('background_local_video_note')}</small>
+        </div>
+        <div class="quick-settings__background-actions">
+          <button class="btn md-ripple" type="button" data-quick-background-upload>
+            ${message('btn_open')}
+          </button>
+          <button class="btn btn--clear md-ripple" type="button" data-quick-background-remove disabled>
+            ${message('contextmenu_remove')}
+          </button>
+        </div>
+      </section>
+      <p class="quick-settings__background-note" data-quick-background-setting="background_bing" hidden>
+        ${message('background_bing_text')}
+      </p>
+      <section class="quick-settings__background-confirmation" data-quick-background-confirmation
+        aria-live="polite" hidden>
+        <p>${message('confirm_delete_image')}</p>
+        <div class="quick-settings__background-actions">
+          <button class="btn btn--clear md-ripple" type="button" data-quick-background-confirm-cancel>
+            ${message('btn_close')}
+          </button>
+          <button class="btn md-ripple" type="button" data-quick-background-confirm-remove>
+            ${message('contextmenu_remove')}
+          </button>
+        </div>
+      </section>
+    </div>`;
+
+  const grid = /* html */`
+    <label class="quick-settings__field" for="quick_dial_columns">
+      <span>${message('number_of_columns')}</span>
+      <select class="form-control" id="quick_dial_columns" data-setting="dial_columns">${columns}</select>
+    </label>
+    <label class="quick-settings__field quick-settings__field--range" for="quick_dial_width">
+      <span>${message('dial_width')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_dial_width" type="range" min="50" max="99" step="1"
+          data-setting="dial_width" data-unit="%">
+        <output id="quick_dial_width_value" for="quick_dial_width"></output>
+      </span>
+    </label>
+    <label class="quick-settings__field quick-settings__field--range" for="quick_dial_tile_size">
+      <span>${message('dial_tile_size')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_dial_tile_size" type="range" min="50" max="300" step="1"
+          data-setting="dial_tile_size" data-unit="px">
+        <output id="quick_dial_tile_size_value" for="quick_dial_tile_size"></output>
+      </span>
+    </label>
+    <label class="quick-settings__field quick-settings__field--range" for="quick_dial_horizontal_gap">
+      <span>${message('dial_horizontal_gap')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_dial_horizontal_gap" type="range" min="0" max="160" step="1"
+          data-setting="dial_horizontal_gap" data-unit="px">
+        <output id="quick_dial_horizontal_gap_value" for="quick_dial_horizontal_gap"></output>
+      </span>
+    </label>
+    <label class="quick-settings__field quick-settings__field--range" for="quick_dial_vertical_gap">
+      <span>${message('dial_vertical_gap')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_dial_vertical_gap" type="range" min="0" max="160" step="1"
+          data-setting="dial_vertical_gap" data-unit="px">
+        <output id="quick_dial_vertical_gap_value" for="quick_dial_vertical_gap"></output>
+      </span>
+    </label>
+    <label class="quick-settings__field" for="quick_dial_aspect_ratio">
+      <span>${message('dial_aspect_ratio')}</span>
+      <select class="form-control" id="quick_dial_aspect_ratio" data-setting="dial_aspect_ratio">
+        <option value="1 / 1">${message('dial_aspect_ratio_square')}</option>
+        <option value="4 / 3">${message('dial_aspect_ratio_standard')}</option>
+        <option value="3 / 2">${message('dial_aspect_ratio_photo')}</option>
+        <option value="16 / 9">${message('dial_aspect_ratio_wide')}</option>
+      </select>
+    </label>
+    ${createSwitch('vertical_center')}
+    ${createSwitch('disable_main_page_scroll')}`;
+
+  const tileAppearance = /* html */`
+    <label class="quick-settings__field quick-settings__field--range" for="quick_dial_radius">
+      <span>${message('dial_radius')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_dial_radius" type="range" min="0" max="40" step="1"
+          data-setting="dial_radius" data-unit="px">
+        <output id="quick_dial_radius_value" for="quick_dial_radius"></output>
+      </span>
+    </label>
+    <label class="quick-settings__field quick-settings__field--range" for="quick_dial_shadow">
+      <span>${message('dial_shadow')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_dial_shadow" type="range" min="0" max="30" step="1"
+          data-setting="dial_shadow" data-unit="%">
+        <output id="quick_dial_shadow_value" for="quick_dial_shadow"></output>
+      </span>
+    </label>
+    <label class="quick-settings__field quick-settings__field--range" for="quick_dial_hover_lift">
+      <span>${message('dial_hover_lift')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_dial_hover_lift" type="range" min="0" max="12" step="1"
+          data-setting="dial_hover_lift" data-unit="px">
+        <output id="quick_dial_hover_lift_value" for="quick_dial_hover_lift"></output>
+      </span>
+    </label>
+    <label class="quick-settings__field quick-settings__field--range" for="quick_dial_background_opacity">
+      <span>${message('dial_background_opacity')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_dial_background_opacity" type="range" min="0" max="100" step="1"
+          data-setting="dial_background_opacity" data-unit="%">
+        <output id="quick_dial_background_opacity_value" for="quick_dial_background_opacity"></output>
+      </span>
+    </label>
+    ${createSwitch('dial_background_blur')}
+    <label class="quick-settings__field" for="quick_dial_background_color">
+      <span>${message('dial_background_color')}</span>
+      <span class="quick-settings__color">
+        <input id="quick_dial_background_color" type="color" data-setting="dial_background_color">
+        <button type="button" data-quick-color-reset="dial_background_color"
+          title="${message('reset_tile_background_color')}"
+          aria-label="${message('reset_tile_background_color')}">↺</button>
+      </span>
+    </label>
+    <label class="quick-settings__field" for="quick_dial_title_color">
+      <span>${message('dial_title_color')}</span>
+      <span class="quick-settings__color">
+        <input id="quick_dial_title_color" type="color" data-setting="dial_title_color">
+        <button type="button" data-quick-color-reset="dial_title_color"
+          title="${message('reset_tile_title_color')}"
+          aria-label="${message('reset_tile_title_color')}">↺</button>
+      </span>
+    </label>`;
+
+  const tileContent = /* html */`
+    <label class="quick-settings__field" for="quick_thumbnail_source">
+      <span>${message('thumbnail_source')}</span>
+      <select class="form-control" id="quick_thumbnail_source" data-setting="thumbnail_source">
+        <option value="favicon">${message('thumbnail_source_favicon')}</option>
+        <option value="site">${message('thumbnail_source_site')}</option>
+      </select>
+    </label>
+    <label class="quick-settings__field quick-settings__field--range" for="quick_favicon_size">
+      <span>${message('favicon_size')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_favicon_size" type="range" min="16" max="128" step="4"
+          data-setting="favicon_size" data-unit="px">
+        <output id="quick_favicon_size_value" for="quick_favicon_size"></output>
+      </span>
+    </label>
+    ${createSwitch('show_bookmark_title')}
+    <label class="quick-settings__field quick-settings__field--range" for="quick_bookmark_title_size">
+      <span>${message('bookmark_title_size')}</span>
+      <span class="quick-settings__range">
+        <input id="quick_bookmark_title_size" type="range" min="10" max="24" step="1"
+          data-setting="bookmark_title_size" data-unit="px">
+        <output id="quick_bookmark_title_size_value" for="quick_bookmark_title_size"></output>
+      </span>
+    </label>
+    <label class="quick-settings__field" for="quick_bookmark_title_position">
+      <span>${message('bookmark_title_position')}</span>
+      <select class="form-control" id="quick_bookmark_title_position"
+        data-setting="bookmark_title_position">
+        <option value="inside">${message('bookmark_title_position_inside')}</option>
+        <option value="outside">${message('bookmark_title_position_outside')}</option>
+      </select>
+    </label>
+    ${createSwitch('show_favicon')}
+    ${createSwitch('folder_preview')}`;
+
+  const interfaceControls = /* html */`
+    ${createSwitch('show_extension_icon')}
+    ${createSwitch('show_search')}
+    ${createSwitch('show_folder_picker')}
+    ${createSwitch('show_create_column')}
+    ${createSwitch('show_back_column')}
+    ${createSwitch('toolbar_match_tile_background')}
+      <label class="quick-settings__field" for="quick_toolbar_background_color"
+        data-quick-toolbar-background>
+        <span>${message('toolbar_background_color')}</span>
+        <span class="quick-settings__color">
+          <input id="quick_toolbar_background_color" type="color"
+            data-setting="toolbar_background_color">
+          <button type="button" data-quick-color-reset="toolbar_background_color"
+            title="${message('reset_toolbar_background_color')}"
+            aria-label="${message('reset_toolbar_background_color')}">↺</button>
+        </span>
+      </label>
+      <label class="quick-settings__field quick-settings__field--range"
+        for="quick_toolbar_background_opacity" data-quick-toolbar-background>
+        <span>${message('toolbar_background_opacity')}</span>
+        <span class="quick-settings__range">
+          <input id="quick_toolbar_background_opacity" type="range" min="0" max="100" step="1"
+            data-setting="toolbar_background_opacity" data-unit="%">
+          <output id="quick_toolbar_background_opacity_value"
+            for="quick_toolbar_background_opacity"></output>
+        </span>
+      </label>
+    ${createSwitch('toolbar_background_blur', 'data-quick-toolbar-background')}`;
+
   const wrapper = document.createElement('div');
   wrapper.innerHTML = /* html */`
     <section class="quick-settings" id="quick_settings" hidden aria-labelledby="quick_settings_title">
-      <div class="quick-settings__header">
-        <div>
-          <h2 id="quick_settings_title">${message('quick_display_settings')}</h2>
-          <p>${message('quick_display_settings_description')}</p>
-        </div>
+      <header class="quick-settings__header">
+        <h2 id="quick_settings_title">${message('quick_display_settings')}</h2>
         <button class="quick-settings__close md-ripple" type="button" data-quick-settings-close
           aria-label="${message('modal_dismiss')}">
-          <svg width="20" height="20"><use xlink:href="/img/symbol.svg#close"></use></svg>
+          <svg width="20" height="20" aria-hidden="true"><use xlink:href="/img/symbol.svg#close"></use></svg>
         </button>
-      </div>
+      </header>
       <div class="quick-settings__controls">
-        <label class="quick-settings__field" for="quick_color_theme">
-          <span>${message('color_theme')}</span>
-          <select class="form-control" id="quick_color_theme" data-setting="color_theme">
-            <option value="dark">${message('dark_theme')}</option>
-            <option value="light">${message('light_theme')}</option>
-            <option value="os">${message('os_theme')}</option>
-          </select>
-        </label>
-        <label class="quick-settings__field" for="quick_background_image">
-          <span>${message('background')}</span>
-          <select class="form-control" id="quick_background_image" data-setting="background_image">
-            <option value="background_noimage">${message('background_noimage')}</option>
-            <option value="background_color">${message('color')}</option>
-            <option value="background_external">${message('background_external')}</option>
-            <option value="background_local">${message('background_local')}</option>
-            <option value="background_bing">${message('background_bing')}</option>
-          </select>
-        </label>
-        <div class="quick-settings__background-settings">
-          <p class="quick-settings__background-note" data-quick-background-setting="background_noimage" hidden>
-            ${message('background_noimage_text')}
-          </p>
-          <label class="quick-settings__field" data-quick-background-setting="background_color"
-            for="quick_background_color" hidden>
-            <span>${message('color')}</span>
-            <input id="quick_background_color" type="color" data-setting="background_color">
-          </label>
-          <section class="quick-settings__background-external"
-            data-quick-background-setting="background_external" hidden>
-            <label for="quick_background_external">${message('background_external')}</label>
-            <input class="form-control" id="quick_background_external" type="url" required
-              autocomplete="url" spellcheck="false" aria-describedby="quick_background_external_note">
-            <small id="quick_background_external_note">${message('background_external_note')}</small>
-            <div class="quick-settings__background-actions">
-              <button class="btn md-ripple" type="button" data-quick-background-external-set>
-                ${message('btn_apply')}
-              </button>
-              <button class="btn btn--clear md-ripple" type="button" data-quick-background-external-remove disabled>
-                ${message('contextmenu_remove')}
-              </button>
-            </div>
-          </section>
-          <section class="quick-settings__background-local" data-quick-background-setting="background_local" hidden>
-            <div>
-              <strong>${message('background_local')}</strong>
-              <small>${message('background_local_video_note')}</small>
-            </div>
-            <div class="quick-settings__background-actions">
-              <button class="btn md-ripple" type="button" data-quick-background-upload>
-                ${message('btn_open')}
-              </button>
-              <button class="btn btn--clear md-ripple" type="button" data-quick-background-remove disabled>
-                ${message('contextmenu_remove')}
-              </button>
-            </div>
-          </section>
-          <p class="quick-settings__background-note" data-quick-background-setting="background_bing" hidden>
-            ${message('background_bing_text')}
-          </p>
-          <section class="quick-settings__background-confirmation" data-quick-background-confirmation
-            aria-live="polite" hidden>
-            <p>${message('confirm_delete_image')}</p>
-            <div class="quick-settings__background-actions">
-              <button class="btn btn--clear md-ripple" type="button" data-quick-background-confirm-cancel>
-                ${message('btn_close')}
-              </button>
-              <button class="btn md-ripple" type="button" data-quick-background-confirm-remove>
-                ${message('contextmenu_remove')}
-              </button>
-            </div>
-          </section>
-        </div>
-        <label class="quick-settings__field" for="quick_dial_columns">
-          <span>${message('number_of_columns')}</span>
-          <select class="form-control" id="quick_dial_columns" data-setting="dial_columns">${columns}</select>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_width">
-          <span>${message('dial_width')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_dial_width" type="range" min="50" max="99" step="1"
-              data-setting="dial_width" data-unit="%">
-            <output id="quick_dial_width_value" for="quick_dial_width"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_tile_size">
-          <span>${message('dial_tile_size')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_dial_tile_size" type="range" min="50" max="300" step="1"
-              data-setting="dial_tile_size" data-unit="px">
-            <output id="quick_dial_tile_size_value" for="quick_dial_tile_size"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_horizontal_gap">
-          <span>${message('dial_horizontal_gap')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_dial_horizontal_gap" type="range" min="0" max="160" step="1"
-              data-setting="dial_horizontal_gap" data-unit="px">
-            <output id="quick_dial_horizontal_gap_value" for="quick_dial_horizontal_gap"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_vertical_gap">
-          <span>${message('dial_vertical_gap')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_dial_vertical_gap" type="range" min="0" max="160" step="1"
-              data-setting="dial_vertical_gap" data-unit="px">
-            <output id="quick_dial_vertical_gap_value" for="quick_dial_vertical_gap"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_radius">
-          <span>${message('dial_radius')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_dial_radius" type="range" min="0" max="40" step="1"
-              data-setting="dial_radius" data-unit="px">
-            <output id="quick_dial_radius_value" for="quick_dial_radius"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_aspect_ratio">
-          <span>${message('dial_aspect_ratio')}</span>
-          <select class="form-control" id="quick_dial_aspect_ratio" data-setting="dial_aspect_ratio">
-            <option value="1 / 1">${message('dial_aspect_ratio_square')}</option>
-            <option value="4 / 3">${message('dial_aspect_ratio_standard')}</option>
-            <option value="3 / 2">${message('dial_aspect_ratio_photo')}</option>
-            <option value="16 / 9">${message('dial_aspect_ratio_wide')}</option>
-          </select>
-        </label>
-        <label class="quick-settings__field" for="quick_favicon_size">
-          <span>${message('favicon_size')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_favicon_size" type="range" min="16" max="128" step="4"
-              data-setting="favicon_size" data-unit="px">
-            <output id="quick_favicon_size_value" for="quick_favicon_size"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_thumbnail_source">
-          <span>${message('thumbnail_source')}</span>
-          <select class="form-control" id="quick_thumbnail_source" data-setting="thumbnail_source">
-            <option value="favicon">${message('thumbnail_source_favicon')}</option>
-            <option value="site">${message('thumbnail_source_site')}</option>
-          </select>
-        </label>
-        <label class="quick-settings__field" for="quick_bookmark_title_size">
-          <span>${message('bookmark_title_size')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_bookmark_title_size" type="range" min="10" max="24" step="1"
-              data-setting="bookmark_title_size" data-unit="px">
-            <output id="quick_bookmark_title_size_value"
-              for="quick_bookmark_title_size"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_bookmark_title_position">
-          <span>${message('bookmark_title_position')}</span>
-          <select class="form-control" id="quick_bookmark_title_position"
-            data-setting="bookmark_title_position">
-            <option value="inside">${message('bookmark_title_position_inside')}</option>
-            <option value="outside">${message('bookmark_title_position_outside')}</option>
-          </select>
-        </label>
-
-        <label class="quick-settings__field" for="quick_dial_shadow">
-          <span>${message('dial_shadow')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_dial_shadow" type="range" min="0" max="30" step="1"
-              data-setting="dial_shadow" data-unit="%">
-            <output id="quick_dial_shadow_value" for="quick_dial_shadow"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_hover_lift">
-          <span>${message('dial_hover_lift')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_dial_hover_lift" type="range" min="0" max="12" step="1"
-              data-setting="dial_hover_lift" data-unit="px">
-            <output id="quick_dial_hover_lift_value" for="quick_dial_hover_lift"></output>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_background_opacity">
-          <span>${message('dial_background_opacity')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_dial_background_opacity" type="range" min="0" max="100" step="1"
-              data-setting="dial_background_opacity" data-unit="%">
-            <output id="quick_dial_background_opacity_value" for="quick_dial_background_opacity"></output>
-          </span>
-        </label>
-        ${createSwitch('dial_background_blur')}
-        <label class="quick-settings__field" for="quick_dial_background_color">
-          <span>${message('dial_background_color')}</span>
-          <span class="quick-settings__color">
-            <input id="quick_dial_background_color" type="color" data-setting="dial_background_color">
-            <button type="button" data-quick-color-reset="dial_background_color"
-              title="${message('reset_tile_background_color')}"
-              aria-label="${message('reset_tile_background_color')}">↺</button>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_dial_title_color">
-          <span>${message('dial_title_color')}</span>
-          <span class="quick-settings__color">
-            <input id="quick_dial_title_color" type="color" data-setting="dial_title_color">
-            <button type="button" data-quick-color-reset="dial_title_color"
-              title="${message('reset_tile_title_color')}"
-              aria-label="${message('reset_tile_title_color')}">↺</button>
-          </span>
-        </label>
-        ${createSwitch('vertical_center')}
-        ${createSwitch('disable_main_page_scroll')}
-        ${createSwitch('show_extension_icon')}
-        ${createSwitch('show_search')}
-        ${createSwitch('show_folder_picker')}
-        ${createSwitch('toolbar_match_tile_background')}
-        <label class="quick-settings__field" for="quick_toolbar_background_color"
-          data-quick-toolbar-background>
-          <span>${message('toolbar_background_color')}</span>
-          <span class="quick-settings__color">
-            <input id="quick_toolbar_background_color" type="color"
-              data-setting="toolbar_background_color">
-            <button type="button" data-quick-color-reset="toolbar_background_color"
-              title="${message('reset_toolbar_background_color')}"
-              aria-label="${message('reset_toolbar_background_color')}">↺</button>
-          </span>
-        </label>
-        <label class="quick-settings__field" for="quick_toolbar_background_opacity"
-          data-quick-toolbar-background>
-          <span>${message('toolbar_background_opacity')}</span>
-          <span class="quick-settings__range">
-            <input id="quick_toolbar_background_opacity" type="range" min="0" max="100" step="1"
-              data-setting="toolbar_background_opacity" data-unit="%">
-            <output id="quick_toolbar_background_opacity_value"
-              for="quick_toolbar_background_opacity"></output>
-          </span>
-        </label>
-        ${createSwitch('toolbar_background_blur')}
-        ${createSwitch('show_create_column')}
-        ${createSwitch('show_back_column')}
-        ${createSwitch('show_bookmark_title')}
-        ${createSwitch('show_favicon')}
-        ${createSwitch('folder_preview')}
+        ${createGroup('start', message('settings_group_start'), startPage, true)}
+        ${createGroup('page', message('settings_group_page'), pageAndBackground, true)}
+        ${createGroup('grid', message('settings_group_grid'), grid)}
+        ${createGroup('tile-style', message('settings_group_tile_style'), tileAppearance)}
+        ${createGroup('tile-content', message('settings_group_tile_content'), tileContent)}
+        ${createGroup('interface', message('settings_group_interface'), interfaceControls)}
+        <section class="quick-settings__reset">
+          <button class="btn btn--clear quick-settings__reset-button md-ripple" type="button"
+            data-quick-settings-reset>
+            ${message('reset_quick_settings')}
+          </button>
+          <small>${message('reset_quick_settings_description')}</small>
+        </section>
       </div>
-      <div class="quick-settings__reset">
-        <button class="btn btn--clear quick-settings__reset-button md-ripple" type="button"
-          data-quick-settings-reset>${message('reset_quick_settings')}</button>
-        <small class="text-muted">${message('reset_quick_settings_description')}</small>
-      </div>
-      <a class="btn quick-settings__more" href="options.html">${message('more_settings')}</a>
     </section>`;
 
   return wrapper.firstElementChild;
@@ -344,6 +380,7 @@ export default function initQuickDisplaySettings({
   container,
   showTrigger = true,
   onRerender,
+  onDefaultFolderChange,
   onExtensionIconVisibilityChange,
   onHeaderVisibilityChange
 }) {
@@ -355,8 +392,13 @@ export default function initQuickDisplaySettings({
   trigger.setAttribute('aria-label', triggerLabel);
   trigger.title = triggerLabel;
   trigger.setAttribute('aria-expanded', 'false');
+  trigger.setAttribute('aria-pressed', 'false');
+  trigger.setAttribute('aria-controls', 'quick_settings');
   trigger.hidden = !showTrigger;
-  trigger.innerHTML = '<svg width="20" height="20"><use xlink:href="/img/symbol.svg#palette"></use></svg>';
+  trigger.innerHTML = [
+    '<svg width="20" height="20" aria-hidden="true">',
+    '<use xlink:href="/img/symbol.svg#palette"></use></svg>'
+  ].join('');
 
   const panel = createPanel();
   document.body.append(panel);
@@ -364,6 +406,7 @@ export default function initQuickDisplaySettings({
   let tileSizeScaleAnchor = null;
   let pendingBackgroundRemoval = null;
   let hasLocalBackground = false;
+  let folderTree = null;
 
   function syncBackgroundControls() {
     const backgroundMode = settings.$.background_image;
@@ -373,6 +416,51 @@ export default function initQuickDisplaySettings({
     panel.querySelectorAll('[data-quick-background-setting]').forEach(control => {
       control.hidden = control.dataset.quickBackgroundSetting !== backgroundMode;
     });
+  }
+
+  function syncDefaultFolderControls() {
+    const folderSelect = panel.querySelector('[data-quick-default-folder]');
+    folderSelect.value = settings.defaultFolderId;
+    folderSelect.disabled = !folderTree || settings.$.show_last_opened_folder;
+  }
+
+  function syncToolbarBackgroundControls() {
+    const disabled = Boolean(settings.$.toolbar_match_tile_background);
+    panel.querySelectorAll('[data-quick-toolbar-background]').forEach(control => {
+      control.classList.toggle('is-disabled', disabled);
+      control.setAttribute('aria-disabled', String(disabled));
+      control.querySelectorAll('input, button, select').forEach(field => {
+        const hasNoCustomColor = field.dataset.quickColorReset
+          && !settings.$[field.dataset.quickColorReset];
+        field.disabled = disabled || hasNoCustomColor;
+      });
+    });
+  }
+
+  async function loadDefaultFolders() {
+    const folderSelect = panel.querySelector('[data-quick-default-folder]');
+    try {
+      folderTree = await getFolders();
+      replaceFolderOptions(folderSelect, renderFolderOptions({
+        folders: folderTree,
+        folderId: settings.defaultFolderId
+      }));
+    } catch (error) {
+      console.warn(error);
+    }
+    syncDefaultFolderControls();
+  }
+
+  async function handleDefaultFolderChange(event) {
+    const folderSelect = event.currentTarget;
+    folderSelect.disabled = true;
+    try {
+      await updateDefaultFolder(settings, folderSelect.value, folderTree);
+      onDefaultFolderChange(folderSelect.value);
+    } catch (error) {
+      console.warn(error);
+    }
+    syncDefaultFolderControls();
   }
 
   async function handleExternalBackgroundSave() {
@@ -523,19 +611,20 @@ export default function initQuickDisplaySettings({
     panel.querySelectorAll('[data-quick-color-reset]').forEach(button => {
       button.disabled = !settings.$[button.dataset.quickColorReset];
     });
-    panel.querySelectorAll('[data-quick-toolbar-background]').forEach(control => {
-      control.hidden = Boolean(settings.$.toolbar_match_tile_background);
-    });
+    syncToolbarBackgroundControls();
     syncBackgroundControls();
+    syncDefaultFolderControls();
   }
 
   function togglePanel(force, restoreFocus = true) {
     const willOpen = force ?? panel.hidden;
     panel.hidden = !willOpen;
     trigger.setAttribute('aria-expanded', String(willOpen));
+    trigger.setAttribute('aria-pressed', String(willOpen));
+    trigger.classList.toggle('is-active', willOpen);
     if (willOpen) {
       syncControls();
-      panel.querySelector('[data-setting]')?.focus();
+      panel.querySelector('.quick-settings__group-summary')?.focus();
     } else if (restoreFocus) {
       trigger.focus();
     }
@@ -615,15 +704,15 @@ export default function initQuickDisplaySettings({
         syncControls();
       }
       if (key === 'toolbar_match_tile_background') {
-        panel.querySelectorAll('[data-quick-toolbar-background]').forEach(control => {
-          control.hidden = Boolean(value);
-        });
+        syncToolbarBackgroundControls();
       }
     } else if (key === 'vertical_center') {
       document.getElementById('bookmarks').classList.toggle('grid--vcenter', Boolean(value));
       document.getElementById('content').classList.toggle('content--vcenter', Boolean(value));
     } else if (key === 'disable_main_page_scroll') {
       updateMainPageScrollLock(value);
+    } else if (key === 'show_last_opened_folder') {
+      syncDefaultFolderControls();
     } else if (key === 'show_extension_icon') {
       onExtensionIconVisibilityChange(Boolean(value));
       UI.calculateStyles();
@@ -654,10 +743,12 @@ export default function initQuickDisplaySettings({
   });
   panel.querySelector('[data-quick-background-confirm-remove]')
     .addEventListener('click', handleConfirmedBackgroundRemove);
-  panel.addEventListener('change', event => {
+  panel.querySelector('[data-quick-default-folder]')
+    .addEventListener('change', handleDefaultFolderChange);
+  panel.addEventListener('change', async(event) => {
     const control = event.target.closest('[data-setting]');
     if (control) {
-      applySetting(control);
+      await applySetting(control);
       if (control.type === 'color') {
         const resetButton = panel.querySelector(
           `[data-quick-color-reset="${control.dataset.setting}"]`
@@ -667,15 +758,15 @@ export default function initQuickDisplaySettings({
     }
   });
   panel.querySelectorAll('input[type="range"][data-setting]').forEach(control => {
-    control.addEventListener('input', event => {
+    control.addEventListener('input', async(event) => {
       const output = panel.querySelector(`#${event.target.id}_value`);
       output.textContent = `${event.target.value}${event.target.dataset.unit}`;
-      applySetting(event.target, false);
+      await applySetting(event.target, false);
     });
   });
   panel.querySelectorAll('input[type="color"][data-setting]').forEach(control => {
-    control.addEventListener('input', event => {
-      applySetting(event.target, false);
+    control.addEventListener('input', async(event) => {
+      await applySetting(event.target, false);
       const resetButton = panel.querySelector(
         `[data-quick-color-reset="${event.target.dataset.setting}"]`
       );
@@ -720,11 +811,18 @@ export default function initQuickDisplaySettings({
     if (event.key === 'Escape' && !panel.hidden) togglePanel(false);
   });
 
-  ImageDB.get('background').then(record => {
-    hasLocalBackground = Boolean(record?.blob);
-    syncBackgroundControls();
-  });
   syncControls();
+  async function loadPersistentControls() {
+    try {
+      const record = await ImageDB.get('background');
+      hasLocalBackground = Boolean(record?.blob);
+      syncBackgroundControls();
+    } catch (error) {
+      console.warn(error);
+    }
+    await loadDefaultFolders();
+  }
+  void loadPersistentControls();
   return {
     toggle: () => togglePanel()
   };

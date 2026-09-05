@@ -152,11 +152,10 @@ body.has-color-background .page-reveal {
   border-radius: 18px;
   box-shadow: var(--surface-shadow);
   backdrop-filter: blur(18px) saturate(1.3);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease;
   &:hover,
   &:focus-within {
     opacity: 1;
-    transform: translateY(-2px);
   }
 }
 
@@ -220,6 +219,14 @@ body.has-color-background .page-reveal {
   &:hover {
     color: #fff;
     background: var(--btn);
+  }
+  &.is-active {
+    color: #fff;
+    background: var(--btn);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 18%);
+  }
+  &.is-active:disabled {
+    opacity: 1;
   }
   &:focus-visible {
     outline: 2px solid var(--color-primary);

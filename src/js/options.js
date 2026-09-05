@@ -5,7 +5,8 @@ import Localization from './plugins/localization';
 import Ripple from './components/ripple';
 import Toast from './components/toast';
 import confirmPopup from './plugins/confirmPopup.js';
-import { createFolderSyncPath, getFolders } from './api/bookmark';
+import { getFolders } from './api/bookmark';
+import { updateDefaultFolder } from './defaultFolderSettings';
 import {
   $notifications,
   $resizeThumbnail,
@@ -651,7 +652,7 @@ async function handleSetOptions(e) {
     }
 
     if (id === 'default_folder_id') {
-      await updateDefaultFolder(target.value);
+      await updateDefaultFolder(settings, target.value);
     } else if (id === 'dial_tile_size') {
       const tileContentSettings = scaleTileContentSettings({
         faviconSize: settings.$.favicon_size,
@@ -938,18 +939,6 @@ async function handleResetSyncSettings() {
   updateDefaultFolderControl();
   Toast.show(getMessage('notice_sync_settings_cleared'));
 }
-async function updateDefaultFolder(folderId) {
-  if (!settings.$.enable_sync) {
-    await settings.updateKey('default_folder_id', folderId);
-    return;
-  }
-
-  await settings.updateKey('sync_default_folder_id', folderId);
-  const folders = await getFolders();
-  const folderPath = createFolderSyncPath(folders, folderId);
-  await settings.updateKey('sync_default_folder_path', folderPath);
-}
-
 function updateDefaultFolderControl() {
   const folderSelect = document.getElementById('default_folder_id');
   const storageNote = document.getElementById('default_folder_storage_note');
@@ -978,7 +967,7 @@ async function handleChangeSync() {
 
   if (!hasRemoteSettings) {
     await settings.updateKey('enable_sync', true);
-    await updateDefaultFolder(localFolderId);
+    await updateDefaultFolder(settings, localFolderId);
     updateDefaultFolderControl();
     return;
   }
@@ -1001,7 +990,7 @@ async function handleChangeSync() {
     await enforceGridWidth();
     getOptions();
   } else {
-    await updateDefaultFolder(localFolderId);
+    await updateDefaultFolder(settings, localFolderId);
     await settings.syncToStorage();
   }
   updateDefaultFolderControl();
