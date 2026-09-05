@@ -182,8 +182,29 @@ function activateSettingsSection(
 }
 
 function updateSettingsRowVisibility(row, reason, hidden) {
+  if (reason === 'conditionHidden') {
+    const wasDisabled = row.dataset.conditionHidden === 'true';
+    row.dataset.conditionHidden = String(hidden);
+    row.classList.toggle('is-disabled', hidden);
+    row.setAttribute('aria-disabled', String(hidden));
+
+    if (hidden !== wasDisabled) {
+      row.querySelectorAll('button, input, select, textarea').forEach(control => {
+        if (hidden) {
+          control.dataset.conditionPreviouslyDisabled = String(control.disabled);
+          control.disabled = true;
+        } else {
+          control.disabled = control.dataset.conditionPreviouslyDisabled === 'true';
+          delete control.dataset.conditionPreviouslyDisabled;
+        }
+      });
+    }
+    row.hidden = row.dataset.searchHidden === 'true';
+    return;
+  }
+
   row.dataset[reason] = String(hidden);
-  row.hidden = row.dataset.conditionHidden === 'true' || row.dataset.searchHidden === 'true';
+  row.hidden = row.dataset.searchHidden === 'true';
 }
 
 function applySettingsFilter() {
@@ -465,7 +486,8 @@ function syncConditionalControls() {
     page_cascade_duration: document.getElementById('page_cascade_enabled')?.checked,
     thumbnails_auto_refresh_interval: document.getElementById('thumbnails_auto_refresh')?.checked,
     toolbar_background_color: !document.getElementById('toolbar_match_tile_background')?.checked,
-    toolbar_background_opacity: !document.getElementById('toolbar_match_tile_background')?.checked
+    toolbar_background_opacity: !document.getElementById('toolbar_match_tile_background')?.checked,
+    toolbar_background_blur: !document.getElementById('toolbar_match_tile_background')?.checked
   };
 
   Object.entries(conditionalRows).forEach(([id, visible]) => {
