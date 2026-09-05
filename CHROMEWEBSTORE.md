@@ -18,7 +18,7 @@ StartGrid replaces Chrome's new tab with a visual, customizable view of your exi
 
 Organize, open, edit, move, and search bookmarks without creating a separate account. Use grouped quick settings to choose the start folder, grid layout, theme, background, tile appearance, and interface controls without leaving the new tab. Settings can be backed up as a JSON file and optionally synchronized with Chrome Sync.
 
-Open a new tab to use StartGrid. Select a folder, open a bookmark, or use the search bar. Use the tile menu to edit a bookmark or its thumbnail, and open Settings to personalize the page.
+Open a new tab to use StartGrid. Select a folder, open a bookmark, or use the search bar. Chrome's Back and Forward buttons navigate between folders opened in StartGrid. Use the tile menu to edit a bookmark or its thumbnail, and open Settings to personalize the page.
 
 StartGrid keeps bookmarks in Chrome's bookmark system. It stores settings and locally chosen images in Chrome storage. Network access is used only for user-enabled features such as web-page thumbnails, favicon downloads, search suggestions, and Bing's daily image.
 

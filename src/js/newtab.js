@@ -39,7 +39,12 @@ import { validateThumbnailRequest } from './api/thumbnailErrors';
 import { showThumbnailError } from './thumbnailErrorNotice';
 import { makeModalAccessible } from './accessibleModal';
 import { containsPermissions } from './api/permissions';
-import { getCurrentFolderId, navigateHome, navigateToFolder } from './folderNavigation';
+import {
+  getCurrentFolderId,
+  navigateHome,
+  navigateToFolder,
+  restoreFolderFromHistory
+} from './folderNavigation';
 import initQuickDisplaySettings from './components/quickDisplaySettings';
 import { updateMainPageScrollLock } from './mainPageScroll';
 import { storage } from './api/storage';
@@ -558,11 +563,12 @@ async function updateSelectedThumbnails(multipleSelectedBookmarks) {
   hideControlMultiplyBookmarks();
 }
 
-function handlePopstate() {
+function handlePopstate(event) {
   // when navigating through the history
   // hide the context menu or the modal window if they are active
   ctxMenuEl.close();
   modalApi.close();
+  restoreFolderFromHistory(event.state);
 }
 
 function handleBeforeUnload(evt) {
