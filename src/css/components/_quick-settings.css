@@ -226,7 +226,7 @@
   border-radius: 10px;
 
   &:hover,
-  &:focus-within {
+  &:has(:focus-visible) {
     background: var(--option-tbl-hover-bg);
   }
 }

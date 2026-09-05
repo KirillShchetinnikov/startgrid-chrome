@@ -4,6 +4,7 @@ import { describe, expect, it } from '@jest/globals';
 describe('conditional settings on the full settings page', () => {
   const source = readFileSync('src/js/options.js', 'utf8');
   const styles = readFileSync('src/css/pages/_options.css', 'utf8');
+  const formStyles = readFileSync('src/css/components/_forms.css', 'utf8');
 
   it('keeps dependent rows visible while disabling their controls', () => {
     expect(source).toContain("row.classList.toggle('is-disabled', hidden)");
@@ -19,5 +20,12 @@ describe('conditional settings on the full settings page', () => {
     expect(source).toMatch(
       /toolbar_background_color:[\s\S]*toolbar_background_opacity:[\s\S]*toolbar_background_blur:/
     );
+  });
+
+  it('shows persistent switch focus only for keyboard navigation', () => {
+    expect(formStyles).toContain('.switch__input:focus-visible + .switch__label::after');
+    expect(formStyles).not.toContain('.switch__input:focus + .switch__label::after');
+    expect(styles).toContain('&:has(:focus-visible)');
+    expect(styles).not.toContain('&:focus-within');
   });
 });

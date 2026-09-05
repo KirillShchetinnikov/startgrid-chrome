@@ -100,7 +100,7 @@ textarea {
   }
 }
 
-.switch__input:focus + .switch__label::after {
+.switch__input:focus-visible + .switch__label::after {
   box-shadow:
     0 1px 5px 0 rgb(0 0 0 / 60%),
     0 0 0 10px rgb(33 150 243 / 20%);

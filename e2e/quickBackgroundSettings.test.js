@@ -54,7 +54,8 @@ describe('quick background settings', () => {
     const source = readFileSync('src/js/components/ui.js', 'utf8');
 
     expect(source).toMatch(/bgEl\.replaceChildren\(\);[\s\S]*?bgEl\.classList\.remove\('is-visible'\)/);
-    expect(source).toContain("document.querySelectorAll('.bing-info').forEach(node => node.remove())");
+    expect(source).not.toContain('createBingInfo');
+    expect(source).not.toContain('bing-info');
     expect(source).toContain("getMessage('notice_background_load_failed')");
     expect(source).toContain("getMessage('notice_background_url_load_failed')");
   });

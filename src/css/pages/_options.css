@@ -156,7 +156,7 @@ dl {
     margin-bottom: 6px;
   }
 
-  &:focus-within,
+  &:has(:focus-visible),
   &:hover {
     background-color: var(--option-tbl-hover-bg);
     &::before {
@@ -178,7 +178,7 @@ dl {
   cursor: not-allowed;
   opacity: 0.5;
 
-  &:focus-within,
+  &:has(:focus-visible),
   &:hover {
     background-color: transparent;
 
