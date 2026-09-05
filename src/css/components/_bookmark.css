@@ -90,20 +90,33 @@
   padding: 0;
   border: 1px dashed rgb(91 79 214 / 32%);
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 1;
   background-color: var(--bookmark-bg);
   backdrop-filter: var(--bookmark-backdrop-filter);
   border-radius: var(--bookmark-radius);
   transform: translate3d(0, 0, 0);
-  transition: opacity 0.15s linear;
-  &:hover,
-  &:focus {
-    opacity: 0.85;
+  box-shadow:
+    0
+    var(--bookmark-shadow-offset-y)
+    var(--bookmark-shadow-blur)
+    var(--bookmark-shadow-spread)
+    rgb(var(--bookmark-shadow-color) / var(--bookmark-shadow-opacity));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translate3d(0, calc(var(--bookmark-hover-lift) * -1), 0);
+    box-shadow:
+      0
+      var(--bookmark-hover-shadow-offset-y)
+      var(--bookmark-hover-shadow-blur)
+      var(--bookmark-hover-shadow-spread)
+      rgb(var(--bookmark-shadow-color) / var(--bookmark-hover-shadow-opacity));
   }
   &:focus {
     box-shadow: 0 0 0 3px var(--bookmark-outline-color);
   }
   &::after {
+    opacity: 0.8;
     background-repeat: no-repeat;
     background-position: center;
     background-size: min(40%, 100px);
@@ -125,12 +138,16 @@
   }
 }
 
-.bookmark-btn--create::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background-image: url("/img/add.svg");
+.bookmark-btn--create {
+  border: var(--surface-border);
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background-image: url("/img/add.svg");
+  }
 }
 
 .bookmark__summary-folder {

@@ -90,6 +90,7 @@ body.has-color-background .page-reveal {
 
 .app {
   overflow-y: auto;
+  scrollbar-gutter: stable both-edges;
   height: 100vh;
 }
 

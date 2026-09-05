@@ -62,6 +62,15 @@ describe('page opening cascade', () => {
     expect(css).not.toMatch(/page-panel-zoom-enter|page-soft-rise-enter/);
     expect(css).not.toMatch(/data-page-entrance-effect/);
   });
+
+  it('keeps the grid centered without changing action-tile opacity after animation', () => {
+    const css = readFileSync('src/css/pages/_newtab.css', 'utf8');
+    const bookmarkCss = readFileSync('src/css/components/_bookmark.css', 'utf8');
+
+    expect(css).toMatch(/\.app\s*\{[^}]*scrollbar-gutter:\s*stable both-edges/s);
+    expect(bookmarkCss).toMatch(/\.bookmark-btn\s*\{[^}]*opacity:\s*1/s);
+    expect(bookmarkCss).toMatch(/\.bookmark-btn--create\s*\{[^}]*border:\s*var\(--surface-border\)/s);
+  });
 });
 
 describe('approved compatibility and cascade defaults', () => {
