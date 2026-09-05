@@ -1,5 +1,5 @@
 import { settings } from '../settings';
-import { FULL_MODE_SETTINGS } from '../folderMode';
+import { FULL_MODE_SETTINGS, effectiveHomeSort, adoptSortingSettings } from '../folderMode';
 import { getMessage } from '../i18n';
 import UI from './ui';
 import Toast from './toast';
@@ -116,7 +116,6 @@ function createPanel() {
     <p class="quick-settings__hint">${message('show_last_opened_folder_note')}</p>`;
 
   const sorting = /* html */`
-    ${createSwitch('drag_and_drop')}
     <label class="quick-settings__field" for="quick_home_sort_by">
       <span>${message('home_sort_by')}</span>
       <select class="form-control" id="quick_home_sort_by" data-setting="home_sort_by">
@@ -127,7 +126,7 @@ function createPanel() {
       </select>
     </label>
     <label class="quick-settings__field" for="quick_home_sort_date_direction"
-      data-quick-sort-mode="date" hidden>
+      data-quick-sort-mode="date">
       <span>${message('sort_direction')}</span>
       <select class="form-control" id="quick_home_sort_date_direction" data-setting="home_sort_date_direction">
         <option value="desc">${message('newest_first')}</option>
@@ -135,7 +134,7 @@ function createPanel() {
       </select>
     </label>
     <label class="quick-settings__field" for="quick_home_sort_alphabet_direction"
-      data-quick-sort-mode="alphabet" hidden>
+      data-quick-sort-mode="alphabet">
       <span>${message('sort_direction')}</span>
       <select class="form-control" id="quick_home_sort_alphabet_direction" data-setting="home_sort_alphabet_direction">
         <option value="desc">${message('alphabet_descending')}</option>
@@ -143,14 +142,15 @@ function createPanel() {
       </select>
     </label>
     <label class="quick-settings__field" for="quick_home_sort_usage_tiebreaker"
-      data-quick-sort-mode="usage" hidden>
+      data-quick-sort-mode="usage">
       <span>${message('usage_tiebreaker')}</span>
       <select class="form-control" id="quick_home_sort_usage_tiebreaker" data-setting="home_sort_usage_tiebreaker">
         <option value="alphabet">${message('sort_by_alphabet')}</option>
         <option value="date">${message('sort_by_date')}</option>
       </select>
     </label>
-    ${createSwitch('show_usage_count', 'data-quick-sort-mode="usage" hidden')}
+    ${createSwitch('show_usage_count', 'data-quick-sort-mode="usage"')}
+    ${createSwitch('drag_and_drop', 'data-quick-sort-mode="manual"')}
     ${createSwitch('show_home_folders')}
     <label class="quick-settings__field" for="quick_bookmarks_sorting_type">
       <span>${message('bookmarks_sorting_type')}</span>
@@ -490,7 +490,9 @@ export default function initQuickDisplaySettings({
     folderSelect.disabled = !folderTree || settings.$.show_last_opened_folder;
     FULL_MODE_SETTINGS.forEach(key => {
       const control = panel.querySelector(`[data-setting="${key}"]`);
-      if (control) control.closest('label').hidden = Boolean(settings.$.show_last_opened_folder);
+      if (control && !control.closest('[data-quick-group="sorting"]')) {
+        control.closest('label').hidden = Boolean(settings.$.show_last_opened_folder);
+      }
     });
   }
 
@@ -508,12 +510,22 @@ export default function initQuickDisplaySettings({
   }
 
   function syncSortingControls() {
-    const sortMode = settings.$.home_sort_by;
+    const sortMode = effectiveHomeSort(settings.$);
+    const select = panel.querySelector('#quick_home_sort_by');
+    select.value = sortMode;
+    select.querySelector('[value="usage"]').disabled = Boolean(settings.$.show_last_opened_folder);
+    const setDisabled = (row, disabled) => {
+      row.hidden = false;
+      row.classList.toggle('is-disabled', disabled);
+      row.setAttribute('aria-disabled', String(disabled));
+      row.querySelectorAll('input, select').forEach(field => {
+        field.disabled = disabled;
+      });
+    };
     panel.querySelectorAll('[data-quick-sort-mode]').forEach(control => {
-      const setting = control.querySelector('[data-setting]')?.dataset.setting;
-      control.hidden = control.dataset.quickSortMode !== sortMode
-        || FULL_MODE_SETTINGS.includes(setting) && settings.$.show_last_opened_folder;
+      setDisabled(control, control.dataset.quickSortMode !== sortMode);
     });
+    setDisabled(panel.querySelector('#quick_bookmarks_sorting_type').closest('label'), !settings.$.show_home_folders);
   }
 
   async function loadDefaultFolders() {
@@ -796,7 +808,8 @@ export default function initQuickDisplaySettings({
     } else if (key === 'show_last_opened_folder') {
       syncDefaultFolderControls();
       await onFolderModeChange();
-    } else if (key === 'home_sort_by') {
+      syncControls();
+    } else if (['home_sort_by', 'show_home_folders'].includes(key)) {
       syncSortingControls();
       await onRerender();
     } else if (key === 'show_extension_icon') {
@@ -813,6 +826,12 @@ export default function initQuickDisplaySettings({
   }
 
   trigger.addEventListener('click', () => togglePanel());
+  browser.storage.onChanged.addListener((changes, area) => {
+    const incoming = changes.settings?.newValue;
+    if (area !== 'local' || !incoming || !adoptSortingSettings(settings.$, incoming)) return;
+    syncControls();
+    Promise.resolve(onRerender()).catch(console.warn);
+  });
   panel.querySelector('[data-quick-settings-close]').addEventListener('click', () => togglePanel(false));
   panel.querySelector('[data-quick-background-upload]').addEventListener('click', handleLocalBackgroundUpload);
   panel.querySelector('[data-quick-background-remove]').addEventListener('click', () => {

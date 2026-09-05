@@ -1,7 +1,7 @@
 import './components/vb-select';
 import { getMessage } from './i18n';
 import { settings } from './settings';
-import { FULL_MODE_SETTINGS, effectiveHomeSort } from './folderMode';
+import { FULL_MODE_SETTINGS, effectiveHomeSort, SORTING_SETTING_KEYS, adoptSortingSettings } from './folderMode';
 import Localization from './plugins/localization';
 import Ripple from './components/ripple';
 import Toast from './components/toast';
@@ -73,7 +73,16 @@ async function init() {
     if (area === 'local' && incoming
       && incoming.show_last_opened_folder !== settings.$.show_last_opened_folder) {
       window.location.reload();
+      return;
     }
+    if (area !== 'local' || !incoming || !adoptSortingSettings(settings.$, incoming)) return;
+    SORTING_SETTING_KEYS.forEach(key => {
+      const control = document.getElementById(key);
+      if (!control) return;
+      if (control.type === 'checkbox') control.checked = settings.$[key];
+      else control.value = settings.$[key];
+    });
+    syncConditionalControls();
   });
 
   await enforceGridWidth();
@@ -487,10 +496,11 @@ function syncConditionalControls() {
   const limited = Boolean(settings.$.show_last_opened_folder);
   const sortSelect = document.getElementById('home_sort_by');
   const usageOption = sortSelect?.querySelector('[value="usage"]');
-  if (usageOption) usageOption.hidden = usageOption.disabled = limited;
+  if (usageOption) usageOption.disabled = limited;
   if (sortSelect) sortSelect.value = effectiveHomeSort(settings.$);
   const sortMode = sortSelect?.value;
   const conditionalRows = {
+    drag_and_drop: sortMode === 'manual',
     home_sort_date_direction: sortMode === 'date',
     home_sort_alphabet_direction: sortMode === 'alphabet',
     home_sort_usage_tiebreaker: sortMode === 'usage',
@@ -506,7 +516,7 @@ function syncConditionalControls() {
   };
   FULL_MODE_SETTINGS.forEach(id => {
     const row = document.getElementById(`setting_${id}`);
-    if (row) updateSettingsRowVisibility(row, 'modeHidden', limited);
+    if (row) updateSettingsRowVisibility(row, 'modeHidden', limited && !SORTING_SETTING_KEYS.includes(id));
     if (limited) conditionalRows[id] = false;
     else if (!Object.hasOwn(conditionalRows, id)) conditionalRows[id] = true;
   });

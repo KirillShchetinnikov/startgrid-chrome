@@ -807,12 +807,12 @@ export default [
       {
         key: getMessage('settings_group_sorting'),
         list: pickSettings(
-          'drag_and_drop',
           'home_sort_by',
           'home_sort_date_direction',
           'home_sort_alphabet_direction',
           'home_sort_usage_tiebreaker',
           'show_usage_count',
+          'drag_and_drop',
           'show_home_folders',
           'bookmarks_sorting_type'
         )

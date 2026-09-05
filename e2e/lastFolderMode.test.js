@@ -166,6 +166,7 @@ describe('limited last-folder mode', () => {
     await page.$eval('[data-setting="show_last_opened_folder"]', node => node.click());
     await page.waitForFunction(id => document.getElementById('bookmarks').dataset.folder === id, {}, folders.home);
     expect(await page.$eval('#quick_thumbnail_source', node => node.closest('label').hidden)).toBe(false);
+    expect(await page.$eval('#quick_home_sort_by', node => node.value)).toBe('usage');
     await page.evaluate(() => {
       const input = document.querySelector('vb-header').inputNode;
       input.value = 'Alpha';
@@ -174,6 +175,7 @@ describe('limited last-folder mode', () => {
     await page.waitForFunction(() => document.body.classList.contains('has-search'));
     await page.$eval('[data-setting="show_last_opened_folder"]', node => node.click());
     await page.waitForFunction(() => document.querySelector('vb-header').homeNode === null);
+    expect(await page.$eval('#quick_home_sort_by', node => node.value)).toBe('manual');
     expect(await page.evaluate(() => document.body.classList.contains('has-search'))).toBe(false);
     await page.click('#quick_settings_trigger');
   });
@@ -193,6 +195,50 @@ describe('limited last-folder mode', () => {
     await options.close();
     await page.bringToFront();
     await page.waitForSelector('#add');
+  });
+
+  it('synchronizes sorting in both directions and disables visible dependent rows', async() => {
+    const options = await browser.newPage();
+    try {
+      await options.goto(extensionUrl.replace('newtab.html', 'options.html'));
+      await options.waitForSelector('#home_sort_by');
+      expect(await page.$eval('#quick_home_sort_by', node => node.value)).toBe('manual');
+      expect(await page.$eval('#quick_home_sort_by option[value="usage"]', node => ({
+        hidden: node.hidden, disabled: node.disabled
+      }))).toEqual({ hidden: false, disabled: true });
+      expect(await page.evaluate(() => [...document.querySelectorAll('[data-quick-sort-mode]:not([data-quick-sort-mode="manual"])')].map(row => ({
+        hidden: row.hidden, disabled: row.querySelector('input, select').disabled
+      })))).toEqual(Array(4).fill({ hidden: false, disabled: true }));
+      expect(await page.$eval('#quick_drag_and_drop', node => node.disabled)).toBe(false);
+      expect(await options.$eval('#drag_and_drop', node => node.disabled)).toBe(false);
+
+      await options.select('#home_sort_by', 'date');
+      await page.waitForFunction(() => document.getElementById('quick_home_sort_by').value === 'date');
+      expect(await page.$eval('#quick_drag_and_drop', node => ({
+        hidden: node.closest('label').hidden, disabled: node.disabled
+      }))).toEqual({ hidden: false, disabled: true });
+      expect(await options.$eval('#drag_and_drop', node => node.disabled)).toBe(true);
+      expect(await page.$eval('#quick_home_sort_date_direction', node => node.disabled)).toBe(false);
+      expect(await page.$eval('#quick_home_sort_alphabet_direction', node => node.disabled)).toBe(true);
+      await page.select('#quick_home_sort_by', 'alphabet');
+      await options.waitForFunction(() => document.getElementById('home_sort_by').value === 'alphabet');
+      await page.select('#quick_home_sort_alphabet_direction', 'asc');
+      await options.waitForFunction(() => document.getElementById('home_sort_alphabet_direction').value === 'asc');
+
+      await options.$eval('#show_home_folders', node => node.click());
+      await page.waitForFunction(() => !document.getElementById('quick_show_home_folders').checked);
+      expect(await page.$eval('#quick_bookmarks_sorting_type', node => ({
+        hidden: node.closest('label').hidden, disabled: node.disabled
+      }))).toEqual({ hidden: false, disabled: true });
+      expect(await worker.evaluate(async() => (await chrome.storage.local.get('settings')).settings.home_sort_by)).toBe('alphabet');
+      await page.$eval('#quick_show_home_folders', node => node.click());
+      await options.waitForFunction(() => document.getElementById('show_home_folders').checked);
+      expect(await page.$eval('#quick_bookmarks_sorting_type', node => node.disabled)).toBe(false);
+      expect(await options.$eval('#setting_show_usage_count', node => node.hidden)).toBe(false);
+    } finally {
+      await options.close();
+      await page.bringToFront();
+    }
   });
 
   it('recovers a deleted last folder and a deleted default folder', async() => {

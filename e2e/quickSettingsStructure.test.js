@@ -22,7 +22,7 @@ describe('quick settings structure', () => {
     expect(source).toContain('<summary class="quick-settings__group-summary">');
   });
 
-  it('includes every sorting control and reveals only the active mode details', () => {
+  it('includes every sorting control and updates dependent fields', () => {
     const resetKeys = readFileSync('src/js/quickSettings.js', 'utf8');
 
     [
@@ -48,7 +48,7 @@ describe('quick settings structure', () => {
     expect(source).toContain('data-quick-sort-mode="alphabet"');
     expect(source).toContain('data-quick-sort-mode="usage"');
     expect(source).toContain('function syncSortingControls()');
-    expect(source).toContain("key === 'home_sort_by'");
+    expect(source).toContain("['home_sort_by', 'show_home_folders'].includes(key)");
     expect(resetKeys).toContain("'bookmarks_sorting_type'");
   });
 
