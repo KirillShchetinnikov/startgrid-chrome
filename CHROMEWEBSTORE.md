@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-09-05
+> Last Updated: 2026-09-16
 
 ## Store Listing
 
@@ -50,6 +50,8 @@ English
 ### Screenshot Notes
 
 Show a populated new-tab grid with the folder picker and search bar, a new-tab view with the redesigned grouped quick-settings panel open, then the full settings page demonstrating visual customization and thumbnail controls.
+
+Refresh the folder-tile screenshot with captions below tiles to show consistent backgrounds, corners, and shadows.
 
 ## Permissions Justification
 
@@ -114,6 +116,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| Unreleased | 2026-09-16 | Folder tiles keep consistent styling with captions below tiles. | Draft |
 | 2.1.0 | 2026-09-05 | Redesigned grouped quick settings, last-folder mode, Back and Forward folder navigation, global thumbnail-source and sorting controls, recovery from deleted folders, and clearer thumbnail and background errors. | Draft |
 | 2.0.0 | 2026-09-05 | Improved file backup, grouped quick settings with start-folder controls, background personalization with explicit URL actions, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
 

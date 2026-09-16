@@ -196,10 +196,16 @@
 }
 
 .bookmark__img--folder {
-  background-size: 50% auto;
-  background-position: center;
-  background-image: url("/img/folder.svg");
-  filter: var(--bookmark-image-fill);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("/img/folder.svg") center / 50% auto no-repeat;
+    filter: var(--bookmark-image-fill);
+    pointer-events: none;
+  }
 }
 
 .bookmark__img--contain {
@@ -512,7 +518,8 @@
     box-shadow: none;
   }
 
-  & .bookmark__img {
+  & > .bookmark__img {
+    box-sizing: border-box;
     flex-grow: 0;
     aspect-ratio: var(--bookmark-aspect-ratio);
     overflow: hidden;
@@ -529,7 +536,7 @@
     transition: box-shadow 0.2s ease;
   }
 
-  &:hover .bookmark__img {
+  &:hover > .bookmark__img {
     box-shadow:
       0
       var(--bookmark-hover-shadow-offset-y)
@@ -538,11 +545,11 @@
       rgb(var(--bookmark-shadow-color) / var(--bookmark-hover-shadow-opacity));
   }
 
-  &:focus-visible .bookmark__img {
+  &:focus-visible > .bookmark__img {
     box-shadow: 0 0 0 3px var(--bookmark-outline-color);
   }
 
-  &[data-selected] .bookmark__img {
+  &[data-selected] > .bookmark__img {
     box-shadow: 0 0 0 5px var(--bookmark-selected, var(--color-primary));
   }
 
