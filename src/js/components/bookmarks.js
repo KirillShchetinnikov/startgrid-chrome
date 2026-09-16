@@ -7,6 +7,7 @@ import ImageDB from '../api/imageDB';
 import { settings, LAST_OPENED_FOLDER_ID } from '../settings';
 import { usesHomeLayout, allowsIndividualAppearance, effectiveHomeSort } from '../folderMode';
 import { updateDefaultFolder } from '../defaultFolderSettings';
+import { getFolderPreviewCandidates } from '../folderPreview';
 import { storage } from '../api/storage';
 import {
   move,
@@ -521,17 +522,7 @@ const Bookmarks = (() => {
   function getChildrenBookmarks(bookmarks) {
     return bookmarks.reduce((acc, bookmark) => {
       if (bookmark.children) {
-        const children = $shuffle(bookmark.children);
-        acc.push(
-          ...children
-            .reduce((acc, child) => {
-              if (!child.children) {
-                acc.push(child);
-              }
-              return acc;
-            }, [])
-            .slice(0, 4)
-        );
+        acc.push(...$shuffle(getFolderPreviewCandidates(bookmark)).slice(0, 4));
       }
       return acc;
     }, []);
@@ -553,7 +544,7 @@ const Bookmarks = (() => {
         thumbnail.blobUrl = URL.createObjectURL(thumbnail.blob);
       } else {
         // if there is no thumbnail, create an object with id to display the logo later
-        thumbnail = { id: bookmark.id, url: bookmark.url };
+        thumbnail = { id: bookmark.id, url: bookmark.url, isFolder: !bookmark.url };
       }
 
       // each folder must contain an array of thumbnails
@@ -704,8 +695,8 @@ const Bookmarks = (() => {
       TEXT_PREFERENCES_MAP.set(id, preferences);
     });
 
-    // Folder previews on the home page use bookmark icons, never nested thumbnails.
-    if (isHomeFolder && settings.$.folder_preview) {
+    // Previews at every folder depth use icons, never stored nested thumbnails.
+    if (settings.$.folder_preview) {
       // get children bookmarks for folders
       childrenBookmarks = getChildrenBookmarks(bookmarksArr);
     }

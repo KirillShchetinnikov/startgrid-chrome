@@ -107,7 +107,9 @@ class VbBookmark extends HTMLAnchorElement {
 
       this.#_folderChildren.forEach(child => {
         const el = bookmark.cloneNode(true);
-        if (child.image) {
+        if (child.isFolder) {
+          el.classList.add('bookmark__img--folder');
+        } else if (child.image) {
           el.classList.add('bookmark__img--contain');
           el.style.backgroundImage = `url('${child.image}')`;
         } else {
