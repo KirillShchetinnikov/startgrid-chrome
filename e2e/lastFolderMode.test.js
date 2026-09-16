@@ -29,6 +29,10 @@ describe('limited last-folder mode', () => {
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(`${extensionUrl}#${folders.nested}`);
     await page.waitForSelector(`#vb-${folders.bookmark}`);
+    // Tiles exist before their entrance animation and page initialization finish.
+    // Wait for stable click targets before testing parent-folder navigation.
+    await page.waitForFunction(() => document.body.classList.contains('page-ready')
+      && !document.body.classList.contains('page-entering'));
   });
 
   afterAll(async() => { await browser?.close(); });
@@ -187,10 +191,24 @@ describe('limited last-folder mode', () => {
     await options.waitForSelector('#show_last_opened_folder');
     expect(await options.$eval('#setting_thumbnail_source', node => node.hidden)).toBe(true);
     expect(await options.$eval('#home_sort_by', node => node.value)).toBe('manual');
-    await options.$eval('#show_last_opened_folder', node => node.click());
+    // Each mode change reloads the new-tab page. Let that reload finish before
+    // changing the mode again so its startup settings write cannot race the test.
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'load' }),
+      options.$eval('#show_last_opened_folder', node => node.click())
+    ]);
+    await page.bringToFront();
+    await page.waitForFunction(() => document.body.classList.contains('page-ready'));
+    await options.bringToFront();
     await options.waitForFunction(() => !document.getElementById('setting_thumbnail_source').hidden);
     expect(await options.$eval('#home_sort_by', node => node.value)).toBe('usage');
-    await options.$eval('#show_last_opened_folder', node => node.click());
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'load' }),
+      options.$eval('#show_last_opened_folder', node => node.click())
+    ]);
+    await page.bringToFront();
+    await page.waitForFunction(() => document.body.classList.contains('page-ready'));
+    await options.bringToFront();
     await options.waitForFunction(() => document.getElementById('setting_thumbnail_source').hidden);
     await options.close();
     await page.bringToFront();
