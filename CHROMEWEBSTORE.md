@@ -116,7 +116,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| Unreleased | 2026-09-16 | Folder tiles keep consistent styling with captions below tiles. Folder previews work at every level and show child folder icons when no direct sites are present. Search and folder picker visibility and appearance controls have their own quick-settings group. | Draft |
+| 2.2.0 | 2026-09-16 | Folder tiles keep consistent styling with captions below tiles. Folder previews work at every level and show child folder icons when no direct sites are present. Search and folder picker visibility and appearance controls have their own quick-settings group. | Draft |
 | 2.1.0 | 2026-09-05 | Redesigned grouped quick settings, last-folder mode, Back and Forward folder navigation, global thumbnail-source and sorting controls, recovery from deleted folders, and clearer thumbnail and background errors. | Draft |
 | 2.0.0 | 2026-09-05 | Improved file backup, grouped quick settings with start-folder controls, background personalization with explicit URL actions, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
 
