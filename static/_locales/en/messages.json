@@ -1030,6 +1030,7 @@
   "settings_group_thumbnail_generation": { "message": "Thumbnails and favicons" },
   "settings_group_auto_refresh": { "message": "Automatic refresh" },
   "settings_group_thumbnail_storage": { "message": "Local images" },
+  "settings_group_search_folder": { "message": "Search and folder picker" },
   "settings_group_interface": { "message": "Interface controls" },
   "settings_group_sync": { "message": "Synchronization" },
   "settings_group_backup": { "message": "Backup" },

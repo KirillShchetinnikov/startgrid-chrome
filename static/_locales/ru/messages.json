@@ -1142,6 +1142,7 @@
   "settings_group_thumbnail_storage": {
     "message": "Локальные изображения"
   },
+  "settings_group_search_folder": { "message": "Поиск и выбор папки" },
   "settings_group_interface": {
     "message": "Элементы управления интерфейсом"
   },

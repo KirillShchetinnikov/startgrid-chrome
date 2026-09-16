@@ -1142,6 +1142,7 @@
   "settings_group_thumbnail_storage": {
     "message": "로컬 이미지"
   },
+  "settings_group_search_folder": { "message": "검색 및 폴더 선택" },
   "settings_group_interface": {
     "message": "인터페이스 제어"
   },

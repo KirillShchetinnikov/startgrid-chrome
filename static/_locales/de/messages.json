@@ -1142,6 +1142,7 @@
   "settings_group_thumbnail_storage": {
     "message": "Lokale Bilder"
   },
+  "settings_group_search_folder": { "message": "Suche und Ordnerauswahl" },
   "settings_group_interface": {
     "message": "Schnittstellensteuerung"
   },

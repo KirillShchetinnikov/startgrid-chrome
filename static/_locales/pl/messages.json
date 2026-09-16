@@ -1142,6 +1142,7 @@
   "settings_group_thumbnail_storage": {
     "message": "Obrazy lokalne"
   },
+  "settings_group_search_folder": { "message": "Wyszukiwanie i wybór folderu" },
   "settings_group_interface": {
     "message": "Sterowanie interfejsem"
   },

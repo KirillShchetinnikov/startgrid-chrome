@@ -1142,6 +1142,7 @@
   "settings_group_thumbnail_storage": {
     "message": "Helyi képek"
   },
+  "settings_group_search_folder": { "message": "Keresés és mappaválasztás" },
   "settings_group_interface": {
     "message": "Interfész vezérlők"
   },

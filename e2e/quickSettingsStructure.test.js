@@ -5,7 +5,7 @@ describe('quick settings structure', () => {
   const source = readFileSync('src/js/components/quickDisplaySettings.js', 'utf8');
   const styles = readFileSync('src/css/components/_quick-settings.css', 'utf8');
 
-  it('groups controls into seven stable sections', () => {
+  it('groups controls into eight stable sections', () => {
     const groups = [...source.matchAll(/createGroup\('([^']+)'/g)]
       .map(match => match[1]);
 
@@ -16,6 +16,7 @@ describe('quick settings structure', () => {
       'grid',
       'tile-style',
       'tile-content',
+      'search-folder',
       'interface'
     ]);
     expect(source).toContain('<details class="quick-settings__group"');

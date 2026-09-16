@@ -16,7 +16,7 @@ Customizable visual bookmarks on every new tab, using your existing Chrome bookm
 
 StartGrid replaces Chrome's new tab with a visual, customizable view of your existing bookmarks and folders.
 
-Organize, open, edit, move, and search bookmarks without creating a separate account. Use grouped quick settings to choose the start folder, grid layout, theme, background, tile appearance, and interface controls without leaving the new tab. Settings can be backed up as a JSON file and optionally synchronized with Chrome Sync.
+Organize, open, edit, move, and search bookmarks without creating a separate account. Use grouped quick settings to choose the start folder, grid layout, theme, background, tile appearance, and interface controls without leaving the new tab. A dedicated Search and folder picker group brings together visibility and appearance controls for the top panel. Settings can be backed up as a JSON file and optionally synchronized with Chrome Sync.
 
 Optionally reopen the last folder visited on this device. This simplified mode applies global display settings to every folder and uses website icons, without individual bookmark appearance, screenshots, or usage-based sorting. Choose icons from Chrome's cache or download them from websites in either the quick or full settings.
 
@@ -51,7 +51,7 @@ English
 
 Show a populated new-tab grid with the folder picker and search bar, a new-tab view with the redesigned grouped quick-settings panel open, then the full settings page demonstrating visual customization and thumbnail controls.
 
-Refresh the folder-tile screenshot with captions below tiles to show consistent backgrounds, corners, and shadows. Include previews of nested folders and folders containing only subfolders.
+Refresh the folder-tile screenshot with captions below tiles to show consistent backgrounds, corners, and shadows. Include previews of nested folders and folders containing only subfolders, and the dedicated Search and folder picker group in quick settings.
 
 ## Permissions Justification
 
@@ -116,7 +116,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| Unreleased | 2026-09-16 | Folder tiles keep consistent styling with captions below tiles. Folder previews work at every level and show child folder icons when no direct sites are present. | Draft |
+| Unreleased | 2026-09-16 | Folder tiles keep consistent styling with captions below tiles. Folder previews work at every level and show child folder icons when no direct sites are present. Search and folder picker visibility and appearance controls have their own quick-settings group. | Draft |
 | 2.1.0 | 2026-09-05 | Redesigned grouped quick settings, last-folder mode, Back and Forward folder navigation, global thumbnail-source and sorting controls, recovery from deleted folders, and clearer thumbnail and background errors. | Draft |
 | 2.0.0 | 2026-09-05 | Improved file backup, grouped quick settings with start-folder controls, background personalization with explicit URL actions, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |
 

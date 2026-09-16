@@ -1142,6 +1142,7 @@
   "settings_group_thumbnail_storage": {
     "message": "本地圖片"
   },
+  "settings_group_search_folder": { "message": "搜尋與資料夾選擇" },
   "settings_group_interface": {
     "message": "介面控制"
   },

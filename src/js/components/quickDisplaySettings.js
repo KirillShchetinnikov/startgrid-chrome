@@ -382,10 +382,12 @@ function createPanel() {
 
   const interfaceControls = /* html */`
     ${createSwitch('show_extension_icon')}
+    ${createSwitch('show_create_column')}
+    ${createSwitch('show_back_column')}`;
+
+  const searchAndFolder = /* html */`
     ${createSwitch('show_search')}
     ${createSwitch('show_folder_picker')}
-    ${createSwitch('show_create_column')}
-    ${createSwitch('show_back_column')}
     ${createSwitch('toolbar_match_tile_background')}
       <label class="quick-settings__field" for="quick_toolbar_background_color"
         data-quick-toolbar-background>
@@ -427,6 +429,7 @@ function createPanel() {
         ${createGroup('grid', message('settings_group_grid'), grid)}
         ${createGroup('tile-style', message('settings_group_tile_style'), tileAppearance)}
         ${createGroup('tile-content', message('settings_group_tile_content'), tileContent)}
+        ${createGroup('search-folder', message('settings_group_search_folder'), searchAndFolder)}
         ${createGroup('interface', message('settings_group_interface'), interfaceControls)}
         <section class="quick-settings__reset">
           <button class="btn btn--clear quick-settings__reset-button md-ripple" type="button"
