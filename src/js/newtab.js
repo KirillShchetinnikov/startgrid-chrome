@@ -376,13 +376,20 @@ async function init() {
     generateThumbsBtn.addEventListener('click', handleGenerateThumbs);
   }
 
-  // if tab with bookmarks is open, but hidden, we need to reload, after updating thumbnails
+  // Coalesce changes while hidden and refresh the current view when visible again.
   const scheduleBookmarkRefresh = createRefreshScheduler(
     async() => {
       await Bookmarks.ensureDefaultFolder();
       return Bookmarks.refreshCurrentView();
-    }
+    },
+    { isHidden: () => document.hidden }
   );
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) return;
+    scheduleBookmarkRefresh.resume().catch(error => {
+      console.warn('Could not refresh bookmarks after returning to StartGrid', error);
+    });
+  });
   const locallySortedBookmarkIds = new Set();
   let localSortTimeout = null;
   document.addEventListener('vb:bookmarks-sort-persist', ({ detail }) => {
@@ -395,10 +402,6 @@ async function init() {
     const { eventType, id } = request.bookmarksChanged;
     if (eventType === 'moved' && locallySortedBookmarkIds.delete(String(id))) {
       if (!locallySortedBookmarkIds.size) clearTimeout(localSortTimeout);
-      return;
-    }
-    if (document.hidden) {
-      window.location.reload();
       return;
     }
     scheduleBookmarkRefresh().catch(error => {

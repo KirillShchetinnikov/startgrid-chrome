@@ -87,6 +87,68 @@ describe('bookmark worker/page event policies', () => {
     expect(createSpeedDial).toHaveBeenCalledWith('home');
   });
 
+  it('defers hidden changes and refreshes once on return, without refreshing clean tabs', async() => {
+    let hidden = true;
+    const refresh = jest.fn().mockResolvedValue();
+    const schedule = createRefreshScheduler(refresh, { isHidden: () => hidden });
+
+    await schedule();
+    await schedule();
+    await schedule.resume();
+    expect(refresh).not.toHaveBeenCalled();
+
+    hidden = false;
+    await Promise.all([schedule.resume(), schedule.resume()]);
+    expect(refresh).toHaveBeenCalledTimes(1);
+    hidden = true;
+    await schedule.resume();
+    hidden = false;
+    await schedule.resume();
+    expect(refresh).toHaveBeenCalledTimes(1);
+  });
+
+  it('defers a queued refresh if the tab hides before it starts', async() => {
+    let hidden = false;
+    const refresh = jest.fn().mockResolvedValue();
+    const schedule = createRefreshScheduler(refresh, { isHidden: () => hidden });
+    const queued = schedule();
+    hidden = true;
+    await queued;
+    expect(refresh).not.toHaveBeenCalled();
+    hidden = false;
+    await schedule.resume();
+    expect(refresh).toHaveBeenCalledTimes(1);
+  });
+
+  it('retains changes received during a refresh when the tab becomes hidden', async() => {
+    let hidden = false;
+    let release;
+    const refresh = jest.fn()
+      .mockImplementationOnce(() => new Promise(resolve => { release = resolve; }))
+      .mockResolvedValue();
+    const schedule = createRefreshScheduler(refresh, { isHidden: () => hidden });
+    const first = schedule();
+    await Promise.resolve();
+    hidden = true;
+    schedule();
+    release();
+    await first;
+    expect(refresh).toHaveBeenCalledTimes(1);
+    hidden = false;
+    await schedule.resume();
+    expect(refresh).toHaveBeenCalledTimes(2);
+  });
+
+  it('retries a failed refresh on the next return without a retry loop', async() => {
+    const error = new Error('temporary read failure');
+    const refresh = jest.fn().mockRejectedValueOnce(error).mockResolvedValue();
+    const schedule = createRefreshScheduler(refresh);
+    await expect(schedule()).rejects.toBe(error);
+    expect(refresh).toHaveBeenCalledTimes(1);
+    await schedule.resume();
+    expect(refresh).toHaveBeenCalledTimes(2);
+  });
+
   it('clears the import guard before one authoritative broadcast and isolates menu failure', async() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     const order = [];

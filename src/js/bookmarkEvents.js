@@ -107,36 +107,40 @@ export async function cleanupRemovedBookmark({
   return ids;
 }
 
-export function createRefreshScheduler(refresh) {
+export function createRefreshScheduler(refresh, { isHidden = () => false } = {}) {
   let scheduled = false;
   let running = false;
-  let rerun = false;
+  let pending = false;
   let current = Promise.resolve();
 
   const run = async() => {
     scheduled = false;
     running = true;
     try {
-      do {
-        rerun = false;
+      while (pending && !isHidden()) {
+        pending = false;
         await refresh();
-      } while (rerun);
+      }
+    } catch (error) {
+      pending = true;
+      throw error;
     } finally {
       running = false;
     }
   };
 
-  return function scheduleRefresh() {
-    if (running) {
-      rerun = true;
-      return current;
-    }
-    if (scheduled) return current;
+  function scheduleRefresh() {
+    pending = true;
+    if (isHidden() || running || scheduled) return current;
 
     scheduled = true;
     current = Promise.resolve().then(run);
     return current;
-  };
+  }
+
+  // Visibility changes should only resume work invalidated by a bookmark event.
+  scheduleRefresh.resume = () => pending ? scheduleRefresh() : current;
+  return scheduleRefresh;
 }
 
 export function refreshBookmarkView({

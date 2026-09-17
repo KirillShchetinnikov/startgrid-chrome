@@ -569,11 +569,22 @@ describe('StartGrid bookmark tests', () => {
     await controlPage.close();
   });
 
-  it('reloads a hidden newtab for an import-complete envelope', async() => {
+  it('defers a hidden newtab refresh until it becomes visible without reloading', async() => {
     const controlPage = await browser.newPage();
     await controlPage.goto(extensionUrl, { waitUntil: 'load' });
     await extPage.evaluate(() => {
       window.__hiddenReloadSentinel = 'before-import';
+      window.__hiddenImportReceived = false;
+      window.__hiddenRefreshCount = 0;
+      chrome.runtime.onMessage.addListener(request => {
+        if (request.bookmarksChanged?.eventType === 'imported') window.__hiddenImportReceived = true;
+      });
+      new MutationObserver(records => {
+        for (const record of records) {
+          window.__hiddenRefreshCount += Array.from(record.removedNodes)
+            .filter(node => node.id === 'add').length;
+        }
+      }).observe(document.getElementById('bookmarks'), { childList: true });
     });
     await controlPage.bringToFront();
     expect(await extPage.evaluate(() => document.hidden)).toBe(true);
@@ -584,9 +595,13 @@ describe('StartGrid bookmark tests', () => {
         bookmarksChanged: { eventType: 'imported', id: null }
       }, () => resolve());
     }));
-    await extPage.waitForFunction(() => window.__hiddenReloadSentinel === undefined);
+    await extPage.waitForFunction(() => window.__hiddenImportReceived, { polling: 100 });
+    expect(await extPage.evaluate(() => [window.__hiddenReloadSentinel, window.__hiddenRefreshCount]))
+      .toEqual(['before-import', 0]);
     await extPage.bringToFront();
-    await extPage.waitForSelector('#add');
+    await extPage.waitForFunction(() => window.__hiddenRefreshCount === 1
+      && document.getElementById('dial_loading')?.hidden && document.getElementById('add')?.isConnected);
+    expect(await extPage.evaluate(() => window.__hiddenReloadSentinel)).toBe('before-import');
     await controlPage.close();
   });
 
