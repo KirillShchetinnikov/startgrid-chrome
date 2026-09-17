@@ -3,8 +3,27 @@ import { $createElement, faviconURL } from '../../utils';
 import { getMessage } from '../../i18n';
 import { SVG_LOADER } from '../../constants';
 
+const imageObserver = typeof IntersectionObserver === 'function'
+  ? new IntersectionObserver(entries => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting) target.loadImages();
+    });
+  }, { rootMargin: '300px' })
+  : null;
+
+const DISPLAY_ATTRIBUTES = [
+  'href', 'title', 'image', 'is-folder', 'is-custom-image', 'open-newtab',
+  'thumbnail-source', 'style', 'data-title-position', 'usage-count',
+  'has-title', 'has-favicon', 'has-folder-preview', 'is-dnd'
+];
+const STRUCTURAL_ATTRIBUTES = new Set([
+  'is-folder', 'is-custom-image', 'open-newtab', 'usage-count',
+  'has-title', 'has-favicon', 'has-folder-preview', 'is-dnd'
+]);
+
 class VbBookmark extends HTMLAnchorElement {
   #isRendered = false;
+  #imagesLoaded = false;
   #overlayEl = null;
   #_folderChildren = [];
   #iconMap = {
@@ -19,17 +38,65 @@ class VbBookmark extends HTMLAnchorElement {
   }
 
   connectedCallback() {
-    this.#render();
-    this.#isRendered = true;
+    if (!this.#isRendered) {
+      this.#render();
+      this.#isRendered = true;
+    }
+    if (!this.#imagesLoaded) {
+      if (imageObserver) imageObserver.observe(this);
+      else this.loadImages();
+    }
   }
 
   disconnectedCallback() {
-    document.dispatchEvent(new CustomEvent('bookmark-removed', {
-      detail: {
-        id: this.id,
-        image: this.image
+    imageObserver?.unobserve(this);
+    // insertBefore during sorting also disconnects custom elements temporarily.
+    queueMicrotask(() => {
+      if (!this.isConnected) {
+        document.dispatchEvent(new CustomEvent('bookmark-removed', {
+          detail: { id: this.id, image: this.image }
+        }));
       }
-    }));
+    });
+  }
+
+  loadImages() {
+    if (this.#imagesLoaded || !this.isConnected) return;
+    this.#imagesLoaded = true;
+    imageObserver?.unobserve(this);
+    const thumbnail = this.querySelector('[data-thumb]');
+    if (this.image) {
+      thumbnail.style.backgroundImage = `url('${this.image}')`;
+    } else if (this.isFolder) {
+      thumbnail.querySelectorAll('.bookmark__img--children').forEach((node, index) => {
+        const child = this.folderChidlren[index];
+        if (!child || child.isFolder) return;
+        node.style.backgroundImage = `url('${child.image || this.#getLogoUrl(child.url)}')`;
+      });
+    } else {
+      thumbnail.style.backgroundImage = `url('${this.#getLogoUrl(this.url)}')`;
+    }
+    this.#updateFavicon();
+  }
+
+  updateFrom(next) {
+    const changed = DISPLAY_ATTRIBUTES.filter(name => this.getAttribute(name) !== next.getAttribute(name));
+    const childrenChanged = JSON.stringify(this.folderChidlren) !== JSON.stringify(next.folderChidlren);
+    const rebuild = changed.some(name => STRUCTURAL_ATTRIBUTES.has(name))
+      || childrenChanged || this.searchFolderLabel !== next.searchFolderLabel;
+    this.parentId = next.parentId;
+    this.folderChidlren = next.folderChidlren;
+    this.searchFolderLabel = next.searchFolderLabel;
+    if (rebuild) this.#isRendered = false;
+    changed.forEach(name => {
+      const value = next.getAttribute(name);
+      if (value === null) this.removeAttribute(name);
+      else this.setAttribute(name, value);
+    });
+    if (rebuild) {
+      this.#render();
+      this.#isRendered = true;
+    }
   }
 
   static get observedAttributes() {
@@ -60,15 +127,16 @@ class VbBookmark extends HTMLAnchorElement {
   }
 
   #updateLogo() {
+    if (!this.#imagesLoaded) return;
     const imageEl = this.querySelector('.bookmark__img');
-    imageEl.className = 'bookmark__img bookmark__img--logo';
+    imageEl.className = 'bookmark__img bookmark__img--logo bookmark__img--sized';
     imageEl.style.backgroundImage = `url('${this.#getLogoUrl(this.url)}')`;
   }
 
   #updateFavicon() {
-    if (this.hasFavicon) {
+    if (this.#imagesLoaded && this.hasFavicon) {
       const faviconEl = this.querySelector('.bookmark__favicon');
-      faviconEl.src = this.#getFaviconUrl();
+      if (faviconEl) faviconEl.src = this.isFolder ? '/img/folder.svg' : this.#getFaviconUrl();
     }
   }
 
@@ -90,7 +158,6 @@ class VbBookmark extends HTMLAnchorElement {
     }
     if (
       attr === 'href' &&
-      this.hasTitle &&
       !this.isFolder
     ) {
       if (!this.image) {
@@ -111,10 +178,10 @@ class VbBookmark extends HTMLAnchorElement {
           el.classList.add('bookmark__img--folder');
         } else if (child.image) {
           el.classList.add('bookmark__img--contain');
-          el.style.backgroundImage = `url('${child.image}')`;
+          if (this.#imagesLoaded) el.style.backgroundImage = `url('${child.image}')`;
         } else {
           el.classList.add('bookmark__img--logo');
-          el.style.backgroundImage = `url('${this.#getLogoUrl(child.url)}')`;
+          if (this.#imagesLoaded) el.style.backgroundImage = `url('${this.#getLogoUrl(child.url)}')`;
         }
         fragment.appendChild(el);
       });
@@ -149,7 +216,8 @@ class VbBookmark extends HTMLAnchorElement {
         class: 'bookmark__favicon',
         width: 16,
         height: 16,
-        src: this.isFolder ? '/img/folder.svg' : this.#getFaviconUrl(),
+        ...(this.#imagesLoaded && { src: this.isFolder ? '/img/folder.svg' : this.#getFaviconUrl() }),
+        decoding: 'async',
         alt: ''
       });
       caption.appendChild(favicon);
@@ -172,7 +240,7 @@ class VbBookmark extends HTMLAnchorElement {
       thumbnail.classList.add('bookmark__img--sized');
       thumbnail.classList.toggle('bookmark__img--logo', isFavicon);
       thumbnail.classList.toggle('bookmark__img--contain', !isFavicon && (this.isCustomImage || this.isFolder));
-      thumbnail.style.backgroundImage = `url('${this.image}')`;
+      if (this.#imagesLoaded) thumbnail.style.backgroundImage = `url('${this.image}')`;
     } else if (this.isFolder) {
       if (this.hasFolderPreview) {
         thumbnail.classList.add('bookmark__summary-folder');
@@ -188,7 +256,7 @@ class VbBookmark extends HTMLAnchorElement {
     } else {
       thumbnail.classList.add('bookmark__img--logo');
       thumbnail.classList.add('bookmark__img--sized');
-      thumbnail.style.backgroundImage = `url('${this.#getLogoUrl(this.url)}')`;
+      if (this.#imagesLoaded) thumbnail.style.backgroundImage = `url('${this.#getLogoUrl(this.url)}')`;
     }
 
     return thumbnail;
@@ -199,6 +267,8 @@ class VbBookmark extends HTMLAnchorElement {
     this.classList.add('bookmark');
     if (this.openNewTab && !this.isFolder) {
       this.setAttribute('target', '_blank');
+    } else {
+      this.removeAttribute('target');
     }
 
     this.append(
@@ -227,6 +297,7 @@ class VbBookmark extends HTMLAnchorElement {
         'data-id': this.id
       }));
     }
+    if (this.hasOverlay) this.#toggleOverlay(true);
   }
 
   #canDisplayLogo(url) {
@@ -303,9 +374,7 @@ class VbBookmark extends HTMLAnchorElement {
     return this.getAttribute('title') || ``;
   }
   set title(value) {
-    if (value) {
-      this.setAttribute('title', value);
-    }
+    this.setAttribute('title', value || '');
   }
 
   get image() {

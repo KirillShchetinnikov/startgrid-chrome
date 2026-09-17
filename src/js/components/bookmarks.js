@@ -8,7 +8,7 @@ import { settings, LAST_OPENED_FOLDER_ID } from '../settings';
 import { usesHomeLayout, allowsIndividualAppearance, effectiveHomeSort } from '../folderMode';
 import { updateDefaultFolder } from '../defaultFolderSettings';
 import { getFolderPreviewCandidates } from '../folderPreview';
-import { releaseThumbnailUrls } from '../bookmarkRendering';
+import { reconcileBookmarkGrid, releaseThumbnailUrls } from '../bookmarkRendering';
 import { storage } from '../api/storage';
 import {
   move,
@@ -238,24 +238,8 @@ const Bookmarks = (() => {
     }, false);
 
     document.addEventListener('bookmark-removed', ({ detail }) => {
-      // on any action, folder change or bookmark removal (from DOM)
-      // remove the previously created url of the blob object from memory
       if (!document.getElementById(`vb-${detail.id}`)) {
-        URL.revokeObjectURL(detail.image);
-
-        const thumbnail = THUMBNAILS_MAP.get(detail.id);
-        if (thumbnail) {
-          if (thumbnail.children) {
-            // if there are thumbnails in the children, clear them from memory too
-            thumbnail.children.forEach(item => {
-              if (item.blobUrl) {
-                URL.revokeObjectURL(item.blobUrl);
-              }
-            });
-          }
-          // delete an inaccessible item from Map
-          THUMBNAILS_MAP.delete(detail.id);
-        }
+        releaseThumbnailFromMemory(detail.id);
       }
     });
 
@@ -301,6 +285,7 @@ const Bookmarks = (() => {
           ghost.folderChidlren = renderFolderChildren(ghost);
         }
         document.body.appendChild(ghost);
+        ghost.loadImages();
 
         if (draggingItems.length > 1) {
           classes.push('multiply-ghost');
@@ -507,14 +492,6 @@ const Bookmarks = (() => {
     }));
   }
 
-  function clearContainer() {
-    if (!container.firstChild) return;
-
-    while (container.firstChild) {
-      container.firstChild.remove();
-    }
-  }
-
   /**
    * Create an array of strings from bookmarks inside a folder
    * @param {Array<BookmarkTreeNode>} bookmarks
@@ -523,7 +500,13 @@ const Bookmarks = (() => {
   function getChildrenBookmarks(bookmarks) {
     return bookmarks.reduce((acc, bookmark) => {
       if (bookmark.children) {
-        acc.push(...$shuffle(getFolderPreviewCandidates(bookmark)).slice(0, 4));
+        const candidates = getFolderPreviewCandidates(bookmark);
+        const byId = new Map(candidates.map(child => [child.id, child]));
+        const retained = (THUMBNAILS_MAP.get(bookmark.id)?.children || [])
+          .map(child => byId.get(child.id)).filter(Boolean).slice(0, 4);
+        const previousIds = new Set(retained.map(child => child.id));
+        const remaining = retained.length < 4 ? candidates.filter(child => !previousIds.has(child.id)) : [];
+        acc.push(...retained, ...$shuffle(remaining).slice(0, 4 - retained.length));
       }
       return acc;
     }, []);
@@ -666,7 +649,6 @@ const Bookmarks = (() => {
   ) {
     if (!isCurrentRenderRequest(requestId)) return;
     dialLoading.hidden = false;
-    clearContainer();
 
     const isHomeFolder = isHomeLayout();
     const limited = settings.$.show_last_opened_folder;
@@ -690,6 +672,11 @@ const Bookmarks = (() => {
       ImageDB.getAllByIds(bookmarksIds),
       limited ? new Map() : getBookmarkTextPreferences(bookmarksArr.map(bookmark => bookmark.id))
     ]);
+    if (container.classList.contains('has-dragging')) {
+      await new Promise(resolve => container.addEventListener('dragend', resolve, { once: true }));
+      if (!isCurrentRenderRequest(requestId)) return;
+      return refreshCurrentView();
+    }
     if (!isCurrentRenderRequest(requestId)) return;
     TEXT_PREFERENCES_MAP.clear();
     textPreferences.forEach((preferences, id) => {
@@ -702,8 +689,8 @@ const Bookmarks = (() => {
       childrenBookmarks = getChildrenBookmarks(bookmarksArr);
     }
 
-    // Also release stored URLs that were not displayed by any tile.
-    releaseThumbnailUrls(THUMBNAILS_MAP.values());
+    // Retain ownership of old URLs until the new view has replaced their consumers.
+    const previousThumbnails = [...THUMBNAILS_MAP.values()];
     THUMBNAILS_MAP.clear();
 
     // convert blob to thumbnail url for main bookmarks
@@ -734,7 +721,8 @@ const Bookmarks = (() => {
       }
     }
 
-    container.appendChild(fragment);
+    reconcileBookmarkGrid(container, fragment);
+    releaseThumbnailUrls(previousThumbnails, THUMBNAILS_MAP.values());
     if (limited) {
       refreshLimitedFavicons(bookmarksArr).catch(console.warn);
     } else if (isHomeFolder) {
@@ -1613,12 +1601,16 @@ const Bookmarks = (() => {
         announce(getMessage('search_results_display'));
       } else {
         container.innerHTML = `<div class="empty-search">🙁 ${getMessage('empty_search')}</div>`;
+        releaseThumbnailUrls(THUMBNAILS_MAP.values());
+        THUMBNAILS_MAP.clear();
         announce(getMessage('empty_search'));
       }
     } catch (error) {
       if (requestId !== activeSearchRequest) return;
       console.error('Bookmark search failed', error);
       container.innerHTML = `<div class="empty-search">🙁 ${getMessage('search_failed')}</div>`;
+      releaseThumbnailUrls(THUMBNAILS_MAP.values());
+      THUMBNAILS_MAP.clear();
       announce(getMessage('search_failed'), 'assertive');
     } finally {
       if (requestId === activeSearchRequest) dialLoading.hidden = true;
@@ -1785,11 +1777,7 @@ const Bookmarks = (() => {
       ids.push(...nestedBookmarksIds);
     }
 
-    const thumbnail = THUMBNAILS_MAP.get(id);
-    if (thumbnail) {
-      URL.revokeObjectURL(thumbnail.blobUrl);
-    }
-    THUMBNAILS_MAP.delete(id);
+    releaseThumbnailFromMemory(id);
 
     return Promise.all(
       ids.map(id => ImageDB.delete(id))

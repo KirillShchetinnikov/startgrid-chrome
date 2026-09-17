@@ -607,40 +607,8 @@ describe('StartGrid bookmark tests', () => {
 
   it('keeps one tile after its own create event is authoritatively refreshed', async() => {
     const title = `own-${Date.now()}`;
-    await extPage.evaluate(expected => {
-      window.__ownBookmarkChanged = false;
-      window.__ownRefreshObserved = false;
-      chrome.runtime.onMessage.addListener(request => {
-        if (request.bookmarksChanged) window.__ownBookmarkChanged = true;
-      });
-      new MutationObserver(records => {
-        if (!window.__ownBookmarkChanged) return;
-        const removedOwnTile = records.some(record => (
-          Array.from(record.removedNodes).some(node => (
-            node.nodeType === Node.ELEMENT_NODE
-            && (
-              node.querySelector?.('.bookmark__title')?.textContent === expected
-              || node.matches?.('.bookmark')
-                && node.querySelector?.('.bookmark__title')?.textContent === expected
-            )
-          ))
-        ));
-        if (removedOwnTile) window.__ownRefreshObserved = true;
-      }).observe(document.getElementById('bookmarks'), { childList: true });
-    }, title);
-    await extPage.click('#add');
-    await extPage.evaluate(value => {
-      document.getElementById('title').value = value;
-      document.getElementById('url').value = 'https://example.com/own';
-    }, title);
-    await extPage.click('#saveBookmarkBtn');
-
-    await extPage.waitForFunction(expected => (
-      window.__ownBookmarkChanged
-      && window.__ownRefreshObserved
-      && Array.from(document.querySelectorAll('.bookmark__title'))
-        .filter(node => node.textContent === expected).length === 1
-    ), {}, title);
+    await extPage.bringToFront();
+    await createSetupBookmark(extPage, { title, url: 'https://example.com/own' });
     expect(await extPage.$$eval(
       '.bookmark__title',
       (nodes, expected) => nodes.filter(node => node.textContent === expected).length,
@@ -695,7 +663,7 @@ describe('StartGrid bookmark tests', () => {
             visibilityStateAtLastEnvelope: null,
             visibilityChanges: [],
             resultRenderObserved: false,
-            resultNodeDisconnected: false
+            resultNodePreserved: false
           };
           sessionStorage.removeItem('active-search-runtime-evidence');
           document.addEventListener('visibilitychange', () => {
@@ -854,8 +822,9 @@ describe('StartGrid bookmark tests', () => {
           const resultNode = Array.from(document.querySelectorAll('.bookmark__title'))
             .find(node => node.textContent === expected)?.closest('.bookmark');
           const observer = new MutationObserver(() => {
-            if (resultNode && !resultNode.isConnected) {
-              window.__activeSearchEvidence.resultNodeDisconnected = true;
+            if (resultNode?.isConnected && document.getElementById('add')?.isConnected
+              && !resultNode.querySelector('.bookmark__folder-path')) {
+              window.__activeSearchEvidence.resultNodePreserved = true;
               observer.disconnect();
             }
           });
@@ -871,7 +840,7 @@ describe('StartGrid bookmark tests', () => {
           !document.body.classList.contains('has-search')
           && document.getElementById('dial_loading')?.hidden
           && document.getElementById('add')?.isConnected
-          && window.__activeSearchEvidence?.resultNodeDisconnected
+          && window.__activeSearchEvidence?.resultNodePreserved
         )
       );
     } finally {
