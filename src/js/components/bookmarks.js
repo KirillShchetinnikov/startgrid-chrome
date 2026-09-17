@@ -8,6 +8,7 @@ import { settings, LAST_OPENED_FOLDER_ID } from '../settings';
 import { usesHomeLayout, allowsIndividualAppearance, effectiveHomeSort } from '../folderMode';
 import { updateDefaultFolder } from '../defaultFolderSettings';
 import { getFolderPreviewCandidates } from '../folderPreview';
+import { releaseThumbnailUrls } from '../bookmarkRendering';
 import { storage } from '../api/storage';
 import {
   move,
@@ -701,7 +702,8 @@ const Bookmarks = (() => {
       childrenBookmarks = getChildrenBookmarks(bookmarksArr);
     }
 
-    // clear local thumbnail map
+    // Also release stored URLs that were not displayed by any tile.
+    releaseThumbnailUrls(THUMBNAILS_MAP.values());
     THUMBNAILS_MAP.clear();
 
     // convert blob to thumbnail url for main bookmarks
@@ -1796,7 +1798,7 @@ const Bookmarks = (() => {
 
   function releaseThumbnailFromMemory(id) {
     const thumbnail = THUMBNAILS_MAP.get(id);
-    if (thumbnail?.blobUrl) URL.revokeObjectURL(thumbnail.blobUrl);
+    releaseThumbnailUrls([thumbnail]);
     THUMBNAILS_MAP.delete(id);
   }
 
