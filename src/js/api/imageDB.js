@@ -136,19 +136,15 @@ export default class ImageDB {
   }
 
   static async getAllByIds(ids) {
+    if (!ids.length) return [];
     try {
       const db = await this.#dbConnect();
-      let cursor = await db.transaction(this.DB_STORE).store.openCursor();
-
-      const images = [];
-
-      while (cursor) {
-        if (ids.includes(cursor.value.id)) {
-          images.push(cursor.value);
-        }
-        cursor = await cursor.continue();
-      }
-      return images;
+      const tx = db.transaction(this.DB_STORE, 'readonly');
+      const [images] = await Promise.all([
+        Promise.all([...new Set(ids)].map(id => tx.store.get(id))),
+        tx.done
+      ]);
+      return images.filter(image => image !== undefined);
     } catch (err) {
       console.warn(err);
     }
