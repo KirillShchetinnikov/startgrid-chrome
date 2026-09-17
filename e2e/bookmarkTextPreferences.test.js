@@ -39,7 +39,7 @@ describe('bookmark text preferences', () => {
 
     expect(newtabHtml).not.toContain('bookmarkTitlePosition');
     expect(bookmarksSource).not.toContain('textPreferences.titlePosition');
-    expect(bookmarksSource.match(/titlePosition: settings\.\$\.bookmark_title_position,/g))
+    expect(bookmarksSource.match(/titlePosition: settings\.effective\.bookmark_title_position,/g))
       .toHaveLength(2);
     expect(preferencesSource).not.toContain('titlePosition');
   });

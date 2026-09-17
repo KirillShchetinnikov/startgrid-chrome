@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "Rückgängig machen"
+  },
+  "performance_mode": {
+    "message": "Leistungsmodus"
+  },
+  "performance_mode_full": {
+    "message": "Vollständig"
+  },
+  "performance_mode_fast": {
+    "message": "Schnell"
+  },
+  "performance_mode_description": {
+    "message": "Der schnelle Modus deaktiviert aufwendige Effekte und Hintergrundaufgaben. Gespeicherte Einstellungen werden im vollständigen Modus wiederhergestellt. Geöffnete StartGrid-Seiten werden beim Wechsel neu geladen."
+  },
+  "performance_mode_video": {
+    "message": "Videos werden im schnellen Modus nicht unterstützt. Sie können das Video durch ein Bild ersetzen."
+  },
+  "setting_unavailable_fast": {
+    "message": "Im schnellen Modus nicht verfügbar."
+  },
+  "setting_unavailable_last_folder": {
+    "message": "Nicht verfügbar, solange „Letzten Ordner öffnen“ aktiviert ist."
+  },
+  "setting_unavailable_toolbar": {
+    "message": "Deaktivieren Sie „Kachelhintergrund übernehmen“, um diese Einstellung zu ändern."
+  },
+  "setting_requires": {
+    "message": "Erforderlich: $SETTING$.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "Nur Bilder. Animierte Bilder werden als Standbild gespeichert."
+  },
+  "fast_background_error_download": {
+    "message": "Das Bild konnte nicht heruntergeladen werden. Der schnelle Modus benötigt ein lokal speicherbares Bild."
+  },
+  "fast_background_error_format": {
+    "message": "Nicht unterstütztes Bildformat. Verwenden Sie ein statisches JPEG, PNG, WebP, GIF oder AVIF. SVG und Video werden nicht unterstützt."
+  },
+  "fast_background_error_animated": {
+    "message": "Animierte Bilder über URL werden im schnellen Modus nicht unterstützt. Wählen Sie ein Standbild."
+  },
+  "fast_background_error_cache": {
+    "message": "Das Bild kann nicht lokal gespeichert werden. Der Server verbietet möglicherweise das Caching oder der lokale Speicher ist nicht verfügbar."
+  },
+  "fast_background_error_size": {
+    "message": "Das Bild ist zu groß. Verwenden Sie eine Datei bis 20 MB und 32 Megapixel."
+  },
+  "fast_background_url_note": {
+    "message": "Schneller Modus: nur statische JPEG-, PNG-, WebP-, GIF- oder AVIF-Bilder, die heruntergeladen und lokal gespeichert werden können. Eine Kopie bis 1920 × 1080 wird gespeichert."
   }
 }

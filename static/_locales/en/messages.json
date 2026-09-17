@@ -1057,5 +1057,58 @@
   "error_input_step": { "message": "Use increments of $step$", "placeholders": { "step": { "content": "$1" } } },
   "undo": {
     "message": "Undo"
+  },
+  "performance_mode": {
+    "message": "Performance mode"
+  },
+  "performance_mode_full": {
+    "message": "Full"
+  },
+  "performance_mode_fast": {
+    "message": "Fast"
+  },
+  "performance_mode_description": {
+    "message": "Fast mode disables demanding effects and background tasks. Saved settings are restored in Full mode. Switching reloads open StartGrid pages."
+  },
+  "performance_mode_video": {
+    "message": "Video is not supported in Fast mode. You can replace it with an image."
+  },
+  "setting_unavailable_fast": {
+    "message": "Unavailable in Fast mode."
+  },
+  "setting_unavailable_last_folder": {
+    "message": "Unavailable while “Open the last folder” is enabled."
+  },
+  "setting_unavailable_toolbar": {
+    "message": "Disable “Match tile background” to change this setting."
+  },
+  "setting_requires": {
+    "message": "Requires: $SETTING$.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "Images only. Animated images are saved as a still frame."
+  },
+  "fast_background_error_download": {
+    "message": "The image could not be downloaded. Fast mode requires a downloadable image that can be cached locally."
+  },
+  "fast_background_error_format": {
+    "message": "Unsupported image format. Use a static JPEG, PNG, WebP, GIF or AVIF image. SVG and video are not supported."
+  },
+  "fast_background_error_animated": {
+    "message": "Animated images from a URL are not supported in Fast mode. Choose a still image."
+  },
+  "fast_background_error_cache": {
+    "message": "The image cannot be cached locally. The server may forbid caching, or local storage may be unavailable."
+  },
+  "fast_background_error_size": {
+    "message": "The image is too large. Use a file up to 20 MB and 32 megapixels."
+  },
+  "fast_background_url_note": {
+    "message": "Fast mode: static JPEG, PNG, WebP, GIF or AVIF only. The image must allow downloading and local caching. A copy up to 1920 × 1080 is saved locally."
   }
 }

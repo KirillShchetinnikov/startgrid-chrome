@@ -189,7 +189,9 @@ describe('limited last-folder mode', () => {
     await options.setViewport({ width: 1280, height: 900 });
     await options.goto(extensionUrl.replace('newtab.html', 'options.html'));
     await options.waitForSelector('#show_last_opened_folder');
-    expect(await options.$eval('#setting_thumbnail_source', node => node.hidden)).toBe(true);
+    expect(await options.$eval('#setting_thumbnail_source', node => node.hidden)).toBe(false);
+    expect(await options.$eval('#thumbnail_source', node => node.disabled)).toBe(true);
+    expect(await options.$eval('#setting_thumbnail_source', node => node.dataset.unavailableReason)).toBeTruthy();
     expect(await options.$eval('#home_sort_by', node => node.value)).toBe('manual');
     // Each mode change reloads the new-tab page. Let that reload finish before
     // changing the mode again so its startup settings write cannot race the test.
@@ -200,7 +202,7 @@ describe('limited last-folder mode', () => {
     await page.bringToFront();
     await page.waitForFunction(() => document.body.classList.contains('page-ready'));
     await options.bringToFront();
-    await options.waitForFunction(() => !document.getElementById('setting_thumbnail_source').hidden);
+    await options.waitForFunction(() => !document.getElementById('thumbnail_source').disabled);
     expect(await options.$eval('#home_sort_by', node => node.value)).toBe('usage');
     await Promise.all([
       page.waitForNavigation({ waitUntil: 'load' }),
@@ -209,7 +211,7 @@ describe('limited last-folder mode', () => {
     await page.bringToFront();
     await page.waitForFunction(() => document.body.classList.contains('page-ready'));
     await options.bringToFront();
-    await options.waitForFunction(() => document.getElementById('setting_thumbnail_source').hidden);
+    await options.waitForFunction(() => document.getElementById('thumbnail_source').disabled);
     await options.close();
     await page.bringToFront();
     await page.waitForSelector('#add');

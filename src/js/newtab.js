@@ -1,3 +1,4 @@
+import { isFastMode } from './performanceMode';
 import './components/vb-select';
 import './components/vb-context-menu';
 import './components/vb-scrollup';
@@ -126,10 +127,14 @@ function updateExtensionIconVisibility(visible) {
 
 function handleLanguageStorageChange(changes, areaName) {
   const incoming = changes.settings?.newValue;
+  if (areaName === 'local' && incoming && isFastMode(incoming) !== isFastMode(settings.$)) {
+    window.location.reload();
+    return;
+  }
   if (areaName === 'local' && incoming
     && changes.settings.oldValue?.show_last_opened_folder !== incoming.show_last_opened_folder
-    && typeof settings.$.show_last_opened_folder === 'boolean'
-    && incoming.show_last_opened_folder !== settings.$.show_last_opened_folder) {
+    && typeof settings.effective.show_last_opened_folder === 'boolean'
+    && incoming.show_last_opened_folder !== settings.effective.show_last_opened_folder) {
     window.location.reload();
     return;
   }
@@ -139,9 +144,9 @@ function handleLanguageStorageChange(changes, areaName) {
 }
 
 function updateThumbnailControls(folderId) {
-  const enabled = settings.$.show_last_opened_folder
-    ? settings.$.download_favicons_by_default
-    : Bookmarks.isDefaultFolder(folderId);
+  const enabled = !isFastMode(settings.$) && (settings.effective.show_last_opened_folder
+    ? settings.effective.download_favicons_by_default
+    : Bookmarks.isDefaultFolder(folderId));
   if (generateThumbsBtn) {
     generateThumbsBtn.hidden = !enabled;
   }
@@ -149,7 +154,7 @@ function updateThumbnailControls(folderId) {
 }
 
 function incrementBookmarkUsage(bookmark) {
-  if (settings.$.show_last_opened_folder) return;
+  if (isFastMode(settings.$) || settings.effective.show_last_opened_folder) return;
   const count = recordBookmarkUsage(bookmark.id);
   const badge = bookmark.querySelector?.('.bookmark__usage-count');
   if (!badge) return;
@@ -209,8 +214,8 @@ async function init() {
   await settings.init();
   await window.vbThemeReady;
   await window.vbToggleTheme();
-  updateExtensionIconVisibility(settings.$.show_extension_icon);
-  updateMainPageScrollLock(settings.$.disable_main_page_scroll);
+  updateExtensionIconVisibility(settings.effective.show_extension_icon);
+  updateMainPageScrollLock(settings.effective.disable_main_page_scroll);
   await showSyncQuotaError();
 
   /**
@@ -219,21 +224,21 @@ async function init() {
   const gridLayout = UI.calculateStyles();
   const gridSettingsUpdate = {};
   if (window.matchMedia('(width > 480px)').matches
-    && Number(settings.$.dial_width) !== gridLayout.gridWidth) {
+    && Number(settings.effective.dial_width) !== gridLayout.gridWidth) {
     gridSettingsUpdate.dial_width = gridLayout.gridWidth;
   }
-  if (Number(settings.$.dial_tile_size) !== gridLayout.tileSize) {
+  if (Number(settings.effective.dial_tile_size) !== gridLayout.tileSize) {
     Object.assign(gridSettingsUpdate, {
       dial_tile_size: gridLayout.tileSize,
       ...scaleTileContentSettings({
-        faviconSize: settings.$.favicon_size,
-        fromTileSize: settings.$.dial_tile_size,
-        titleSize: settings.$.bookmark_title_size,
+        faviconSize: settings.effective.favicon_size,
+        fromTileSize: settings.effective.dial_tile_size,
+        titleSize: settings.effective.bookmark_title_size,
         toTileSize: gridLayout.tileSize
       })
     });
   }
-  if (Number(settings.$.dial_horizontal_gap) !== gridLayout.horizontalGap) {
+  if (Number(settings.effective.dial_horizontal_gap) !== gridLayout.horizontalGap) {
     gridSettingsUpdate.dial_horizontal_gap = gridLayout.horizontalGap;
   }
   if (Object.keys(gridSettingsUpdate).length) {
@@ -297,7 +302,7 @@ async function init() {
 
   quickSettingsApi = initQuickDisplaySettings({
     container: asideControlsNode,
-    showTrigger: settings.$.show_quick_settings_icon,
+    showTrigger: settings.effective.show_quick_settings_icon,
     onRerender: () => {
       updateThumbnailControls();
       return Bookmarks.refresh();
@@ -306,7 +311,7 @@ async function init() {
       ctxMenuEl.close();
       modalApi.close();
       await hideControlMultiplyBookmarks();
-      if (settings.$.show_last_opened_folder) {
+      if (settings.effective.show_last_opened_folder) {
         localStorage.setItem(LAST_OPENED_FOLDER_ID, getCurrentFolderId());
         await Bookmarks.applyFolderMode();
       } else {
@@ -322,7 +327,7 @@ async function init() {
     onHeaderVisibilityChange: visibility => Bookmarks.setHeaderVisibility(visibility)
   });
 
-  if (settings.$.show_settings_icon) {
+  if (settings.effective.show_settings_icon) {
     const settingsLabel = getMessage('options');
     asideControlsNode.append($createElement('a', {
       id: 'settings_icon',
@@ -342,7 +347,7 @@ async function init() {
   );
 
   // If thumbnail generation button
-  if (settings.$.thumbnails_update_button) {
+  if (settings.effective.thumbnails_update_button) {
     const thumbnailsUpdateLabel = getMessage('thumbnails_update');
     generateThumbsBtn = $createElement('button', {
       class: 'circ-btn update-thumbnails',
@@ -423,8 +428,8 @@ async function init() {
     code === 'Escape' && hideControlMultiplyBookmarks();
   });
 
-  snowController = initSnow(settings.$.snow_mode);
-  initKeyboardShortcuts(settings.$.keyboard_shortcuts, handleKeyboardShortcutAction);
+  snowController = initSnow(settings.effective.snow_mode);
+  initKeyboardShortcuts(settings.effective.keyboard_shortcuts, handleKeyboardShortcutAction);
   UI.calculateStyles();
 }
 
@@ -480,7 +485,7 @@ function handleSelectBookmark(e) {
   if (!bookmark) return true;
 
   const selectionModifier = normalizeSelectionModifier(
-    settings.$.keyboard_shortcuts.select_multiple_bookmarks
+    settings.effective.keyboard_shortcuts.select_multiple_bookmarks
   );
   if (!eventMatchesSelectionModifier(e, selectionModifier)) return true;
 
@@ -540,7 +545,7 @@ async function showControlMultiplyBookmarks() {
     class: 'bookmarks-panel'
   });
   vbBookmarksPanel.selectedFolder = getCurrentFolderId() || settings.defaultFolderId;
-  vbBookmarksPanel.allowThumbnailUpdates = Bookmarks.isDefaultFolder();
+  vbBookmarksPanel.allowThumbnailUpdates = !isFastMode(settings.$) && Bookmarks.isDefaultFolder();
   vbBookmarksPanel.folders = await getFolders();
 
   document.body.append(vbBookmarksPanel);
@@ -711,7 +716,7 @@ function checkLocalProtocol(url) {
 }
 
 function openLocalProtocol(url) {
-  const open = settings.$.open_bookmarks_newtab ? browser.tabs.create : browser.tabs.update;
+  const open = settings.effective.open_bookmarks_newtab ? browser.tabs.create : browser.tabs.update;
 
   open({
     url
@@ -839,11 +844,11 @@ function showModalImage(image, id = null) {
 
 async function showModalThumbnail(id, showStoredImage = true) {
   const imageData = await ImageDB.get(id);
-  const source = resolveThumbnailSource(imageData, settings.$.thumbnail_source);
+  const source = resolveThumbnailSource(imageData, settings.effective.thumbnail_source);
   if (!canUseStoredThumbnail(imageData, source) || !showStoredImage) {
     const bookmark = document.getElementById(`vb-${id}`);
     if (bookmark?.url && source === 'favicon') {
-      const size = Number(thumbnailImageSize.value) || settings.$.favicon_size;
+      const size = Number(thumbnailImageSize.value) || settings.effective.favicon_size;
       showModalImage(faviconURL(bookmark.url, size));
     } else {
       customScreen.style.display = '';
@@ -862,7 +867,7 @@ function getModalBookmark() {
 async function handleCaptureThumbnail() {
   const selectedSource = thumbnailSource.value;
   const source = selectedSource === 'inherit'
-    ? settings.$.thumbnail_source
+    ? settings.effective.thumbnail_source
     : selectedSource;
   const sourceOverride = selectedSource !== 'inherit';
   const bookmark = getModalBookmark();
@@ -1041,7 +1046,7 @@ function handleThumbnailSourceChange() {
   resetCustomImageButton.hidden = false;
   const selectedSource = thumbnailSource.value;
   const source = selectedSource === 'inherit'
-    ? settings.$.thumbnail_source
+    ? settings.effective.thumbnail_source
     : selectedSource;
   const isNew = form.getAttribute('data-action') === 'New';
   const isUrl = source === 'url';
@@ -1069,7 +1074,7 @@ function handleThumbnailSourceChange() {
 }
 
 async function removeSelectedBookmarks(multipleSelectedBookmarks) {
-  // if (!settings.$.without_confirmation) {
+  // if (!settings.effective.without_confirmation) {
   //   const confirmAction = await confirmPopup(getMessage('confirm_delete_selected_bookmarks'));
   //   if (!confirmAction) return;
   // }
@@ -1200,7 +1205,7 @@ function getModalThumbnailSize() {
 }
 
 function usesDownloadedFavicon(preferences = getModalFaviconPreferences()) {
-  return shouldDownloadFavicon(preferences, settings.$.download_favicons_by_default);
+  return shouldDownloadFavicon(preferences, settings.effective.download_favicons_by_default);
 }
 
 async function handleSubmitForm(evt) {
@@ -1212,10 +1217,10 @@ async function handleSubmitForm(evt) {
   const destinationFolderId = id === 'New'
     ? container.dataset.folder
     : modalSelectFolders.value;
-  const thumbnailEnabled = Bookmarks.isDefaultFolder(destinationFolderId);
+  const thumbnailEnabled = !isFastMode(settings.$) && Bookmarks.isDefaultFolder(destinationFolderId);
   const thumbnailSourceSelection = form.thumbnailSource.value;
   const thumbnailSourceValue = thumbnailSourceSelection === 'inherit'
-    ? settings.$.thumbnail_source
+    ? settings.effective.thumbnail_source
     : thumbnailSourceSelection;
   const thumbnailSourceOverride = thumbnailSourceSelection !== 'inherit';
   const thumbnailUrlValue = form.thumbnailUrl.value.trim();
@@ -1266,7 +1271,7 @@ async function handleSubmitForm(evt) {
     bookmark = await Bookmarks.createBookmark(title, url);
   }
 
-  if (bookmark && !settings.$.show_last_opened_folder) {
+  if (bookmark && !settings.effective.show_last_opened_folder) {
     await Bookmarks.setTextPreferences(bookmark, { titleSize });
   }
 
@@ -1274,7 +1279,7 @@ async function handleSubmitForm(evt) {
     await Bookmarks.setThumbnailSize(bookmark, thumbnailSize);
   }
 
-  if (bookmark && !settings.$.show_last_opened_folder) {
+  if (bookmark && !isFastMode(settings.$) && !settings.effective.show_last_opened_folder) {
     if (!thumbnailEnabled) {
       await Bookmarks.removeThumbnail(bookmark.id, bookmark.isFolder);
     } else if (thumbnailSourceSelection === 'inherit') {
@@ -1385,7 +1390,7 @@ async function handleSubmitForm(evt) {
 }
 
 async function handleResetThumb(evt) {
-  if (!settings.$.without_confirmation) {
+  if (!settings.effective.without_confirmation) {
     const confirmAction = await confirmPopup(getMessage('confirm_delete_image'));
     if (!confirmAction) return;
   }
@@ -1406,7 +1411,7 @@ async function handleResetThumb(evt) {
 
   const selectedSource = thumbnailSource.value;
   const source = selectedSource === 'inherit'
-    ? settings.$.thumbnail_source
+    ? settings.effective.thumbnail_source
     : selectedSource;
   await Bookmarks.clearCachedThumbnail(bookmark, source, selectedSource !== 'inherit');
   form.dataset.thumbnailHasImage = 'false';
@@ -1421,7 +1426,7 @@ async function prepareModal(target) {
   form.reset();
 
   if (target) {
-    bookmarkTitleSize.closest('.group').hidden = settings.$.show_last_opened_folder;
+    bookmarkTitleSize.closest('.group').hidden = settings.effective.show_last_opened_folder;
     modal.classList.add('has-edit');
 
     const bookmarkNode = await get(target.id).catch(err => console.warn(err));
@@ -1429,7 +1434,7 @@ async function prepareModal(target) {
 
     const { id, url, parentId } = bookmarkNode[0];
     const title = bookmarkNode[0].title;
-    const thumbnailEnabled = Bookmarks.isDefaultFolder(parentId);
+    const thumbnailEnabled = !isFastMode(settings.$) && Bookmarks.isDefaultFolder(parentId);
     const imageData = thumbnailEnabled ? await ImageDB.get(id) : null;
     form.setAttribute('data-action', id);
     form.dataset.thumbnailEnabled = String(thumbnailEnabled);
@@ -1448,7 +1453,7 @@ async function prepareModal(target) {
     titleField.value = title;
     const textPreferences = Bookmarks.getTextPreferences(id);
     bookmarkTitleSize.value = textPreferences.titleSize ?? '';
-    bookmarkTitleSize.placeholder = String(settings.$.bookmark_title_size);
+    bookmarkTitleSize.placeholder = String(settings.effective.bookmark_title_size);
 
     if (url) {
       urlWrap.style.display = '';
@@ -1457,7 +1462,7 @@ async function prepareModal(target) {
       thumbnailSource.value = getThumbnailSourceOverride(imageData);
       const resolvedThumbnailSource = resolveThumbnailSource(
         imageData,
-        settings.$.thumbnail_source
+        settings.effective.thumbnail_source
       );
       form.dataset.oldThumbnailSource = thumbnailSource.value;
       form.dataset.oldThumbnailUrl = imageData?.source === 'url' ? imageData.sourceUrl : '';
@@ -1470,7 +1475,7 @@ async function prepareModal(target) {
         : imageData?.downloadFavicon === false ? 'chrome' : 'inherit';
       const savedThumbnailSize = imageData?.thumbnailSize ?? imageData?.faviconSize;
       thumbnailImageSize.value = getThumbnailSizeOverride(savedThumbnailSize) || '';
-      thumbnailImageSize.placeholder = String(settings.$.favicon_size);
+      thumbnailImageSize.placeholder = String(settings.effective.favicon_size);
       document.getElementById('thumbnailSourceWrap').hidden = false;
       handleThumbnailSourceChange();
       if (thumbnailEnabled) {
@@ -1485,22 +1490,24 @@ async function prepareModal(target) {
     }
   } else {
     modal.classList.add('has-add');
-    bookmarkTitleSize.closest('.group').hidden = settings.$.show_last_opened_folder;
+    bookmarkTitleSize.closest('.group').hidden = settings.effective.show_last_opened_folder;
     modalHead.textContent = getMessage('add_bookmark');
     urlWrap.style.display = '';
     titleField.value = '';
     bookmarkTitleSize.value = '';
-    bookmarkTitleSize.placeholder = String(settings.$.bookmark_title_size);
+    bookmarkTitleSize.placeholder = String(settings.effective.bookmark_title_size);
     urlField.value = '';
     form.setAttribute('data-action', 'New');
-    form.dataset.thumbnailEnabled = String(Bookmarks.isDefaultFolder(container.dataset.folder));
+    form.dataset.thumbnailEnabled = String(
+      !isFastMode(settings.$) && Bookmarks.isDefaultFolder(container.dataset.folder)
+    );
     thumbnailSource.value = 'inherit';
     thumbnailUrl.value = '';
     deleteThumbnailButton.disabled = true;
     document.getElementById('thumbnailSourceWrap').hidden = false;
     faviconDownloadPreference.value = 'inherit';
     thumbnailImageSize.value = '';
-    thumbnailImageSize.placeholder = String(settings.$.favicon_size);
+    thumbnailImageSize.placeholder = String(settings.effective.favicon_size);
     const pastePermission = await containsPermissions({ permissions: ['clipboardRead'] });
     pasteThumbnailButton.disabled = pastePermission
       ? !(await checkClipboardImage())
@@ -1510,13 +1517,13 @@ async function prepareModal(target) {
 }
 
 function preparePageCascade() {
-  if (!settings.$.page_cascade_enabled) return 0;
+  if (!settings.effective.page_cascade_enabled) return 0;
 
-  const duration = settings.$.page_cascade_duration;
+  const duration = settings.effective.page_cascade_duration;
   const items = Array.from(document.querySelectorAll('#bookmarks > *'));
   const { itemDuration, delays, totalDuration } = calculateCascadeTiming(
     items,
-    settings.$.page_cascade_mode,
+    settings.effective.page_cascade_mode,
     duration
   );
 

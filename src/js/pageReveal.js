@@ -9,6 +9,7 @@ const BACKDROP_SURFACE_SELECTOR = [
 ].join(',');
 
 export function forceBackdropPaint(root = document) {
+  if (document.documentElement.dataset.performanceMode === 'fast') return;
   root.querySelectorAll(BACKDROP_SURFACE_SELECTOR).forEach(element => {
     const style = window.getComputedStyle(element);
     void style.backdropFilter;
@@ -34,7 +35,7 @@ export function waitForStablePaint({
 }
 
 export function waitForOpacityTransition(element, timeout = 400) {
-  if (!element) return Promise.resolve();
+  if (!element || document.documentElement.dataset.performanceMode === 'fast') return Promise.resolve();
 
   return new Promise(resolve => {
     let timeoutId;

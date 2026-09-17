@@ -72,7 +72,7 @@ class VbScrollup extends HTMLElement {
     this.scrollContainer.scrollTo({
       left: 0,
       top: 0,
-      behavior: 'smooth'
+      behavior: document.documentElement.dataset.performanceMode === 'fast' ? 'auto' : 'smooth'
     });
   }
 }

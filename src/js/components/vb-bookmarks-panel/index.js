@@ -169,6 +169,7 @@ class VbBookmarksPanel extends HTMLElement {
   #animationInstance = null;
 
   show() {
+    if (document.documentElement.dataset.performanceMode === 'fast') return;
     this.#animationInstance = this.animate([
       { transform: 'translate3D(0, 100%, 0)' },
       { transform: 'translate3D(0, 0, 0)' }
@@ -180,6 +181,10 @@ class VbBookmarksPanel extends HTMLElement {
   }
 
   hide() {
+    if (!this.#animationInstance) {
+      this.hidden = true;
+      return Promise.resolve();
+    }
     this.#animationInstance.reverse();
 
     return new Promise((resolve) => {

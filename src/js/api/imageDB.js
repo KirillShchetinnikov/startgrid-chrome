@@ -61,7 +61,7 @@ export default class ImageDB {
       let cursor = await tx.store.openCursor();
 
       while (cursor) {
-        if (cursor.key !== 'background') {
+        if (cursor.key !== 'background' && !String(cursor.key).startsWith('background-cache-')) {
           await cursor.delete();
         }
         cursor = await cursor.continue();
@@ -73,6 +73,13 @@ export default class ImageDB {
       console.warn(error);
       return false;
     }
+  }
+
+  static async clearBackgroundCache() {
+    const db = await this.#dbConnect();
+    const tx = db.transaction(this.DB_STORE, 'readwrite');
+    await Promise.all(['url', 'bing', 'local'].map(source => tx.store.delete(`background-cache-${source}`)));
+    await tx.done;
   }
 
   static async count() {

@@ -1,7 +1,14 @@
+import { getFastBackground } from './fastBackgroundCache';
+import {
+  describeSettingAvailability, explainUnavailableSetting, initAvailabilityTooltips, syncSettingChoices
+} from './components/settingAvailability';
+import { initPerformanceModeControl } from './components/performanceModeControl';
+import { isFastMode, isSettingAllowed } from './performanceMode';
+import { createStaticBackground } from './staticBackground';
 import './components/vb-select';
 import { getMessage } from './i18n';
 import { settings } from './settings';
-import { FULL_MODE_SETTINGS, effectiveHomeSort, SORTING_SETTING_KEYS, adoptSortingSettings } from './folderMode';
+import { effectiveHomeSort, SORTING_SETTING_KEYS, adoptSortingSettings } from './folderMode';
 import Localization from './plugins/localization';
 import Ripple from './components/ripple';
 import Toast from './components/toast';
@@ -21,6 +28,7 @@ import { canLoadBackgroundImageURL, normalizeBackgroundImageURL } from './backgr
 import {
   commitBackgroundUpload,
   BACKGROUND_FILE_PICKER_OPTIONS,
+  STATIC_BACKGROUND_FILE_PICKER_OPTIONS,
   createBackgroundPreview,
   FILES_ALLOWED_EXTENSIONS,
   MAX_FILE_SIZE_BYTES,
@@ -44,6 +52,8 @@ import { exportSettings, SETTINGS_JSON_FILE_TYPES } from './settingsExport';
 import { matchesSettingsSearch } from './settingsSearch';
 
 let backgroundImage = null;
+let externalPreviewUrl = null;
+let externalPreviewRevision = 0;
 let searchEngineSettingsInstance = null;
 let keyboardShortcutSettingsInstance = null;
 let activeSettingsSection = null;
@@ -68,10 +78,13 @@ async function init() {
   window.settings.innerHTML = displaySettings(settingsList);
 
   await settings.init();
+  initPerformanceModeControl(document.getElementById('performance_mode_control'));
+  initAvailabilityTooltips(window.settings);
   browser.storage.onChanged.addListener((changes, area) => {
     const incoming = changes.settings?.newValue;
     if (area === 'local' && incoming
-      && incoming.show_last_opened_folder !== settings.$.show_last_opened_folder) {
+      && (isFastMode(incoming) !== isFastMode(settings.$)
+        || incoming.show_last_opened_folder !== settings.$.show_last_opened_folder)) {
       window.location.reload();
       return;
     }
@@ -92,10 +105,23 @@ async function init() {
   Localization();
 
   Ripple.init('.md-ripple');
+  if (isFastMode(settings.$)) {
+    const note = document.querySelector('[data-locale-message="background_local_video_note"]');
+    note.textContent = getMessage('performance_mode_image');
+    const urlNote = document.createElement('p');
+    urlNote.className = 'text-muted';
+    urlNote.textContent = getMessage('fast_background_url_note');
+    document.getElementById('background_external').prepend(urlNote);
+  }
 
   const background = await ImageDB.get('background');
   if (background) {
-    backgroundImage = URL.createObjectURL(background.blobThumbnail);
+    if (isFastMode(settings.$) && background.blob?.type.startsWith('video/')) {
+      Toast.show(getMessage('performance_mode_video'));
+    }
+    const preview = isFastMode(settings.$)
+      ? await createStaticBackground(background.blobThumbnail) : background.blobThumbnail;
+    if (preview) backgroundImage = URL.createObjectURL(preview);
   }
   syncLocalBackgroundRemoveControl();
 
@@ -106,6 +132,7 @@ async function init() {
       value: settings.$[id],
       postfix: el.dataset.outputPostfix,
       onBlur(e) {
+        if (el.disabled || !isSettingAllowed(settings.$, id)) return;
         const { value } = e.target;
         settings.updateKey(id, value);
       },
@@ -384,7 +411,8 @@ async function handleImportSettingsFromPicker() {
 
 async function handleChooseBackgroundFile() {
   try {
-    const file = await $filePicker(BACKGROUND_FILE_PICKER_OPTIONS);
+    const file = await $filePicker(
+      isFastMode(settings.$) ? STATIC_BACKGROUND_FILE_PICKER_OPTIONS : BACKGROUND_FILE_PICKER_OPTIONS);
     if (!file) return;
     await handleUploadFile.call(
       { files: [file], closest: selector => document.getElementById('bgFile').closest(selector) }
@@ -493,40 +521,14 @@ function getOptions() {
 }
 
 function syncConditionalControls() {
-  const limited = Boolean(settings.$.show_last_opened_folder);
   const sortSelect = document.getElementById('home_sort_by');
-  const usageOption = sortSelect?.querySelector('[value="usage"]');
-  if (usageOption) usageOption.disabled = limited;
-  if (sortSelect) sortSelect.value = effectiveHomeSort(settings.$);
-  const sortMode = sortSelect?.value;
-  const conditionalRows = {
-    drag_and_drop: sortMode === 'manual',
-    home_sort_date_direction: sortMode === 'date',
-    home_sort_alphabet_direction: sortMode === 'alphabet',
-    home_sort_usage_tiebreaker: sortMode === 'usage',
-    show_usage_count: sortMode === 'usage',
-    bookmarks_sorting_type: document.getElementById('show_home_folders')?.checked,
-    background_entrance_duration: document.getElementById('background_entrance_effect')?.value !== 'none',
-    page_cascade_mode: document.getElementById('page_cascade_enabled')?.checked,
-    page_cascade_duration: document.getElementById('page_cascade_enabled')?.checked,
-    thumbnails_auto_refresh_interval: document.getElementById('thumbnails_auto_refresh')?.checked,
-    toolbar_background_color: !document.getElementById('toolbar_match_tile_background')?.checked,
-    toolbar_background_opacity: !document.getElementById('toolbar_match_tile_background')?.checked,
-    toolbar_background_blur: !document.getElementById('toolbar_match_tile_background')?.checked
-  };
-  FULL_MODE_SETTINGS.forEach(id => {
-    const row = document.getElementById(`setting_${id}`);
-    if (row) updateSettingsRowVisibility(row, 'modeHidden', limited && !SORTING_SETTING_KEYS.includes(id));
-    if (limited) conditionalRows[id] = false;
-    else if (!Object.hasOwn(conditionalRows, id)) conditionalRows[id] = true;
-  });
-  conditionalRows.thumbnails_update_button = !limited || settings.$.download_favicons_by_default;
-  const updateRow = document.getElementById('setting_thumbnails_update_button');
-  if (updateRow) updateSettingsRowVisibility(updateRow, 'modeHidden', !conditionalRows.thumbnails_update_button);
-
-  Object.entries(conditionalRows).forEach(([id, visible]) => {
-    const row = document.getElementById(`setting_${id}`);
-    if (row) updateSettingsRowVisibility(row, 'conditionHidden', !visible);
+  if (sortSelect) sortSelect.value = effectiveHomeSort(settings.effective);
+  document.querySelectorAll('[id^="setting_"]').forEach(row => {
+    const key = row.id.slice('setting_'.length);
+    const reason = describeSettingAvailability(settings.$, key);
+    updateSettingsRowVisibility(row, 'conditionHidden', Boolean(reason));
+    const choicesReason = syncSettingChoices(document.getElementById(key), settings.$, key);
+    explainUnavailableSetting(row, reason || choicesReason);
   });
   applySettingsFilter();
 }
@@ -560,7 +562,10 @@ function syncLocalBackgroundRemoveControl() {
   document.getElementById('delete_local_background').disabled = !backgroundImage;
 }
 
-function syncExternalBackgroundControls() {
+async function syncExternalBackgroundControls() {
+  const revision = ++externalPreviewRevision;
+  if (externalPreviewUrl) URL.revokeObjectURL(externalPreviewUrl);
+  externalPreviewUrl = null;
   const input = document.getElementById('background_external_url');
   const preview = document.getElementById('preview_external');
   const image = document.getElementById('preview_external_image');
@@ -575,7 +580,20 @@ function syncExternalBackgroundControls() {
   image.addEventListener('load', () => {
     preview.hidden = false;
   }, { once: true });
-  image.src = url;
+  if (isFastMode(settings.$)) {
+    try {
+      const cached = await getFastBackground('url', url);
+      if (revision !== externalPreviewRevision) return;
+      externalPreviewUrl = URL.createObjectURL(cached.blob);
+      image.src = externalPreviewUrl;
+    } catch (error) {
+      if (revision === externalPreviewRevision) {
+        Toast.show(getMessage(`fast_background_error_${error.code || 'download'}`));
+      }
+    }
+  } else {
+    image.src = url;
+  }
 }
 
 async function handleExternalBackgroundSave() {
@@ -591,7 +609,14 @@ async function handleExternalBackgroundSave() {
   const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
   if (!hasPermission) return;
 
-  if (!await canLoadBackgroundImageURL(url)) {
+  if (isFastMode(settings.$)) {
+    try {
+      await getFastBackground('url', url);
+    } catch (error) {
+      Toast.show(getMessage(`fast_background_error_${error.code || 'download'}`));
+      return;
+    }
+  } else if (!await canLoadBackgroundImageURL(url)) {
     input.value = '';
     Toast.show(getMessage('notice_background_url_load_failed'));
     return;
@@ -670,6 +695,7 @@ async function handleSetOptions(e) {
   if (!target) return;
 
   const id = target.id;
+  if (target.disabled || !isSettingAllowed(settings.$, id, target.value)) return;
   const previousTileSize = settings.$.dial_tile_size;
   if (id === 'enable_sync') return;
   if (id === 'download_favicons_by_default') {
@@ -859,7 +885,8 @@ async function handleUploadFile() {
 
   form.reset();
 
-  const validation = validateBackgroundFile(file);
+  const validation = validateBackgroundFile(file, isFastMode(settings.$));
+  if (!validation.ok && validation.reason === 'video') return Toast.show(getMessage('performance_mode_video'));
   if (!validation.ok && validation.reason === 'type') {
     return Toast.show(getMessage(
       'alert_file_type_fail_type',
@@ -875,9 +902,10 @@ async function handleUploadFile() {
 
   form.classList.add('is-upload');
   try {
-    const blob = new Blob([new Uint8Array(await file.arrayBuffer())], {
+    let blob = new Blob([new Uint8Array(await file.arrayBuffer())], {
       type: file.type
     });
+    if (isFastMode(settings.$)) blob = await createStaticBackground(blob);
     const blobThumbnail = await createBackgroundPreview({
       blob,
       file,
@@ -973,6 +1001,7 @@ async function handleClearLocalCache(evt) {
   if (!confirmAction) return;
 
   await settings.clearLocalCache();
+  await ImageDB.clearBackgroundCache();
   Toast.show(getMessage('notice_local_cache_cleared'));
 }
 
@@ -990,7 +1019,7 @@ async function handleResetLocalSettings() {
   await window.vbToggleTheme();
   await enforceGridWidth();
   getOptions();
-  toggleBackgroundControls(settings.$.background_image);
+  toggleBackgroundControls(settings.effective.background_image);
   updateDefaultFolderControl();
   Toast.show(getMessage('notice_reset_default_settings'));
 }
@@ -1081,7 +1110,7 @@ async function getPermissions() {
   clipboardInput.dataset.active = clipboardReadPermission;
 
   const optionBackgroundSelect = document.getElementById('background_image');
-  let selectedBackgroundValue = settings.$.background_image;
+  let selectedBackgroundValue = settings.effective.background_image;
   if (selectedBackgroundValue === 'background_bing') {
     const bingHostPermission = await containsPermissions({ origins: ['https://www.bing.com/*'] });
     if (!bingHostPermission) {

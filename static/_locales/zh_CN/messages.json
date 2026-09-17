@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "撤消"
+  },
+  "performance_mode": {
+    "message": "性能模式"
+  },
+  "performance_mode_full": {
+    "message": "完整"
+  },
+  "performance_mode_fast": {
+    "message": "快速"
+  },
+  "performance_mode_description": {
+    "message": "快速模式会关闭高负载效果和后台任务。已保存的设置将在完整模式中恢复。切换时会重新加载已打开的 StartGrid 页面。"
+  },
+  "performance_mode_video": {
+    "message": "快速模式不支持视频。您可以将其替换为图片。"
+  },
+  "setting_unavailable_fast": {
+    "message": "快速模式下不可用。"
+  },
+  "setting_unavailable_last_folder": {
+    "message": "启用“打开上次的文件夹”时不可用。"
+  },
+  "setting_unavailable_toolbar": {
+    "message": "请关闭“与磁贴背景一致”后再更改此设置。"
+  },
+  "setting_requires": {
+    "message": "需要启用或选择：$SETTING$。",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "仅支持图片。动画图片将保存为静态帧。"
+  },
+  "fast_background_error_download": {
+    "message": "无法下载图片。快速模式需要可下载并保存到本地缓存的图片。"
+  },
+  "fast_background_error_format": {
+    "message": "不支持此格式。请使用静态 JPEG、PNG、WebP、GIF 或 AVIF。暂不支持 SVG 和视频。"
+  },
+  "fast_background_error_animated": {
+    "message": "快速模式不支持 URL 动画图片。请选择静态图片。"
+  },
+  "fast_background_error_cache": {
+    "message": "无法缓存图片。服务器可能禁止缓存，或本地存储不可用。"
+  },
+  "fast_background_error_size": {
+    "message": "图片过大。请使用不超过 20 MB 和 3200 万像素的文件。"
+  },
+  "fast_background_url_note": {
+    "message": "快速模式：仅限允许下载和本地缓存的静态 JPEG、PNG、WebP、GIF 或 AVIF。会在本地保存最大 1920 × 1080 的副本。"
   }
 }

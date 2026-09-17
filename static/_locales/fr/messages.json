@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "Défaire"
+  },
+  "performance_mode": {
+    "message": "Mode de performance"
+  },
+  "performance_mode_full": {
+    "message": "Complet"
+  },
+  "performance_mode_fast": {
+    "message": "Rapide"
+  },
+  "performance_mode_description": {
+    "message": "Le mode rapide désactive les effets coûteux et les tâches en arrière-plan. Les réglages enregistrés sont rétablis en mode complet. Le changement recharge les pages StartGrid ouvertes."
+  },
+  "performance_mode_video": {
+    "message": "La vidéo n’est pas prise en charge en mode rapide. Vous pouvez la remplacer par une image."
+  },
+  "setting_unavailable_fast": {
+    "message": "Indisponible en mode rapide."
+  },
+  "setting_unavailable_last_folder": {
+    "message": "Indisponible lorsque « Ouvrir le dernier dossier » est activé."
+  },
+  "setting_unavailable_toolbar": {
+    "message": "Désactivez « Utiliser le fond des tuiles » pour modifier ce réglage."
+  },
+  "setting_requires": {
+    "message": "Nécessite : $SETTING$.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "Images uniquement. Les images animées sont enregistrées comme une image fixe."
+  },
+  "fast_background_error_download": {
+    "message": "Impossible de télécharger l’image. Le mode rapide nécessite une image pouvant être mise en cache localement."
+  },
+  "fast_background_error_format": {
+    "message": "Format non pris en charge. Utilisez une image statique JPEG, PNG, WebP, GIF ou AVIF. SVG et vidéo ne sont pas pris en charge."
+  },
+  "fast_background_error_animated": {
+    "message": "Les images animées par URL ne sont pas prises en charge en mode rapide. Choisissez une image fixe."
+  },
+  "fast_background_error_cache": {
+    "message": "Impossible de mettre l’image en cache. Le serveur peut l’interdire ou le stockage local est indisponible."
+  },
+  "fast_background_error_size": {
+    "message": "Image trop grande. Utilisez un fichier de 20 Mo et 32 mégapixels maximum."
+  },
+  "fast_background_url_note": {
+    "message": "Mode rapide : uniquement des images statiques JPEG, PNG, WebP, GIF ou AVIF téléchargeables et pouvant être mises en cache. Une copie de 1920 × 1080 maximum est enregistrée localement."
   }
 }

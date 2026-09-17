@@ -23,13 +23,16 @@
 }
 
 .wrap {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 16px;
   height: 100vh;
-  padding: 0;
+  padding: 82px 32px 32px;
 }
 
 .settings-container {
+  min-height: 0;
   height: 100%;
-  padding: 82px 32px 32px;
 }
 
 .options-back-btn {
@@ -116,8 +119,9 @@
     --options-slider-width: calc(100vw - 20px);
   }
 
-  .settings-container {
-    padding: 62px 10px 10px;
+  .wrap {
+    padding: 72px 10px 10px;
+    gap: 10px;
   }
 
   .footer {

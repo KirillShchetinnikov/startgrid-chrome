@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "Deshacer"
+  },
+  "performance_mode": {
+    "message": "Modo de rendimiento"
+  },
+  "performance_mode_full": {
+    "message": "Completo"
+  },
+  "performance_mode_fast": {
+    "message": "Rápido"
+  },
+  "performance_mode_description": {
+    "message": "El modo rápido desactiva los efectos exigentes y las tareas en segundo plano. Los ajustes guardados se restauran en el modo completo. El cambio recarga las páginas abiertas de StartGrid."
+  },
+  "performance_mode_video": {
+    "message": "El vídeo no es compatible con el modo rápido. Puede sustituirlo por una imagen."
+  },
+  "setting_unavailable_fast": {
+    "message": "No disponible en el modo rápido."
+  },
+  "setting_unavailable_last_folder": {
+    "message": "No disponible mientras esté activado «Abrir la última carpeta»."
+  },
+  "setting_unavailable_toolbar": {
+    "message": "Desactive «Usar el fondo de los mosaicos» para cambiar este ajuste."
+  },
+  "setting_requires": {
+    "message": "Se requiere: $SETTING$.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "Solo imágenes. Las imágenes animadas se guardan como un fotograma estático."
+  },
+  "fast_background_error_download": {
+    "message": "No se pudo descargar la imagen. El modo rápido requiere una imagen que se pueda guardar en la caché local."
+  },
+  "fast_background_error_format": {
+    "message": "Formato no compatible. Use una imagen estática JPEG, PNG, WebP, GIF o AVIF. SVG y vídeo no son compatibles."
+  },
+  "fast_background_error_animated": {
+    "message": "Las imágenes animadas por URL no son compatibles con el modo rápido. Elija una imagen estática."
+  },
+  "fast_background_error_cache": {
+    "message": "No se pudo guardar la imagen en caché. El servidor puede prohibirlo o el almacenamiento local no está disponible."
+  },
+  "fast_background_error_size": {
+    "message": "La imagen es demasiado grande. Use un archivo de hasta 20 MB y 32 megapíxeles."
+  },
+  "fast_background_url_note": {
+    "message": "Modo rápido: solo JPEG, PNG, WebP, GIF o AVIF estáticos que permitan descarga y caché local. Se guarda una copia de hasta 1920 × 1080."
   }
 }

@@ -4,6 +4,7 @@ const colorTheme = () => document.documentElement.classList.toggle('dark', color
 async function toggleTheme() {
   const { settings } = await browser.storage.local.get('settings');
   if (!settings) return false;
+  document.documentElement.dataset.performanceMode = settings.performance_mode === 'fast' ? 'fast' : 'full';
 
   if (settings.color_theme === 'os') {
     colorScheme.removeListener(colorTheme);

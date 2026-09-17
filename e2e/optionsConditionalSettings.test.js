@@ -1,3 +1,4 @@
+import { getSettingUnavailableReasons } from '../src/js/settingAvailability';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from '@jest/globals';
 
@@ -17,9 +18,10 @@ describe('conditional settings on the full settings page', () => {
   });
 
   it('includes every toolbar appearance control in the dependency', () => {
-    expect(source).toMatch(
-      /toolbar_background_color:[\s\S]*toolbar_background_opacity:[\s\S]*toolbar_background_blur:/
-    );
+    ['toolbar_background_color', 'toolbar_background_opacity', 'toolbar_background_blur'].forEach(key => {
+      expect(getSettingUnavailableReasons({ toolbar_match_tile_background: true }, key))
+        .toContainEqual(['setting_unavailable_toolbar']);
+    });
   });
 
   it('shows persistent switch focus only for keyboard navigation', () => {

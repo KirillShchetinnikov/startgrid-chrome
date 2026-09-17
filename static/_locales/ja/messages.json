@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "元に戻す"
+  },
+  "performance_mode": {
+    "message": "動作モード"
+  },
+  "performance_mode_full": {
+    "message": "フル"
+  },
+  "performance_mode_fast": {
+    "message": "高速"
+  },
+  "performance_mode_description": {
+    "message": "高速モードでは負荷の高い効果とバックグラウンド処理を無効にします。保存済みの設定はフルモードで復元されます。切り替えると開いているStartGridページが再読み込みされます。"
+  },
+  "performance_mode_video": {
+    "message": "高速モードでは動画を使用できません。画像に置き換えることができます。"
+  },
+  "setting_unavailable_fast": {
+    "message": "高速モードでは使用できません。"
+  },
+  "setting_unavailable_last_folder": {
+    "message": "「最後のフォルダを開く」が有効なため使用できません。"
+  },
+  "setting_unavailable_toolbar": {
+    "message": "変更するには「タイルの背景に合わせる」を無効にしてください。"
+  },
+  "setting_requires": {
+    "message": "必要な設定：$SETTING$。",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "画像のみ。アニメーション画像は静止画として保存されます。"
+  },
+  "fast_background_error_download": {
+    "message": "画像をダウンロードできません。高速モードではローカルにキャッシュできる画像が必要です。"
+  },
+  "fast_background_error_format": {
+    "message": "未対応の形式です。静止画のJPEG、PNG、WebP、GIF、AVIFを使用してください。SVGと動画には対応していません。"
+  },
+  "fast_background_error_animated": {
+    "message": "高速モードではURLのアニメーション画像を使用できません。静止画を選択してください。"
+  },
+  "fast_background_error_cache": {
+    "message": "画像をキャッシュできません。サーバーがキャッシュを禁止しているか、ローカルストレージを使用できません。"
+  },
+  "fast_background_error_size": {
+    "message": "画像が大きすぎます。20 MB、3200万画素以下のファイルを使用してください。"
+  },
+  "fast_background_url_note": {
+    "message": "高速モード：ダウンロードとキャッシュが可能な静止画のJPEG、PNG、WebP、GIF、AVIFのみ。最大1920 × 1080のコピーをローカルに保存します。"
   }
 }

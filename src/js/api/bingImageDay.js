@@ -7,8 +7,8 @@ const BING_BASE_URL = 'https://www.bing.com';
  *
  * @returns {Promise<Object>} A promise that resolves to the image metadata object from Bing's API.
  */
-function fetchImage() {
-  return fetch(`${BING_BASE_URL}/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US`)
+function fetchImage(signal) {
+  return fetch(`${BING_BASE_URL}/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US`, { signal })
     .then(res => {
       if (!res.ok) {
         throw new Error(`HTTP error: Bing api status: ${res.status}`);
@@ -66,8 +66,10 @@ function parseBingImageDate(date) {
  *
  * @returns {Promise<Object|null>} The Bing image object with additional properties (`imageurl`, `expiresAt`), or null if not found.
  */
-export async function getBingImage() {
-  const { bingImage } = await storage.local.get('bingImage');
+export async function getBingImage({ fast = false } = {}) {
+  const cacheKey = fast ? 'bingImageFast' : 'bingImage';
+  const state = await storage.local.get(fast ? ['bingImageFast', 'bingImage'] : 'bingImage');
+  const bingImage = state[cacheKey];
 
   const now = Date.now();
 
@@ -76,17 +78,20 @@ export async function getBingImage() {
     return bingImage;
   }
 
-  const image = await fetchImage();
+  const image = fast && state.bingImage?.expiresAt > now
+    ? state.bingImage : await fetchImage(fast ? AbortSignal.timeout(15000) : undefined);
 
   if (!image) {
     console.warn('Bing image of the day not found');
     return null;
   }
 
-  const hasUHD = await hasUHDImage(image.urlbase);
-  const imageurl = hasUHD
-    ? `${BING_BASE_URL}${image.urlbase}_UHD.jpg`
-    : `${BING_BASE_URL}${image.url}`;
+  const hasUHD = !fast && await hasUHDImage(image.urlbase);
+  const imageurl = fast
+    ? `${BING_BASE_URL}${image.urlbase}_1920x1080.jpg`
+    : hasUHD
+      ? `${BING_BASE_URL}${image.urlbase}_UHD.jpg`
+      : `${BING_BASE_URL}${image.url}`;
 
   const expiresAt  = parseBingImageDate(image.fullstartdate);
 
@@ -96,8 +101,8 @@ export async function getBingImage() {
     expiresAt
   };
 
-  storage.local.set({
-    bingImage: newBingImage
+  await storage.local.set({
+    [cacheKey]: newBingImage
   });
 
   return newBingImage;

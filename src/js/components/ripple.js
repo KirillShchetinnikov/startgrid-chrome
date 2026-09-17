@@ -21,6 +21,7 @@ const Ripple = function() {
     return rippleEl;
   }
   function showRipple(sel, evt) {
+    if (document.documentElement.dataset.performanceMode === 'fast') return;
     if (evt.which !== 1) return true;
 
     // console.log(evt.composedPath());

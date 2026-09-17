@@ -31,6 +31,10 @@ export function multiswap(dnd) {
   }
 
   function animateReorder(callback) {
+    if (document.documentElement.dataset.performanceMode === 'fast') {
+      callback();
+      return;
+    }
     const before = new Map(
       [...dnd.el.children]
         .filter(item => !draggingCards.includes(item))

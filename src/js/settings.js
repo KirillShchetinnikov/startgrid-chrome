@@ -1,3 +1,4 @@
+import { getEffectiveSetting } from './performanceMode';
 import { storage } from './api/storage';
 import { getFolders, resolveFolderSyncPath } from './api/bookmark';
 import { DEFAULT_BOOKMARKS_FOLDER } from './constants';
@@ -25,6 +26,7 @@ import { SUPPORTED_LANGUAGES } from './i18n';
 import { normalizeGlobalThumbnailSource } from './thumbnailSource';
 
 const DEFAULTS = Object.freeze({
+  performance_mode: 'full',
   language: 'auto',
   color_theme: 'os',
   background_image: 'background_noimage',
@@ -130,6 +132,7 @@ function normalizeNumericSettings(currentSettings) {
 }
 
 const SETTINGS_NOT_SYNCED = [
+  'performance_mode',
   'language',
   'default_folder_id',
   'sync_default_folder_id',
@@ -215,6 +218,7 @@ export function getDefaultSettings(keys = Object.keys(DEFAULTS)) {
 }
 
 function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
+  if (!['full', 'fast'].includes(currentSettings.performance_mode)) currentSettings.performance_mode = 'full';
   DEPRECATED_SETTINGS.forEach(key => delete currentSettings[key]);
   delete currentSettings.sort_by;
   delete currentSettings.sort_by_newest;
@@ -361,12 +365,21 @@ export function getDefaultFolderId(currentSettings = {}) {
 
 const settingsStore = () => {
   let $settings = {};
+  const effective = new Proxy({}, {
+    get: (_, key) => getEffectiveSetting($settings, key),
+    ownKeys: () => Reflect.ownKeys($settings),
+    getOwnPropertyDescriptor: () => ({ enumerable: true, configurable: true })
+  });
 
   return {
     /**
      * settings.$ getter
      * @return {Object} Settings object
      */
+    get effective() {
+      return effective;
+    },
+
     get $() {
       return $settings;
     },
@@ -403,6 +416,9 @@ const settingsStore = () => {
 
       // write the settings to the settings.$ object
       Object.assign($settings, settings);
+      if (typeof document !== 'undefined') {
+        document.documentElement.dataset.performanceMode = $settings.performance_mode;
+      }
 
       const currentSyncRecords = createSyncRecords($settings);
       if (
@@ -422,6 +438,13 @@ const settingsStore = () => {
     async updateKey(key, value) {
       if (!$settings) {
         throw Error('Settings store must be initialized with the init method');
+      }
+
+      // A quick-settings panel in another tab may have changed shared values
+      // since this options page opened. Switching mode must preserve those edits.
+      if (key === 'performance_mode') {
+        const latest = await storage.local.get('settings');
+        $settings = { ...$settings, ...latest.settings };
       }
 
       const disablingSync = key === 'enable_sync' && $settings.enable_sync && value === false;

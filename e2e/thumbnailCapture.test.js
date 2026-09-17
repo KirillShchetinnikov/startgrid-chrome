@@ -43,6 +43,20 @@ function createBrowser(failureStage) {
 }
 
 describe('thumbnail capture RPC', () => {
+  it('closes an in-flight capture window when Fast mode aborts the request', async() => {
+    const browserApi = createBrowser();
+    const controller = new AbortController();
+    const storeCapture = jest.fn();
+    const pending = runThumbnailCapture({ browserApi,
+      request: { id: '42', captureUrl: 'https://example.com' },
+      signal: controller.signal, captureDelay: 1000, storeCapture });
+    await Promise.resolve();
+    controller.abort();
+    expect(await pending).toEqual({ ok: false, id: '42', code: 'FAST_MODE' });
+    expect(browserApi.windows.remove).toHaveBeenCalledWith(4, expect.any(Function));
+    expect(storeCapture).not.toHaveBeenCalled();
+  });
+
   afterEach(() => {
     jest.restoreAllMocks();
     jest.useRealTimers();

@@ -1,3 +1,4 @@
+import { isFastMode } from '../../performanceMode';
 import '../vb-select';
 import '../vb-popup';
 import html from './template.html';
@@ -82,11 +83,11 @@ class VbHeader extends HTMLElement {
     this.#attachEvents();
     this.hashchange();
     this.setSectionVisibility({
-      showSearch: settings.$.show_search,
-      showFolderPicker: settings.$.show_folder_picker
+      showSearch: settings.effective.show_search,
+      showFolderPicker: settings.effective.show_folder_picker
     });
 
-    if (settings.$.search_autofocus && settings.$.show_search) {
+    if (settings.effective.search_autofocus && settings.effective.show_search) {
       this.inputNode.focus();
     }
 
@@ -95,11 +96,11 @@ class VbHeader extends HTMLElement {
   }
 
   get isBookmarksEngine() {
-    return settings.$.search_engine === 'bookmarks';
+    return settings.effective.search_engine === 'bookmarks';
   }
 
   get isBrowserEngine() {
-    return settings.$.search_engine === 'browser';
+    return settings.effective.search_engine === 'browser';
   }
 
   setSectionVisibility({ showSearch = true, showFolderPicker = true } = {}) {
@@ -175,10 +176,14 @@ class VbHeader extends HTMLElement {
   }
 
   #currentEngine() {
-    return this.searchEngines.find(engine => engine.id === settings.$.search_engine);
+    return this.searchEngines.find(engine => engine.id === settings.effective.search_engine);
   }
 
   async #suggestPermissionButtonVisibility() {
+    if (isFastMode(settings.$)) {
+      this.permSuggestionsNode.hidden = true;
+      return;
+    }
     const shouldCheckPermission = this.isBookmarksEngine;
 
     if (shouldCheckPermission) {
@@ -196,12 +201,12 @@ class VbHeader extends HTMLElement {
 
   #setSearchEngines() {
     this.searchEngines = getEnabledSearchEngines(
-      settings.$.search_engines,
+      settings.effective.search_engines,
       key => getMessage(key)
     );
     this.vbPopupContent.replaceChildren(...this.searchEngines.map(engine => {
       const className = 'header__engine-item' + (
-        engine.id === settings.$.search_engine ? ' is-active' : ''
+        engine.id === settings.effective.search_engine ? ' is-active' : ''
       );
       return $createElement('div', {
         class: className,
@@ -209,8 +214,8 @@ class VbHeader extends HTMLElement {
       }, engine.title);
     }));
     this.engineNodes = Array.from(this.vbPopupContent.children);
-    this.engine = this.searchEngines.some(engine => engine.id === settings.$.search_engine)
-      ? settings.$.search_engine
+    this.engine = this.searchEngines.some(engine => engine.id === settings.effective.search_engine)
+      ? settings.effective.search_engine
       : this.searchEngines[0].id;
   }
 
@@ -301,7 +306,7 @@ class VbHeader extends HTMLElement {
   hashchange() {
     const folderId = getCurrentFolderId() || this.initialFolderId;
 
-    const limited = settings.$.show_last_opened_folder;
+    const limited = settings.effective.show_last_opened_folder;
     const isNestedFolder = !limited && folderId !== this.initialFolderId;
     const isBookmarkSearch = this.isBookmarksEngine && Boolean(this.inputNode.value.trim());
 
@@ -402,17 +407,17 @@ class VbHeader extends HTMLElement {
       if (searchPermission) {
         browser.search.query({
           text: this.inputNode.value.trim(),
-          disposition: settings.$.open_search_newtab ? 'NEW_TAB' : 'CURRENT_TAB'
+          disposition: settings.effective.open_search_newtab ? 'NEW_TAB' : 'CURRENT_TAB'
         });
       }
       return;
     }
 
-    const engine = this.searchEngines.find(item => item.id === settings.$.search_engine);
+    const engine = this.searchEngines.find(item => item.id === settings.effective.search_engine);
     const url = buildSearchUrl(engine?.url, this.inputNode.value.trim());
     if (!url) return;
 
-    const openSearch = settings.$.open_search_newtab
+    const openSearch = settings.effective.open_search_newtab
       ? browser.tabs.create
       : browser.tabs.update;
     openSearch({ url });
@@ -436,12 +441,12 @@ class VbHeader extends HTMLElement {
   }
 
   handleBack() {
-    if (settings.$.show_last_opened_folder) return;
+    if (settings.effective.show_last_opened_folder) return;
     navigateBack(this.initialFolderId);
   }
 
   handleHome() {
-    if (settings.$.show_last_opened_folder) return;
+    if (settings.effective.show_last_opened_folder) return;
     const forceNavigation = this.isBookmarksEngine && Boolean(this.inputNode.value.trim());
     if (forceNavigation) this.clearBookmarkSearch();
     navigateHome(settings.defaultFolderId, forceNavigation);
@@ -537,6 +542,7 @@ class VbHeader extends HTMLElement {
   }
 
   async suggestSearch(query) {
+    if (isFastMode(settings.$)) return;
     const requestId = ++this.suggestionRequestId;
     this.suggestIndex = -1;
     if (query.length > 0) {

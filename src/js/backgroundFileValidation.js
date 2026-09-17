@@ -25,7 +25,12 @@ export const BACKGROUND_FILE_PICKER_OPTIONS = Object.freeze({
   multiple: false
 });
 
-export function validateBackgroundFile({ name = '', type = '', size = 0 } = {}) {
+export const STATIC_BACKGROUND_FILE_PICKER_OPTIONS = {
+  ...BACKGROUND_FILE_PICKER_OPTIONS,
+  types: [{ accept: { 'image/*': BACKGROUND_FILE_PICKER_OPTIONS.types[0].accept['image/*'] } }]
+};
+
+export function validateBackgroundFile({ name = '', type = '', size = 0 } = {}, fast = false) {
   const nameParts = String(name).trim().toLowerCase().split('.');
   const extension = nameParts.length > 1 ? nameParts.at(-1) : '';
   const mime = String(type).trim().toLowerCase();
@@ -37,6 +42,7 @@ export function validateBackgroundFile({ name = '', type = '', size = 0 } = {}) 
   if (!definition || !mime || definition.mime !== mime || hasDisguisedKnownExtension) {
     return { ok: false, reason: 'type' };
   }
+  if (fast && definition.kind === 'video') return { ok: false, reason: 'video' };
   if (Number(size) > MAX_FILE_SIZE_BYTES) {
     return { ok: false, reason: 'size' };
   }

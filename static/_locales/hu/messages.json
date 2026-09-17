@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "Visszavonás"
+  },
+  "performance_mode": {
+    "message": "Teljesítménymód"
+  },
+  "performance_mode_full": {
+    "message": "Teljes"
+  },
+  "performance_mode_fast": {
+    "message": "Gyors"
+  },
+  "performance_mode_description": {
+    "message": "A gyors mód kikapcsolja az erőforrásigényes hatásokat és háttérfeladatokat. A teljes mód visszaállítja a mentett beállításokat. A váltás újratölti a megnyitott StartGrid-oldalakat."
+  },
+  "performance_mode_video": {
+    "message": "A gyors mód nem támogatja a videót. Lecserélheti egy képre."
+  },
+  "setting_unavailable_fast": {
+    "message": "Gyors módban nem érhető el."
+  },
+  "setting_unavailable_last_folder": {
+    "message": "Nem érhető el az utolsó mappa megnyitásának bekapcsolásakor."
+  },
+  "setting_unavailable_toolbar": {
+    "message": "A módosításhoz kapcsolja ki a csempék hátterének használatát."
+  },
+  "setting_requires": {
+    "message": "Szükséges: $SETTING$.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "Csak képek. Az animált képek állóképként lesznek mentve."
+  },
+  "fast_background_error_download": {
+    "message": "A kép nem tölthető le. A gyors módhoz helyben gyorsítótárazható kép szükséges."
+  },
+  "fast_background_error_format": {
+    "message": "Nem támogatott formátum. Használjon álló JPEG, PNG, WebP, GIF vagy AVIF képet. SVG és videó nem támogatott."
+  },
+  "fast_background_error_animated": {
+    "message": "A gyors mód nem támogatja az URL-ről származó animált képeket. Válasszon állóképet."
+  },
+  "fast_background_error_cache": {
+    "message": "A kép nem gyorsítótárazható. A szerver tilthatja a mentést, vagy a helyi tárhely nem elérhető."
+  },
+  "fast_background_error_size": {
+    "message": "A kép túl nagy. Legfeljebb 20 MB és 32 megapixel használható."
+  },
+  "fast_background_url_note": {
+    "message": "Gyors mód: csak letölthető és helyben gyorsítótárazható álló JPEG, PNG, WebP, GIF vagy AVIF. Legfeljebb 1920 × 1080 méretű másolat kerül mentésre."
   }
 }

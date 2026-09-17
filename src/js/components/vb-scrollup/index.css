@@ -36,3 +36,12 @@
     fill: var(--theme-text-color);
   }
 }
+
+:host-context(html[data-performance-mode="fast"]) {
+  &, & * {
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+}

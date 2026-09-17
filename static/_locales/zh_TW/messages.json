@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "撤銷"
+  },
+  "performance_mode": {
+    "message": "效能模式"
+  },
+  "performance_mode_full": {
+    "message": "完整"
+  },
+  "performance_mode_fast": {
+    "message": "快速"
+  },
+  "performance_mode_description": {
+    "message": "快速模式會關閉高負載效果和背景工作。已儲存的設定將在完整模式中恢復。切換時會重新載入已開啟的 StartGrid 頁面。"
+  },
+  "performance_mode_video": {
+    "message": "快速模式不支援影片。您可以將其替換為圖片。"
+  },
+  "setting_unavailable_fast": {
+    "message": "快速模式下無法使用。"
+  },
+  "setting_unavailable_last_folder": {
+    "message": "啟用「開啟上次的資料夾」時無法使用。"
+  },
+  "setting_unavailable_toolbar": {
+    "message": "請關閉「與磚塊背景一致」後再變更此設定。"
+  },
+  "setting_requires": {
+    "message": "需要啟用或選擇：$SETTING$。",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "僅支援圖片。動畫圖片將儲存為靜態影格。"
+  },
+  "fast_background_error_download": {
+    "message": "無法下載圖片。快速模式需要可下載並儲存到本機快取的圖片。"
+  },
+  "fast_background_error_format": {
+    "message": "不支援此格式。請使用靜態 JPEG、PNG、WebP、GIF 或 AVIF。不支援 SVG 和影片。"
+  },
+  "fast_background_error_animated": {
+    "message": "快速模式不支援 URL 動畫圖片。請選擇靜態圖片。"
+  },
+  "fast_background_error_cache": {
+    "message": "無法快取圖片。伺服器可能禁止快取，或本機儲存空間無法使用。"
+  },
+  "fast_background_error_size": {
+    "message": "圖片過大。請使用不超過 20 MB 和 3200 萬像素的檔案。"
+  },
+  "fast_background_url_note": {
+    "message": "快速模式：僅限允許下載和本機快取的靜態 JPEG、PNG、WebP、GIF 或 AVIF。會在本機儲存最大 1920 × 1080 的副本。"
   }
 }

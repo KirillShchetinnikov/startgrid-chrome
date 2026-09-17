@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "끄르다"
+  },
+  "performance_mode": {
+    "message": "성능 모드"
+  },
+  "performance_mode_full": {
+    "message": "전체"
+  },
+  "performance_mode_fast": {
+    "message": "빠른"
+  },
+  "performance_mode_description": {
+    "message": "빠른 모드는 부하가 큰 효과와 백그라운드 작업을 비활성화합니다. 저장된 설정은 전체 모드에서 복원됩니다. 전환하면 열린 StartGrid 페이지가 새로고침됩니다."
+  },
+  "performance_mode_video": {
+    "message": "빠른 모드에서는 동영상을 지원하지 않습니다. 이미지로 교체할 수 있습니다."
+  },
+  "setting_unavailable_fast": {
+    "message": "빠른 모드에서는 사용할 수 없습니다."
+  },
+  "setting_unavailable_last_folder": {
+    "message": "마지막 폴더 열기가 활성화되어 사용할 수 없습니다."
+  },
+  "setting_unavailable_toolbar": {
+    "message": "변경하려면 타일 배경과 일치 옵션을 끄세요."
+  },
+  "setting_requires": {
+    "message": "필요한 설정: $SETTING$.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "이미지만 지원합니다. 움직이는 이미지는 정지 화면으로 저장됩니다."
+  },
+  "fast_background_error_download": {
+    "message": "이미지를 다운로드할 수 없습니다. 빠른 모드에는 로컬 캐시가 가능한 이미지가 필요합니다."
+  },
+  "fast_background_error_format": {
+    "message": "지원하지 않는 형식입니다. 정지 JPEG, PNG, WebP, GIF 또는 AVIF를 사용하세요. SVG와 동영상은 지원하지 않습니다."
+  },
+  "fast_background_error_animated": {
+    "message": "빠른 모드에서는 URL의 움직이는 이미지를 지원하지 않습니다. 정지 이미지를 선택하세요."
+  },
+  "fast_background_error_cache": {
+    "message": "이미지를 캐시할 수 없습니다. 서버가 캐시를 금지하거나 로컬 저장소를 사용할 수 없습니다."
+  },
+  "fast_background_error_size": {
+    "message": "이미지가 너무 큽니다. 최대 20 MB, 3200만 화소 파일을 사용하세요."
+  },
+  "fast_background_url_note": {
+    "message": "빠른 모드: 다운로드와 로컬 캐시가 가능한 정지 JPEG, PNG, WebP, GIF 또는 AVIF만 지원합니다. 최대 1920 × 1080 사본을 로컬에 저장합니다."
   }
 }

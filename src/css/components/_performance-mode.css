@@ -1,0 +1,118 @@
+.performance-mode-control {
+  width: 100%;
+  max-width: var(--options-slider-width);
+  margin-inline: auto;
+}
+
+.performance-mode {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px 24px;
+  min-width: 0;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--theme-border-color, #8885);
+  border-radius: 16px;
+  background: var(--theme-background-2);
+
+  & legend {
+    padding: 0 8px;
+    font-weight: 600;
+  }
+
+  & p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+.performance-mode__choices {
+  display: flex;
+  gap: 4px;
+
+  & label {
+    position: relative;
+    cursor: pointer;
+  }
+
+  & input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  & span {
+    display: block;
+    padding: 9px 16px;
+    border: 1px solid currentcolor;
+    border-radius: 8px;
+  }
+
+  & input:checked + span {
+    background: var(--btn);
+    color: var(--btn-color);
+  }
+
+  & input:focus-visible + span {
+    outline: 2px solid currentcolor;
+    outline-offset: 3px;
+  }
+}
+
+.setting-availability-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: 8px;
+  vertical-align: middle;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  background: var(--theme-background-2);
+  color: var(--theme-text-color);
+  cursor: help;
+}
+
+.setting-availability-tooltip {
+  position: fixed;
+  z-index: 10000;
+  max-width: min(360px, calc(100vw - 16px));
+  padding: 10px 14px;
+  border: 1px solid currentcolor;
+  border-radius: 8px;
+  background: var(--theme-background-2);
+  color: var(--theme-text-color);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+html[data-performance-mode="fast"] {
+  & .quick-settings,
+  & .quick-settings__header {
+    background: var(--theme-background-2);
+  }
+
+  & *,
+  & *::before,
+  & *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    will-change: auto !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .performance-mode {
+    grid-template-columns: 1fr;
+  }
+}

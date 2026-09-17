@@ -1,6 +1,7 @@
 import { validateThumbnailRequest } from './api/thumbnailErrors';
 
 export const CAPTURE_ERROR_CODES = Object.freeze([
+  'FAST_MODE',
   'INVALID_REQUEST',
   'UNSUPPORTED_SCHEME',
   'PROTECTED_BROWSER_PAGE',
@@ -123,9 +124,11 @@ export async function runThumbnailCapture({
   captureDelay = 500,
   timeoutMs,
   storeCapture,
-  cleanupCapture
+  cleanupCapture,
+  signal
 }) {
   const id = String(request?.id ?? '');
+  if (signal?.aborted) return failure(id, 'FAST_MODE');
   const delay = normalizeCaptureDelay(captureDelay);
   const operationTimeout = timeoutMs === undefined
     ? getCaptureWorkerTimeout(delay)
@@ -168,9 +171,9 @@ export async function runThumbnailCapture({
     } catch (error) {}
   };
   const assertActive = () => {
-    if (stopped) {
+    if (stopped || signal?.aborted) {
       closeWindow();
-      throw new CaptureError('TIMEOUT');
+      throw new CaptureError(signal?.aborted ? 'FAST_MODE' : 'TIMEOUT');
     }
   };
 
@@ -256,6 +259,16 @@ export async function runThumbnailCapture({
     timers.add(timer);
   });
 
+  let onAbort;
+  const aborted = new Promise((resolve, reject) => {
+    onAbort = () => {
+      stopped = true;
+      closeWindow();
+      reject(new CaptureError('FAST_MODE'));
+    };
+    signal?.addEventListener('abort', onAbort, { once: true });
+  });
+
   const captureOperation = operation().catch(async error => {
     if (stopped && cleanupCapture) {
       await cleanupCapture().catch(cleanupError => {
@@ -266,7 +279,7 @@ export async function runThumbnailCapture({
   });
 
   try {
-    return await Promise.race([captureOperation, timeout]);
+    return await Promise.race([captureOperation, timeout, aborted]);
   } catch (error) {
     const code = CAPTURE_ERROR_CODES.includes(error?.code) ? error.code : 'STORE_FAILED';
     if (cleanupCapture) {
@@ -277,6 +290,7 @@ export async function runThumbnailCapture({
     return failure(id, code);
   } finally {
     stopped = true;
+    signal?.removeEventListener('abort', onAbort);
     timers.forEach(timer => clearTimeout(timer));
     timers.clear();
     closeWindow();

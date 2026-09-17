@@ -1,3 +1,9 @@
+import { getFastBackground } from '../fastBackgroundCache';
+import {
+  describeSettingAvailability, explainUnavailableSetting, initAvailabilityTooltips, syncSettingChoices
+} from './settingAvailability';
+import { isFastMode, isSettingAllowed } from '../performanceMode';
+import { createStaticBackground } from '../staticBackground';
 import { settings } from '../settings';
 import { FULL_MODE_SETTINGS, effectiveHomeSort, adoptSortingSettings } from '../folderMode';
 import { getMessage } from '../i18n';
@@ -17,6 +23,7 @@ import { canLoadBackgroundImageURL, normalizeBackgroundImageURL } from '../backg
 import { $filePicker, $resizeThumbnail, getVideoPoster } from '../utils';
 import {
   BACKGROUND_FILE_PICKER_OPTIONS,
+  STATIC_BACKGROUND_FILE_PICKER_OPTIONS,
   commitBackgroundUpload,
   createBackgroundPreview,
   FILES_ALLOWED_EXTENSIONS,
@@ -207,7 +214,7 @@ function createPanel() {
       <section class="quick-settings__background-local" data-quick-background-setting="background_local" hidden>
         <div>
           <strong>${message('background_local')}</strong>
-          <small>${message('background_local_video_note')}</small>
+          <small>${message(isFastMode(settings.$) ? 'performance_mode_image' : 'background_local_video_note')}</small>
         </div>
         <div class="quick-settings__background-actions">
           <button class="btn md-ripple" type="button" data-quick-background-upload>
@@ -470,7 +477,14 @@ export default function initQuickDisplaySettings({
   ].join('');
 
   const panel = createPanel();
+  if (isFastMode(settings.$)) {
+    const note = document.createElement('p');
+    note.className = 'quick-settings__hint';
+    note.textContent = message('fast_background_url_note');
+    panel.querySelector('[data-quick-background-setting="background_external"]').prepend(note);
+  }
   document.body.append(panel);
+  initAvailabilityTooltips(panel);
   container.append(trigger);
   let tileSizeScaleAnchor = null;
   let pendingBackgroundRemoval = null;
@@ -478,7 +492,7 @@ export default function initQuickDisplaySettings({
   let folderTree = null;
 
   function syncBackgroundControls() {
-    const backgroundMode = settings.$.background_image;
+    const backgroundMode = settings.effective.background_image;
     panel.querySelector('#quick_background_external').value = settings.$.background_external;
     panel.querySelector('[data-quick-background-external-remove]').disabled = !settings.$.background_external;
     panel.querySelector('[data-quick-background-remove]').disabled = !hasLocalBackground;
@@ -494,7 +508,8 @@ export default function initQuickDisplaySettings({
     FULL_MODE_SETTINGS.forEach(key => {
       const control = panel.querySelector(`[data-setting="${key}"]`);
       if (control && !control.closest('[data-quick-group="sorting"]')) {
-        control.closest('label').hidden = Boolean(settings.$.show_last_opened_folder);
+        control.closest('label').hidden = Boolean(settings.$.show_last_opened_folder)
+          || !isSettingAllowed(settings.$, key);
       }
     });
   }
@@ -513,7 +528,7 @@ export default function initQuickDisplaySettings({
   }
 
   function syncSortingControls() {
-    const sortMode = effectiveHomeSort(settings.$);
+    const sortMode = effectiveHomeSort(settings.effective);
     const select = panel.querySelector('#quick_home_sort_by');
     select.value = sortMode;
     select.querySelector('[value="usage"]').disabled = Boolean(settings.$.show_last_opened_folder);
@@ -570,7 +585,14 @@ export default function initQuickDisplaySettings({
     const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
     if (!hasPermission) return;
 
-    if (!await canLoadBackgroundImageURL(url)) {
+    if (isFastMode(settings.$)) {
+      try {
+        await getFastBackground('url', url);
+      } catch (error) {
+        Toast.show(getMessage(`fast_background_error_${error.code || 'download'}`));
+        return;
+      }
+    } else if (!await canLoadBackgroundImageURL(url)) {
       input.value = '';
       Toast.show(message('notice_background_url_load_failed'));
       return;
@@ -593,10 +615,12 @@ export default function initQuickDisplaySettings({
 
   async function handleLocalBackgroundUpload() {
     try {
-      const file = await $filePicker(BACKGROUND_FILE_PICKER_OPTIONS, panel);
+      const file = await $filePicker(
+        isFastMode(settings.$) ? STATIC_BACKGROUND_FILE_PICKER_OPTIONS : BACKGROUND_FILE_PICKER_OPTIONS, panel);
       if (!file) return;
 
-      const validation = validateBackgroundFile(file);
+      const validation = validateBackgroundFile(file, isFastMode(settings.$));
+      if (!validation.ok && validation.reason === 'video') return Toast.show(message('performance_mode_video'));
       if (!validation.ok) {
         const messageId = validation.reason === 'size'
           ? 'alert_file_type_fail_size'
@@ -608,7 +632,8 @@ export default function initQuickDisplaySettings({
         return;
       }
 
-      const blob = new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
+      let blob = new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
+      if (isFastMode(settings.$)) blob = await createStaticBackground(blob);
       const blobThumbnail = await createBackgroundPreview({
         blob,
         file,
@@ -709,6 +734,24 @@ export default function initQuickDisplaySettings({
     syncBackgroundControls();
     syncDefaultFolderControls();
     syncSortingControls();
+    panel.querySelectorAll('[data-setting], [data-quick-default-folder]').forEach(control => {
+      const key = control.dataset.setting || 'default_folder_id';
+      const row = control.closest('label');
+      if (!row) return;
+      const allowed = isSettingAllowed(settings.$, key);
+      row.hidden ||= !allowed;
+      const reason = describeSettingAvailability(settings.$, key);
+      if (key !== 'default_folder_id' || folderTree) control.disabled = Boolean(reason);
+      row.classList.toggle('is-disabled', Boolean(reason));
+      row.setAttribute('aria-disabled', String(Boolean(reason)));
+      const choicesReason = syncSettingChoices(control, settings.$, key);
+      explainUnavailableSetting(row, reason || choicesReason);
+    });
+    panel.querySelector('[data-setting="background_image"]').value = settings.effective.background_image;
+    panel.querySelectorAll('[data-quick-group]').forEach(group => {
+      group.hidden = ![...group.querySelectorAll('[data-setting], [data-quick-default-folder]')]
+        .some(control => !control.closest('label')?.hidden);
+    });
   }
 
   function togglePanel(force, restoreFocus = true) {
@@ -727,6 +770,7 @@ export default function initQuickDisplaySettings({
 
   async function applySetting(control, persist = true) {
     const key = control.dataset.setting;
+    if (!isSettingAllowed(settings.$, key, control.value) || control.disabled) return;
     let value = control.type === 'checkbox' ? control.checked : control.value;
     if (key === 'download_favicons_by_default') value = control.value === 'true';
     let tileContentSettings;
@@ -785,7 +829,7 @@ export default function initQuickDisplaySettings({
     } else if (key === 'background_image') {
       syncBackgroundControls();
       await UI.setBG();
-    } else if (key === 'background_color' && settings.$.background_image === 'background_color') {
+    } else if (key === 'background_color' && settings.effective.background_image === 'background_color') {
       await UI.setBG();
     } else if (STYLE_SETTINGS.has(key)) {
       const gridLayout = UI.calculateStyles();
@@ -826,6 +870,7 @@ export default function initQuickDisplaySettings({
     } else if (RERENDER_SETTINGS.has(key)) {
       await onRerender();
     }
+    if (persist && ['toolbar_match_tile_background', 'home_sort_by', 'show_home_folders'].includes(key)) syncControls();
   }
 
   trigger.addEventListener('click', () => togglePanel());
@@ -885,7 +930,7 @@ export default function initQuickDisplaySettings({
     const confirmed = await confirmPopup(message('confirm_reset_quick_settings'));
     if (!confirmed) return;
 
-    await settings.resetKeys(QUICK_SETTING_KEYS);
+    await settings.resetKeys(QUICK_SETTING_KEYS.filter(key => isSettingAllowed(settings.$, key)));
     await window.vbToggleTheme();
     UI.calculateStyles();
     await UI.setBG();

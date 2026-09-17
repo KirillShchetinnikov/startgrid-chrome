@@ -1232,5 +1232,58 @@
   },
   "undo": {
     "message": "Anulować"
+  },
+  "performance_mode": {
+    "message": "Tryb wydajności"
+  },
+  "performance_mode_full": {
+    "message": "Pełny"
+  },
+  "performance_mode_fast": {
+    "message": "Szybki"
+  },
+  "performance_mode_description": {
+    "message": "Tryb szybki wyłącza wymagające efekty i zadania w tle. Zapisane ustawienia są przywracane w trybie pełnym. Zmiana przeładuje otwarte strony StartGrid."
+  },
+  "performance_mode_video": {
+    "message": "Wideo nie jest obsługiwane w trybie szybkim. Możesz zastąpić je obrazem."
+  },
+  "setting_unavailable_fast": {
+    "message": "Niedostępne w trybie szybkim."
+  },
+  "setting_unavailable_last_folder": {
+    "message": "Niedostępne, gdy włączono otwieranie ostatniego folderu."
+  },
+  "setting_unavailable_toolbar": {
+    "message": "Wyłącz dopasowanie tła do kafelków, aby zmienić to ustawienie."
+  },
+  "setting_requires": {
+    "message": "Wymagane: $SETTING$.",
+    "placeholders": {
+      "setting": {
+        "content": "$1"
+      }
+    }
+  },
+  "performance_mode_image": {
+    "message": "Tylko obrazy. Animowane obrazy są zapisywane jako nieruchoma klatka."
+  },
+  "fast_background_error_download": {
+    "message": "Nie udało się pobrać obrazu. Tryb szybki wymaga obrazu możliwego do zapisania w lokalnej pamięci podręcznej."
+  },
+  "fast_background_error_format": {
+    "message": "Nieobsługiwany format. Użyj statycznego JPEG, PNG, WebP, GIF lub AVIF. SVG i wideo nie są obsługiwane."
+  },
+  "fast_background_error_animated": {
+    "message": "Animowane obrazy z URL nie są obsługiwane w trybie szybkim. Wybierz nieruchomy obraz."
+  },
+  "fast_background_error_cache": {
+    "message": "Nie można zapisać obrazu w pamięci podręcznej. Serwer może tego zabraniać lub pamięć lokalna jest niedostępna."
+  },
+  "fast_background_error_size": {
+    "message": "Obraz jest za duży. Użyj pliku do 20 MB i 32 megapikseli."
+  },
+  "fast_background_url_note": {
+    "message": "Tryb szybki: tylko statyczne JPEG, PNG, WebP, GIF lub AVIF możliwe do pobrania i zapisania lokalnie. Zapisywana jest kopia do 1920 × 1080."
   }
 }

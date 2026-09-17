@@ -1,3 +1,5 @@
+import { isFastMode } from './performanceMode';
+import { createOptionalWorkGate } from './optionalWork';
 import ImageDB from './api/imageDB';
 import { getMessage, hasLanguageSettingChanged, initializeI18n } from './i18n';
 import browserContextMenu from './plugins/browserContextMenu';
@@ -46,6 +48,8 @@ import {
   resolveThumbnailSource
 } from './thumbnailSource';
 
+const optionalWork = createOptionalWorkGate(async() => (await storage.local.get('settings')).settings);
+
 function startI18n(language) {
   return initializeI18n({ language })
     .catch(error => console.warn('Could not initialize StartGrid language', error));
@@ -82,8 +86,8 @@ async function fetchRemoteResource(url, options) {
   }
 }
 
-async function fetchFavicon(pageUrl) {
-  const pageResponse = await fetchRemoteResource(pageUrl, { cache: 'no-cache' });
+async function fetchFavicon(pageUrl, signal) {
+  const pageResponse = await fetchRemoteResource(pageUrl, { cache: 'no-cache', signal });
   if (!pageResponse.ok) {
     throw new RemoteThumbnailError('HTTP_ERROR', pageResponse.status);
   }
@@ -114,8 +118,9 @@ async function fetchFavicon(pageUrl) {
   candidates.push(new URL('/favicon.ico', pageResponse.url).href);
 
   for (const candidate of [...new Set(candidates)]) {
+    signal?.throwIfAborted();
     try {
-      const response = await fetchRemoteResource(candidate, { cache: 'no-cache' });
+      const response = await fetchRemoteResource(candidate, { cache: 'no-cache', signal });
       const contentType = response.headers.get('content-type') || '';
       if (response.ok && contentType.toLowerCase().startsWith('image/')) {
         return response;
@@ -126,14 +131,19 @@ async function fetchFavicon(pageUrl) {
   throw new RemoteThumbnailError('FAVICON_NOT_FOUND');
 }
 
-async function updateRemoteThumbnail({
+function updateRemoteThumbnail(request) {
+  return optionalWork.run(signal => performRemoteThumbnail(request, signal),
+    createThumbnailFailure('FAST_MODE', { operation: request.source === 'favicon' ? 'favicon' : 'url' }));
+}
+
+async function performRemoteThumbnail({
   id,
   url,
   source = 'url',
   sourceUrl = url,
   sourceOverride,
   temporary = false
-}) {
+}, signal) {
   const operation = source === 'favicon' ? 'favicon' : 'url';
   const requestUrl = source === 'favicon' ? sourceUrl : url;
   const validation = validateThumbnailRequest(requestUrl, operation);
@@ -151,12 +161,14 @@ async function updateRemoteThumbnail({
     }
 
     const response = source === 'favicon'
-      ? await fetchFavicon(validation.url)
+      ? await fetchFavicon(validation.url, signal)
       : await fetchRemoteResource(validation.url, {
         cache: 'no-cache',
+        signal,
         headers
       });
 
+    signal.throwIfAborted();
     if (response.status === 304 && existing?.blob) {
       await ImageDB.update({
         ...existing,
@@ -200,6 +212,7 @@ async function updateRemoteThumbnail({
         ? downloadedBlob
         : await $resizeThumbnail(downloadedBlob);
 
+    signal.throwIfAborted();
     await ImageDB.update({
       id,
       ...(existing || {}),
@@ -216,6 +229,7 @@ async function updateRemoteThumbnail({
 
     return { success: true, updated: !isSameImage };
   } catch (error) {
+    signal.throwIfAborted();
     const code = error?.code || 'STORE_FAILED';
     if (temporary) return createThumbnailFailure(code, { operation, url: requestUrl });
     try {
@@ -256,7 +270,12 @@ async function initContextMenu() {
   return browserContextMenu.init(settings.show_contextmenu_item);
 }
 
-async function captureScreen(request) {
+function captureScreen(request) {
+  return optionalWork.run(signal => performCapture(request, signal),
+    { ok: false, id: String(request?.id ?? ''), code: 'FAST_MODE' });
+}
+
+async function performCapture(request, signal) {
   const [{ screen }, { settings }] = await Promise.all([
     storage.local.get('screen'),
     storage.local.get('settings')
@@ -267,6 +286,7 @@ async function captureScreen(request) {
 
   return runThumbnailCapture({
     browserApi: browser,
+    signal,
     request,
     screen,
     captureDelay,
@@ -278,6 +298,7 @@ async function captureScreen(request) {
       const fileBlob = $base64ToBlob(dataUrl, 'image/webp');
       const blob = await $resizeThumbnail(fileBlob);
       const existing = await ImageDB.get(request.id);
+      signal.throwIfAborted();
       return ImageDB.update({
         id: request.id,
         ...(existing || {}),
@@ -449,6 +470,7 @@ async function handleBookmarks(eventType, id, bookmark) {
 }
 
 browser.storage.onChanged.addListener((changes, area) => {
+  if (area === 'local' && isFastMode(changes.settings?.newValue)) optionalWork.cancel();
   // if storage changes from local
   // watching the settings parameter
   if (
@@ -519,7 +541,7 @@ browser.notifications.onClicked.addListener(browserActionHandler);
 browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.searchSuggestions) {
     const { engine, query } = request.searchSuggestions;
-    requestSearchSuggestions(engine, query)
+    optionalWork.run(signal => requestSearchSuggestions(engine, query, signal), [])
       .then(suggestions => sendResponse({ suggestions }))
       .catch(() => sendResponse({ suggestions: [] }));
     return true;

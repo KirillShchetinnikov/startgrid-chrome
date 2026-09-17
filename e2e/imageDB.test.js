@@ -20,6 +20,17 @@ describe('image reads by bookmark IDs', () => {
     expect(openDB).not.toHaveBeenCalled();
   });
 
+  it('clears only derived background caches, retaining original uploads and thumbnails', async() => {
+    const remove = jest.fn(() => Promise.resolve());
+    const transaction = jest.fn(() => ({ store: { delete: remove }, done: Promise.resolve() }));
+    openDB.mockResolvedValue({ transaction });
+    await ImageDB.clearBackgroundCache();
+    expect(transaction).toHaveBeenCalledWith('images', 'readwrite');
+    expect(remove.mock.calls).toEqual([
+      ['background-cache-url'], ['background-cache-bing'], ['background-cache-local']
+    ]);
+  });
+
   it('reads only requested keys, omitting missing records and duplicate IDs', async() => {
     const records = new Map([
       ['a', { id: 'a', blob: 'image-a' }],

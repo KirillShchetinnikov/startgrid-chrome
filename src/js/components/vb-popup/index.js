@@ -73,6 +73,10 @@ class VbPopup extends HTMLElement {
   }
 
   transitionEnd(callback) {
+    if (document.documentElement.dataset.performanceMode === 'fast') {
+      queueMicrotask(callback);
+      return;
+    }
     const handler = (e) => {
       this.popupContent.removeEventListener(e.type, handler);
       callback();
