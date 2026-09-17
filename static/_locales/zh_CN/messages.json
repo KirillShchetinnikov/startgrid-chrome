@@ -1243,7 +1243,7 @@
     "message": "快速"
   },
   "performance_mode_description": {
-    "message": "快速模式会关闭高负载效果和后台任务。已保存的设置将在完整模式中恢复。切换时会重新加载已打开的 StartGrid 页面。"
+    "message": "快速模式会关闭高负载效果和后台任务。已保存的设置将在完整模式中恢复。切换时会重新加载已打开的 StartGrid 页面。 快速模式仅支持静态背景图片，不支持视频。"
   },
   "performance_mode_video": {
     "message": "快速模式不支持视频。您可以将其替换为图片。"
@@ -1285,5 +1285,8 @@
   },
   "fast_background_url_note": {
     "message": "快速模式：仅限允许下载和本地缓存的静态 JPEG、PNG、WebP、GIF 或 AVIF。会在本地保存最大 1920 × 1080 的副本。"
+  },
+  "background_local_image": {
+    "message": "来自计算机的图像"
   }
 }

@@ -1068,7 +1068,7 @@
     "message": "Fast"
   },
   "performance_mode_description": {
-    "message": "Fast mode disables demanding effects and background tasks. Saved settings are restored in Full mode. Switching reloads open StartGrid pages."
+    "message": "Fast mode disables demanding effects and background tasks. Saved settings are restored in Full mode. Switching reloads open StartGrid pages. Fast mode supports still background images only, without video."
   },
   "performance_mode_video": {
     "message": "Video is not supported in Fast mode. You can replace it with an image."
@@ -1110,5 +1110,8 @@
   },
   "fast_background_url_note": {
     "message": "Fast mode: static JPEG, PNG, WebP, GIF or AVIF only. The image must allow downloading and local caching. A copy up to 1920 × 1080 is saved locally."
+  },
+  "background_local_image": {
+    "message": "Image from computer"
   }
 }

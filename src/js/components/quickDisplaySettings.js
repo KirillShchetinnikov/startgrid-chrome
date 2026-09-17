@@ -183,7 +183,7 @@ function createPanel() {
         <option value="background_noimage">${message('background_noimage')}</option>
         <option value="background_color">${message('color')}</option>
         <option value="background_external">${message('background_external')}</option>
-        <option value="background_local">${message('background_local')}</option>
+        <option value="background_local">${message(isFastMode(settings.$) ? 'background_local_image' : 'background_local')}</option>
         <option value="background_bing">${message('background_bing')}</option>
       </select>
     </label>
@@ -213,7 +213,7 @@ function createPanel() {
       </section>
       <section class="quick-settings__background-local" data-quick-background-setting="background_local" hidden>
         <div>
-          <strong>${message('background_local')}</strong>
+          <strong>${message(isFastMode(settings.$) ? 'background_local_image' : 'background_local')}</strong>
           <small>${message(isFastMode(settings.$) ? 'performance_mode_image' : 'background_local_video_note')}</small>
         </div>
         <div class="quick-settings__background-actions">

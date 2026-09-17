@@ -1243,7 +1243,7 @@
     "message": "Rapide"
   },
   "performance_mode_description": {
-    "message": "Le mode rapide désactive les effets coûteux et les tâches en arrière-plan. Les réglages enregistrés sont rétablis en mode complet. Le changement recharge les pages StartGrid ouvertes."
+    "message": "Le mode rapide désactive les effets coûteux et les tâches en arrière-plan. Les réglages enregistrés sont rétablis en mode complet. Le changement recharge les pages StartGrid ouvertes. Le mode rapide accepte uniquement les images de fond fixes, sans vidéo."
   },
   "performance_mode_video": {
     "message": "La vidéo n’est pas prise en charge en mode rapide. Vous pouvez la remplacer par une image."
@@ -1285,5 +1285,8 @@
   },
   "fast_background_url_note": {
     "message": "Mode rapide : uniquement des images statiques JPEG, PNG, WebP, GIF ou AVIF téléchargeables et pouvant être mises en cache. Une copie de 1920 × 1080 maximum est enregistrée localement."
+  },
+  "background_local_image": {
+    "message": "Image provenant d’un ordinateur"
   }
 }

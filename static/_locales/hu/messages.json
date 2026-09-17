@@ -1243,7 +1243,7 @@
     "message": "Gyors"
   },
   "performance_mode_description": {
-    "message": "A gyors mód kikapcsolja az erőforrásigényes hatásokat és háttérfeladatokat. A teljes mód visszaállítja a mentett beállításokat. A váltás újratölti a megnyitott StartGrid-oldalakat."
+    "message": "A gyors mód kikapcsolja az erőforrásigényes hatásokat és háttérfeladatokat. A teljes mód visszaállítja a mentett beállításokat. A váltás újratölti a megnyitott StartGrid-oldalakat. A gyors mód csak álló háttérképeket támogat, videókat nem."
   },
   "performance_mode_video": {
     "message": "A gyors mód nem támogatja a videót. Lecserélheti egy képre."
@@ -1285,5 +1285,8 @@
   },
   "fast_background_url_note": {
     "message": "Gyors mód: csak letölthető és helyben gyorsítótárazható álló JPEG, PNG, WebP, GIF vagy AVIF. Legfeljebb 1920 × 1080 méretű másolat kerül mentésre."
+  },
+  "background_local_image": {
+    "message": "Kép a számítógépről"
   }
 }

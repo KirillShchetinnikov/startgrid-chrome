@@ -1243,7 +1243,7 @@
     "message": "Schnell"
   },
   "performance_mode_description": {
-    "message": "Der schnelle Modus deaktiviert aufwendige Effekte und Hintergrundaufgaben. Gespeicherte Einstellungen werden im vollständigen Modus wiederhergestellt. Geöffnete StartGrid-Seiten werden beim Wechsel neu geladen."
+    "message": "Der schnelle Modus deaktiviert aufwendige Effekte und Hintergrundaufgaben. Gespeicherte Einstellungen werden im vollständigen Modus wiederhergestellt. Geöffnete StartGrid-Seiten werden beim Wechsel neu geladen. Im schnellen Modus sind nur statische Hintergrundbilder verfügbar, keine Videos."
   },
   "performance_mode_video": {
     "message": "Videos werden im schnellen Modus nicht unterstützt. Sie können das Video durch ein Bild ersetzen."
@@ -1285,5 +1285,8 @@
   },
   "fast_background_url_note": {
     "message": "Schneller Modus: nur statische JPEG-, PNG-, WebP-, GIF- oder AVIF-Bilder, die heruntergeladen und lokal gespeichert werden können. Eine Kopie bis 1920 × 1080 wird gespeichert."
+  },
+  "background_local_image": {
+    "message": "Bild vom Computer"
   }
 }

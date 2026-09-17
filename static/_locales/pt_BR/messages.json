@@ -1243,7 +1243,7 @@
     "message": "Rápido"
   },
   "performance_mode_description": {
-    "message": "O modo rápido desativa efeitos pesados e tarefas em segundo plano. As configurações salvas são restauradas no modo completo. A troca recarrega as páginas abertas do StartGrid."
+    "message": "O modo rápido desativa efeitos pesados e tarefas em segundo plano. As configurações salvas são restauradas no modo completo. A troca recarrega as páginas abertas do StartGrid. O modo rápido aceita apenas imagens de fundo estáticas, sem vídeo."
   },
   "performance_mode_video": {
     "message": "Vídeos não são compatíveis com o modo rápido. Você pode substituir o vídeo por uma imagem."
@@ -1285,5 +1285,8 @@
   },
   "fast_background_url_note": {
     "message": "Modo rápido: apenas JPEG, PNG, WebP, GIF ou AVIF estáticos que permitam download e cache local. Uma cópia de até 1920 × 1080 é salva localmente."
+  },
+  "background_local_image": {
+    "message": "Imagem do computador"
   }
 }

@@ -1243,7 +1243,7 @@
     "message": "Szybki"
   },
   "performance_mode_description": {
-    "message": "Tryb szybki wyłącza wymagające efekty i zadania w tle. Zapisane ustawienia są przywracane w trybie pełnym. Zmiana przeładuje otwarte strony StartGrid."
+    "message": "Tryb szybki wyłącza wymagające efekty i zadania w tle. Zapisane ustawienia są przywracane w trybie pełnym. Zmiana przeładuje otwarte strony StartGrid. Tryb szybki obsługuje tylko nieruchome obrazy tła, bez wideo."
   },
   "performance_mode_video": {
     "message": "Wideo nie jest obsługiwane w trybie szybkim. Możesz zastąpić je obrazem."
@@ -1285,5 +1285,8 @@
   },
   "fast_background_url_note": {
     "message": "Tryb szybki: tylko statyczne JPEG, PNG, WebP, GIF lub AVIF możliwe do pobrania i zapisania lokalnie. Zapisywana jest kopia do 1920 × 1080."
+  },
+  "background_local_image": {
+    "message": "Obraz z komputera"
   }
 }

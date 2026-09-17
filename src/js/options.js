@@ -106,6 +106,8 @@ async function init() {
 
   Ripple.init('.md-ripple');
   if (isFastMode(settings.$)) {
+    document.querySelector('#background_image option[value="background_local"]').textContent
+      = getMessage('background_local_image');
     const note = document.querySelector('[data-locale-message="background_local_video_note"]');
     note.textContent = getMessage('performance_mode_image');
     const urlNote = document.createElement('p');
@@ -116,7 +118,8 @@ async function init() {
 
   const background = await ImageDB.get('background');
   if (background) {
-    if (isFastMode(settings.$) && background.blob?.type.startsWith('video/')) {
+    if (isFastMode(settings.$) && settings.$.background_image === 'background_local'
+      && background.blob?.type.startsWith('video/')) {
       Toast.show(getMessage('performance_mode_video'));
     }
     const preview = isFastMode(settings.$)
@@ -163,7 +166,7 @@ async function init() {
     container: document.getElementById('keyboard_shortcuts'),
     settings
   });
-  getOptions();
+  await getOptions();
 
   // Delegate change settings
   document.querySelector('.settings-shell').addEventListener('change', handleSetOptions);
@@ -190,6 +193,13 @@ async function init() {
     'accept',
     FILES_ALLOWED_EXTENSIONS.map(ext => `.${ext}`).join(', ')
   );
+  await document.fonts.ready;
+  const viewport = document.querySelector('.settings-viewport');
+  const savedScroll = Number(sessionStorage.getItem('options_scroll') || 0);
+  viewport.scrollTop = savedScroll;
+  window.addEventListener('beforeunload', () => {
+    sessionStorage.setItem('options_scroll', String(viewport.scrollTop));
+  });
 }
 
 function activateSettingsSection(
@@ -491,12 +501,12 @@ async function handleResetColor(e) {
   syncColorControl(settingId);
 }
 
-function getOptions() {
-  generateFolderList();
+async function getOptions() {
+  const foldersReady = generateFolderList();
   generateSearchEngineList();
   searchEngineSettingsInstance?.render();
   keyboardShortcutSettingsInstance?.render();
-  getPermissions();
+  const permissionsReady = getPermissions();
 
   for (let id of Object.keys(settings.$)) {
     const elOption = document.getElementById(id);
@@ -518,6 +528,7 @@ function getOptions() {
     }
   }
   syncConditionalControls();
+  await Promise.all([foldersReady, permissionsReady]);
 }
 
 function syncConditionalControls() {
@@ -538,6 +549,8 @@ function syncConditionalControls() {
  * @param {string} value - localStorage background_image value
  */
 function toggleBackgroundControls(value) {
+  // Invalidate requests started for a background that is no longer selected.
+  externalPreviewRevision++;
   Array.from(document.querySelectorAll('.js-background-settings')).forEach((item) => {
     item.hidden = true;
   });
@@ -587,7 +600,7 @@ async function syncExternalBackgroundControls() {
       externalPreviewUrl = URL.createObjectURL(cached.blob);
       image.src = externalPreviewUrl;
     } catch (error) {
-      if (revision === externalPreviewRevision) {
+      if (revision === externalPreviewRevision && settings.$.background_image === 'background_external') {
         Toast.show(getMessage(`fast_background_error_${error.code || 'download'}`));
       }
     }
@@ -1145,4 +1158,6 @@ function generateSearchEngineList() {
   select.value = settings.$.search_engine;
 }
 
-init();
+init().catch(console.warn).finally(() => {
+  document.body.removeAttribute('data-options-loading');
+});

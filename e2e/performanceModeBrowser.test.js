@@ -15,6 +15,7 @@ describe('Full / Fast mode in the extension', () => {
       options.$eval(`input[name="performance_mode"][value="${mode}"]`, input => input.click())
     ]);
     await options.waitForSelector('#setting_dial_shadow');
+    await options.waitForSelector('body:not([data-options-loading])');
     await page.waitForSelector(`#vb-${bookmarkId}`);
   }
 
@@ -88,6 +89,10 @@ describe('Full / Fast mode in the extension', () => {
     expect(await options.$eval('#home_sort_by', input => input.value)).toBe('manual');
     expect(await options.$eval('#setting_home_sort_by', row => row.dataset.unavailableReason)).toContain('Fast mode');
     expect(await options.$eval('#home_sort_by', input => input.disabled)).toBe(false);
+    expect(await options.$eval('#background_image option[value="background_local"]', option => option.textContent))
+      .toBe('Image from computer');
+    expect(await options.evaluate(() => document.querySelector('#performance_mode_control').getBoundingClientRect().top
+      >= document.querySelector('#settings').getBoundingClientRect().bottom)).toBe(true);
     expect(await page.$eval(`#vb-${bookmarkId}`, tile => ({
       image: tile.getAttribute('image'), transition: getComputedStyle(tile).transitionDuration,
       shadow: getComputedStyle(tile).boxShadow
@@ -95,6 +100,8 @@ describe('Full / Fast mode in the extension', () => {
     await page.$eval('#quick_settings_trigger', button => button.click());
     await page.waitForFunction(() => !document.querySelector('[data-quick-default-folder]').disabled);
     expect(await page.$eval('#quick_thumbnail_source', input => input.closest('label').hidden)).toBe(true);
+    expect(await page.$eval('#quick_background_image option[value="background_local"]', option => option.textContent))
+      .toBe('Image from computer');
     expect(await page.$eval('#quick_dial_shadow', input => input.closest('label').hidden)).toBe(true);
     expect(await page.$eval('#quick_dial_radius', input => input.closest('label').hidden)).toBe(false);
     expect(await page.$('input[name="performance_mode"]')).toBeNull();
@@ -133,6 +140,31 @@ describe('Full / Fast mode in the extension', () => {
     expect(await worker.evaluate(() => { fetch = globalThis.__originalFetch; return globalThis.__fetchCount; })).toBe(0);
   });
 
+  it('keeps the document and scroll position stable when changing an ordinary setting', async() => {
+    const before = await options.evaluate(() => {
+      window.__settingsDocument = 'unchanged';
+      const viewport = document.querySelector('.settings-viewport');
+      viewport.scrollTop = 180;
+      const input = document.querySelector('#show_home_folders');
+      const previous = input.checked;
+      input.checked = !previous;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      return { previous, scroll: viewport.scrollTop };
+    });
+    await options.waitForFunction(async previous => (await chrome.storage.local.get('settings')).settings.show_home_folders
+      !== previous, {}, before.previous);
+    expect(await options.evaluate(() => ({
+      document: window.__settingsDocument, scroll: document.querySelector('.settings-viewport').scrollTop,
+      loading: document.body.hasAttribute('data-options-loading')
+    }))).toEqual({ document: 'unchanged', scroll: before.scroll, loading: false });
+    await options.$eval('#show_home_folders', (input, previous) => {
+      input.checked = previous;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }, before.previous);
+    await options.waitForFunction(async previous => (await chrome.storage.local.get('settings')).settings.show_home_folders
+      === previous, {}, before.previous);
+  });
+
   it('applies a shared quick setting in Full mode while restoring saved effects and thumbnails', async() => {
     await page.$eval('#quick_dial_radius', input => { input.value = '23'; input.dispatchEvent(new Event('change', { bubbles: true })); });
     await page.waitForFunction(async() => Number((await chrome.storage.local.get('settings')).settings.dial_radius) === 23);
@@ -143,6 +175,8 @@ describe('Full / Fast mode in the extension', () => {
     expect(await options.$eval('#toolbar_background_blur', input => input.disabled)).toBe(true);
     expect(await page.$eval(`#vb-${bookmarkId}`, tile => tile.getAttribute('image'))).toContain('blob:');
     expect(await options.$eval('#home_sort_by', input => input.value)).toBe('usage');
+    expect(await options.$eval('#background_image option[value="background_local"]', option => option.textContent))
+      .toBe('Image or video from computer');
   });
 
   it('keeps a video stored but removes it in Fast mode, then restores it in Full mode', async() => {
@@ -154,6 +188,64 @@ describe('Full / Fast mode in the extension', () => {
     await switchMode('full');
     await page.waitForSelector('#bg video');
     expect(await page.$eval('#bg video', video => video.src)).toContain('blob:');
+  });
+
+  it('does not warn about stored video or URL when a different background is selected', async() => {
+    await switchMode('fast');
+    await options.$eval('#background_image', select => {
+      select.value = 'background_color';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await options.waitForFunction(async() => (await chrome.storage.local.get('settings')).settings.background_image
+      === 'background_color');
+    await worker.evaluate(async() => {
+      const { settings } = await chrome.storage.local.get('settings');
+      await chrome.storage.local.set({ settings: { ...settings, background_external: 'https://unused.test/video.mp4' } });
+    });
+    for (const target of [options, page]) {
+      await target.evaluateOnNewDocument(() => {
+        window.__inactiveBackgroundRequests = 0;
+        const original = fetch;
+        window.fetch = (input, ...args) => {
+          if (String(input).startsWith('https://unused.test/')) {
+            window.__inactiveBackgroundRequests++;
+            return Promise.resolve(new Response('<html/>', { headers: { 'content-type': 'text/html' } }));
+          }
+          return original(input, ...args);
+        };
+      });
+    }
+    const scroll = await options.evaluate(() => {
+      const viewport = document.querySelector('.settings-viewport');
+      viewport.scrollTop = 200;
+      return viewport.scrollTop;
+    });
+    await options.reload();
+    await options.waitForSelector('body:not([data-options-loading])');
+    expect(await options.$eval('.settings-viewport', viewport => viewport.scrollTop)).toBe(scroll);
+    await page.reload();
+    await page.waitForSelector('#add');
+    for (const target of [options, page]) {
+      expect(await target.evaluate(() => document.body.textContent.includes('Video is not supported in Fast mode'))).toBe(false);
+      expect(await target.$('#bg video')).toBeNull();
+      expect(await target.evaluate(() => window.__inactiveBackgroundRequests)).toBe(0);
+    }
+    await options.$eval('#background_image', select => {
+      select.value = 'background_external';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await options.waitForFunction(() => document.body.textContent.includes('Unsupported image format'));
+    await options.$eval('#background_image', select => {
+      select.value = 'background_color';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await options.waitForFunction(async() => (await chrome.storage.local.get('settings')).settings.background_image
+      === 'background_color');
+    await options.reload();
+    await options.waitForSelector('body:not([data-options-loading])');
+    expect(await options.evaluate(() => document.body.textContent.includes('Unsupported image format'))).toBe(false);
+    expect(await options.evaluate(() => window.__inactiveBackgroundRequests)).toBe(0);
+    await switchMode('full');
   });
 
   it('renders an animated local image as a static frame and keeps the replacement in Full mode', async() => {

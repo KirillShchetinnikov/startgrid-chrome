@@ -1243,7 +1243,7 @@
     "message": "빠른"
   },
   "performance_mode_description": {
-    "message": "빠른 모드는 부하가 큰 효과와 백그라운드 작업을 비활성화합니다. 저장된 설정은 전체 모드에서 복원됩니다. 전환하면 열린 StartGrid 페이지가 새로고침됩니다."
+    "message": "빠른 모드는 부하가 큰 효과와 백그라운드 작업을 비활성화합니다. 저장된 설정은 전체 모드에서 복원됩니다. 전환하면 열린 StartGrid 페이지가 새로고침됩니다. 빠른 모드는 정지 배경 이미지만 지원하며 동영상은 지원하지 않습니다."
   },
   "performance_mode_video": {
     "message": "빠른 모드에서는 동영상을 지원하지 않습니다. 이미지로 교체할 수 있습니다."
@@ -1285,5 +1285,8 @@
   },
   "fast_background_url_note": {
     "message": "빠른 모드: 다운로드와 로컬 캐시가 가능한 정지 JPEG, PNG, WebP, GIF 또는 AVIF만 지원합니다. 최대 1920 × 1080 사본을 로컬에 저장합니다."
+  },
+  "background_local_image": {
+    "message": "컴퓨터의 이미지"
   }
 }
