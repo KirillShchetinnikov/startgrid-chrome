@@ -44,6 +44,10 @@ describe('folder previews in the grid', () => {
   });
 
   it('previews sites in nested folders and falls back for empty folders', async() => {
+    // Wait for the entrance animation before Puppeteer computes click coordinates.
+    await page.$eval(`#vb-${folders.outer}`, async node => {
+      await Promise.all(node.getAnimations({ subtree: true }).map(animation => animation.finished));
+    });
     await page.click(`#vb-${folders.outer} > [data-thumb]`);
     await page.waitForSelector(`#vb-${folders.nested} .bookmark__img--children`);
     expect(await page.$$eval(`#vb-${folders.nested} .bookmark__img--children`, nodes => nodes.length)).toBe(1);

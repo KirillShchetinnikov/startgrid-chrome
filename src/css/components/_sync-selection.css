@@ -1,0 +1,85 @@
+.tbl--sync-selection {
+  display: block;
+  padding: 10px;
+}
+
+.tbl--sync-selection > .tbl__setting,
+.tbl--sync-selection > .tbl__value {
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: start;
+}
+
+.tbl--sync-selection > .tbl__value {
+  margin-block-start: 14px;
+}
+
+.sync-selection__block {
+  position: relative;
+  margin-block: 8px;
+  padding-inline: 14px;
+  border: var(--surface-border);
+  border-radius: 12px;
+  background: var(--theme-background-2);
+}
+
+.sync-selection__block-toggle {
+  position: absolute;
+  inset-block-start: 14px;
+  inset-inline-end: 14px;
+}
+
+.sync-selection__block-toggle input:indeterminate + label::before {
+  background-color: var(--switch-active-bar);
+}
+
+.sync-selection__block-toggle input:indeterminate + label::after {
+  transform: translate(calc((var(--switch-width) - var(--switch-circle-size) - 2px) / 2), -50%);
+}
+
+.sync-selection__count {
+  margin-inline-start: 10px;
+  font-size: 0.85em;
+  color: var(--theme-text-color);
+  opacity: 0.7;
+}
+
+.sync-selection {
+  inline-size: 100%;
+}
+
+.sync-selection summary {
+  cursor: pointer;
+  padding-block: 16px;
+  padding-inline-end: 58px;
+}
+
+.sync-selection fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-inline-size: 0;
+}
+
+.sync-selection legend {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.sync-selection__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-block-size: 48px;
+}
+
+.sync-selection__row > label {
+  cursor: pointer;
+  flex: 1;
+  padding-block: 8px;
+}

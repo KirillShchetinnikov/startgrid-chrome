@@ -13,11 +13,12 @@ import {
   checkSyncQuotaBatch,
   isSyncStorageQuotaError
 } from './syncQuota';
+import { SYNC_STORAGE_KEYS } from './syncSettings';
 import {
-  SYNC_STORAGE_KEYS,
-  mergeSyncSettings,
-  splitSyncSettings
-} from './syncSettings';
+  SYNC_PREFIX, POLICY_PREFIX, valueKey, SYNC_VERSION_KEY, SYNC_STATE_KEY, SYNC_ERROR_KEY, LOCAL_SETTING_KEYS,
+  copy, equal, syncGroup, groupValues, applyKnownChanges, readSyncRecords,
+  createInitialSyncRecords, withSettingsLock
+} from './selectiveSync';
 import {
   DEFAULT_KEYBOARD_SHORTCUTS,
   normalizeKeyboardShortcuts
@@ -131,13 +132,7 @@ function normalizeNumericSettings(currentSettings) {
   });
 }
 
-const SETTINGS_NOT_SYNCED = [
-  'performance_mode',
-  'language',
-  'default_folder_id',
-  'sync_default_folder_id',
-  'enable_sync'
-];
+const SETTINGS_NOT_SYNCED = LOCAL_SETTING_KEYS;
 const DEPRECATED_SETTINGS = [
   'custom_style',
   'services_enable',
@@ -279,11 +274,6 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   return currentSettings;
 }
 
-function createSyncRecords(currentSettings) {
-  const syncSettings = sanitizeSettings(JSON.parse(JSON.stringify(currentSettings)));
-  return splitSyncSettings(removeNotSyncedSettings(syncSettings));
-}
-
 async function getSyncQuotaState(records) {
   let totalBytes = 0;
   let currentRecordsBytes = 0;
@@ -291,7 +281,7 @@ async function getSyncQuotaState(records) {
   try {
     [totalBytes, currentRecordsBytes] = await Promise.all([
       storage.sync.getBytesInUse(),
-      storage.sync.getBytesInUse(SYNC_STORAGE_KEYS)
+      storage.sync.getBytesInUse(Object.keys(records))
     ]);
   } catch (error) {
     console.warn('Could not read Chrome Sync storage usage', error);
@@ -337,9 +327,13 @@ async function writeSyncSettings(syncRecords) {
   try {
     await storage.sync.set(syncRecords);
     await storage.local.remove(SYNC_QUOTA_ERROR_KEY);
+    await storage.local.remove(SYNC_ERROR_KEY);
     return true;
   } catch (error) {
-    if (!isSyncStorageQuotaError(error)) throw error;
+    if (!isSyncStorageQuotaError(error)) {
+      await storage.local.set({ [SYNC_ERROR_KEY]: String(error?.message || error) });
+      return false;
+    }
     await saveSyncQuotaError(quotaState, error);
     return false;
   }
@@ -365,181 +359,352 @@ export function getDefaultFolderId(currentSettings = {}) {
 
 const settingsStore = () => {
   let $settings = {};
+  let baseline = {};
+  let policy = {};
+  let initialized = false;
   const effective = new Proxy({}, {
     get: (_, key) => getEffectiveSetting($settings, key),
     ownKeys: () => Reflect.ownKeys($settings),
     getOwnPropertyDescriptor: () => ({ enumerable: true, configurable: true })
   });
 
+  function adopt(value) {
+    $settings = sanitizeSettings({ ...DEFAULTS, ...migrateSettings(value) });
+    baseline = copy($settings);
+    if (typeof document !== 'undefined') {
+      document.documentElement.dataset.performanceMode = $settings.performance_mode;
+    }
+  }
+
+  async function readState() {
+    const local = await storage.local.get(['settings', SYNC_STATE_KEY, SYNC_QUOTA_ERROR_KEY]);
+    return {
+      local,
+      state: { pending: {}, ...(local[SYNC_STATE_KEY] || {}) }
+    };
+  }
+
+  async function remoteRecords(current) {
+    let records = await storage.sync.get(null);
+    if (!records[SYNC_VERSION_KEY]) {
+      // Preserve the original payload, including unknown and formerly grouped keys.
+      const legacy = Object.assign({}, ...SYNC_STORAGE_KEYS.map(key => records[key] || {}));
+      const initial = createInitialSyncRecords({
+        ...removeNotSyncedSettings(copy(current)), ...migrateSettings(legacy), ...legacy
+      }, records);
+      if (!await writeSyncSettings(initial)) return null;
+      records = { ...records, ...initial };
+    }
+    if (records[SYNC_VERSION_KEY]?.version !== 1) {
+      await storage.local.set({ [SYNC_ERROR_KEY]: 'unsupported_sync_version' });
+      return null;
+    }
+    // Remove the old copies only after the new format has been persisted.
+    // Released legacy clients can recreate them, but cannot overwrite new records.
+    const legacyKeys = SYNC_STORAGE_KEYS.filter(key => Object.hasOwn(records, key));
+    if (legacyKeys.length) await storage.sync.remove(legacyKeys);
+    return records;
+  }
+
+  async function flush(state, records) {
+    const writes = {};
+    const completed = [];
+    Object.entries(state.pending).forEach(([group, operation]) => {
+      const key = POLICY_PREFIX + group;
+      const remote = records[key];
+      // A disable/enable cycle invalidates edits queued under the previous policy.
+      if (operation.epoch !== (remote?.epoch || 'initial')) {
+        completed.push(group);
+        return;
+      }
+      if (operation.kind === 'policy') {
+        writes[key] = {
+          ...remote,
+          enabled: operation.enabled,
+          epoch: operation.nextEpoch,
+          retired: [...new Set([...(remote?.retired || []), ...(remote ? [remote.epoch] : [])])]
+        };
+        if (operation.enabled) writes[valueKey(group, operation.nextEpoch)] = { value: copy(operation.value) };
+      } else if (remote?.enabled !== false) {
+        if (!remote) writes[key] = { enabled: true, epoch: 'initial' };
+        const dataKey = valueKey(group, remote?.epoch);
+        writes[dataKey] = {
+          ...records[dataKey],
+          value: applyKnownChanges(records[dataKey]?.value || {}, operation.before, operation.after)
+        };
+      }
+      completed.push(group);
+    });
+    if (Object.keys(writes).length && !await writeSyncSettings(writes)) return records;
+    completed.forEach(group => delete state.pending[group]);
+    await storage.local.set({ [SYNC_STATE_KEY]: state });
+    const updated = { ...records, ...writes };
+    const retiredKeys = [];
+    Object.entries(updated).forEach(([key, record]) => {
+      if (!key.startsWith(POLICY_PREFIX)) return;
+      const group = key.slice(POLICY_PREFIX.length);
+      (record.retired || []).forEach(epoch => {
+        const retiredKey = valueKey(group, epoch);
+        if (Object.hasOwn(updated, retiredKey)) retiredKeys.push(retiredKey);
+      });
+    });
+    if (retiredKeys.length) {
+      await storage.sync.remove(retiredKeys);
+      retiredKeys.forEach(key => delete updated[key]);
+    }
+    return updated;
+  }
+
+  async function receive(current, state, records, forceRead = false) {
+    const decoded = readSyncRecords(records);
+    if (state.policy?.sync_default_folder_path !== false && decoded.policy.sync_default_folder_path === false) {
+      current.default_folder_id = current.sync_default_folder_id || current.default_folder_id;
+    }
+    policy = decoded.policy;
+    state.policy = policy;
+    state.raw ||= {};
+    state.epochs ||= {};
+    const changed = new Set();
+    Object.entries(policy).forEach(([group, enabled]) => {
+      const record = records[POLICY_PREFIX + group];
+      const raw = records[valueKey(group, record.epoch)]?.value;
+      if (enabled && raw && !state.pending[group]) {
+        // Echoes of our own writes must not undo device-specific layout or
+        // permission fallbacks. A new generation still applies identical data.
+        if (forceRead || state.epochs[group] !== record.epoch || !equal(state.raw[group], raw)) changed.add(group);
+        state.raw[group] = copy(raw);
+        state.epochs[group] = record.epoch;
+      }
+    });
+    const incoming = { ...current };
+    Object.entries(decoded.values).forEach(([key, value]) => {
+      if (changed.has(syncGroup(key))) incoming[key] = value;
+    });
+    adopt(incoming);
+    if (policy.sync_default_folder_path !== false) await resolveSyncedDefaultFolder($settings);
+    else $settings.sync_default_folder_id = $settings.default_folder_id;
+    if (!equal(current, $settings)) state.appliedRevision = crypto.randomUUID();
+    baseline = copy($settings);
+    await storage.local.set({ settings: $settings, [SYNC_STATE_KEY]: state });
+  }
+
+  async function synchronize(current, state, forceRead = false) {
+    try {
+      let records = await remoteRecords(current);
+      if (!records) return;
+      records = await flush(state, records);
+      await receive(current, state, records, forceRead);
+      if (!Object.keys(state.pending).length) {
+        await storage.local.remove([SYNC_ERROR_KEY, SYNC_QUOTA_ERROR_KEY]);
+      }
+    } catch (error) {
+      await storage.local.set({ [SYNC_ERROR_KEY]: String(error?.message || error) });
+    }
+  }
+
+  function change(values, force = false, sync = true) {
+    return withSettingsLock(async() => {
+      const { local, state } = await readState();
+      const current = { ...DEFAULTS, ...migrateSettings(local.settings || $settings) };
+      const before = copy(baseline);
+      const next = sanitizeSettings({ ...current, ...migrateSettings(values) });
+      const groupedBefore = groupValues(before);
+      const groupedAfter = groupValues(next);
+      const requestedGroups = new Set(Object.keys(values)
+        .filter(key => !SETTINGS_NOT_SYNCED.includes(key)).map(syncGroup));
+      let records = {};
+      if (sync && next.enable_sync && requestedGroups.size) {
+        try {
+          records = await remoteRecords(current) || {};
+        } catch (error) {
+          await storage.local.set({ [SYNC_ERROR_KEY]: String(error?.message || error) });
+        }
+      }
+      if (sync && next.enable_sync) {
+        requestedGroups.forEach(group => {
+          const record = records[POLICY_PREFIX + group];
+          if (record?.enabled === false || (!record && policy[group] === false)) return;
+          const after = groupedAfter[group];
+          const old = state.pending[group];
+          if (!after || (!force && equal(groupedBefore[group], after))) return;
+          if (old?.kind === 'policy') {
+            if (old.enabled) old.value = applyKnownChanges(old.value, groupedBefore[group] || {}, after);
+            return;
+          }
+          state.pending[group] = {
+            kind: 'edit',
+            epoch: record?.epoch || 'initial',
+            before: old?.before || (force || !record ? {} : groupedBefore[group] || {}),
+            after: copy(after)
+          };
+        });
+      }
+      adopt(next);
+      // Persist intent before attempting any cloud write; quota failures/restarts
+      // must not cause local edits to be replaced by old cloud values.
+      await storage.local.set({ settings: $settings, [SYNC_STATE_KEY]: state });
+      if (sync && next.enable_sync && requestedGroups.size) await synchronize($settings, state);
+    });
+  }
+
   return {
-    /**
-     * settings.$ getter
-     * @return {Object} Settings object
-     */
     get effective() {
       return effective;
     },
-
     get $() {
       return $settings;
     },
-
     get defaultFolderId() {
       return getDefaultFolderId($settings);
     },
+    get syncPolicy() {
+      return { ...policy };
+    },
+    isSynced(key) {
+      return policy[syncGroup(key)] !== false;
+    },
 
-    /**
-     * Initializing the settings Store
-     */
     async init() {
-      // read local settings
-      const localState = await storage.local.get(['settings', SYNC_QUOTA_ERROR_KEY]);
-      let { settings } = localState;
-      const hasPendingSyncQuotaError = Boolean(localState[SYNC_QUOTA_ERROR_KEY]);
-      settings = Object.assign({}, DEFAULTS, migrateSettings(settings));
-      sanitizeSettings(settings);
-      let syncRecords = {};
-      let syncSettings = {};
-
-      // if synchronization is enabled, we take data from the cloud
-      if (settings.enable_sync) {
-        syncRecords = await storage.sync.get(SYNC_STORAGE_KEYS);
-        syncSettings = migrateSettings(mergeSyncSettings(syncRecords));
-        sanitizeSettings(syncSettings, false);
-        removeNotSyncedSettings(syncSettings);
-        if (!hasPendingSyncQuotaError) Object.assign(settings, syncSettings);
-        sanitizeSettings(settings);
-        await resolveSyncedDefaultFolder(settings);
-      }
-
-      await storage.local.set({ settings });
-
-      // write the settings to the settings.$ object
-      Object.assign($settings, settings);
-      if (typeof document !== 'undefined') {
-        document.documentElement.dataset.performanceMode = $settings.performance_mode;
-      }
-
-      const currentSyncRecords = createSyncRecords($settings);
-      if (
-        settings.enable_sync
-        && JSON.stringify(syncRecords) !== JSON.stringify(currentSyncRecords)
-      ) {
-        await writeSyncSettings(currentSyncRecords);
-      }
-    },
-
-    /**
-     * update setting value
-     * @param {String} key
-     * @param {<any>} value
-     * @returns
-     */
-    async updateKey(key, value) {
-      if (!$settings) {
-        throw Error('Settings store must be initialized with the init method');
-      }
-
-      // A quick-settings panel in another tab may have changed shared values
-      // since this options page opened. Switching mode must preserve those edits.
-      if (key === 'performance_mode') {
-        const latest = await storage.local.get('settings');
-        $settings = { ...$settings, ...latest.settings };
-      }
-
-      const disablingSync = key === 'enable_sync' && $settings.enable_sync && value === false;
-      $settings = sanitizeSettings({
-        ...$settings,
-        ...(disablingSync && { default_folder_id: this.defaultFolderId }),
-        [key]: value
-      }, false);
-      // resave settings in local storage
-      await storage.local.set({ settings: $settings });
-
-      if ($settings.enable_sync) {
-        if (!SETTINGS_NOT_SYNCED.includes(key)) {
-          // if we change sync settings
-          // start synchronization
-          await this.syncToStorage();
+      await withSettingsLock(async() => {
+        const { local, state } = await readState();
+        adopt(local.settings);
+        policy = state.policy || {};
+        if (local[SYNC_QUOTA_ERROR_KEY] && !local[SYNC_STATE_KEY]) {
+          Object.entries(groupValues($settings)).forEach(([group, after]) => {
+            state.pending[group] = { kind: 'edit', epoch: 'initial', before: {}, after };
+          });
         }
-      }
+        await storage.local.set({ settings: $settings, [SYNC_STATE_KEY]: state });
+        if ($settings.enable_sync) await synchronize($settings, state);
+        else await storage.local.set({ settings: $settings });
+        initialized = true;
+      });
     },
 
-    async updateAll(settings = {}) {
-      $settings = sanitizeSettings(Object.assign({}, $settings, migrateSettings(settings)));
-      await storage.local.set({ settings: $settings });
-      if ($settings.enable_sync) {
-        await this.syncToStorage();
-      }
+    updateKey(key, value, { sync = true } = {}) {
+      const values = { [key]: value };
+      if (key === 'enable_sync' && !value) values.default_folder_id = this.defaultFolderId;
+      return change(values, false, sync);
     },
 
-    /**
-     * Restore selected settings to the extension defaults without clearing storage.
-     * @param {String[]} keys
-     * @returns {Promise<Object>}
-     */
+    updateAll(values = {}, { sync = true } = {}) {
+      return change(values, false, sync);
+    },
+
     async resetKeys(keys = []) {
       const defaults = getDefaultSettings(keys);
-      await this.updateAll(defaults);
+      await change(defaults);
       return defaults;
     },
 
-    /**
-     * syncToStorage - update storage cloud
-     * send the current settings to the cloud previously excluding local
-     */
+    // Explicit "use this device" operation. Ordinary edits use change() and
+    // publish only the requested keys, never the entire normalized store.
     syncToStorage() {
-      return writeSyncSettings(createSyncRecords($settings));
+      return change($settings, true);
     },
 
-    /**
-     * restoreFromSync - restore settings from cloud storage
-     * @returns Promise
-     */
-    async restoreFromSync() {
-      const syncRecords = await storage.sync.get(SYNC_STORAGE_KEYS);
-      const syncSettings = migrateSettings(mergeSyncSettings(syncRecords));
-      sanitizeSettings(syncSettings, false);
-      Object.assign($settings, removeNotSyncedSettings(syncSettings));
-      sanitizeSettings($settings);
-      await resolveSyncedDefaultFolder($settings);
-      await storage.local.set({ settings: $settings });
-      await writeSyncSettings(createSyncRecords($settings));
+    restoreFromSync() {
+      return withSettingsLock(async() => {
+        const { local, state } = await readState();
+        state.pending = {};
+        await storage.local.set({ [SYNC_STATE_KEY]: state });
+        await synchronize(local.settings || $settings, state, true);
+      });
     },
 
-    /**
-     * Reset local settings
-     * @returns Promise
-     */
-    async resetLocal() {
-      $settings = sanitizeSettings(Object.assign({}, DEFAULTS, { enable_sync: false }));
-      await storage.local.set({ settings: $settings });
-      localStorage.clear();
+    setSyncEnabled(key, enabled) {
+      return this.setSyncEnabledMany([key], enabled);
     },
 
-    /**
-     * Clear transient data without deleting settings or local images.
-     * @returns Promise
-     */
-    async clearLocalCache() {
-      const currentSettings = JSON.parse(JSON.stringify($settings));
-      await storage.local.clear();
-      await storage.local.set({ settings: currentSettings });
-      localStorage.clear();
+    setSyncEnabledMany(keys, enabled) {
+      return withSettingsLock(async() => {
+        if (!keys.length || keys.some(key => !Object.hasOwn(DEFAULTS, key) || SETTINGS_NOT_SYNCED.includes(key))) {
+          return false;
+        }
+        const groups = [...new Set(keys.map(syncGroup))];
+        const { local, state } = await readState();
+        const current = local.settings || $settings;
+        if (!current.enable_sync) return false;
+        const records = await remoteRecords(current);
+        if (!records) return false;
+        state.raw ||= {};
+        const grouped = groupValues(current);
+        groups.forEach(group => {
+          const remote = records[POLICY_PREFIX + group];
+          if ((remote?.enabled !== false) === enabled && !state.pending[group]) return;
+          const raw = records[valueKey(group, remote?.epoch)]?.value;
+          if (raw) state.raw[group] = copy(raw);
+          if (!enabled && group === 'sync_default_folder_path') {
+            current.default_folder_id = current.sync_default_folder_id || current.default_folder_id;
+          }
+          state.pending[group] = {
+            kind: 'policy',
+            epoch: remote?.epoch || 'initial',
+            nextEpoch: crypto.randomUUID(),
+            enabled,
+            // Publish the initiating device's local values, including retained
+            // future fields. All selected policies are saved in one batch.
+            value: enabled ? applyKnownChanges(raw || state.raw[group] || {}, {}, grouped[group]) : undefined
+          };
+        });
+        await storage.local.set({ [SYNC_STATE_KEY]: state });
+        const updated = await flush(state, records);
+        await receive(current, state, updated);
+        return groups.every(group => !state.pending[group]);
+      });
     },
 
-    /**
-     * Reset sync settings
-     * @returns Promise
-     */
-    async resetSync() {
-      $settings.enable_sync = false;
-      await storage.local.set({ settings: $settings });
-      await storage.sync.clear();
+    async handleSyncChange(changes, area) {
+      if (area !== 'sync' || !Object.keys(changes).some(key =>
+        key.startsWith(SYNC_PREFIX) || key.startsWith(POLICY_PREFIX) || key === SYNC_VERSION_KEY)) return;
+      await withSettingsLock(async() => {
+        const { local, state } = await readState();
+        if (!local.settings?.enable_sync) return;
+        if (changes[SYNC_VERSION_KEY]?.oldValue && !changes[SYNC_VERSION_KEY]?.newValue) {
+          // An explicit cloud reset must not be immediately undone by another
+          // open device treating the now-empty cloud as a first installation.
+          adopt({ ...local.settings, enable_sync: false });
+          await storage.local.set({ settings: $settings });
+          await storage.local.remove(SYNC_STATE_KEY);
+          return;
+        }
+        // Events caused by our own writes reach this lock after the writer.
+        // Receiving never creates a new write except retrying persisted intent.
+        await synchronize(local.settings, state);
+      });
+      if (initialized && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('startgrid-sync-applied'));
+      }
+    },
+
+    resetLocal() {
+      return withSettingsLock(async() => {
+        adopt({ ...DEFAULTS, enable_sync: false });
+        await storage.local.set({ settings: $settings });
+        await storage.local.remove(SYNC_STATE_KEY);
+        localStorage.clear();
+      });
+    },
+
+    clearLocalCache() {
+      return withSettingsLock(async() => {
+        const saved = await storage.local.get(['settings', SYNC_STATE_KEY, SYNC_QUOTA_ERROR_KEY, SYNC_ERROR_KEY]);
+        await storage.local.clear();
+        await storage.local.set(saved);
+        localStorage.clear();
+      });
+    },
+
+    resetSync() {
+      return withSettingsLock(async() => {
+        adopt({ ...$settings, enable_sync: false });
+        await storage.local.set({ settings: $settings });
+        await storage.local.remove(SYNC_STATE_KEY);
+        await storage.sync.clear();
+      });
     }
   };
 };
-
 export const settings = settingsStore();
 
 export const LAST_OPENED_FOLDER_ID = 'last_opened_folder_id';

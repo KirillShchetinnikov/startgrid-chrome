@@ -1288,5 +1288,12 @@
   },
   "background_local_image": {
     "message": "來自電腦的圖像"
-  }
+  },
+  "sync_selection": {"message":"選擇要同步的設定"},
+  "sync_selection_note": {"message":"此選擇適用於所有已啟用 StartGrid 同步的裝置。選擇本身一律會同步。"},
+  "sync_selection_behavior": {"message":"關閉項目會刪除其雲端值，並保留各裝置的本機值。開啟後會上傳此裝置的值。不支援選擇性同步的舊版本不會遵循此選擇。"},
+  "sync_selection_paused": {"message":"請啟用 Chrome Sync 以變更全域選擇。"},
+  "sync_selection_pending": {"message":"部分變更尚未同步。本機值已保留。請重試；如果儲存空間已滿，請減少所選資料。"},
+  "sync_selection_retry": {"message":"重試同步"},
+  "sync_selection_blocks": {"message":"可開啟或關閉整個群組，也可展開後選擇個別設定。計數顯示已開啟的項目數和總數。"}
 }

@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-09-16
+> Last Updated: 2026-09-18
 
 ## Store Listing
 
@@ -25,6 +25,8 @@ Open a new tab to use StartGrid. Select a folder, open a bookmark, or use the se
 StartGrid keeps bookmarks in Chrome's bookmark system. It stores settings and locally chosen images in Chrome storage. Network access is used only for user-enabled features such as web-page thumbnails, favicon downloads, search suggestions, and Bing's daily image.
 
 For support and feedback, use the project issue tracker.
+
+Choose which settings sync across your devices using 18 expandable blocks. Switch a whole block on or off, or select individual settings inside it. This selection is shared by all devices with StartGrid sync enabled. Turning a setting off removes its cloud value while keeping each device's local value; turning it on shares the value from that device. Newer settings are preserved when another compatible version does not understand them.
 
 **Category**
 
@@ -53,6 +55,8 @@ Show a populated new-tab grid with the folder picker and search bar, a new-tab v
 
 Refresh the folder-tile screenshot with captions below tiles to show consistent backgrounds, corners, and shadows. Include previews of nested folders and folders containing only subfolders, and the dedicated Search and folder picker group in quick settings.
 
+Refresh the Data settings screenshot to show the global synchronization selection and its local-value explanation.
+
 ## Permissions Justification
 
 | Permission | Type | Justification |
@@ -76,6 +80,8 @@ Refresh the folder-tile screenshot with captions below tiles to show consistent 
 ### Data Collection
 
 **Does the extension collect user data?** No. StartGrid does not transmit data to a developer-operated server. User-requested web features communicate directly with the selected website or search provider.
+
+Chrome Sync stores the selected appearance, search, thumbnail-behavior, navigation and keyboard settings, together with the global synchronization selection. Excluded values remain on each device and their cloud copies are removed when the change syncs. Local images, language and performance mode remain local. Devices running releases before selective sync must be updated to follow the selection. The draft privacy policy is in `docs/privacy-policy.md`.
 
 ### Data Use Certification
 
@@ -116,6 +122,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| Unreleased | 2026-09-17 | Global per-setting sync selection, preservation of settings unknown to compatible older versions, and protection against delayed writes after disabling and re-enabling sync. | Draft |
 | 2.2.0 | 2026-09-16 | Folder tiles keep consistent styling with captions below tiles. Folder previews work at every level and show child folder icons when no direct sites are present. Search and folder picker visibility and appearance controls have their own quick-settings group. | Draft |
 | 2.1.0 | 2026-09-05 | Redesigned grouped quick settings, last-folder mode, Back and Forward folder navigation, global thumbnail-source and sorting controls, recovery from deleted folders, and clearer thumbnail and background errors. | Draft |
 | 2.0.0 | 2026-09-05 | Improved file backup, grouped quick settings with start-folder controls, background personalization with explicit URL actions, synchronization choices, global and per-bookmark thumbnail sources, thumbnail updates, detailed error feedback, protected-page handling, and accessibility. | Draft |

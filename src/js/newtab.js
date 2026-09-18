@@ -127,6 +127,13 @@ function updateExtensionIconVisibility(visible) {
 
 function handleLanguageStorageChange(changes, areaName) {
   const incoming = changes.settings?.newValue;
+  const syncChange = changes.sync_state;
+  if (areaName === 'local' && syncChange?.newValue?.appliedRevision
+    && syncChange.newValue.appliedRevision !== syncChange.oldValue?.appliedRevision
+    && incoming && JSON.stringify(incoming) !== JSON.stringify(settings.$)) {
+    window.location.reload();
+    return;
+  }
   if (areaName === 'local' && incoming && isFastMode(incoming) !== isFastMode(settings.$)) {
     window.location.reload();
     return;
@@ -242,7 +249,7 @@ async function init() {
     gridSettingsUpdate.dial_horizontal_gap = gridLayout.horizontalGap;
   }
   if (Object.keys(gridSettingsUpdate).length) {
-    await settings.updateAll(gridSettingsUpdate);
+    await settings.updateAll(gridSettingsUpdate, { sync: false });
     UI.calculateStyles();
   }
   UI.setBG(pageRevealStarted)

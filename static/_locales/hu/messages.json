@@ -1288,5 +1288,12 @@
   },
   "background_local_image": {
     "message": "Kép a számítógépről"
-  }
+  },
+  "sync_selection": {"message":"Szinkronizálandó beállítások"},
+  "sync_selection_note": {"message":"Ez a választás minden olyan eszközre érvényes, ahol a StartGrid szinkronizálása aktív. Maga a választás mindig szinkronizálódik."},
+  "sync_selection_behavior": {"message":"Kikapcsoláskor a felhőbeli érték törlődik, de minden eszköz megtartja a helyi értékét. Bekapcsoláskor ennek az eszköznek az értéke kerül a felhőbe. A szelektív szinkronizálás előtti verziók nem követik ezt a választást."},
+  "sync_selection_paused": {"message":"A globális választás módosításához kapcsolja be a Chrome Sync funkciót."},
+  "sync_selection_pending": {"message":"Egyes változások még nem szinkronizálódtak. A helyi értékek megmaradtak. Próbálja újra; ha a tárhely megtelt, csökkentse a kiválasztott adatok mennyiségét."},
+  "sync_selection_retry": {"message":"Szinkronizálás újra"},
+  "sync_selection_blocks": {"message":"Kapcsolja be vagy ki az egész csoportot, vagy nyissa le az egyes beállítások kiválasztásához. A számláló a bekapcsolt elemek számát mutatja az összeshez képest."}
 }

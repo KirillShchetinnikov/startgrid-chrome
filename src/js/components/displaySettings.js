@@ -224,6 +224,9 @@ function create(setting) {
     case 'keyboard-shortcuts':
       method = createKeyboardShortcuts;
       break;
+    case 'sync-selection':
+      method = setting => `<div id="${setting.id}" class="sync-selection"></div>`;
+      break;
   }
   return method(setting);
 }
@@ -231,9 +234,10 @@ function create(setting) {
 function createRow(setting, row = false) {
   const classRow = row ? 'tbl__row' : 'tbl';
   const classSearchEngines = setting.type === 'search-engines' ? ' tbl--search-engines' : '';
+  const classSync = setting.type === 'sync-selection' ? ' tbl--sync-selection' : '';
   const hidden = setting.hidden ? ' hidden' : '';
   const conditionHidden = setting.hidden ? 'true' : 'false';
-  return /* html */ `<div id="setting_${setting.id}" class="${classRow}${classSearchEngines}"
+  return /* html */ `<div id="setting_${setting.id}" class="${classRow}${classSearchEngines}${classSync}"
     data-condition-hidden="${conditionHidden}" data-search-hidden="false"${hidden}>
     <div class="tbl__setting">
       ${setting.title}

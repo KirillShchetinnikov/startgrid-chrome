@@ -656,6 +656,12 @@ const legacySettings = [
         type: 'switch'
       },
       {
+        id: 'sync_selection',
+        title: getMessage('sync_selection'),
+        note: getMessage('sync_selection_note'),
+        type: 'sync-selection'
+      },
+      {
         id: 'clear_cache',
         title: getMessage('clear_local_cache'),
         note: getMessage('clear_local_cache_description'),
@@ -895,7 +901,7 @@ export default [
     sections: [
       {
         key: getMessage('settings_group_sync'),
-        list: pickSettings('enable_sync')
+        list: pickSettings('enable_sync', 'sync_selection')
       },
       {
         key: getMessage('settings_group_backup'),

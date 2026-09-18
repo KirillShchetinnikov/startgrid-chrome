@@ -40,7 +40,8 @@ import { containsPermissions, removePermissions, requestPermissions } from './ap
 import { getEnabledSearchEngines } from './searchEngines';
 import initSearchEngineSettings from './components/searchEngineSettings';
 import initKeyboardShortcutSettings from './components/keyboardShortcutSettings';
-import { SYNC_STORAGE_KEYS } from './syncSettings';
+import initSyncSelection from './components/syncSelection';
+import { SYNC_STATE_KEY, SYNC_ERROR_KEY, equal } from './selectiveSync';
 import { cssColorToHex } from './tileAppearance';
 import {
   getGridLayoutLimits,
@@ -56,6 +57,7 @@ let externalPreviewUrl = null;
 let externalPreviewRevision = 0;
 let searchEngineSettingsInstance = null;
 let keyboardShortcutSettingsInstance = null;
+let syncSelectionInstance = null;
 let activeSettingsSection = null;
 let sectionBeforeSearch = null;
 const ranges = new Map();
@@ -66,6 +68,15 @@ const COLOR_SETTING_THEME_VARIABLES = Object.freeze({
   dial_title_color: '--theme-text-color',
   toolbar_background_color: '--theme-background-2'
 });
+
+async function refreshSyncOptions() {
+  try {
+    await settings.init();
+    await getOptions();
+  } catch (error) {
+    console.warn('Could not refresh synchronized options', error);
+  }
+}
 
 async function init() {
   // Set lang attr
@@ -81,6 +92,15 @@ async function init() {
   initPerformanceModeControl(document.getElementById('performance_mode_control'));
   initAvailabilityTooltips(window.settings);
   browser.storage.onChanged.addListener((changes, area) => {
+    const syncChange = changes[SYNC_STATE_KEY];
+    if (area === 'local' && syncChange && (
+      !equal(syncChange.oldValue?.policy, syncChange.newValue?.policy)
+      || syncChange.oldValue?.appliedRevision !== syncChange.newValue?.appliedRevision)) {
+      refreshSyncOptions();
+    }
+    if (area === 'local' && (syncChange || changes[SYNC_ERROR_KEY] || changes.sync_quota_error)) {
+      syncSelectionInstance?.render().catch(error => console.warn('Could not refresh sync selection', error));
+    }
     const incoming = changes.settings?.newValue;
     if (area === 'local' && incoming
       && (isFastMode(incoming) !== isFastMode(settings.$)
@@ -98,7 +118,7 @@ async function init() {
     syncConditionalControls();
   });
 
-  await enforceGridWidth();
+  await enforceGridWidth(false);
 
   await window.vbToggleTheme();
 
@@ -166,6 +186,7 @@ async function init() {
     container: document.getElementById('keyboard_shortcuts'),
     settings
   });
+  syncSelectionInstance = initSyncSelection(document.getElementById('sync_selection'), settingsList, settings);
   await getOptions();
 
   // Delegate change settings
@@ -502,6 +523,7 @@ async function handleResetColor(e) {
 }
 
 async function getOptions() {
+  await syncSelectionInstance?.render();
   const foldersReady = generateFolderList();
   generateSearchEngineList();
   searchEngineSettingsInstance?.render();
@@ -750,8 +772,6 @@ async function handleSetOptions(e) {
           target.value = 'background_local';
         }
       }
-
-      toggleBackgroundControls(target.value);
     }
 
     if (id === 'default_folder_id') {
@@ -773,6 +793,7 @@ async function handleSetOptions(e) {
     }
   }
 
+  if (id === 'background_image') toggleBackgroundControls(settings.$.background_image);
   relationToggleOption(target);
 
   if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(id)) {
@@ -813,7 +834,7 @@ function syncTileContentControls(tileContentSettings) {
   });
 }
 
-async function enforceGridWidth() {
+async function enforceGridWidth(sync = true) {
   const gridWidthControl = document.getElementById('dial_width');
   const tileSizeControl = document.getElementById('dial_tile_size');
   const horizontalGapControl = document.getElementById('dial_horizontal_gap');
@@ -830,7 +851,7 @@ async function enforceGridWidth() {
   gridWidthControl.min = String(minimumGridWidth);
   ranges.get('dial_width')?.setMin(minimumGridWidth);
   if (Number(settings.$.dial_width) !== gridWidth) {
-    await settings.updateKey('dial_width', gridWidth);
+    await settings.updateKey('dial_width', gridWidth, { sync });
   }
   gridWidthControl.value = String(gridWidth);
   ranges.get('dial_width')?.setValue(gridWidth);
@@ -853,7 +874,7 @@ async function enforceGridWidth() {
       titleSize: settings.$.bookmark_title_size,
       toTileSize: tileSize
     });
-    await settings.updateAll({ dial_tile_size: tileSize, ...tileContentSettings });
+    await settings.updateAll({ dial_tile_size: tileSize, ...tileContentSettings }, { sync });
     syncTileContentControls(tileContentSettings);
   }
   const { minimumHorizontalGap, maximumHorizontalGap } = getHorizontalGapLimits({
@@ -867,7 +888,7 @@ async function enforceGridWidth() {
     Math.max(minimumHorizontalGap, Number(settings.$.dial_horizontal_gap))
   );
   if (Number(settings.$.dial_horizontal_gap) !== horizontalGap) {
-    await settings.updateKey('dial_horizontal_gap', horizontalGap);
+    await settings.updateKey('dial_horizontal_gap', horizontalGap, { sync });
   }
 
   const finalTileSizeLimits = getTileSizeLimits({
@@ -1052,7 +1073,7 @@ function updateDefaultFolderControl() {
 
   if (folderSelect) folderSelect.value = settings.defaultFolderId;
   if (storageNote) {
-    const messageId = settings.$.enable_sync
+    const messageId = settings.$.enable_sync && settings.isSynced('sync_default_folder_path')
       ? 'default_folder_sync_note'
       : 'default_folder_local_note';
     storageNote.textContent = getMessage(messageId);
@@ -1062,19 +1083,20 @@ function updateDefaultFolderControl() {
 async function handleChangeSync() {
   if (!this.checked) {
     await settings.updateKey('enable_sync', false);
+    await syncSelectionInstance?.render();
     updateDefaultFolderControl();
     return;
   }
 
   const localFolderId = settings.$.default_folder_id;
-  const syncRecords = await browser.storage.sync.get(SYNC_STORAGE_KEYS);
-  const hasRemoteSettings = SYNC_STORAGE_KEYS.some(key => {
-    return Object.keys(syncRecords[key] || {}).length > 0;
-  });
+  const syncRecords = await browser.storage.sync.get(null);
+  const hasRemoteSettings = Object.keys(syncRecords).length > 0;
 
   if (!hasRemoteSettings) {
     await settings.updateKey('enable_sync', true);
     await updateDefaultFolder(settings, localFolderId);
+    await settings.syncToStorage();
+    await syncSelectionInstance?.render();
     updateDefaultFolderControl();
     return;
   }
@@ -1094,12 +1116,13 @@ async function handleChangeSync() {
   if (direction === 'cloud') {
     await settings.restoreFromSync();
     await window.vbToggleTheme();
-    await enforceGridWidth();
+    await enforceGridWidth(false);
     getOptions();
   } else {
-    await updateDefaultFolder(settings, localFolderId);
     await settings.syncToStorage();
+    await updateDefaultFolder(settings, localFolderId);
   }
+  await syncSelectionInstance?.render();
   updateDefaultFolderControl();
 }
 async function handleToggleClipboardAccess(e) {
@@ -1128,7 +1151,7 @@ async function getPermissions() {
     const bingHostPermission = await containsPermissions({ origins: ['https://www.bing.com/*'] });
     if (!bingHostPermission) {
       selectedBackgroundValue = 'background_local';
-      settings.updateKey('background_image', selectedBackgroundValue);
+      await settings.updateKey('background_image', selectedBackgroundValue, { sync: false });
     }
   }
   optionBackgroundSelect.value = selectedBackgroundValue;

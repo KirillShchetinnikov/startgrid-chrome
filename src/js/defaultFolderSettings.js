@@ -14,6 +14,15 @@ export async function updateDefaultFolder(settingsStore, folderId, folders = nul
     await settingsStore.updateKey('default_folder_id', folderId);
     return;
   }
+  if (settingsStore.isSynced?.('sync_default_folder_path') === false) {
+    const folderTree = folders || await getFolders();
+    await settingsStore.updateAll({
+      default_folder_id: folderId,
+      sync_default_folder_id: folderId,
+      sync_default_folder_path: createFolderSyncPath(folderTree, folderId)
+    });
+    return;
+  }
 
   const folderTree = folders || await getFolders();
   await settingsStore.updateAll({

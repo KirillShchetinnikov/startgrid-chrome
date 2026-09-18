@@ -1288,5 +1288,12 @@
   },
   "background_local_image": {
     "message": "コンピューターからの画像"
-  }
+  },
+  "sync_selection": {"message":"同期する設定を選択"},
+  "sync_selection_note": {"message":"この選択は、StartGrid の同期が有効なすべての端末に適用されます。選択内容自体は常に同期されます。"},
+  "sync_selection_behavior": {"message":"オフにするとクラウドの値が削除され、各端末のローカル値が保持されます。オンにすると、この端末の値がアップロードされます。選択式同期に対応していない旧バージョンには適用されません。"},
+  "sync_selection_paused": {"message":"全端末共通の選択を変更するには Chrome Sync を有効にしてください。"},
+  "sync_selection_pending": {"message":"まだ同期されていない変更があります。ローカル値は保存されています。再試行してください。保存容量が不足している場合は、選択したデータを減らしてください。"},
+  "sync_selection_retry": {"message":"同期を再試行"},
+  "sync_selection_blocks": {"message":"ブロック全体をオン・オフにするか、展開して個別の設定を選択できます。数字は有効な項目数と全項目数です。"}
 }

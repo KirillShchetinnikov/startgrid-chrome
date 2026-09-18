@@ -470,6 +470,8 @@ async function handleBookmarks(eventType, id, bookmark) {
 }
 
 browser.storage.onChanged.addListener((changes, area) => {
+  settings.handleSyncChange(changes, area)
+    .catch(error => console.warn('Could not apply synchronized settings', error));
   if (area === 'local' && isFastMode(changes.settings?.newValue)) optionalWork.cancel();
   // if storage changes from local
   // watching the settings parameter
@@ -506,6 +508,10 @@ browser.runtime.onInstalled.addListener(async(event) => {
   }
   i18nReady = startI18n();
   await initContextMenu().catch(error => console.warn('Could not initialize context menu', error));
+});
+
+browser.runtime.onStartup.addListener(() => {
+  settings.init().catch(error => console.warn('Could not synchronize settings at startup', error));
 });
 
 const runBookmarkHandler = (eventType, id, bookmark) => {

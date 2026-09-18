@@ -1,4 +1,6 @@
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { createStorageArea } from './syncHarness';
+import { POLICY_PREFIX, valueKey } from '../src/js/selectiveSync';
 
 describe('quick settings reset', () => {
   afterEach(() => {
@@ -7,9 +9,9 @@ describe('quick settings reset', () => {
   });
 
   it('restores only quick settings without clearing local or sync storage', async() => {
-    const localClear = jest.fn().mockResolvedValue();
-    const syncClear = jest.fn().mockResolvedValue();
-    const syncSet = jest.fn().mockResolvedValue();
+    let localClear = jest.fn().mockResolvedValue();
+    let syncClear = jest.fn().mockResolvedValue();
+    let syncSet = jest.fn().mockResolvedValue();
     global.browser = {
       i18n: { getMessage: key => key },
       runtime: { getURL: path => `chrome-extension://test/${path}` },
@@ -70,6 +72,11 @@ describe('quick settings reset', () => {
       }
     };
 
+    global.browser.storage.local = createStorageArea(await global.browser.storage.local.get(null));
+    global.browser.storage.sync = createStorageArea(await global.browser.storage.sync.get(null));
+    localClear = global.browser.storage.local.clear;
+    syncClear = global.browser.storage.sync.clear;
+    syncSet = global.browser.storage.sync.set;
     const [{ settings }, { QUICK_SETTING_KEYS }] = await Promise.all([
       import('../src/js/settings'),
       import('../src/js/quickSettings')
@@ -120,7 +127,8 @@ describe('quick settings reset', () => {
     expect(localClear).not.toHaveBeenCalled();
     expect(syncClear).not.toHaveBeenCalled();
     expect(syncSet).toHaveBeenCalledTimes(1);
-    expect(syncSet.mock.calls[0][0].settings.dial_width).toBe(70);
-    expect(syncSet.mock.calls[0][0].settings_search.search_engine).toBe('google');
+    const records = global.browser.storage.sync.data;
+    expect(records[valueKey('dial_width', records[POLICY_PREFIX + 'dial_width'].epoch)].value.dial_width).toBe(70);
+    expect(records[valueKey('search_engines', records[POLICY_PREFIX + 'search_engines'].epoch)].value.search_engine).toBe('google');
   });
 });

@@ -145,7 +145,7 @@ export default {
       const externalUrl = settings.effective.background_external;
       resource = normalizeBackgroundImageURL(externalUrl);
       if (!resource && externalUrl) {
-        await settings.updateKey('background_external', '');
+        await settings.updateKey('background_external', '', { sync: false });
         Toast.show(getMessage('notice_background_url_invalid'));
       }
     } else {
@@ -201,7 +201,7 @@ export default {
       if (revision !== backgroundRevision) return;
       if (!image) {
         if (bgState === 'background_external') {
-          await settings.updateKey('background_external', '');
+          await settings.updateKey('background_external', '', { sync: false });
           Toast.show(getMessage('notice_background_url_load_failed'));
         }
         hideBackground();

@@ -1288,5 +1288,12 @@
   },
   "background_local_image": {
     "message": "Image provenant d’un ordinateur"
-  }
+  },
+  "sync_selection": {"message":"Choisir les paramètres à synchroniser"},
+  "sync_selection_note": {"message":"Ce choix s’applique à tous les appareils où la synchronisation StartGrid est activée. Le choix lui-même est toujours synchronisé."},
+  "sync_selection_behavior": {"message":"Désactiver une option supprime sa valeur du cloud et conserve la valeur locale de chaque appareil. L’activer envoie la valeur de cet appareil. Les anciennes versions sans synchronisation sélective ne respectent pas ce choix."},
+  "sync_selection_paused": {"message":"Activez Chrome Sync pour modifier le choix global."},
+  "sync_selection_pending": {"message":"Certaines modifications ne sont pas encore synchronisées. Les valeurs locales sont conservées. Réessayez ; si le stockage est plein, réduisez les données sélectionnées."},
+  "sync_selection_retry": {"message":"Réessayer la synchronisation"},
+  "sync_selection_blocks": {"message":"Activez ou désactivez un bloc entier, ou développez-le pour choisir chaque paramètre. Le compteur indique le nombre d’éléments activés sur le total."}
 }

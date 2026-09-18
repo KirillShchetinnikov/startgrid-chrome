@@ -1113,5 +1113,12 @@
   },
   "background_local_image": {
     "message": "Image from computer"
-  }
+  },
+  "sync_selection": {"message":"Choose what to sync"},
+  "sync_selection_note": {"message":"This selection is global and applies to every device with StartGrid sync enabled. The selection itself always syncs."},
+  "sync_selection_behavior": {"message":"Turning an item off removes its cloud value and keeps each device’s local value. Turning it on uploads the value from this device. Older versions released before selective sync do not follow this selection."},
+  "sync_selection_paused": {"message":"Enable Chrome Sync to change the global selection."},
+  "sync_selection_pending": {"message":"Some changes have not synced yet. Local values are safe. Retry when sync is available; if storage is full, reduce the selected data."},
+  "sync_selection_retry": {"message":"Retry sync"},
+  "sync_selection_blocks": {"message":"Switch an entire block on or off, or expand it to select individual settings. The counter shows enabled items out of the total."}
 }
