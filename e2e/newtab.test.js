@@ -1187,6 +1187,9 @@ describe('StartGrid bookmark tests', () => {
         'open-create-form',
         titles,
         async() => {
+          await extPage.$eval('#modal .gmodal__container', node => {
+            node.style.transitionDuration = '1s';
+          });
           await extPage.$eval('#add', add => {
             if (!add.isConnected) throw new Error('Add button is detached');
             add.click();
@@ -1217,7 +1220,12 @@ describe('StartGrid bookmark tests', () => {
             document.getElementById('title').value = value;
             document.getElementById('url').value = url;
           }, { value: title, url: bookmarkUrl });
-          await extPage.click('#saveBookmarkBtn');
+          await extPage.$eval('#saveBookmarkBtn', button => {
+            if (!document.getElementById('modal').instance._isTransitiong) {
+              throw new Error('Regression setup must submit during the opening transition');
+            }
+            button.click();
+          });
           await extPage.waitForFunction(expected => {
             const modal = document.getElementById('modal');
             return (
@@ -1346,6 +1354,9 @@ describe('StartGrid bookmark tests', () => {
           }, { polling: 100, timeout: 5500 }, editedTitle);
         }
       );
+      await extPage.$eval('#modal .gmodal__container', node => {
+        node.style.removeProperty('transition-duration');
+      });
       expect(unexpectedDialogs).toEqual([]);
       expect(suspiciousRequests).toEqual([]);
 

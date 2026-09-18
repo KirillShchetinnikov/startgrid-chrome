@@ -101,6 +101,7 @@ let multipleSelectedBookmarks = [];
 let lastSelectedBookmark = null;
 let isGenerateThumbs = false;
 let modalApi;
+let modalReady = Promise.resolve();
 let generateThumbsBtn = null;
 
 function setThumbnailUpdateButtonActive(active) {
@@ -270,6 +271,11 @@ async function init() {
   modalApi = new Gmodal(modal, {
     stickySelectors: ['.sticky'],
     closeBackdrop: false
+  });
+  modalApi.element.addEventListener('gmodal:beforeopen', () => {
+    modalReady = new Promise(resolve => {
+      modalApi.element.addEventListener('gmodal:open', resolve, { once: true });
+    });
   });
   modalApi.element.addEventListener('gmodal:open', () => {
     // UX focus when modal open
@@ -1393,7 +1399,12 @@ async function handleSubmitForm(evt) {
     }
   }
 
-  bookmark && modalApi.close();
+  if (bookmark) {
+    // Glory Modal ignores close() during its opening transition. A fast save
+    // must wait for opening to finish instead of losing the close request.
+    await modalReady;
+    modalApi.close();
+  }
 }
 
 async function handleResetThumb(evt) {
