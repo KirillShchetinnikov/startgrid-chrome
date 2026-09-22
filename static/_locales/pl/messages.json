@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "Nie udało się wczytać lokalnego obrazu tła. Wybierz inny plik."
   },
-  "notice_background_url_invalid": { "message": "Wprowadź prawidłowy adres URL obrazu HTTP lub HTTPS." },
-  "notice_background_url_load_failed": { "message": "Nie udało się wczytać obrazu z tego adresu URL. Link został usunięty." },
+  "notice_background_url_invalid": {
+    "message": "Wprowadź prawidłowy adres URL obrazu HTTP lub HTTPS."
+  },
+  "notice_background_url_load_failed": {
+    "message": "Nie udało się wczytać obrazu z tego adresu URL. Link został usunięty."
+  },
   "scroll_to_top": {
     "message": "Przewiń na górę"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "Pokazuje miniatury z czterech losowo wybranych witryn w folderze zamiast ikony folderu lub niestandardowego obrazu."
   },
+  "folder_marker_style": {
+    "message": "Folder marker style"
+  },
+  "folder_marker_style_note": {
+    "message": "Marks every folder regardless of whether it has a custom image."
+  },
+  "folder_marker_style_none": {
+    "message": "Off"
+  },
+  "folder_marker_style_badge": {
+    "message": "Icon over image"
+  },
+  "folder_marker_style_title": {
+    "message": "Icon next to title"
+  },
+  "folder_marker_style_tab": {
+    "message": "Folder tab"
+  },
+  "folder_marker_style_border": {
+    "message": "Accent border"
+  },
   "backup_settings": {
     "message": "Importuj lub eksportuj ustawienia"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "Obrazy lokalne"
   },
-  "settings_group_search_folder": { "message": "Wyszukiwanie i wybór folderu" },
+  "settings_group_search_folder": {
+    "message": "Wyszukiwanie i wybór folderu"
+  },
   "settings_group_interface": {
     "message": "Sterowanie interfejsem"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "Obraz z komputera"
   },
-  "sync_selection": {"message":"Wybierz ustawienia do synchronizacji"},
-  "sync_selection_note": {"message":"Ten wybór dotyczy wszystkich urządzeń z włączoną synchronizacją StartGrid. Sam wybór jest zawsze synchronizowany."},
-  "sync_selection_behavior": {"message":"Wyłączenie usuwa wartość z chmury i zachowuje lokalną wartość na każdym urządzeniu. Włączenie wysyła wartość z tego urządzenia. Starsze wersje bez synchronizacji wybiórczej nie uwzględniają tego wyboru."},
-  "sync_selection_paused": {"message":"Włącz Chrome Sync, aby zmienić globalny wybór."},
-  "sync_selection_pending": {"message":"Niektóre zmiany nie zostały jeszcze zsynchronizowane. Lokalne wartości są zachowane. Spróbuj ponownie; jeśli pamięć jest pełna, zmniejsz ilość wybranych danych."},
-  "sync_selection_retry": {"message":"Ponów synchronizację"},
-  "sync_selection_blocks": {"message":"Włącz lub wyłącz cały blok albo rozwiń go, aby wybrać poszczególne ustawienia. Licznik pokazuje liczbę włączonych pozycji względem wszystkich."}
+  "sync_selection": {
+    "message": "Wybierz ustawienia do synchronizacji"
+  },
+  "sync_selection_note": {
+    "message": "Ten wybór dotyczy wszystkich urządzeń z włączoną synchronizacją StartGrid. Sam wybór jest zawsze synchronizowany."
+  },
+  "sync_selection_behavior": {
+    "message": "Wyłączenie usuwa wartość z chmury i zachowuje lokalną wartość na każdym urządzeniu. Włączenie wysyła wartość z tego urządzenia. Starsze wersje bez synchronizacji wybiórczej nie uwzględniają tego wyboru."
+  },
+  "sync_selection_paused": {
+    "message": "Włącz Chrome Sync, aby zmienić globalny wybór."
+  },
+  "sync_selection_pending": {
+    "message": "Niektóre zmiany nie zostały jeszcze zsynchronizowane. Lokalne wartości są zachowane. Spróbuj ponownie; jeśli pamięć jest pełna, zmniejsz ilość wybranych danych."
+  },
+  "sync_selection_retry": {
+    "message": "Ponów synchronizację"
+  },
+  "sync_selection_blocks": {
+    "message": "Włącz lub wyłącz cały blok albo rozwiń go, aby wybrać poszczególne ustawienia. Licznik pokazuje liczbę włączonych pozycji względem wszystkich."
+  }
 }

@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "Não foi possível carregar a imagem de fundo local. Escolha outro arquivo."
   },
-  "notice_background_url_invalid": { "message": "Informe um URL de imagem HTTP ou HTTPS válido." },
-  "notice_background_url_load_failed": { "message": "Não foi possível carregar a imagem deste URL. O link foi removido." },
+  "notice_background_url_invalid": {
+    "message": "Informe um URL de imagem HTTP ou HTTPS válido."
+  },
+  "notice_background_url_load_failed": {
+    "message": "Não foi possível carregar a imagem deste URL. O link foi removido."
+  },
   "scroll_to_top": {
     "message": "Voltar ao topo"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "Mostra miniaturas de quatro sites selecionados aleatoriamente na pasta, em vez de um ícone de pasta ou imagem personalizada."
   },
+  "folder_marker_style": {
+    "message": "Folder marker style"
+  },
+  "folder_marker_style_note": {
+    "message": "Marks every folder regardless of whether it has a custom image."
+  },
+  "folder_marker_style_none": {
+    "message": "Off"
+  },
+  "folder_marker_style_badge": {
+    "message": "Icon over image"
+  },
+  "folder_marker_style_title": {
+    "message": "Icon next to title"
+  },
+  "folder_marker_style_tab": {
+    "message": "Folder tab"
+  },
+  "folder_marker_style_border": {
+    "message": "Accent border"
+  },
   "backup_settings": {
     "message": "Importar ou exportar configurações"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "Imagens locais"
   },
-  "settings_group_search_folder": { "message": "Pesquisa e seleção de pasta" },
+  "settings_group_search_folder": {
+    "message": "Pesquisa e seleção de pasta"
+  },
   "settings_group_interface": {
     "message": "Controles de interface"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "Imagem do computador"
   },
-  "sync_selection": {"message":"Escolher quais configurações sincronizar"},
-  "sync_selection_note": {"message":"Esta seleção se aplica a todos os dispositivos com a sincronização do StartGrid ativada. A própria seleção sempre é sincronizada."},
-  "sync_selection_behavior": {"message":"Desativar um item remove seu valor da nuvem e mantém o valor local de cada dispositivo. Ativá-lo envia o valor deste dispositivo. Versões antigas sem sincronização seletiva não seguem esta seleção."},
-  "sync_selection_paused": {"message":"Ative o Chrome Sync para alterar a seleção global."},
-  "sync_selection_pending": {"message":"Algumas alterações ainda não foram sincronizadas. Os valores locais foram preservados. Tente novamente; se o armazenamento estiver cheio, reduza os dados selecionados."},
-  "sync_selection_retry": {"message":"Tentar sincronizar novamente"},
-  "sync_selection_blocks": {"message":"Ative ou desative um bloco inteiro ou expanda-o para escolher configurações individuais. O contador mostra os itens ativados em relação ao total."}
+  "sync_selection": {
+    "message": "Escolher quais configurações sincronizar"
+  },
+  "sync_selection_note": {
+    "message": "Esta seleção se aplica a todos os dispositivos com a sincronização do StartGrid ativada. A própria seleção sempre é sincronizada."
+  },
+  "sync_selection_behavior": {
+    "message": "Desativar um item remove seu valor da nuvem e mantém o valor local de cada dispositivo. Ativá-lo envia o valor deste dispositivo. Versões antigas sem sincronização seletiva não seguem esta seleção."
+  },
+  "sync_selection_paused": {
+    "message": "Ative o Chrome Sync para alterar a seleção global."
+  },
+  "sync_selection_pending": {
+    "message": "Algumas alterações ainda não foram sincronizadas. Os valores locais foram preservados. Tente novamente; se o armazenamento estiver cheio, reduza os dados selecionados."
+  },
+  "sync_selection_retry": {
+    "message": "Tentar sincronizar novamente"
+  },
+  "sync_selection_blocks": {
+    "message": "Ative ou desative um bloco inteiro ou expanda-o para escolher configurações individuais. O contador mostra os itens ativados em relação ao total."
+  }
 }

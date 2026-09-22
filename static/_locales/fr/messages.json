@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "Impossible de charger l’image d’arrière-plan locale. Choisissez un autre fichier."
   },
-  "notice_background_url_invalid": { "message": "Saisissez une URL d’image HTTP ou HTTPS valide." },
-  "notice_background_url_load_failed": { "message": "Impossible de charger l’image à cette URL. Le lien a été supprimé." },
+  "notice_background_url_invalid": {
+    "message": "Saisissez une URL d’image HTTP ou HTTPS valide."
+  },
+  "notice_background_url_load_failed": {
+    "message": "Impossible de charger l’image à cette URL. Le lien a été supprimé."
+  },
   "scroll_to_top": {
     "message": "Revenir en haut"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "Affiche les vignettes de quatre sites sélectionnés au hasard dans le dossier au lieu d'une icône de dossier ou d'une image personnalisée."
   },
+  "folder_marker_style": {
+    "message": "Folder marker style"
+  },
+  "folder_marker_style_note": {
+    "message": "Marks every folder regardless of whether it has a custom image."
+  },
+  "folder_marker_style_none": {
+    "message": "Off"
+  },
+  "folder_marker_style_badge": {
+    "message": "Icon over image"
+  },
+  "folder_marker_style_title": {
+    "message": "Icon next to title"
+  },
+  "folder_marker_style_tab": {
+    "message": "Folder tab"
+  },
+  "folder_marker_style_border": {
+    "message": "Accent border"
+  },
   "backup_settings": {
     "message": "Paramètres d'importation ou d'exportation"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "Images locales"
   },
-  "settings_group_search_folder": { "message": "Recherche et sélection de dossier" },
+  "settings_group_search_folder": {
+    "message": "Recherche et sélection de dossier"
+  },
   "settings_group_interface": {
     "message": "Contrôles d'interface"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "Image provenant d’un ordinateur"
   },
-  "sync_selection": {"message":"Choisir les paramètres à synchroniser"},
-  "sync_selection_note": {"message":"Ce choix s’applique à tous les appareils où la synchronisation StartGrid est activée. Le choix lui-même est toujours synchronisé."},
-  "sync_selection_behavior": {"message":"Désactiver une option supprime sa valeur du cloud et conserve la valeur locale de chaque appareil. L’activer envoie la valeur de cet appareil. Les anciennes versions sans synchronisation sélective ne respectent pas ce choix."},
-  "sync_selection_paused": {"message":"Activez Chrome Sync pour modifier le choix global."},
-  "sync_selection_pending": {"message":"Certaines modifications ne sont pas encore synchronisées. Les valeurs locales sont conservées. Réessayez ; si le stockage est plein, réduisez les données sélectionnées."},
-  "sync_selection_retry": {"message":"Réessayer la synchronisation"},
-  "sync_selection_blocks": {"message":"Activez ou désactivez un bloc entier, ou développez-le pour choisir chaque paramètre. Le compteur indique le nombre d’éléments activés sur le total."}
+  "sync_selection": {
+    "message": "Choisir les paramètres à synchroniser"
+  },
+  "sync_selection_note": {
+    "message": "Ce choix s’applique à tous les appareils où la synchronisation StartGrid est activée. Le choix lui-même est toujours synchronisé."
+  },
+  "sync_selection_behavior": {
+    "message": "Désactiver une option supprime sa valeur du cloud et conserve la valeur locale de chaque appareil. L’activer envoie la valeur de cet appareil. Les anciennes versions sans synchronisation sélective ne respectent pas ce choix."
+  },
+  "sync_selection_paused": {
+    "message": "Activez Chrome Sync pour modifier le choix global."
+  },
+  "sync_selection_pending": {
+    "message": "Certaines modifications ne sont pas encore synchronisées. Les valeurs locales sont conservées. Réessayez ; si le stockage est plein, réduisez les données sélectionnées."
+  },
+  "sync_selection_retry": {
+    "message": "Réessayer la synchronisation"
+  },
+  "sync_selection_blocks": {
+    "message": "Activez ou désactivez un bloc entier, ou développez-le pour choisir chaque paramètre. Le compteur indique le nombre d’éléments activés sur le total."
+  }
 }

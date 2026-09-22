@@ -46,6 +46,7 @@ const RERENDER_SETTINGS = new Set([
   'bookmark_title_position',
   'show_favicon',
   'folder_preview',
+  'folder_marker_style',
   'thumbnail_source',
   'download_favicons_by_default'
 ]);
@@ -385,7 +386,17 @@ function createPanel() {
       </select>
     </label>
     ${createSwitch('show_favicon')}
-    ${createSwitch('folder_preview')}`;
+    ${createSwitch('folder_preview')}
+    <label class="quick-settings__field" for="quick_folder_marker_style">
+      <span>${message('folder_marker_style')}</span>
+      <select class="form-control" id="quick_folder_marker_style" data-setting="folder_marker_style">
+        <option value="none">${message('folder_marker_style_none')}</option>
+        <option value="badge">${message('folder_marker_style_badge')}</option>
+        <option value="title">${message('folder_marker_style_title')}</option>
+        <option value="tab">${message('folder_marker_style_tab')}</option>
+        <option value="border">${message('folder_marker_style_border')}</option>
+      </select>
+    </label>`;
 
   const interfaceControls = /* html */`
     ${createSwitch('show_extension_icon')}

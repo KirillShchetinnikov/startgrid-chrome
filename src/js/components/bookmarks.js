@@ -466,6 +466,7 @@ const Bookmarks = (() => {
       parentId: bookmark.parentId,
       title: bookmark.title,
       isFolder: true,
+      folderMarkerStyle: settings.effective.folder_marker_style,
       hasFolderPreview: folderPreview,
       folderChidlren: folderPreview ? renderFolderChildren(bookmark) : [],
       image,

@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "ローカルの背景画像を読み込めませんでした。別のファイルを選択してください。"
   },
-  "notice_background_url_invalid": { "message": "有効な HTTP または HTTPS の画像 URL を入力してください。" },
-  "notice_background_url_load_failed": { "message": "この URL の画像を読み込めませんでした。リンクは削除されました。" },
+  "notice_background_url_invalid": {
+    "message": "有効な HTTP または HTTPS の画像 URL を入力してください。"
+  },
+  "notice_background_url_load_failed": {
+    "message": "この URL の画像を読み込めませんでした。リンクは削除されました。"
+  },
   "scroll_to_top": {
     "message": "ページ上部へ移動"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "フォルダー アイコンやカスタム イメージの代わりに、フォルダー内のランダムに選択された 4 つのサイトからのサムネイルを表示します。"
   },
+  "folder_marker_style": {
+    "message": "Folder marker style"
+  },
+  "folder_marker_style_note": {
+    "message": "Marks every folder regardless of whether it has a custom image."
+  },
+  "folder_marker_style_none": {
+    "message": "Off"
+  },
+  "folder_marker_style_badge": {
+    "message": "Icon over image"
+  },
+  "folder_marker_style_title": {
+    "message": "Icon next to title"
+  },
+  "folder_marker_style_tab": {
+    "message": "Folder tab"
+  },
+  "folder_marker_style_border": {
+    "message": "Accent border"
+  },
   "backup_settings": {
     "message": "設定のインポートまたはエクスポート"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "ローカル画像"
   },
-  "settings_group_search_folder": { "message": "検索とフォルダー選択" },
+  "settings_group_search_folder": {
+    "message": "検索とフォルダー選択"
+  },
   "settings_group_interface": {
     "message": "インターフェースコントロール"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "コンピューターからの画像"
   },
-  "sync_selection": {"message":"同期する設定を選択"},
-  "sync_selection_note": {"message":"この選択は、StartGrid の同期が有効なすべての端末に適用されます。選択内容自体は常に同期されます。"},
-  "sync_selection_behavior": {"message":"オフにするとクラウドの値が削除され、各端末のローカル値が保持されます。オンにすると、この端末の値がアップロードされます。選択式同期に対応していない旧バージョンには適用されません。"},
-  "sync_selection_paused": {"message":"全端末共通の選択を変更するには Chrome Sync を有効にしてください。"},
-  "sync_selection_pending": {"message":"まだ同期されていない変更があります。ローカル値は保存されています。再試行してください。保存容量が不足している場合は、選択したデータを減らしてください。"},
-  "sync_selection_retry": {"message":"同期を再試行"},
-  "sync_selection_blocks": {"message":"ブロック全体をオン・オフにするか、展開して個別の設定を選択できます。数字は有効な項目数と全項目数です。"}
+  "sync_selection": {
+    "message": "同期する設定を選択"
+  },
+  "sync_selection_note": {
+    "message": "この選択は、StartGrid の同期が有効なすべての端末に適用されます。選択内容自体は常に同期されます。"
+  },
+  "sync_selection_behavior": {
+    "message": "オフにするとクラウドの値が削除され、各端末のローカル値が保持されます。オンにすると、この端末の値がアップロードされます。選択式同期に対応していない旧バージョンには適用されません。"
+  },
+  "sync_selection_paused": {
+    "message": "全端末共通の選択を変更するには Chrome Sync を有効にしてください。"
+  },
+  "sync_selection_pending": {
+    "message": "まだ同期されていない変更があります。ローカル値は保存されています。再試行してください。保存容量が不足している場合は、選択したデータを減らしてください。"
+  },
+  "sync_selection_retry": {
+    "message": "同期を再試行"
+  },
+  "sync_selection_blocks": {
+    "message": "ブロック全体をオン・オフにするか、展開して個別の設定を選択できます。数字は有効な項目数と全項目数です。"
+  }
 }

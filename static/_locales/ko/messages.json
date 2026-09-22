@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "로컬 배경 이미지를 불러올 수 없습니다. 다른 파일을 선택하세요."
   },
-  "notice_background_url_invalid": { "message": "올바른 HTTP 또는 HTTPS 이미지 URL을 입력하세요." },
-  "notice_background_url_load_failed": { "message": "이 URL의 이미지를 불러올 수 없습니다. 링크가 삭제되었습니다." },
+  "notice_background_url_invalid": {
+    "message": "올바른 HTTP 또는 HTTPS 이미지 URL을 입력하세요."
+  },
+  "notice_background_url_load_failed": {
+    "message": "이 URL의 이미지를 불러올 수 없습니다. 링크가 삭제되었습니다."
+  },
   "scroll_to_top": {
     "message": "페이지 맨 위로 이동"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "폴더 아이콘이나 사용자 정의 이미지 대신 폴더에서 무작위로 선택된 4개 사이트의 축소판을 표시합니다."
   },
+  "folder_marker_style": {
+    "message": "Folder marker style"
+  },
+  "folder_marker_style_note": {
+    "message": "Marks every folder regardless of whether it has a custom image."
+  },
+  "folder_marker_style_none": {
+    "message": "Off"
+  },
+  "folder_marker_style_badge": {
+    "message": "Icon over image"
+  },
+  "folder_marker_style_title": {
+    "message": "Icon next to title"
+  },
+  "folder_marker_style_tab": {
+    "message": "Folder tab"
+  },
+  "folder_marker_style_border": {
+    "message": "Accent border"
+  },
   "backup_settings": {
     "message": "설정 가져오기 또는 내보내기"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "로컬 이미지"
   },
-  "settings_group_search_folder": { "message": "검색 및 폴더 선택" },
+  "settings_group_search_folder": {
+    "message": "검색 및 폴더 선택"
+  },
   "settings_group_interface": {
     "message": "인터페이스 제어"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "컴퓨터의 이미지"
   },
-  "sync_selection": {"message":"동기화할 설정 선택"},
-  "sync_selection_note": {"message":"이 선택은 StartGrid 동기화가 켜진 모든 기기에 적용됩니다. 선택 자체는 항상 동기화됩니다."},
-  "sync_selection_behavior": {"message":"항목을 끄면 클라우드 값이 삭제되고 각 기기의 로컬 값은 유지됩니다. 켜면 이 기기의 값이 업로드됩니다. 선택적 동기화를 지원하지 않는 이전 버전에는 적용되지 않습니다."},
-  "sync_selection_paused": {"message":"전체 기기에 적용되는 선택을 변경하려면 Chrome Sync를 켜세요."},
-  "sync_selection_pending": {"message":"일부 변경 사항이 아직 동기화되지 않았습니다. 로컬 값은 보존됩니다. 다시 시도하세요. 저장 공간이 가득 찼다면 선택한 데이터를 줄이세요."},
-  "sync_selection_retry": {"message":"동기화 다시 시도"},
-  "sync_selection_blocks": {"message":"블록 전체를 켜거나 끄거나, 펼쳐서 개별 설정을 선택하세요. 숫자는 전체 항목 중 켜진 항목 수입니다."}
+  "sync_selection": {
+    "message": "동기화할 설정 선택"
+  },
+  "sync_selection_note": {
+    "message": "이 선택은 StartGrid 동기화가 켜진 모든 기기에 적용됩니다. 선택 자체는 항상 동기화됩니다."
+  },
+  "sync_selection_behavior": {
+    "message": "항목을 끄면 클라우드 값이 삭제되고 각 기기의 로컬 값은 유지됩니다. 켜면 이 기기의 값이 업로드됩니다. 선택적 동기화를 지원하지 않는 이전 버전에는 적용되지 않습니다."
+  },
+  "sync_selection_paused": {
+    "message": "전체 기기에 적용되는 선택을 변경하려면 Chrome Sync를 켜세요."
+  },
+  "sync_selection_pending": {
+    "message": "일부 변경 사항이 아직 동기화되지 않았습니다. 로컬 값은 보존됩니다. 다시 시도하세요. 저장 공간이 가득 찼다면 선택한 데이터를 줄이세요."
+  },
+  "sync_selection_retry": {
+    "message": "동기화 다시 시도"
+  },
+  "sync_selection_blocks": {
+    "message": "블록 전체를 켜거나 끄거나, 펼쳐서 개별 설정을 선택하세요. 숫자는 전체 항목 중 켜진 항목 수입니다."
+  }
 }

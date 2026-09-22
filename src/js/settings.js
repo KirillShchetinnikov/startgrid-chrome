@@ -87,6 +87,7 @@ const DEFAULTS = Object.freeze({
   thumbnails_auto_refresh_interval: 24,
   without_confirmation: false,
   folder_preview: false,
+  folder_marker_style: 'none',
   close_tab_after_adding_bookmark: false,
   search_engine: 'bookmarks',
   search_engines: createDefaultSearchEngineSettings(),
@@ -241,6 +242,9 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   currentSettings.thumbnail_source = normalizeGlobalThumbnailSource(currentSettings.thumbnail_source);
   if (!['inside', 'outside'].includes(currentSettings.bookmark_title_position)) {
     currentSettings.bookmark_title_position = DEFAULTS.bookmark_title_position;
+  }
+  if (!['none', 'badge', 'title', 'tab', 'border'].includes(currentSettings.folder_marker_style)) {
+    currentSettings.folder_marker_style = DEFAULTS.folder_marker_style;
   }
   if (!['together', 'folders_top', 'folders_bottom'].includes(currentSettings.bookmarks_sorting_type)) {
     currentSettings.bookmarks_sorting_type = DEFAULTS.bookmarks_sorting_type;

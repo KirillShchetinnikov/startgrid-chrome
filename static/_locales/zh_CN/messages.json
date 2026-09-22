@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "无法加载本地背景图片。请选择其他文件。"
   },
-  "notice_background_url_invalid": { "message": "请输入有效的 HTTP 或 HTTPS 图片网址。" },
-  "notice_background_url_load_failed": { "message": "无法加载该网址的图片。链接已被删除。" },
+  "notice_background_url_invalid": {
+    "message": "请输入有效的 HTTP 或 HTTPS 图片网址。"
+  },
+  "notice_background_url_load_failed": {
+    "message": "无法加载该网址的图片。链接已被删除。"
+  },
   "scroll_to_top": {
     "message": "滚动到顶部"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "显示文件夹中四个随机选择的站点的缩略图，而不是文件夹图标或自定义图像。"
   },
+  "folder_marker_style": {
+    "message": "Обозначение папок"
+  },
+  "folder_marker_style_note": {
+    "message": "Отмечает все папки независимо от наличия собственной картинки."
+  },
+  "folder_marker_style_none": {
+    "message": "Выключено"
+  },
+  "folder_marker_style_badge": {
+    "message": "Значок поверх картинки"
+  },
+  "folder_marker_style_title": {
+    "message": "Значок рядом с названием"
+  },
+  "folder_marker_style_tab": {
+    "message": "Выступ папки"
+  },
+  "folder_marker_style_border": {
+    "message": "Акцентная рамка"
+  },
   "backup_settings": {
     "message": "导入或导出设置"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "本地图片"
   },
-  "settings_group_search_folder": { "message": "搜索与文件夹选择" },
+  "settings_group_search_folder": {
+    "message": "搜索与文件夹选择"
+  },
   "settings_group_interface": {
     "message": "界面控制"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "来自计算机的图像"
   },
-  "sync_selection": {"message":"选择要同步的设置"},
-  "sync_selection_note": {"message":"此选择适用于所有已启用 StartGrid 同步的设备。选择本身始终会同步。"},
-  "sync_selection_behavior": {"message":"关闭某项会删除其云端值，并保留各设备的本地值。开启后会上传此设备的值。不支持选择性同步的旧版本不会遵循此选择。"},
-  "sync_selection_paused": {"message":"请启用 Chrome Sync 以更改全局选择。"},
-  "sync_selection_pending": {"message":"部分更改尚未同步。本地值已保留。请重试；如果存储空间已满，请减少所选数据。"},
-  "sync_selection_retry": {"message":"重试同步"},
-  "sync_selection_blocks": {"message":"可开启或关闭整个分组，也可展开后选择单项设置。计数显示已开启的项目数和总数。"}
+  "sync_selection": {
+    "message": "选择要同步的设置"
+  },
+  "sync_selection_note": {
+    "message": "此选择适用于所有已启用 StartGrid 同步的设备。选择本身始终会同步。"
+  },
+  "sync_selection_behavior": {
+    "message": "关闭某项会删除其云端值，并保留各设备的本地值。开启后会上传此设备的值。不支持选择性同步的旧版本不会遵循此选择。"
+  },
+  "sync_selection_paused": {
+    "message": "请启用 Chrome Sync 以更改全局选择。"
+  },
+  "sync_selection_pending": {
+    "message": "部分更改尚未同步。本地值已保留。请重试；如果存储空间已满，请减少所选数据。"
+  },
+  "sync_selection_retry": {
+    "message": "重试同步"
+  },
+  "sync_selection_blocks": {
+    "message": "可开启或关闭整个分组，也可展开后选择单项设置。计数显示已开启的项目数和总数。"
+  }
 }

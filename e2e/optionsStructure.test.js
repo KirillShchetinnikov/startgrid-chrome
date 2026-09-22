@@ -25,11 +25,12 @@ describe('options page structure', () => {
       return section.sections.flatMap(group => group.list);
     });
     const ids = settings.map(setting => setting.id);
-    expect(ids).toHaveLength(77);
+    expect(ids).toHaveLength(78);
     expect(ids).toContain('sync_selection');
     expect(new Set(ids).size).toBe(ids.length);
     expect(ids).toContain('bookmark_title_size');
     expect(ids).toContain('bookmark_title_position');
+    expect(ids).toContain('folder_marker_style');
     expect(ids).toContain('dial_horizontal_gap');
     expect(ids).toContain('dial_vertical_gap');
     expect(ids).toContain('dial_tile_size');

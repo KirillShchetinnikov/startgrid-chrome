@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-09-18
+> Last Updated: 2026-09-22
 
 ## Store Listing
 
@@ -14,7 +14,7 @@ Customizable visual bookmarks on every new tab, using your existing Chrome bookm
 
 **Detailed Description**
 
-StartGrid replaces Chrome's new tab with a visual, customizable view of your existing bookmarks and folders.
+StartGrid replaces Chrome's new tab with a visual, customizable view of your existing bookmarks and folders. Optional folder markers can identify every folder with an image badge, title icon, folder tab, or accent border.
 
 Organize, open, edit, move, and search bookmarks without creating a separate account. Use grouped quick settings to choose the start folder, grid layout, theme, background, tile appearance, and interface controls without leaving the new tab. A dedicated Search and folder picker group brings together visibility and appearance controls for the top panel. Settings can be backed up as a JSON file and optionally synchronized with Chrome Sync.
 
@@ -122,6 +122,7 @@ https://github.com/KirillShchetinnikov/startgrid-chrome
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.3.1 | 2026-09-22 | Adds a global, optional folder marker with badge, title-icon, folder-tab, and accent-border styles for folders at every navigation level. | GitHub release; Web Store submission pending |
 | 2.3.0 | 2026-09-18 | Full/Fast performance modes, lower memory and background-tab work, global grouped sync selection, preservation of settings unknown to compatible older versions, protection against delayed sync writes, and reliable bookmark-dialog closing after a quick save. | GitHub release; Web Store submission pending |
 | 2.2.0 | 2026-09-16 | Folder tiles keep consistent styling with captions below tiles. Folder previews work at every level and show child folder icons when no direct sites are present. Search and folder picker visibility and appearance controls have their own quick-settings group. | Draft |
 | 2.1.0 | 2026-09-05 | Redesigned grouped quick settings, last-folder mode, Back and Forward folder navigation, global thumbnail-source and sorting controls, recovery from deleted folders, and clearer thumbnail and background errors. | Draft |

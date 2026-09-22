@@ -42,5 +42,6 @@ export const QUICK_SETTING_KEYS = Object.freeze([
   'show_back_column',
   'show_bookmark_title',
   'show_favicon',
-  'folder_preview'
+  'folder_preview',
+  'folder_marker_style'
 ]);

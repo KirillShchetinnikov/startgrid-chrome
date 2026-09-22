@@ -270,6 +270,65 @@
   pointer-events: none;
 }
 
+.bookmark__folder-marker {
+  pointer-events: none;
+  background: url("/img/folder.svg") center / contain no-repeat;
+}
+
+.bookmark__folder-marker--badge {
+  position: absolute;
+  z-index: 102;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 50%;
+  background-color: rgb(31 27 49 / 82%);
+  background-origin: content-box;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 18%);
+  backdrop-filter: blur(8px);
+}
+
+.bookmark__folder-marker--title {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.bookmark[is-folder][folder-marker-style="tab"]::before {
+  content: "";
+  position: absolute;
+  z-index: 101;
+  top: -5px;
+  left: 18%;
+  width: 34%;
+  height: 10px;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-bottom: 0;
+  border-radius: 7px 7px 0 0;
+  background: var(--color-primary);
+  box-shadow: 0 -2px 6px rgb(0 0 0 / 15%);
+  pointer-events: none;
+}
+
+.bookmark[is-folder][folder-marker-style="border"] {
+  outline: 3px solid var(--color-primary);
+  outline-offset: -3px;
+}
+
+.bookmark[is-folder][folder-marker-style="border"][data-title-position="outside"] {
+  outline: 0;
+}
+
+.bookmark[is-folder][folder-marker-style="border"][data-title-position="outside"] > .bookmark__img {
+  outline: 3px solid var(--color-primary);
+  outline-offset: -3px;
+}
+
 .bookmark__caption {
   position: relative;
   z-index: 100;

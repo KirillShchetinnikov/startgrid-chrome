@@ -49,8 +49,8 @@ describe('quick settings structure', () => {
     expect(source).toContain('data-quick-sort-mode="alphabet"');
     expect(source).toContain('data-quick-sort-mode="usage"');
     expect(source).toContain('function syncSortingControls()');
-    expect(source).toContain("['home_sort_by', 'show_home_folders'].includes(key)");
-    expect(resetKeys).toContain("'bookmarks_sorting_type'");
+    expect(source).toContain(`['home_sort_by', 'show_home_folders'].includes(key)`);
+    expect(resetKeys).toContain(`'bookmarks_sorting_type'`);
   });
 
   it('offers default and last-opened folder controls without resetting them', () => {
@@ -66,8 +66,8 @@ describe('quick settings structure', () => {
   });
 
   it('keeps toolbar appearance controls visible and disables them when linked', () => {
-    expect(source).toContain("createSwitch('toolbar_background_blur', 'data-quick-toolbar-background')");
-    expect(source).toContain("control.classList.toggle('is-disabled', disabled)");
+    expect(source).toContain(`createSwitch('toolbar_background_blur', 'data-quick-toolbar-background')`);
+    expect(source).toContain(`control.classList.toggle('is-disabled', disabled)`);
     expect(source).toContain('field.disabled = disabled || hasNoCustomColor');
     expect(source).not.toContain('control.hidden = Boolean(settings.$.toolbar_match_tile_background)');
   });
@@ -84,10 +84,20 @@ describe('quick settings structure', () => {
 
   it('keeps reset inside the scrollable list without a full-settings footer', () => {
     expect(source).toContain('<section class="quick-settings__reset">');
-    expect(source).toContain("message('reset_quick_settings_description')");
+    expect(source).toContain(`message('reset_quick_settings_description')`);
     expect(source).not.toContain('quick-settings__footer');
-    expect(source).not.toContain("message('more_settings')");
-    expect(source).not.toContain("message('quick_display_settings_description')");
+    expect(source).not.toContain(`message('more_settings')`);
+    expect(source).not.toContain(`message('quick_display_settings_description')`);
     expect(source).not.toContain('data-quick-default-folder-note');
+  });
+
+  it('offers every global folder marker style', () => {
+    const resetKeys = readFileSync('src/js/quickSettings.js', 'utf8');
+
+    expect(source).toContain('data-setting="folder_marker_style"');
+    ['none', 'badge', 'title', 'tab', 'border'].forEach(value => {
+      expect(source).toContain(`<option value="${value}">`);
+    });
+    expect(resetKeys).toContain(`'folder_marker_style'`);
   });
 });

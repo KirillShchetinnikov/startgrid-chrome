@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "No se pudo cargar la imagen de fondo local. Elige otro archivo."
   },
-  "notice_background_url_invalid": { "message": "Introduce una URL de imagen HTTP o HTTPS válida." },
-  "notice_background_url_load_failed": { "message": "No se pudo cargar la imagen de esta URL. Se eliminó el enlace." },
+  "notice_background_url_invalid": {
+    "message": "Introduce una URL de imagen HTTP o HTTPS válida."
+  },
+  "notice_background_url_load_failed": {
+    "message": "No se pudo cargar la imagen de esta URL. Se eliminó el enlace."
+  },
   "scroll_to_top": {
     "message": "Volver arriba"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "Muestra miniaturas de cuatro sitios seleccionados aleatoriamente en la carpeta en lugar de un icono de carpeta o una imagen personalizada."
   },
+  "folder_marker_style": {
+    "message": "Folder marker style"
+  },
+  "folder_marker_style_note": {
+    "message": "Marks every folder regardless of whether it has a custom image."
+  },
+  "folder_marker_style_none": {
+    "message": "Off"
+  },
+  "folder_marker_style_badge": {
+    "message": "Icon over image"
+  },
+  "folder_marker_style_title": {
+    "message": "Icon next to title"
+  },
+  "folder_marker_style_tab": {
+    "message": "Folder tab"
+  },
+  "folder_marker_style_border": {
+    "message": "Accent border"
+  },
   "backup_settings": {
     "message": "Importar o exportar configuraciones"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "Imágenes locales"
   },
-  "settings_group_search_folder": { "message": "Búsqueda y selección de carpetas" },
+  "settings_group_search_folder": {
+    "message": "Búsqueda y selección de carpetas"
+  },
   "settings_group_interface": {
     "message": "Controles de interfaz"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "Imagen desde el ordenador"
   },
-  "sync_selection": {"message":"Elegir qué ajustes sincronizar"},
-  "sync_selection_note": {"message":"Esta selección se aplica a todos los dispositivos con la sincronización de StartGrid activada. La selección siempre se sincroniza."},
-  "sync_selection_behavior": {"message":"Al desactivar una opción se elimina su valor de la nube y se conserva el valor local de cada dispositivo. Al activarla se sube el valor de este dispositivo. Las versiones antiguas sin sincronización selectiva no respetan esta selección."},
-  "sync_selection_paused": {"message":"Activa Chrome Sync para cambiar la selección global."},
-  "sync_selection_pending": {"message":"Algunos cambios aún no se han sincronizado. Los valores locales están guardados. Inténtalo de nuevo; si el almacenamiento está lleno, reduce los datos seleccionados."},
-  "sync_selection_retry": {"message":"Reintentar sincronización"},
-  "sync_selection_blocks": {"message":"Activa o desactiva un bloque completo, o ábrelo para elegir ajustes individuales. El contador muestra los elementos activados del total."}
+  "sync_selection": {
+    "message": "Elegir qué ajustes sincronizar"
+  },
+  "sync_selection_note": {
+    "message": "Esta selección se aplica a todos los dispositivos con la sincronización de StartGrid activada. La selección siempre se sincroniza."
+  },
+  "sync_selection_behavior": {
+    "message": "Al desactivar una opción se elimina su valor de la nube y se conserva el valor local de cada dispositivo. Al activarla se sube el valor de este dispositivo. Las versiones antiguas sin sincronización selectiva no respetan esta selección."
+  },
+  "sync_selection_paused": {
+    "message": "Activa Chrome Sync para cambiar la selección global."
+  },
+  "sync_selection_pending": {
+    "message": "Algunos cambios aún no se han sincronizado. Los valores locales están guardados. Inténtalo de nuevo; si el almacenamiento está lleno, reduce los datos seleccionados."
+  },
+  "sync_selection_retry": {
+    "message": "Reintentar sincronización"
+  },
+  "sync_selection_blocks": {
+    "message": "Activa o desactiva un bloque completo, o ábrelo para elegir ajustes individuales. El contador muestra los elementos activados del total."
+  }
 }

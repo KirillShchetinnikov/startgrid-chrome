@@ -14,11 +14,11 @@ const imageObserver = typeof IntersectionObserver === 'function'
 const DISPLAY_ATTRIBUTES = [
   'href', 'title', 'image', 'is-folder', 'is-custom-image', 'open-newtab',
   'thumbnail-source', 'style', 'data-title-position', 'usage-count',
-  'has-title', 'has-favicon', 'has-folder-preview', 'is-dnd'
+  'has-title', 'has-favicon', 'has-folder-preview', 'folder-marker-style', 'is-dnd'
 ];
 const STRUCTURAL_ATTRIBUTES = new Set([
   'is-folder', 'is-custom-image', 'open-newtab', 'usage-count',
-  'has-title', 'has-favicon', 'has-folder-preview', 'is-dnd'
+  'has-title', 'has-favicon', 'has-folder-preview', 'folder-marker-style', 'is-dnd'
 ]);
 
 class VbBookmark extends HTMLAnchorElement {
@@ -211,7 +211,8 @@ class VbBookmark extends HTMLAnchorElement {
     const caption = $createElement('div', {
       class: 'bookmark__caption'
     });
-    if (this.hasFavicon) {
+    const usesTitleMarker = this.isFolder && this.folderMarkerStyle === 'title';
+    if (this.hasFavicon && !usesTitleMarker) {
       const favicon = $createElement('img', {
         class: 'bookmark__favicon',
         width: 16,
@@ -221,6 +222,13 @@ class VbBookmark extends HTMLAnchorElement {
         alt: ''
       });
       caption.appendChild(favicon);
+    }
+
+    if (usesTitleMarker) {
+      caption.appendChild($createElement('span', {
+        class: 'bookmark__folder-marker bookmark__folder-marker--title',
+        'aria-hidden': 'true'
+      }));
     }
 
     const title = $createElement('span', {
@@ -278,6 +286,14 @@ class VbBookmark extends HTMLAnchorElement {
 
     if (this.usageCount !== null && !this.isFolder) {
       this.append(this.#createUsageCount());
+    }
+
+    if (this.isFolder && this.folderMarkerStyle === 'badge') {
+      this.append($createElement('span', {
+        class: 'bookmark__folder-marker bookmark__folder-marker--badge',
+        title: getMessage('label_folder'),
+        'aria-hidden': 'true'
+      }));
     }
 
     if (this.hasTitle) {
@@ -342,6 +358,13 @@ class VbBookmark extends HTMLAnchorElement {
 
   get isFolder() {
     return this.hasAttribute('is-folder');
+  }
+
+  get folderMarkerStyle() {
+    return this.getAttribute('folder-marker-style') || 'none';
+  }
+  set folderMarkerStyle(value) {
+    this.setAttribute('folder-marker-style', value || 'none');
   }
   set isFolder(value) {
     if (value) {

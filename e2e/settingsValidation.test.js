@@ -138,4 +138,15 @@ describe('numeric settings validation', () => {
 
     expect(settings.$.thumbnail_source).toBe('favicon');
   });
+
+  it('defaults and validates the global folder marker style', async() => {
+    mockStorage({ enable_sync: false, folder_marker_style: 'unsupported' });
+    const { settings } = await import('../src/js/settings');
+
+    await settings.init();
+
+    expect(settings.$.folder_marker_style).toBe('none');
+    await settings.updateKey('folder_marker_style', 'badge');
+    expect(settings.$.folder_marker_style).toBe('badge');
+  });
 });

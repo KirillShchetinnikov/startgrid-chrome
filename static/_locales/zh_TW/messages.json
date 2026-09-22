@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "無法載入本機背景圖片。請選擇其他檔案。"
   },
-  "notice_background_url_invalid": { "message": "請輸入有效的 HTTP 或 HTTPS 圖片網址。" },
-  "notice_background_url_load_failed": { "message": "無法載入此網址的圖片。連結已被刪除。" },
+  "notice_background_url_invalid": {
+    "message": "請輸入有效的 HTTP 或 HTTPS 圖片網址。"
+  },
+  "notice_background_url_load_failed": {
+    "message": "無法載入此網址的圖片。連結已被刪除。"
+  },
   "scroll_to_top": {
     "message": "捲動至頂端"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "顯示資料夾中四個隨機選擇的網站的縮圖，而不是資料夾圖示或自訂圖像。"
   },
+  "folder_marker_style": {
+    "message": "Обозначение папок"
+  },
+  "folder_marker_style_note": {
+    "message": "Отмечает все папки независимо от наличия собственной картинки."
+  },
+  "folder_marker_style_none": {
+    "message": "Выключено"
+  },
+  "folder_marker_style_badge": {
+    "message": "Значок поверх картинки"
+  },
+  "folder_marker_style_title": {
+    "message": "Значок рядом с названием"
+  },
+  "folder_marker_style_tab": {
+    "message": "Выступ папки"
+  },
+  "folder_marker_style_border": {
+    "message": "Акцентная рамка"
+  },
   "backup_settings": {
     "message": "匯入或匯出設定"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "本地圖片"
   },
-  "settings_group_search_folder": { "message": "搜尋與資料夾選擇" },
+  "settings_group_search_folder": {
+    "message": "搜尋與資料夾選擇"
+  },
   "settings_group_interface": {
     "message": "介面控制"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "來自電腦的圖像"
   },
-  "sync_selection": {"message":"選擇要同步的設定"},
-  "sync_selection_note": {"message":"此選擇適用於所有已啟用 StartGrid 同步的裝置。選擇本身一律會同步。"},
-  "sync_selection_behavior": {"message":"關閉項目會刪除其雲端值，並保留各裝置的本機值。開啟後會上傳此裝置的值。不支援選擇性同步的舊版本不會遵循此選擇。"},
-  "sync_selection_paused": {"message":"請啟用 Chrome Sync 以變更全域選擇。"},
-  "sync_selection_pending": {"message":"部分變更尚未同步。本機值已保留。請重試；如果儲存空間已滿，請減少所選資料。"},
-  "sync_selection_retry": {"message":"重試同步"},
-  "sync_selection_blocks": {"message":"可開啟或關閉整個群組，也可展開後選擇個別設定。計數顯示已開啟的項目數和總數。"}
+  "sync_selection": {
+    "message": "選擇要同步的設定"
+  },
+  "sync_selection_note": {
+    "message": "此選擇適用於所有已啟用 StartGrid 同步的裝置。選擇本身一律會同步。"
+  },
+  "sync_selection_behavior": {
+    "message": "關閉項目會刪除其雲端值，並保留各裝置的本機值。開啟後會上傳此裝置的值。不支援選擇性同步的舊版本不會遵循此選擇。"
+  },
+  "sync_selection_paused": {
+    "message": "請啟用 Chrome Sync 以變更全域選擇。"
+  },
+  "sync_selection_pending": {
+    "message": "部分變更尚未同步。本機值已保留。請重試；如果儲存空間已滿，請減少所選資料。"
+  },
+  "sync_selection_retry": {
+    "message": "重試同步"
+  },
+  "sync_selection_blocks": {
+    "message": "可開啟或關閉整個群組，也可展開後選擇個別設定。計數顯示已開啟的項目數和總數。"
+  }
 }

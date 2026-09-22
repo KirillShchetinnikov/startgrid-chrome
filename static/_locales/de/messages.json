@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "Das lokale Hintergrundbild konnte nicht geladen werden. Wählen Sie eine andere Datei aus."
   },
-  "notice_background_url_invalid": { "message": "Geben Sie eine gültige HTTP- oder HTTPS-Bild-URL ein." },
-  "notice_background_url_load_failed": { "message": "Das Bild unter dieser URL konnte nicht geladen werden. Der Link wurde entfernt." },
+  "notice_background_url_invalid": {
+    "message": "Geben Sie eine gültige HTTP- oder HTTPS-Bild-URL ein."
+  },
+  "notice_background_url_load_failed": {
+    "message": "Das Bild unter dieser URL konnte nicht geladen werden. Der Link wurde entfernt."
+  },
   "scroll_to_top": {
     "message": "Nach oben scrollen"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "Zeigt Miniaturansichten von vier zufällig ausgewählten Websites im Ordner anstelle eines Ordnersymbols oder eines benutzerdefinierten Bilds an."
   },
+  "folder_marker_style": {
+    "message": "Folder marker style"
+  },
+  "folder_marker_style_note": {
+    "message": "Marks every folder regardless of whether it has a custom image."
+  },
+  "folder_marker_style_none": {
+    "message": "Off"
+  },
+  "folder_marker_style_badge": {
+    "message": "Icon over image"
+  },
+  "folder_marker_style_title": {
+    "message": "Icon next to title"
+  },
+  "folder_marker_style_tab": {
+    "message": "Folder tab"
+  },
+  "folder_marker_style_border": {
+    "message": "Accent border"
+  },
   "backup_settings": {
     "message": "Einstellungen importieren oder exportieren"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "Lokale Bilder"
   },
-  "settings_group_search_folder": { "message": "Suche und Ordnerauswahl" },
+  "settings_group_search_folder": {
+    "message": "Suche und Ordnerauswahl"
+  },
   "settings_group_interface": {
     "message": "Schnittstellensteuerung"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "Bild vom Computer"
   },
-  "sync_selection": {"message":"Synchronisierte Einstellungen auswählen"},
-  "sync_selection_note": {"message":"Diese Auswahl gilt für alle Geräte mit aktivierter StartGrid-Synchronisierung. Die Auswahl selbst wird immer synchronisiert."},
-  "sync_selection_behavior": {"message":"Ausschalten entfernt den Cloud-Wert und behält den lokalen Wert jedes Geräts. Einschalten lädt den Wert dieses Geräts hoch. Ältere Versionen ohne selektive Synchronisierung beachten diese Auswahl nicht."},
-  "sync_selection_paused": {"message":"Aktiviere Chrome Sync, um die globale Auswahl zu ändern."},
-  "sync_selection_pending": {"message":"Einige Änderungen sind noch nicht synchronisiert. Lokale Werte bleiben erhalten. Versuche es erneut; bei vollem Speicher reduziere die ausgewählten Daten."},
-  "sync_selection_retry": {"message":"Synchronisierung erneut versuchen"},
-  "sync_selection_blocks": {"message":"Schalte ganze Blöcke ein oder aus oder öffne sie, um einzelne Einstellungen auszuwählen. Der Zähler zeigt die Anzahl der aktivierten Einträge."}
+  "sync_selection": {
+    "message": "Synchronisierte Einstellungen auswählen"
+  },
+  "sync_selection_note": {
+    "message": "Diese Auswahl gilt für alle Geräte mit aktivierter StartGrid-Synchronisierung. Die Auswahl selbst wird immer synchronisiert."
+  },
+  "sync_selection_behavior": {
+    "message": "Ausschalten entfernt den Cloud-Wert und behält den lokalen Wert jedes Geräts. Einschalten lädt den Wert dieses Geräts hoch. Ältere Versionen ohne selektive Synchronisierung beachten diese Auswahl nicht."
+  },
+  "sync_selection_paused": {
+    "message": "Aktiviere Chrome Sync, um die globale Auswahl zu ändern."
+  },
+  "sync_selection_pending": {
+    "message": "Einige Änderungen sind noch nicht synchronisiert. Lokale Werte bleiben erhalten. Versuche es erneut; bei vollem Speicher reduziere die ausgewählten Daten."
+  },
+  "sync_selection_retry": {
+    "message": "Synchronisierung erneut versuchen"
+  },
+  "sync_selection_blocks": {
+    "message": "Schalte ganze Blöcke ein oder aus oder öffne sie, um einzelne Einstellungen auszuwählen. Der Zähler zeigt die Anzahl der aktivierten Einträge."
+  }
 }

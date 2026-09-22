@@ -210,6 +210,19 @@ const appearanceSettings = [
     title: getMessage('folder_preview'),
     note: getMessage('folder_preview_description'),
     type: 'switch'
+  },
+  {
+    id: 'folder_marker_style',
+    title: getMessage('folder_marker_style'),
+    note: getMessage('folder_marker_style_note'),
+    type: 'select',
+    options: [
+      { value: 'none', title: getMessage('folder_marker_style_none') },
+      { value: 'badge', title: getMessage('folder_marker_style_badge') },
+      { value: 'title', title: getMessage('folder_marker_style_title') },
+      { value: 'tab', title: getMessage('folder_marker_style_tab') },
+      { value: 'border', title: getMessage('folder_marker_style_border') }
+    ]
   }
 ];
 
@@ -797,7 +810,8 @@ export default [
           'bookmark_title_size',
           'bookmark_title_position',
           'show_favicon',
-          'folder_preview'
+          'folder_preview',
+          'folder_marker_style'
         )
       }
     ]

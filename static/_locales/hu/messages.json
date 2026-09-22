@@ -217,8 +217,12 @@
   "notice_background_load_failed": {
     "message": "A helyi háttérkép nem tölthető be. Válasszon másik fájlt."
   },
-  "notice_background_url_invalid": { "message": "Adjon meg érvényes HTTP- vagy HTTPS-kép URL-címet." },
-  "notice_background_url_load_failed": { "message": "Az ezen az URL-címen lévő kép nem tölthető be. A hivatkozás törölve lett." },
+  "notice_background_url_invalid": {
+    "message": "Adjon meg érvényes HTTP- vagy HTTPS-kép URL-címet."
+  },
+  "notice_background_url_load_failed": {
+    "message": "Az ezen az URL-címen lévő kép nem tölthető be. A hivatkozás törölve lett."
+  },
   "scroll_to_top": {
     "message": "Ugrás az oldal tetejére"
   },
@@ -733,6 +737,27 @@
   "folder_preview_description": {
     "message": "Négy véletlenszerűen kiválasztott webhely bélyegképét jeleníti meg a mappában mappaikon vagy egyéni kép helyett."
   },
+  "folder_marker_style": {
+    "message": "Folder marker style"
+  },
+  "folder_marker_style_note": {
+    "message": "Marks every folder regardless of whether it has a custom image."
+  },
+  "folder_marker_style_none": {
+    "message": "Off"
+  },
+  "folder_marker_style_badge": {
+    "message": "Icon over image"
+  },
+  "folder_marker_style_title": {
+    "message": "Icon next to title"
+  },
+  "folder_marker_style_tab": {
+    "message": "Folder tab"
+  },
+  "folder_marker_style_border": {
+    "message": "Accent border"
+  },
   "backup_settings": {
     "message": "Beállítások importálása vagy exportálása"
   },
@@ -1142,7 +1167,9 @@
   "settings_group_thumbnail_storage": {
     "message": "Helyi képek"
   },
-  "settings_group_search_folder": { "message": "Keresés és mappaválasztás" },
+  "settings_group_search_folder": {
+    "message": "Keresés és mappaválasztás"
+  },
   "settings_group_interface": {
     "message": "Interfész vezérlők"
   },
@@ -1289,11 +1316,25 @@
   "background_local_image": {
     "message": "Kép a számítógépről"
   },
-  "sync_selection": {"message":"Szinkronizálandó beállítások"},
-  "sync_selection_note": {"message":"Ez a választás minden olyan eszközre érvényes, ahol a StartGrid szinkronizálása aktív. Maga a választás mindig szinkronizálódik."},
-  "sync_selection_behavior": {"message":"Kikapcsoláskor a felhőbeli érték törlődik, de minden eszköz megtartja a helyi értékét. Bekapcsoláskor ennek az eszköznek az értéke kerül a felhőbe. A szelektív szinkronizálás előtti verziók nem követik ezt a választást."},
-  "sync_selection_paused": {"message":"A globális választás módosításához kapcsolja be a Chrome Sync funkciót."},
-  "sync_selection_pending": {"message":"Egyes változások még nem szinkronizálódtak. A helyi értékek megmaradtak. Próbálja újra; ha a tárhely megtelt, csökkentse a kiválasztott adatok mennyiségét."},
-  "sync_selection_retry": {"message":"Szinkronizálás újra"},
-  "sync_selection_blocks": {"message":"Kapcsolja be vagy ki az egész csoportot, vagy nyissa le az egyes beállítások kiválasztásához. A számláló a bekapcsolt elemek számát mutatja az összeshez képest."}
+  "sync_selection": {
+    "message": "Szinkronizálandó beállítások"
+  },
+  "sync_selection_note": {
+    "message": "Ez a választás minden olyan eszközre érvényes, ahol a StartGrid szinkronizálása aktív. Maga a választás mindig szinkronizálódik."
+  },
+  "sync_selection_behavior": {
+    "message": "Kikapcsoláskor a felhőbeli érték törlődik, de minden eszköz megtartja a helyi értékét. Bekapcsoláskor ennek az eszköznek az értéke kerül a felhőbe. A szelektív szinkronizálás előtti verziók nem követik ezt a választást."
+  },
+  "sync_selection_paused": {
+    "message": "A globális választás módosításához kapcsolja be a Chrome Sync funkciót."
+  },
+  "sync_selection_pending": {
+    "message": "Egyes változások még nem szinkronizálódtak. A helyi értékek megmaradtak. Próbálja újra; ha a tárhely megtelt, csökkentse a kiválasztott adatok mennyiségét."
+  },
+  "sync_selection_retry": {
+    "message": "Szinkronizálás újra"
+  },
+  "sync_selection_blocks": {
+    "message": "Kapcsolja be vagy ki az egész csoportot, vagy nyissa le az egyes beállítások kiválasztásához. A számláló a bekapcsolt elemek számát mutatja az összeshez képest."
+  }
 }
