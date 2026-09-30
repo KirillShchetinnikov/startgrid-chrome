@@ -72,6 +72,10 @@ describe('selective sync controls in the extension', () => {
       return records['startgrid.policy.color_theme'].enabled === false
         && records['startgrid.policy.background_image'].enabled === false;
     });
+    await page.waitForFunction(() => {
+      const input = document.getElementById('sync-choice-background_image');
+      return !input.checked && !input.disabled;
+    });
     expect(await page.$eval('#sync-choice-background_image', input => input.checked)).toBe(false);
     await page.setViewport({ width: 390, height: 844 });
     await page.$eval('[data-sync-block="page"]', node => node.scrollIntoView({ block: 'start' }));

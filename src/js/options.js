@@ -43,11 +43,7 @@ import initKeyboardShortcutSettings from './components/keyboardShortcutSettings'
 import initSyncSelection from './components/syncSelection';
 import { SYNC_STATE_KEY, SYNC_ERROR_KEY, equal } from './selectiveSync';
 import { cssColorToHex } from './tileAppearance';
-import {
-  getGridLayoutLimits,
-  getHorizontalGapLimits,
-  getTileSizeLimits
-} from './gridLayout';
+import { GRID_WIDTH_LIMITS, HORIZONTAL_GAP_LIMITS, TILE_SIZE_LIMITS } from './gridLayout';
 import { scaleTileContentSettings } from './tileSizeSync';
 import { exportSettings, SETTINGS_JSON_FILE_TYPES } from './settingsExport';
 import { matchesSettingsSearch } from './settingsSearch';
@@ -118,7 +114,7 @@ async function init() {
     syncConditionalControls();
   });
 
-  await enforceGridWidth(false);
+  syncGridControls();
 
   await window.vbToggleTheme();
 
@@ -797,7 +793,7 @@ async function handleSetOptions(e) {
   relationToggleOption(target);
 
   if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(id)) {
-    await enforceGridWidth();
+    syncGridControls();
   }
 
   if ([
@@ -834,82 +830,22 @@ function syncTileContentControls(tileContentSettings) {
   });
 }
 
-async function enforceGridWidth(sync = true) {
-  const gridWidthControl = document.getElementById('dial_width');
-  const tileSizeControl = document.getElementById('dial_tile_size');
-  const horizontalGapControl = document.getElementById('dial_horizontal_gap');
-  if (!gridWidthControl || !tileSizeControl || !horizontalGapControl) return;
-
-  const { gridWidth, minimumGridWidth } = getGridLayoutLimits({
-    columns: settings.$.dial_columns,
-    gridWidth: settings.$.dial_width,
-    horizontalGap: settings.$.dial_horizontal_gap,
-    tileSize: settings.$.dial_tile_size,
-    viewportWidth: document.documentElement.clientWidth
+function syncGridControls() {
+  const limits = {
+    dial_width: GRID_WIDTH_LIMITS,
+    dial_tile_size: TILE_SIZE_LIMITS,
+    dial_horizontal_gap: HORIZONTAL_GAP_LIMITS
+  };
+  Object.entries(limits).forEach(([key, { min, max }]) => {
+    const control = document.getElementById(key);
+    if (!control) return;
+    control.min = String(min);
+    control.max = String(max);
+    ranges.get(key)?.setMin(min);
+    ranges.get(key)?.setMax(max);
+    control.value = String(settings.$[key]);
+    ranges.get(key)?.setValue(settings.$[key]);
   });
-
-  gridWidthControl.min = String(minimumGridWidth);
-  ranges.get('dial_width')?.setMin(minimumGridWidth);
-  if (Number(settings.$.dial_width) !== gridWidth) {
-    await settings.updateKey('dial_width', gridWidth, { sync });
-  }
-  gridWidthControl.value = String(gridWidth);
-  ranges.get('dial_width')?.setValue(gridWidth);
-
-  const { minimumTileSize, maximumTileSize } = getTileSizeLimits({
-    columns: settings.$.dial_columns,
-    gridWidth,
-    horizontalGap: settings.$.dial_horizontal_gap,
-    viewportWidth: document.documentElement.clientWidth
-  });
-  const tileSize = Math.min(
-    maximumTileSize,
-    Math.max(minimumTileSize, Number(settings.$.dial_tile_size))
-  );
-
-  if (Number(settings.$.dial_tile_size) !== tileSize) {
-    const tileContentSettings = scaleTileContentSettings({
-      faviconSize: settings.$.favicon_size,
-      fromTileSize: settings.$.dial_tile_size,
-      titleSize: settings.$.bookmark_title_size,
-      toTileSize: tileSize
-    });
-    await settings.updateAll({ dial_tile_size: tileSize, ...tileContentSettings }, { sync });
-    syncTileContentControls(tileContentSettings);
-  }
-  const { minimumHorizontalGap, maximumHorizontalGap } = getHorizontalGapLimits({
-    columns: settings.$.dial_columns,
-    gridWidth,
-    tileSize,
-    viewportWidth: document.documentElement.clientWidth
-  });
-  const horizontalGap = Math.min(
-    maximumHorizontalGap,
-    Math.max(minimumHorizontalGap, Number(settings.$.dial_horizontal_gap))
-  );
-  if (Number(settings.$.dial_horizontal_gap) !== horizontalGap) {
-    await settings.updateKey('dial_horizontal_gap', horizontalGap, { sync });
-  }
-
-  const finalTileSizeLimits = getTileSizeLimits({
-    columns: settings.$.dial_columns,
-    gridWidth,
-    horizontalGap,
-    viewportWidth: document.documentElement.clientWidth
-  });
-  tileSizeControl.min = String(finalTileSizeLimits.minimumTileSize);
-  tileSizeControl.max = String(finalTileSizeLimits.maximumTileSize);
-  ranges.get('dial_tile_size')?.setMin(finalTileSizeLimits.minimumTileSize);
-  ranges.get('dial_tile_size')?.setMax(finalTileSizeLimits.maximumTileSize);
-  tileSizeControl.value = String(tileSize);
-  ranges.get('dial_tile_size')?.setValue(tileSize);
-
-  horizontalGapControl.min = String(minimumHorizontalGap);
-  horizontalGapControl.max = String(maximumHorizontalGap);
-  ranges.get('dial_horizontal_gap')?.setMin(minimumHorizontalGap);
-  ranges.get('dial_horizontal_gap')?.setMax(maximumHorizontalGap);
-  horizontalGapControl.value = String(horizontalGap);
-  ranges.get('dial_horizontal_gap')?.setValue(horizontalGap);
 }
 
 async function handleUploadFile() {
@@ -1051,7 +987,7 @@ async function handleResetLocalSettings() {
   }
 
   await window.vbToggleTheme();
-  await enforceGridWidth();
+  syncGridControls();
   getOptions();
   toggleBackgroundControls(settings.effective.background_image);
   updateDefaultFolderControl();
@@ -1062,7 +998,7 @@ async function handleResetSyncSettings() {
   if (!confirmAction) return;
 
   await settings.resetSync();
-  await enforceGridWidth();
+  syncGridControls();
   getOptions();
   updateDefaultFolderControl();
   Toast.show(getMessage('notice_sync_settings_cleared'));
@@ -1116,7 +1052,7 @@ async function handleChangeSync() {
   if (direction === 'cloud') {
     await settings.restoreFromSync();
     await window.vbToggleTheme();
-    await enforceGridWidth(false);
+    syncGridControls();
     getOptions();
   } else {
     await settings.syncToStorage();

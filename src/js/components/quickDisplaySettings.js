@@ -14,6 +14,7 @@ import { updateMainPageScrollLock } from '../mainPageScroll';
 import { cssColorToHex } from '../tileAppearance';
 import { QUICK_SETTING_KEYS } from '../quickSettings';
 import { scaleTileContentSettings } from '../tileSizeSync';
+import { GRID_WIDTH_LIMITS, HORIZONTAL_GAP_LIMITS, TILE_SIZE_LIMITS } from '../gridLayout';
 import { getFolders } from '../api/bookmark';
 import { updateDefaultFolder } from '../defaultFolderSettings';
 import { renderFolderOptions, replaceFolderOptions } from './vb-select';
@@ -704,25 +705,19 @@ export default function initQuickDisplaySettings({
   }
 
   function syncControls() {
-    const gridLayout = UI.calculateStyles();
-    const gridWidthControl = panel.querySelector('[data-setting="dial_width"]');
-    const tileSizeControl = panel.querySelector('[data-setting="dial_tile_size"]');
-    const horizontalGapControl = panel.querySelector('[data-setting="dial_horizontal_gap"]');
-    gridWidthControl.min = String(gridLayout.minimumGridWidth);
-    tileSizeControl.min = String(gridLayout.minimumTileSize);
-    tileSizeControl.max = String(gridLayout.maximumTileSize);
-    horizontalGapControl.min = String(gridLayout.minimumHorizontalGap);
-    horizontalGapControl.max = String(gridLayout.maximumHorizontalGap);
-
+    UI.calculateStyles();
+    const gridLimits = {
+      dial_width: GRID_WIDTH_LIMITS,
+      dial_tile_size: TILE_SIZE_LIMITS,
+      dial_horizontal_gap: HORIZONTAL_GAP_LIMITS
+    };
     panel.querySelectorAll('[data-setting]').forEach(control => {
       const key = control.dataset.setting;
-      const value = key === 'dial_width'
-        ? gridLayout.gridWidth
-        : key === 'dial_tile_size'
-          ? gridLayout.tileSize
-          : key === 'dial_horizontal_gap'
-            ? gridLayout.horizontalGap
-            : settings.$[key];
+      const value = settings.$[key];
+      if (gridLimits[key]) {
+        control.min = String(gridLimits[key].min);
+        control.max = String(gridLimits[key].max);
+      }
       if (control.type === 'checkbox') {
         control.checked = Boolean(settings.$[key]);
       } else if (control.type === 'color') {
@@ -843,16 +838,8 @@ export default function initQuickDisplaySettings({
     } else if (key === 'background_color' && settings.effective.background_image === 'background_color') {
       await UI.setBG();
     } else if (STYLE_SETTINGS.has(key)) {
-      const gridLayout = UI.calculateStyles();
+      UI.calculateStyles();
       if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(key)) {
-        syncControls();
-      }
-      if (
-        persist
-        && ['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(key)
-        && Number(settings.$.dial_width) !== gridLayout.gridWidth
-      ) {
-        await settings.updateKey('dial_width', gridLayout.gridWidth);
         syncControls();
       }
       if (key === 'toolbar_match_tile_background') {

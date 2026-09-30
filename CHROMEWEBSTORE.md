@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-09-22
+> Last Updated: 2026-09-30
 
 ## Store Listing
 
@@ -118,10 +118,15 @@ https://github.com/KirillShchetinnikov/startgrid-chrome/issues
 
 https://github.com/KirillShchetinnikov/startgrid-chrome
 
+Tiles adapt to narrower windows and smaller screens without overwriting your preferred sizes. Widening the window restores the preferred layout.
+
 ## Version History
+
+Refresh grid screenshots on both desktop and laptop widths to show adaptive sizing.
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.3.2 | 2026-09-30 | Fixes tile sizes being overwritten on startup or when opening settings. Tiles, spacing, images, and global captions adapt to smaller screens while saved preferences are preserved and restored on wider windows. | GitHub release; Web Store submission pending |
 | 2.3.1 | 2026-09-22 | Adds a global, optional folder marker with badge, title-icon, folder-tab, and accent-border styles for folders at every navigation level. | GitHub release; Web Store submission pending |
 | 2.3.0 | 2026-09-18 | Full/Fast performance modes, lower memory and background-tab work, global grouped sync selection, preservation of settings unknown to compatible older versions, protection against delayed sync writes, and reliable bookmark-dialog closing after a quick save. | GitHub release; Web Store submission pending |
 | 2.2.0 | 2026-09-16 | Folder tiles keep consistent styling with captions below tiles. Folder previews work at every level and show child folder icons when no direct sites are present. Search and folder picker visibility and appearance controls have their own quick-settings group. | Draft |

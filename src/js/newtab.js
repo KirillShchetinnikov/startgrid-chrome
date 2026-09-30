@@ -63,7 +63,6 @@ import {
 } from './keyboardShortcuts';
 import { recordBookmarkUsage } from './bookmarkSorting';
 import { createRefreshScheduler } from './bookmarkEvents';
-import { scaleTileContentSettings } from './tileSizeSync';
 import {
   canUseStoredThumbnail,
   getThumbnailSourceOverride,
@@ -229,30 +228,7 @@ async function init() {
   /**
    * UI
    */
-  const gridLayout = UI.calculateStyles();
-  const gridSettingsUpdate = {};
-  if (window.matchMedia('(width > 480px)').matches
-    && Number(settings.effective.dial_width) !== gridLayout.gridWidth) {
-    gridSettingsUpdate.dial_width = gridLayout.gridWidth;
-  }
-  if (Number(settings.effective.dial_tile_size) !== gridLayout.tileSize) {
-    Object.assign(gridSettingsUpdate, {
-      dial_tile_size: gridLayout.tileSize,
-      ...scaleTileContentSettings({
-        faviconSize: settings.effective.favicon_size,
-        fromTileSize: settings.effective.dial_tile_size,
-        titleSize: settings.effective.bookmark_title_size,
-        toTileSize: gridLayout.tileSize
-      })
-    });
-  }
-  if (Number(settings.effective.dial_horizontal_gap) !== gridLayout.horizontalGap) {
-    gridSettingsUpdate.dial_horizontal_gap = gridLayout.horizontalGap;
-  }
-  if (Object.keys(gridSettingsUpdate).length) {
-    await settings.updateAll(gridSettingsUpdate, { sync: false });
-    UI.calculateStyles();
-  }
+  UI.calculateStyles();
   UI.setBG(pageRevealStarted)
     .catch(error => console.warn('Could not initialize StartGrid background', error));
 

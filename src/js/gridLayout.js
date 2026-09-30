@@ -126,3 +126,25 @@ export function getHorizontalGapLimits({
     )
   };
 }
+
+// Viewport adaptation is presentation only: always derive it from saved preferences.
+export function getResponsiveTileLayout({ columns, tileSize, horizontalGap, availableWidth }) {
+  const safeColumns = clamp(columns, 1, 10, 7);
+  const preferredSize = clamp(tileSize, 50, 300, 100);
+  const preferredGap = clamp(horizontalGap, 0, 160, 16);
+  const width = Math.max(0, Number(availableWidth) || 0);
+  const preferredWidth = safeColumns * preferredSize + (safeColumns - 1) * preferredGap;
+  const scale = Math.min(1, width / preferredWidth);
+  const displayedSize = Math.max(50, Math.floor(preferredSize * scale));
+  const { maximumHorizontalGap } = getHorizontalGapLimits({
+    columns: safeColumns,
+    tileSize: displayedSize,
+    availableWidth: width
+  });
+
+  return {
+    tileSize: displayedSize,
+    horizontalGap: Math.min(maximumHorizontalGap, Math.floor(preferredGap * scale)),
+    scale: displayedSize / preferredSize
+  };
+}

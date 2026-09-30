@@ -20,8 +20,7 @@ import {
 import { getBackgroundEntranceKeyframes } from '../backgroundEntrance';
 import {
   getGridLayoutLimits,
-  getHorizontalGapLimits,
-  getTileSizeLimits
+  getResponsiveTileLayout
 } from '../gridLayout';
 
 let backgroundResource;
@@ -314,28 +313,19 @@ export default {
     }
 
     const availableGridWidth = grid.clientWidth;
-    const tileSizeLimits = getTileSizeLimits({
+    const responsiveLayout = getResponsiveTileLayout({
       columns,
-      gridWidth: containerWidth,
+      tileSize,
       horizontalGap,
-      viewportWidth: doc.clientWidth,
       availableWidth: availableGridWidth
     });
-    const displayedTileSize = Math.min(
-      tileSizeLimits.maximumTileSize,
-      Math.max(tileSizeLimits.minimumTileSize, tileSize)
-    );
-    const horizontalGapLimits = getHorizontalGapLimits({
-      columns,
-      gridWidth: containerWidth,
-      tileSize: displayedTileSize,
-      viewportWidth: doc.clientWidth,
-      availableWidth: availableGridWidth
-    });
-    const displayedHorizontalGap = Math.min(
-      horizontalGapLimits.maximumHorizontalGap,
-      Math.max(horizontalGapLimits.minimumHorizontalGap, horizontalGap)
-    );
+    const displayedTileSize = responsiveLayout.tileSize;
+    const displayedHorizontalGap = responsiveLayout.horizontalGap;
+    const scale = responsiveLayout.scale;
+    doc.style.setProperty('--grid-row-gap', `${Math.floor(verticalGap * scale)}px`);
+    doc.style.setProperty('--bookmark-radius', `${radius * scale}px`);
+    doc.style.setProperty('--bookmark-thumbnail-size', `${Math.max(16, thumbnailSize * scale)}px`);
+    doc.style.setProperty('--bookmark-title-size', `${Math.max(10, titleSize * scale)}px`);
     doc.style.setProperty('--grid-column-gap', `${displayedHorizontalGap}px`);
     doc.style.setProperty('--grid-column-min-width', `${displayedTileSize}px`);
 
@@ -344,8 +334,7 @@ export default {
 
     return {
       ...gridLayout,
-      ...tileSizeLimits,
-      ...horizontalGapLimits,
+      ...responsiveLayout,
       horizontalGap: displayedHorizontalGap,
       tileSize: displayedTileSize
     };

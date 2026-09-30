@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import {
   getGridLayoutLimits,
   getHorizontalGapLimits,
+  getResponsiveTileLayout,
   getTileSizeLimits
 } from '../src/js/gridLayout';
 
@@ -72,5 +73,30 @@ describe('grid layout limits', () => {
       viewportWidth: 1280,
       availableWidth: 1152
     })).toEqual({ minimumHorizontalGap: 0, maximumHorizontalGap: 16 });
+  });
+});
+
+describe('responsive tile layout', () => {
+  const preferences = { columns: 7, tileSize: 200, horizontalGap: 20 };
+
+  it('fits a smaller device and restores the preferred size on a larger device', () => {
+    const layout = getResponsiveTileLayout({ ...preferences, availableWidth: 760 });
+    expect(layout).toEqual({ tileSize: 100, horizontalGap: 10, scale: 0.5 });
+    expect(layout.tileSize * 7 + layout.horizontalGap * 6).toBeLessThanOrEqual(760);
+    expect(preferences).toEqual({ columns: 7, tileSize: 200, horizontalGap: 20 });
+    expect(getResponsiveTileLayout({ ...preferences, availableWidth: 2000 }))
+      .toEqual({ tileSize: 200, horizontalGap: 20, scale: 1 });
+  });
+
+  it('keeps the minimum tile size and reduces gaps for a very narrow grid', () => {
+    expect(getResponsiveTileLayout({ ...preferences, availableWidth: 350 }))
+      .toEqual({ tileSize: 50, horizontalGap: 0, scale: 0.25 });
+  });
+
+  it('fits fractional widths and handles a single column without enlarging tiles', () => {
+    const layout = getResponsiveTileLayout({ ...preferences, availableWidth: 1053.3 });
+    expect(layout.tileSize * 7 + layout.horizontalGap * 6).toBeLessThanOrEqual(1053.3);
+    expect(getResponsiveTileLayout({ columns: 1, tileSize: 200, horizontalGap: 20, availableWidth: 100 }))
+      .toEqual({ tileSize: 100, horizontalGap: 10, scale: 0.5 });
   });
 });

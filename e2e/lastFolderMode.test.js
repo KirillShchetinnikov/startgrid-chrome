@@ -233,6 +233,7 @@ describe('limited last-folder mode', () => {
       expect(await options.$eval('#drag_and_drop', node => node.disabled)).toBe(false);
 
       await options.select('#home_sort_by', 'date');
+      await page.bringToFront();
       await page.waitForFunction(() => document.getElementById('quick_home_sort_by').value === 'date');
       expect(await page.$eval('#quick_drag_and_drop', node => ({
         hidden: node.closest('label').hidden, disabled: node.disabled
@@ -241,17 +242,21 @@ describe('limited last-folder mode', () => {
       expect(await page.$eval('#quick_home_sort_date_direction', node => node.disabled)).toBe(false);
       expect(await page.$eval('#quick_home_sort_alphabet_direction', node => node.disabled)).toBe(true);
       await page.select('#quick_home_sort_by', 'alphabet');
+      await options.bringToFront();
       await options.waitForFunction(() => document.getElementById('home_sort_by').value === 'alphabet');
       await page.select('#quick_home_sort_alphabet_direction', 'asc');
+      await options.bringToFront();
       await options.waitForFunction(() => document.getElementById('home_sort_alphabet_direction').value === 'asc');
 
       await options.$eval('#show_home_folders', node => node.click());
+      await page.bringToFront();
       await page.waitForFunction(() => !document.getElementById('quick_show_home_folders').checked);
       expect(await page.$eval('#quick_bookmarks_sorting_type', node => ({
         hidden: node.closest('label').hidden, disabled: node.disabled
       }))).toEqual({ hidden: false, disabled: true });
       expect(await worker.evaluate(async() => (await chrome.storage.local.get('settings')).settings.home_sort_by)).toBe('alphabet');
       await page.$eval('#quick_show_home_folders', node => node.click());
+      await options.bringToFront();
       await options.waitForFunction(() => document.getElementById('show_home_folders').checked);
       expect(await page.$eval('#quick_bookmarks_sorting_type', node => node.disabled)).toBe(false);
       expect(await options.$eval('#setting_show_usage_count', node => node.hidden)).toBe(false);
