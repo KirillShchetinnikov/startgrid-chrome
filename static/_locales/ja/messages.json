@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "ブロック全体をオン・オフにするか、展開して個別の設定を選択できます。数字は有効な項目数と全項目数です。"
+  },
+  "bookmark_title_font": {
+    "message": "ラベルのフォント"
+  },
+  "bookmark_title_font_default": {
+    "message": "既定 (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "太字のラベル"
+  },
+  "bookmark_title_italic": {
+    "message": "斜体のラベル"
   }
 }

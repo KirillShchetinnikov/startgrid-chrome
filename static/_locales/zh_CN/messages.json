@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "可开启或关闭整个分组，也可展开后选择单项设置。计数显示已开启的项目数和总数。"
+  },
+  "bookmark_title_font": {
+    "message": "标题字体"
+  },
+  "bookmark_title_font_default": {
+    "message": "默认 (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "粗体标题"
+  },
+  "bookmark_title_italic": {
+    "message": "斜体标题"
   }
 }

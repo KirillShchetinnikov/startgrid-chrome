@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-09-30
+> Last Updated: 2026-10-02
 
 ## Store Listing
 
@@ -13,6 +13,8 @@ StartGrid
 Customizable visual bookmarks on every new tab, using your existing Chrome bookmark tree.
 
 **Detailed Description**
+
+Choose a font for tile captions and combine bold and italic styles in quick or full settings.
 
 StartGrid replaces Chrome's new tab with a visual, customizable view of your existing bookmarks and folders. Optional folder markers can identify every folder with an image badge, title icon, folder tab, or accent border.
 
@@ -50,6 +52,8 @@ English
 | Small Promo Tile | 440×280 | ⬜ Not created | |
 
 ### Screenshot Notes
+
+Refresh quick and full settings screenshots to include the caption font selector and bold/italic controls, with an example of styled tile captions.
 
 Show a populated new-tab grid with the folder picker and search bar, a new-tab view with the redesigned grouped quick-settings panel open, then the full settings page demonstrating visual customization and thumbnail controls.
 
@@ -126,6 +130,7 @@ Refresh grid screenshots on both desktop and laptop widths to show adaptive sizi
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.3.3 | 2026-10-02 | Adds caption font selection and independent bold and italic styles in quick and full settings, with selective Chrome Sync. | GitHub release; Web Store submission pending |
 | 2.3.2 | 2026-09-30 | Fixes tile sizes being overwritten on startup or when opening settings. Tiles, spacing, images, and global captions adapt to smaller screens while saved preferences are preserved and restored on wider windows. | GitHub release; Web Store submission pending |
 | 2.3.1 | 2026-09-22 | Adds a global, optional folder marker with badge, title-icon, folder-tab, and accent-border styles for folders at every navigation level. | GitHub release; Web Store submission pending |
 | 2.3.0 | 2026-09-18 | Full/Fast performance modes, lower memory and background-tab work, global grouped sync selection, preservation of settings unknown to compatible older versions, protection against delayed sync writes, and reliable bookmark-dialog closing after a quick save. | GitHub release; Web Store submission pending |

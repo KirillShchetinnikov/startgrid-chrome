@@ -22,6 +22,7 @@ export const QUICK_SETTING_KEYS = Object.freeze([
   'download_favicons_by_default',
   'favicon_size',
   'bookmark_title_size',
+  'bookmark_title_font', 'bookmark_title_bold', 'bookmark_title_italic',
   'bookmark_title_position',
   'dial_shadow',
   'dial_hover_lift',

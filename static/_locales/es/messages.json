@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "Activa o desactiva un bloque completo, o ábrelo para elegir ajustes individuales. El contador muestra los elementos activados del total."
+  },
+  "bookmark_title_font": {
+    "message": "Fuente del título"
+  },
+  "bookmark_title_font_default": {
+    "message": "Predeterminada (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "Título en negrita"
+  },
+  "bookmark_title_italic": {
+    "message": "Título en cursiva"
   }
 }

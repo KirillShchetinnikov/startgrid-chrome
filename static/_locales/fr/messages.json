@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "Activez ou désactivez un bloc entier, ou développez-le pour choisir chaque paramètre. Le compteur indique le nombre d’éléments activés sur le total."
+  },
+  "bookmark_title_font": {
+    "message": "Police du titre"
+  },
+  "bookmark_title_font_default": {
+    "message": "Par défaut (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "Titre en gras"
+  },
+  "bookmark_title_italic": {
+    "message": "Titre en italique"
   }
 }

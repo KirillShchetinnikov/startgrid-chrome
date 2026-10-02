@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "Włącz lub wyłącz cały blok albo rozwiń go, aby wybrać poszczególne ustawienia. Licznik pokazuje liczbę włączonych pozycji względem wszystkich."
+  },
+  "bookmark_title_font": {
+    "message": "Czcionka podpisu"
+  },
+  "bookmark_title_font_default": {
+    "message": "Domyślna (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "Pogrubiony podpis"
+  },
+  "bookmark_title_italic": {
+    "message": "Podpis kursywą"
   }
 }

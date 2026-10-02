@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "可開啟或關閉整個群組，也可展開後選擇個別設定。計數顯示已開啟的項目數和總數。"
+  },
+  "bookmark_title_font": {
+    "message": "標題字型"
+  },
+  "bookmark_title_font_default": {
+    "message": "預設 (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "粗體標題"
+  },
+  "bookmark_title_italic": {
+    "message": "斜體標題"
   }
 }

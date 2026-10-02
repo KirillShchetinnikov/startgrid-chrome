@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "Kapcsolja be vagy ki az egész csoportot, vagy nyissa le az egyes beállítások kiválasztásához. A számláló a bekapcsolt elemek számát mutatja az összeshez képest."
+  },
+  "bookmark_title_font": {
+    "message": "Felirat betűtípusa"
+  },
+  "bookmark_title_font_default": {
+    "message": "Alapértelmezett (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "Félkövér felirat"
+  },
+  "bookmark_title_italic": {
+    "message": "Dőlt felirat"
   }
 }

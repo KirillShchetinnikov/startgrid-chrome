@@ -1,3 +1,4 @@
+import { BOOKMARK_TITLE_FONTS, normalizeBookmarkTitleFont } from '../bookmarkTypography';
 import { getFastBackground } from '../fastBackgroundCache';
 import { isFastMode } from '../performanceMode';
 import { getFastLocalBackground } from '../localBackgroundCache';
@@ -248,6 +249,10 @@ export default {
     doc.style.setProperty('--bookmark-aspect-ratio', aspectRatio);
     doc.style.setProperty('--bookmark-thumbnail-size', `${thumbnailSize}px`);
     doc.style.setProperty('--bookmark-title-size', `${titleSize}px`);
+    doc.style.setProperty('--bookmark-title-font',
+      BOOKMARK_TITLE_FONTS[normalizeBookmarkTitleFont(settings.effective.bookmark_title_font)]);
+    doc.style.setProperty('--bookmark-title-weight', settings.effective.bookmark_title_bold ? '700' : '400');
+    doc.style.setProperty('--bookmark-title-style', settings.effective.bookmark_title_italic ? 'italic' : 'normal');
     doc.style.setProperty('--bookmark-shadow-opacity', `${shadowOpacities.resting}%`);
     doc.style.setProperty('--bookmark-hover-shadow-opacity', `${shadowOpacities.hover}%`);
     doc.style.setProperty('--bookmark-hover-lift', `${hoverLift}px`);

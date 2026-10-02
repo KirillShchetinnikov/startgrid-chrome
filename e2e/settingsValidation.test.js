@@ -24,6 +24,24 @@ function mockStorage(storedSettings) {
 }
 
 describe('numeric settings validation', () => {
+  it('preserves old caption styling and validates font and emphasis on load and update', async() => {
+    mockStorage({ enable_sync: false });
+    const { settings } = await import('../src/js/settings');
+    await settings.init();
+    expect(settings.$.bookmark_title_font).toBe('default');
+    expect(settings.$.bookmark_title_bold).toBe(true);
+    expect(settings.$.bookmark_title_italic).toBe(false);
+    await settings.updateAll({ bookmark_title_font: 'georgia',
+      bookmark_title_bold: false, bookmark_title_italic: true });
+    expect(settings.$.bookmark_title_font).toBe('georgia');
+    expect(settings.$.bookmark_title_bold).toBe(false);
+    expect(settings.$.bookmark_title_italic).toBe(true);
+    await settings.updateAll({ bookmark_title_font: '__proto__',
+      bookmark_title_bold: 'false', bookmark_title_italic: 'true' });
+    expect(settings.$.bookmark_title_font).toBe('default');
+    expect(settings.$.bookmark_title_bold).toBe(true);
+    expect(settings.$.bookmark_title_italic).toBe(false);
+  });
   afterEach(() => {
     delete global.browser;
     jest.resetModules();

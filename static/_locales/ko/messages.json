@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "블록 전체를 켜거나 끄거나, 펼쳐서 개별 설정을 선택하세요. 숫자는 전체 항목 중 켜진 항목 수입니다."
+  },
+  "bookmark_title_font": {
+    "message": "제목 글꼴"
+  },
+  "bookmark_title_font_default": {
+    "message": "기본값 (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "굵은 제목"
+  },
+  "bookmark_title_italic": {
+    "message": "기울임 제목"
   }
 }

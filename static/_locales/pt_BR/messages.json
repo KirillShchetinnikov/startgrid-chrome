@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "Ative ou desative um bloco inteiro ou expanda-o para escolher configurações individuais. O contador mostra os itens ativados em relação ao total."
+  },
+  "bookmark_title_font": {
+    "message": "Fonte do título"
+  },
+  "bookmark_title_font_default": {
+    "message": "Padrão (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "Título em negrito"
+  },
+  "bookmark_title_italic": {
+    "message": "Título em itálico"
   }
 }

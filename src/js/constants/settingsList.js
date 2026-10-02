@@ -1,3 +1,4 @@
+import { bookmarkTitleFontOptions } from '../bookmarkTypography';
 import { getMessage, LANGUAGE_OPTIONS } from '../i18n';
 
 const columns = Array.from({ length: 10 }, (_, index) => ({
@@ -183,6 +184,22 @@ const appearanceSettings = [
       selectorOutput: '#bookmark_title_size_value',
       outputPostfix: 'px'
     }
+  },
+  {
+    id: 'bookmark_title_font',
+    title: getMessage('bookmark_title_font'),
+    type: 'select',
+    options: bookmarkTitleFontOptions(getMessage('bookmark_title_font_default'))
+  },
+  {
+    id: 'bookmark_title_bold',
+    title: getMessage('bookmark_title_bold'),
+    type: 'switch'
+  },
+  {
+    id: 'bookmark_title_italic',
+    title: getMessage('bookmark_title_italic'),
+    type: 'switch'
   },
   {
     id: 'bookmark_title_position',
@@ -808,6 +825,7 @@ export default [
         list: pickSettings(
           'show_bookmark_title',
           'bookmark_title_size',
+          'bookmark_title_font', 'bookmark_title_bold', 'bookmark_title_italic',
           'bookmark_title_position',
           'show_favicon',
           'folder_preview',

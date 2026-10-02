@@ -19,6 +19,7 @@ export function getSyncChoices(sections) {
     ['tile-background', 'dial_background_color', ['dial_background_color',
       'dial_background_opacity', 'dial_background_blur']],
     ['tile-content', 'settings_group_tile_content', ['show_bookmark_title', 'bookmark_title_size',
+      'bookmark_title_font', 'bookmark_title_bold', 'bookmark_title_italic',
       'bookmark_title_position', 'dial_title_color', 'show_favicon', 'folder_preview',
       'folder_marker_style']],
     ['search-folder', 'settings_group_search_folder', ['show_search', 'show_folder_picker',

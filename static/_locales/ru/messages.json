@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "Включайте и выключайте блок целиком или раскройте его, чтобы выбрать отдельные настройки. Счётчик показывает число включённых пунктов из общего количества."
+  },
+  "bookmark_title_font": {
+    "message": "Шрифт подписи"
+  },
+  "bookmark_title_font_default": {
+    "message": "По умолчанию (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "Жирный"
+  },
+  "bookmark_title_italic": {
+    "message": "Курсив"
   }
 }

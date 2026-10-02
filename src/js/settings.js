@@ -1,3 +1,4 @@
+import { normalizeBookmarkTitleFont } from './bookmarkTypography';
 import { getEffectiveSetting } from './performanceMode';
 import { storage } from './api/storage';
 import { getFolders, resolveFolderSyncPath } from './api/bookmark';
@@ -77,6 +78,9 @@ const DEFAULTS = Object.freeze({
   show_create_column: true,
   show_bookmark_title: true,
   bookmark_title_size: 14,
+  bookmark_title_font: 'default',
+  bookmark_title_bold: true,
+  bookmark_title_italic: false,
   bookmark_title_position: 'inside',
   show_favicon: true,
   open_bookmarks_newtab: false,
@@ -240,6 +244,9 @@ function sanitizeSettings(currentSettings, normalizeSearchEngines = true) {
   currentSettings.show_search = currentSettings.show_search !== false;
   currentSettings.show_folder_picker = currentSettings.show_folder_picker !== false;
   currentSettings.thumbnail_source = normalizeGlobalThumbnailSource(currentSettings.thumbnail_source);
+  currentSettings.bookmark_title_font = normalizeBookmarkTitleFont(currentSettings.bookmark_title_font);
+  currentSettings.bookmark_title_bold = currentSettings.bookmark_title_bold !== false;
+  currentSettings.bookmark_title_italic = currentSettings.bookmark_title_italic === true;
   if (!['inside', 'outside'].includes(currentSettings.bookmark_title_position)) {
     currentSettings.bookmark_title_position = DEFAULTS.bookmark_title_position;
   }

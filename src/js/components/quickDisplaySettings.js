@@ -1,3 +1,4 @@
+import { bookmarkTitleFontOptions } from '../bookmarkTypography';
 import { getFastBackground } from '../fastBackgroundCache';
 import {
   describeSettingAvailability, explainUnavailableSetting, initAvailabilityTooltips, syncSettingChoices
@@ -71,6 +72,7 @@ const STYLE_SETTINGS = new Set([
   'toolbar_background_opacity',
   'toolbar_background_blur',
   'favicon_size',
+  'bookmark_title_font', 'bookmark_title_bold', 'bookmark_title_italic',
   'bookmark_title_size'
 ]);
 
@@ -378,6 +380,15 @@ function createPanel() {
         <output id="quick_bookmark_title_size_value" for="quick_bookmark_title_size"></output>
       </span>
     </label>
+    <label class="quick-settings__field" for="quick_bookmark_title_font">
+      <span>${message('bookmark_title_font')}</span>
+      <select class="form-control" id="quick_bookmark_title_font" data-setting="bookmark_title_font">
+        ${bookmarkTitleFontOptions(message('bookmark_title_font_default')).map(option =>
+    `<option value="${option.value}">${option.title}</option>`).join('')}
+      </select>
+    </label>
+    ${createSwitch('bookmark_title_bold')}
+    ${createSwitch('bookmark_title_italic')}
     <label class="quick-settings__field" for="quick_bookmark_title_position">
       <span>${message('bookmark_title_position')}</span>
       <select class="form-control" id="quick_bookmark_title_position"

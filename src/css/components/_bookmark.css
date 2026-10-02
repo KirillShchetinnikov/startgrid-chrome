@@ -359,7 +359,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: var(--bookmark-title-size);
-  font-weight: 700;
+  font-family: var(--bookmark-title-font);
+  font-weight: var(--bookmark-title-weight);
+  font-style: var(--bookmark-title-style);
   letter-spacing: -0.01em;
   color: var(--bookmark-caption-color);
 }

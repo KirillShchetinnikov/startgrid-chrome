@@ -1141,5 +1141,17 @@
   "sync_selection_paused": {"message":"Enable Chrome Sync to change the global selection."},
   "sync_selection_pending": {"message":"Some changes have not synced yet. Local values are safe. Retry when sync is available; if storage is full, reduce the selected data."},
   "sync_selection_retry": {"message":"Retry sync"},
-  "sync_selection_blocks": {"message":"Switch an entire block on or off, or expand it to select individual settings. The counter shows enabled items out of the total."}
+  "sync_selection_blocks": {"message":"Switch an entire block on or off, or expand it to select individual settings. The counter shows enabled items out of the total."},
+  "bookmark_title_font": {
+    "message": "Caption font"
+  },
+  "bookmark_title_font_default": {
+    "message": "Default (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "Bold caption"
+  },
+  "bookmark_title_italic": {
+    "message": "Italic caption"
+  }
 }

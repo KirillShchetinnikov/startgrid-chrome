@@ -1336,5 +1336,17 @@
   },
   "sync_selection_blocks": {
     "message": "Schalte ganze Blöcke ein oder aus oder öffne sie, um einzelne Einstellungen auszuwählen. Der Zähler zeigt die Anzahl der aktivierten Einträge."
+  },
+  "bookmark_title_font": {
+    "message": "Schriftart der Beschriftung"
+  },
+  "bookmark_title_font_default": {
+    "message": "Standard (Inter)"
+  },
+  "bookmark_title_bold": {
+    "message": "Fette Beschriftung"
+  },
+  "bookmark_title_italic": {
+    "message": "Kursive Beschriftung"
   }
 }
