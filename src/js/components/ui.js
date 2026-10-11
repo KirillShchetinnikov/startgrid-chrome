@@ -294,7 +294,7 @@ export default {
       gridWidth: lsGridWidth,
       horizontalGap,
       tileSize,
-      viewportWidth: doc.clientWidth
+      viewportWidth: document.getElementById('main').clientWidth
     });
     const mediaQuery = window.matchMedia('(width > 480px)');
     const containerWidth = mediaQuery.matches ? gridLayout.gridWidth : 100;

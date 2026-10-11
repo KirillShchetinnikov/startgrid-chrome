@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-10-10
+> Last Updated: 2026-10-11
 
 ## Store Listing
 
@@ -17,6 +17,8 @@ Customizable visual bookmarks on every new tab, using your existing Chrome bookm
 Choose a font for tile captions and combine bold and italic styles in quick or full settings.
 
 Scroll the settings section list on short screens to reach every section, including on Steam Deck.
+
+Tile size and horizontal spacing controls stop at the available screen width while preserving preferences when resizing the window.
 
 StartGrid replaces Chrome's new tab with a visual, customizable view of your existing bookmarks and folders. Optional folder markers can identify every folder with an image badge, title icon, folder tab, or accent border.
 
@@ -134,6 +136,7 @@ Refresh the settings screenshot at a short viewport height to show the scrollabl
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.3.5 | 2026-10-11 | Restores screen-aware tile size and horizontal spacing limits in quick and full settings without overwriting preferences on smaller screens. | GitHub release; Web Store submission pending |
 | 2.3.4 | 2026-10-10 | Fixes settings section navigation being clipped on short screens by making the sidebar scrollable. | GitHub release; Web Store submission pending |
 | 2.3.3 | 2026-10-02 | Adds caption font selection and independent bold and italic styles in quick and full settings, with selective Chrome Sync. | GitHub release; Web Store submission pending |
 | 2.3.2 | 2026-09-30 | Fixes tile sizes being overwritten on startup or when opening settings. Tiles, spacing, images, and global captions adapt to smaller screens while saved preferences are preserved and restored on wider windows. | GitHub release; Web Store submission pending |

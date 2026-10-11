@@ -15,7 +15,7 @@ import { updateMainPageScrollLock } from '../mainPageScroll';
 import { cssColorToHex } from '../tileAppearance';
 import { QUICK_SETTING_KEYS } from '../quickSettings';
 import { scaleTileContentSettings } from '../tileSizeSync';
-import { GRID_WIDTH_LIMITS, HORIZONTAL_GAP_LIMITS, TILE_SIZE_LIMITS } from '../gridLayout';
+import { getGridSettingsLimits } from '../gridControls';
 import { getFolders } from '../api/bookmark';
 import { updateDefaultFolder } from '../defaultFolderSettings';
 import { renderFolderOptions, replaceFolderOptions } from './vb-select';
@@ -717,11 +717,7 @@ export default function initQuickDisplaySettings({
 
   function syncControls() {
     UI.calculateStyles();
-    const gridLimits = {
-      dial_width: GRID_WIDTH_LIMITS,
-      dial_tile_size: TILE_SIZE_LIMITS,
-      dial_horizontal_gap: HORIZONTAL_GAP_LIMITS
-    };
+    const gridLimits = getGridSettingsLimits(settings.$);
     panel.querySelectorAll('[data-setting]').forEach(control => {
       const key = control.dataset.setting;
       const value = settings.$[key];
@@ -973,6 +969,9 @@ export default function initQuickDisplaySettings({
     if (event.key === 'Escape' && !panel.hidden) togglePanel(false);
   });
 
+  window.addEventListener('resize', () => {
+    if (!panel.hidden) syncControls();
+  });
   syncControls();
   async function loadPersistentControls() {
     try {

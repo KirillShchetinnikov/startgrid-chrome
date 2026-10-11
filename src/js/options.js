@@ -43,7 +43,7 @@ import initKeyboardShortcutSettings from './components/keyboardShortcutSettings'
 import initSyncSelection from './components/syncSelection';
 import { SYNC_STATE_KEY, SYNC_ERROR_KEY, equal } from './selectiveSync';
 import { cssColorToHex } from './tileAppearance';
-import { GRID_WIDTH_LIMITS, HORIZONTAL_GAP_LIMITS, TILE_SIZE_LIMITS } from './gridLayout';
+import { getGridSettingsLimits } from './gridControls';
 import { scaleTileContentSettings } from './tileSizeSync';
 import { exportSettings, SETTINGS_JSON_FILE_TYPES } from './settingsExport';
 import { matchesSettingsSearch } from './settingsSearch';
@@ -115,6 +115,8 @@ async function init() {
   });
 
   syncGridControls();
+
+  window.addEventListener('resize', syncGridControls);
 
   await window.vbToggleTheme();
 
@@ -792,7 +794,8 @@ async function handleSetOptions(e) {
   if (id === 'background_image') toggleBackgroundControls(settings.$.background_image);
   relationToggleOption(target);
 
-  if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap'].includes(id)) {
+  if (['dial_columns', 'dial_width', 'dial_tile_size', 'dial_horizontal_gap',
+    'show_settings_icon', 'show_quick_settings_icon', 'thumbnails_update_button'].includes(id)) {
     syncGridControls();
   }
 
@@ -831,11 +834,7 @@ function syncTileContentControls(tileContentSettings) {
 }
 
 function syncGridControls() {
-  const limits = {
-    dial_width: GRID_WIDTH_LIMITS,
-    dial_tile_size: TILE_SIZE_LIMITS,
-    dial_horizontal_gap: HORIZONTAL_GAP_LIMITS
-  };
+  const limits = getGridSettingsLimits(settings.$);
   Object.entries(limits).forEach(([key, { min, max }]) => {
     const control = document.getElementById(key);
     if (!control) return;

@@ -1,12 +1,47 @@
 import { describe, expect, it } from '@jest/globals';
 import {
   getGridLayoutLimits,
+  getGridControlLimits,
   getHorizontalGapLimits,
   getResponsiveTileLayout,
   getTileSizeLimits
 } from '../src/js/gridLayout';
 
 describe('grid layout limits', () => {
+  it('stops manual growth before tiles or gaps need responsive shrinking', () => {
+    for (const viewportWidth of [640, 800, 1280, 1920]) {
+      for (const columns of [1, 3, 7, 10]) {
+        const inlinePadding = viewportWidth <= 768 ? 50 : 62;
+        const availableWidth = Math.min(viewportWidth * 0.99, viewportWidth - 2 * inlinePadding);
+        const limits = getGridControlLimits({
+          columns, tileSize: 50, horizontalGap: 0, viewportWidth, inlinePadding
+        });
+        const tileSize = limits.dial_tile_size.max;
+        expect(tileSize * columns).toBeLessThanOrEqual(availableWidth);
+        const gapLimits = getGridControlLimits({
+          columns, tileSize, horizontalGap: 0, viewportWidth, inlinePadding
+        });
+        expect(tileSize * columns + (columns - 1) * gapLimits.dial_horizontal_gap.max)
+          .toBeLessThanOrEqual(availableWidth);
+      }
+    }
+  });
+
+  it('preserves oversized preferences but prevents increasing them on a small screen', () => {
+    const preferences = { columns: 7, tileSize: 200, horizontalGap: 20, inlinePadding: 62 };
+    expect(getGridControlLimits({ ...preferences, viewportWidth: 800 }).dial_tile_size.max).toBe(200);
+    expect(getGridControlLimits({ ...preferences, viewportWidth: 2400 }).dial_tile_size.max).toBe(300);
+    expect(preferences.tileSize).toBe(200);
+  });
+
+  it('reserves corner-control padding when computing the maximum', () => {
+    const limits = getGridControlLimits({
+      columns: 7, tileSize: 100, horizontalGap: 20, viewportWidth: 1280, inlinePadding: 62
+    });
+    expect(limits.dial_tile_size.max).toBe(148);
+    expect(limits.dial_horizontal_gap.max).toBe(76);
+  });
+
   it('keeps ten 50px tiles within a 99% grid without changing the column count', () => {
     expect(getGridLayoutLimits({
       columns: 10,

@@ -2,6 +2,31 @@ export const GRID_WIDTH_LIMITS = Object.freeze({ min: 50, max: 99 });
 export const TILE_SIZE_LIMITS = Object.freeze({ min: 50, max: 300 });
 export const HORIZONTAL_GAP_LIMITS = Object.freeze({ min: 0, max: 160 });
 
+// The grid can expand up to 99%, but must leave room for the corner controls.
+// Keep larger saved preferences reachable on smaller screens without allowing
+// further growth. Merely opening settings or resizing must never rewrite them.
+export function getGridControlLimits({
+  columns, tileSize, horizontalGap, viewportWidth, contentWidth = viewportWidth, inlinePadding = 0
+}) {
+  const availableWidth = Math.max(0, Math.min(
+    contentWidth * (viewportWidth <= 480 ? 1 : GRID_WIDTH_LIMITS.max / 100),
+    contentWidth - 2 * inlinePadding
+  ));
+  const { maximumTileSize } = getTileSizeLimits({ columns, horizontalGap, availableWidth });
+  const { maximumHorizontalGap } = getHorizontalGapLimits({ columns, tileSize, availableWidth });
+  return {
+    dial_width: GRID_WIDTH_LIMITS,
+    dial_tile_size: {
+      min: TILE_SIZE_LIMITS.min,
+      max: Math.max(maximumTileSize, clamp(tileSize, 50, 300, 100))
+    },
+    dial_horizontal_gap: {
+      min: HORIZONTAL_GAP_LIMITS.min,
+      max: Math.max(maximumHorizontalGap, clamp(horizontalGap, 0, 160, 16))
+    }
+  };
+}
+
 function clamp(value, min, max, fallback) {
   const number = Number.parseInt(value, 10);
   return Number.isFinite(number)
