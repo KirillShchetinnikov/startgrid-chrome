@@ -1263,6 +1263,9 @@
   "performance_mode": {
     "message": "Режим работы"
   },
+  "performance_mode_details": {
+    "message": "О режимах"
+  },
   "performance_mode_full": {
     "message": "Полный"
   },

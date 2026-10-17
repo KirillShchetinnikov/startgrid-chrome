@@ -7,25 +7,28 @@ export function initPerformanceModeControl(container) {
   const legend = document.createElement('legend');
   legend.textContent = getMessage('performance_mode');
   fieldset.append(legend);
-  const choices = document.createElement('div');
+  const choices = document.createElement('select');
   choices.className = 'performance-mode__choices';
+  choices.id = 'performance_mode';
+  choices.name = 'performance_mode';
+  choices.setAttribute('aria-label', getMessage('performance_mode'));
   ['full', 'fast'].forEach(mode => {
-    const label = document.createElement('label');
-    const radio = document.createElement('input');
-    radio.type = 'radio';
-    radio.name = 'performance_mode';
-    radio.value = mode;
-    radio.checked = settings.$.performance_mode === mode;
-    const text = document.createElement('span');
-    text.textContent = getMessage(`performance_mode_${mode}`);
-    label.append(radio, text);
-    choices.append(label);
+    const option = document.createElement('option');
+    option.value = mode;
+    option.selected = settings.$.performance_mode === mode;
+    option.textContent = getMessage(`performance_mode_${mode}`);
+    choices.append(option);
   });
   const description = document.createElement('p');
   description.id = 'performance-mode-description';
   description.textContent = getMessage('performance_mode_description');
   fieldset.setAttribute('aria-describedby', description.id);
-  fieldset.append(choices, description);
+  const details = document.createElement('details');
+  details.className = 'performance-mode__details';
+  const summary = document.createElement('summary');
+  summary.textContent = getMessage('performance_mode_details');
+  details.append(summary, description);
+  fieldset.append(choices, details);
   container.replaceChildren(fieldset);
   fieldset.addEventListener('change', async event => {
     if (event.target.name !== 'performance_mode') return;
@@ -35,9 +38,7 @@ export function initPerformanceModeControl(container) {
       window.location.reload();
     } catch (error) {
       fieldset.disabled = false;
-      choices.querySelectorAll('input').forEach(input => {
-        input.checked = input.value === settings.$.performance_mode;
-      });
+      choices.value = settings.$.performance_mode;
       console.warn('Could not save performance mode', error);
     }
   });

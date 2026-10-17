@@ -1263,6 +1263,9 @@
   "performance_mode": {
     "message": "Mode de performance"
   },
+  "performance_mode_details": {
+    "message": "À propos des modes"
+  },
   "performance_mode_full": {
     "message": "Complet"
   },

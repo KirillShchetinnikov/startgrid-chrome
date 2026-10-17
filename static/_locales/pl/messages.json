@@ -1263,6 +1263,9 @@
   "performance_mode": {
     "message": "Tryb wydajności"
   },
+  "performance_mode_details": {
+    "message": "O trybach"
+  },
   "performance_mode_full": {
     "message": "Pełny"
   },

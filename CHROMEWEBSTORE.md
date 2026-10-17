@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-10-11
+> Last Updated: 2026-10-17
 
 ## Store Listing
 
@@ -17,6 +17,8 @@ Customizable visual bookmarks on every new tab, using your existing Chrome bookm
 Choose a font for tile captions and combine bold and italic styles in quick or full settings.
 
 Scroll the settings section list on short screens to reach every section, including on Steam Deck.
+
+Use a nearly full-height settings page with independently scrolling sections, a compact performance-mode control in the sidebar, and the current version beside the project GitHub link.
 
 Tile size and horizontal spacing controls stop at the available screen width while preserving preferences when resizing the window.
 
@@ -130,12 +132,15 @@ Tiles adapt to narrower windows and smaller screens without overwriting your pre
 
 ## Version History
 
+Refresh full settings screenshots at desktop, narrow and short viewport sizes to show the new sidebar, section icons, Full/Fast dropdown and expanded search field.
+
 Refresh grid screenshots on both desktop and laptop widths to show adaptive sizing.
 
 Refresh the settings screenshot at a short viewport height to show the scrollable section list.
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.3.6 | 2026-10-17 | Redesigned full settings as a nearly full-height panel with independently scrolling navigation, section icons, a compact Full/Fast dropdown with expandable help, GitHub with the installed version, wider search and section labels that wrap only between words. | GitHub release; Web Store submission pending |
 | 2.3.5 | 2026-10-11 | Restores screen-aware tile size and horizontal spacing limits in quick and full settings without overwriting preferences on smaller screens. | GitHub release; Web Store submission pending |
 | 2.3.4 | 2026-10-10 | Fixes settings section navigation being clipped on short screens by making the sidebar scrollable. | GitHub release; Web Store submission pending |
 | 2.3.3 | 2026-10-02 | Adds caption font selection and independent bold and italic styles in quick and full settings, with selective Chrome Sync. | GitHub release; Web Store submission pending |

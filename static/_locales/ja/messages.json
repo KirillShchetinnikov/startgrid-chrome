@@ -1263,6 +1263,9 @@
   "performance_mode": {
     "message": "動作モード"
   },
+  "performance_mode_details": {
+    "message": "モードについて"
+  },
   "performance_mode_full": {
     "message": "フル"
   },

@@ -83,6 +83,10 @@ async function init() {
   );
 
   window.settings.innerHTML = displaySettings(settingsList);
+  document.querySelector('.settings-sidebar__header').append(document.getElementById('back_to_main'));
+  document.querySelector('.settings-sidebar__bottom').append(
+    document.getElementById('performance_mode_control'), document.querySelector('.footer')
+  );
 
   await settings.init();
   initPerformanceModeControl(document.getElementById('performance_mode_control'));
@@ -169,7 +173,6 @@ async function init() {
   initSettingsNavigation();
 
   const manifest = browser.runtime.getManifest();
-  document.getElementById('ext_name').textContent = manifest.name;
   document.getElementById('ext_version').textContent = `${getMessage('version')} ${manifest.version}`;
 
   searchEngineSettingsInstance = initSearchEngineSettings({

@@ -252,6 +252,10 @@ function createRow(setting, row = false) {
 }
 
 export function displaySettings(settings) {
+  const sectionIcons = {
+    appearance: 'palette', bookmarks: 'bookmarks', search: 'search',
+    thumbnails: 'image_outline', controls: 'keyboard', data: 'database'
+  };
   const navigation = [];
   const mobileNavigation = [];
   const panels = [];
@@ -262,6 +266,9 @@ export function displaySettings(settings) {
     navigation.push(`<button class="settings-nav__item" id="${navigationId}" type="button"
       role="tab" data-section-id="${setting.id}" aria-selected="false"
       aria-controls="${panelId}" tabindex="-1">
+      <svg class="settings-nav__icon" width="16" height="16" aria-hidden="true" focusable="false">
+        <use href="/img/symbol.svg#${sectionIcons[setting.id]}"></use>
+      </svg>
       <span class="settings-nav__label">${setting.key}</span>
     </button>`);
     mobileNavigation.push(`<option value="${setting.id}">${setting.key}</option>`);
@@ -299,7 +306,9 @@ export function displaySettings(settings) {
   return (/* html*/
   `<div class="settings-shell">
       <aside class="settings-sidebar">
-        <h1 class="settings-sidebar__title">${getMessage('options')}</h1>
+        <header class="settings-sidebar__header">
+          <h1 class="settings-sidebar__title">StartGrid</h1>
+        </header>
         <nav class="settings-nav" role="tablist" aria-orientation="vertical">
           ${navigation.join('')}
         </nav>
@@ -309,6 +318,7 @@ export function displaySettings(settings) {
             ${mobileNavigation.join('')}
           </select>
         </label>
+        <div class="settings-sidebar__bottom"></div>
       </aside>
       <main class="settings-main">
         <header class="settings-toolbar">

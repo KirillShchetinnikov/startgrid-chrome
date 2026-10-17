@@ -12,10 +12,11 @@ describe('Full / Fast mode in the extension', () => {
     await options.bringToFront();
     await Promise.all([
       page.waitForNavigation(), options.waitForNavigation(),
-      options.$eval(`input[name="performance_mode"][value="${mode}"]`, input => input.click())
+      options.select('select[name="performance_mode"]', mode)
     ]);
     await options.waitForSelector('#setting_dial_shadow');
     await options.waitForSelector('body:not([data-options-loading])');
+    expect(await options.$$eval('.settings-nav__icon use', icons => icons.length)).toBe(6);
     await page.waitForSelector(`#vb-${bookmarkId}`);
   }
 
@@ -81,6 +82,44 @@ describe('Full / Fast mode in the extension', () => {
 
   afterAll(async() => { await browser?.close(); });
 
+  it('keeps the sidebar and settings independently usable in short and narrow windows', async() => {
+    await options.waitForSelector('body:not([data-options-loading])');
+    for (const viewport of [
+      { width: 1280, height: 900 }, { width: 1024, height: 400 },
+      { width: 500, height: 500 }, { width: 320, height: 568 }
+    ]) {
+      await options.setViewport(viewport);
+      const layout = await options.evaluate(() => {
+        const shell = document.querySelector('.settings-shell').getBoundingClientRect();
+        const nav = document.querySelector('.settings-nav');
+        const mode = document.querySelector('#performance_mode_control').getBoundingClientRect();
+        const footer = document.querySelector('.footer').getBoundingClientRect();
+        nav.scrollTop = nav.scrollHeight;
+        const last = nav.lastElementChild.getBoundingClientRect();
+        const navRect = nav.getBoundingClientRect();
+        return {
+          fillsHeight: shell.height >= innerHeight - 26,
+          navigationReachable: last.bottom <= navRect.bottom + 1 && last.top >= navRect.top - 1,
+          modeVisible: mode.top >= shell.top && mode.bottom <= shell.bottom,
+          footerVisible: footer.bottom <= shell.bottom,
+          contentHeight: document.querySelector('.settings-viewport').clientHeight,
+          version: document.querySelector('#ext_version').textContent,
+          bodyFits: document.documentElement.scrollWidth <= innerWidth
+        };
+      });
+      expect(layout).toMatchObject({
+        fillsHeight: true, navigationReachable: true, modeVisible: true, footerVisible: true, bodyFits: true
+      });
+      expect(layout.contentHeight).toBeGreaterThan(100);
+      const version = await worker.evaluate(() => chrome.runtime.getManifest().version);
+      expect(layout.version).toContain(version);
+      await options.click('.settings-nav__item[data-section-id="data"]');
+      expect(await options.$eval('#settings-panel-data', panel => panel.hidden)).toBe(false);
+      await options.click('.settings-nav__item[data-section-id="appearance"]');
+    }
+    await options.setViewport({ width: 1280, height: 900 });
+  });
+
   it('switches every open page, preserves raw values, disables effects and hides quick controls', async() => {
     await switchMode('fast');
     expect(await page.evaluate(() => document.documentElement.dataset.performanceMode)).toBe('fast');
@@ -91,8 +130,8 @@ describe('Full / Fast mode in the extension', () => {
     expect(await options.$eval('#home_sort_by', input => input.disabled)).toBe(false);
     expect(await options.$eval('#background_image option[value="background_local"]', option => option.textContent))
       .toBe('Image from computer');
-    expect(await options.evaluate(() => document.querySelector('#performance_mode_control').getBoundingClientRect().top
-      >= document.querySelector('#settings').getBoundingClientRect().bottom)).toBe(true);
+    expect(await options.$eval('.settings-sidebar', sidebar =>
+      sidebar.contains(document.querySelector('#performance_mode_control')))).toBe(true);
     expect(await page.$eval(`#vb-${bookmarkId}`, tile => ({
       image: tile.getAttribute('image'), transition: getComputedStyle(tile).transitionDuration,
       shadow: getComputedStyle(tile).boxShadow

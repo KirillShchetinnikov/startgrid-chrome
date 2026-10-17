@@ -1263,6 +1263,9 @@
   "performance_mode": {
     "message": "Teljesítménymód"
   },
+  "performance_mode_details": {
+    "message": "A módokról"
+  },
   "performance_mode_full": {
     "message": "Teljes"
   },

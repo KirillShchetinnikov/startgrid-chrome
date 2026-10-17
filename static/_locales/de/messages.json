@@ -1263,6 +1263,9 @@
   "performance_mode": {
     "message": "Leistungsmodus"
   },
+  "performance_mode_details": {
+    "message": "Über die Modi"
+  },
   "performance_mode_full": {
     "message": "Vollständig"
   },

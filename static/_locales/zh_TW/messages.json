@@ -1263,6 +1263,9 @@
   "performance_mode": {
     "message": "效能模式"
   },
+  "performance_mode_details": {
+    "message": "關於模式"
+  },
   "performance_mode_full": {
     "message": "完整"
   },
