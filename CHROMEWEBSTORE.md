@@ -20,6 +20,8 @@ Scroll the settings section list on short screens to reach every section, includ
 
 Use a nearly full-height settings page with independently scrolling sections, a compact performance-mode control in the sidebar, and the current version beside the project GitHub link.
 
+Scan settings more easily with labels and descriptions aligned to the left edge of each card.
+
 Tile size and horizontal spacing controls stop at the available screen width while preserving preferences when resizing the window.
 
 StartGrid replaces Chrome's new tab with a visual, customizable view of your existing bookmarks and folders. Optional folder markers can identify every folder with an image badge, title icon, folder tab, or accent border.
@@ -58,6 +60,8 @@ English
 | Small Promo Tile | 440×280 | ⬜ Not created | |
 
 ### Screenshot Notes
+
+Refresh full settings screenshots to show left-aligned setting labels and descriptions.
 
 Refresh quick and full settings screenshots to include the caption font selector and bold/italic controls, with an example of styled tile captions.
 
@@ -140,6 +144,7 @@ Refresh the settings screenshot at a short viewport height to show the scrollabl
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.3.7 | 2026-10-17 | Left-aligned labels and descriptions on the full settings page for easier scanning. | GitHub release; Web Store submission pending |
 | 2.3.6 | 2026-10-17 | Redesigned full settings as a nearly full-height panel with independently scrolling navigation, section icons, a compact Full/Fast dropdown with expandable help, GitHub with the installed version, wider search and section labels that wrap only between words. | GitHub release; Web Store submission pending |
 | 2.3.5 | 2026-10-11 | Restores screen-aware tile size and horizontal spacing limits in quick and full settings without overwriting preferences on smaller screens. | GitHub release; Web Store submission pending |
 | 2.3.4 | 2026-10-10 | Fixes settings section navigation being clipped on short screens by making the sidebar scrollable. | GitHub release; Web Store submission pending |
