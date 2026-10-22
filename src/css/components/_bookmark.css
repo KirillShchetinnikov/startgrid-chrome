@@ -338,6 +338,7 @@
   box-sizing: border-box;
   width: 100%;
   height: min(22%, 26px);
+  min-height: min-content;
   padding-inline: 6px;
   line-height: 1;
   white-space: nowrap;
@@ -355,6 +356,7 @@
 
 .bookmark__title {
   min-width: 0;
+  line-height: normal;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
