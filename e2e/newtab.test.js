@@ -44,6 +44,10 @@ async function createSetupBookmark(page, bookmark) {
     if (!add.isConnected) throw new Error('Setup add button is detached');
     add.click();
   });
+  await page.waitForFunction(() => {
+    const modal = document.getElementById('modal').instance;
+    return modal._isOpen && !modal._isTransitiong;
+  });
   await page.evaluate(({ title, url }) => {
     document.getElementById('title').value = title;
     document.getElementById('url').value = url;
@@ -60,6 +64,11 @@ async function createSetupBookmark(page, bookmark) {
         .filter(node => node.textContent === expectedTitle).length === 1
     );
   }, {}, bookmark.title);
+  await page.waitForFunction(() => {
+    const modal = document.getElementById('modal').instance;
+    return !modal._isOpen && !modal._isTransitiong
+      && !document.getElementById('saveBookmarkBtn').disabled;
+  });
 }
 
 async function getActiveSearchEvidence(page, query) {

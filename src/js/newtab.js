@@ -98,6 +98,8 @@ const asideControlsNode = document.getElementById('aside_controls');
 const extensionIconNode = document.getElementById('extension_icon');
 let multipleSelectedBookmarks = [];
 let lastSelectedBookmark = null;
+let selectionPanelRequest = 0;
+let bookmarkSubmitPending = false;
 let isGenerateThumbs = false;
 let modalApi;
 let modalReady = Promise.resolve();
@@ -459,7 +461,7 @@ async function handleKeyboardShortcutAction(action) {
 async function selectAllBookmarks() {
   if (isGenerateThumbs) return;
 
-  const bookmarks = Array.from(container.querySelectorAll('.bookmark'));
+  const bookmarks = Array.from(container.querySelectorAll('.bookmark')).filter(bookmark => !bookmark.hidden);
   if (!bookmarks.length) return;
 
   bookmarks.forEach(bookmark => bookmark.setAttribute('data-selected', ''));
@@ -487,7 +489,7 @@ function handleSelectBookmark(e) {
     ? e.ctrlKey || e.metaKey
     : e.shiftKey;
   if (rangeModifierPressed) {
-    const bookmarkNodes = Array.from(document.querySelectorAll('.bookmark'));
+    const bookmarkNodes = Array.from(container.querySelectorAll('.bookmark')).filter(node => !node.hidden);
     // find a range of bookmarks
     const startIndex = bookmarkNodes.findIndex(bookmarkNode => bookmarkNode === bookmark);
     const endIndex = bookmarkNodes.findIndex(bookmarkNode => bookmarkNode === (lastSelectedBookmark ?? bookmark));
@@ -527,23 +529,32 @@ function dispatchSelectedBookmarks() {
 async function showControlMultiplyBookmarks() {
   dispatchSelectedBookmarks();
 
-  if (document.getElementById('bookmarks-panel')) return;
+  const existing = document.getElementById('bookmarks-panel');
+  if (existing && !existing.dataset.closing) {
+    existing.selectedParentFolders = multipleSelectedBookmarks.map(bookmark => bookmark.parentId);
+    return;
+  }
+  existing?.remove();
+  const requestId = ++selectionPanelRequest;
+  const folders = await getFolders();
+  if (requestId !== selectionPanelRequest || !multipleSelectedBookmarks.length) return;
 
   const vbBookmarksPanel = $createElement('vb-bookmarks-panel', {
     id: 'bookmarks-panel',
     class: 'bookmarks-panel'
   });
   vbBookmarksPanel.selectedFolder = getCurrentFolderId() || settings.defaultFolderId;
+  vbBookmarksPanel.selectedParentFolders = multipleSelectedBookmarks.map(bookmark => bookmark.parentId);
   vbBookmarksPanel.allowThumbnailUpdates = !isFastMode(settings.$) && Bookmarks.isDefaultFolder();
-  vbBookmarksPanel.folders = await getFolders();
+  vbBookmarksPanel.folders = folders;
 
   document.body.append(vbBookmarksPanel);
   vbBookmarksPanel.show();
 }
 
 async function hideControlMultiplyBookmarks() {
+  selectionPanelRequest += 1;
   const vbBookmarksPanel = document.getElementById('bookmarks-panel');
-  if (!vbBookmarksPanel) return;
   // we need reset reset lastSelectedBookmark
   lastSelectedBookmark = null;
 
@@ -552,6 +563,8 @@ async function hideControlMultiplyBookmarks() {
 
   dispatchSelectedBookmarks();
 
+  if (!vbBookmarksPanel || vbBookmarksPanel.dataset.closing) return;
+  vbBookmarksPanel.dataset.closing = 'true';
   await vbBookmarksPanel.hide();
   vbBookmarksPanel.remove();
 }
@@ -593,7 +606,15 @@ function handlePopstate(event) {
   // when navigating through the history
   // hide the context menu or the modal window if they are active
   ctxMenuEl.close();
-  modalApi.close();
+  const popup = document.getElementById('popup');
+  if (popup?.instance) {
+    // Close in stack order, including Back during a popup's opening animation.
+    popup.addEventListener('gmodal:close', () => modalApi.close(), { once: true });
+    popup.addEventListener('gmodal:open', () => popup.instance?.close(), { once: true });
+    popup.instance.close();
+  } else {
+    modalApi.close();
+  }
   restoreFolderFromHistory(event.state);
 }
 
@@ -670,6 +691,10 @@ async function handleDelegateClick(evt) {
   } else if (evt.target.closest('.bookmark')) {
     const bookmark = evt.target.closest('.bookmark');
     const url = bookmark.href;
+    if (eventMatchesSelectionModifier(evt, settings.effective.keyboard_shortcuts.select_multiple_bookmarks)) {
+      evt.preventDefault();
+      return;
+    }
 
     if (bookmark.isFolder && !evt.shiftKey && !evt.ctrlKey && !evt.metaKey && !evt.altKey) {
       evt.preventDefault();
@@ -1209,6 +1234,20 @@ function withThumbnailErrors(handler) {
 }
 
 async function handleSubmitForm(evt) {
+  evt.preventDefault();
+  if (bookmarkSubmitPending) return;
+  bookmarkSubmitPending = true;
+  const saveButton = document.getElementById('saveBookmarkBtn');
+  saveButton.disabled = true;
+  try {
+    return await saveBookmarkForm(evt);
+  } finally {
+    bookmarkSubmitPending = false;
+    saveButton.disabled = false;
+  }
+}
+
+async function saveBookmarkForm(evt) {
   const form = evt.target;
   evt.preventDefault();
   const id = form.dataset.createdBookmarkId || form.getAttribute('data-action');

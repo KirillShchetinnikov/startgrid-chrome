@@ -1,6 +1,7 @@
 import { normalizeBookmarkTitleFont } from './bookmarkTypography';
 import { getEffectiveSetting } from './performanceMode';
 import { storage } from './api/storage';
+import { isBookmarkTextPreferenceKey } from './api/bookmarkTextPreferences';
 import { getFolders, resolveFolderSyncPath } from './api/bookmark';
 import { DEFAULT_BOOKMARKS_FOLDER } from './constants';
 import {
@@ -699,9 +700,10 @@ const settingsStore = () => {
 
     clearLocalCache() {
       return withSettingsLock(async() => {
-        const saved = await storage.local.get(['settings', SYNC_STATE_KEY, SYNC_QUOTA_ERROR_KEY, SYNC_ERROR_KEY]);
-        await storage.local.clear();
-        await storage.local.set(saved);
+        const savedKeys = new Set(['settings', SYNC_STATE_KEY, SYNC_QUOTA_ERROR_KEY, SYNC_ERROR_KEY]);
+        const current = await storage.local.get(null);
+        const cacheKeys = Object.keys(current).filter(key => !savedKeys.has(key) && !isBookmarkTextPreferenceKey(key));
+        if (cacheKeys.length) await storage.local.remove(cacheKeys);
         localStorage.clear();
       });
     },

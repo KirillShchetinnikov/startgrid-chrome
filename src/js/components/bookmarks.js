@@ -98,9 +98,11 @@ const Bookmarks = (() => {
   let hasSearch = false;
   let lastSearchQuery = '';
   let vbHeader = null;
+  let searchHandler = null;
   const faviconCache = new Map();
 
   function resetBookmarkSearch() {
+    searchHandler?.cancel();
     hasSearch = false;
     lastSearchQuery = '';
     activeSearchRequest += 1;
@@ -114,6 +116,7 @@ const Bookmarks = (() => {
   } = {}) {
     if (!vbHeader) return;
 
+    if (!showSearch) searchHandler?.cancel();
     if (!showSearch && hasSearch) {
       vbHeader.clearBookmarkSearch();
       resetBookmarkSearch();
@@ -187,7 +190,7 @@ const Bookmarks = (() => {
     document.querySelector('header').append(vbHeader);
     await vbHeader.ready;
 
-    const searchHandler = $debounce(({ detail }) => {
+    searchHandler = $debounce(({ detail }) => {
       if (!detail.isBookmarksEngine) {
         if (hasSearch) {
           hasSearch = false;
@@ -217,6 +220,7 @@ const Bookmarks = (() => {
 
     // Change the current dial without changing the new-tab URL.
     document.addEventListener('folderNavigate', async function({ detail }) {
+      searchHandler?.cancel();
       const folderId = detail.folderId;
       activeSearchRequest += 1;
       updateBookmarkFolderState(!isHomeLayout(folderId));
@@ -664,9 +668,10 @@ const Bookmarks = (() => {
       && !options.isSearch
       && settings.effective.home_sort_by === 'usage'
       && settings.effective.show_usage_count;
+    const visibleBookmarks = arr.filter(bookmark => !Object.hasOwn(bookmarksToDelete, String(bookmark.id)));
     const bookmarksArr = isHomeFolder && !options.isSearch
-      ? sortHomeBookmarks(arr, settings.effective, usageCounts)
-      : sortNestedBookmarks(arr, settings.effective.navigation_sort_by);
+      ? sortHomeBookmarks(visibleBookmarks, settings.effective, usageCounts)
+      : sortNestedBookmarks(visibleBookmarks, settings.effective.navigation_sort_by);
 
     // Only direct children of the configured home folder may have thumbnails.
     const bookmarksIds = bookmarksArr
@@ -1022,7 +1027,8 @@ const Bookmarks = (() => {
     // parent folder cannot be placed in child folder
     // remove this folder from the array selected bookmarks
     // but first we make a shallow copy of the array so as not to mutate the original
-    const cloneSelectedBookmarks = [...selectedBookmarks];
+    const cloneSelectedBookmarks = selectedBookmarks
+      .filter(bookmark => String(bookmark.parentId) !== String(destinationId));
 
     for (let i = 0; i < cloneSelectedBookmarks.length; i++) {
       const bookmark = cloneSelectedBookmarks[i];
@@ -1108,10 +1114,11 @@ const Bookmarks = (() => {
     }
   }
 
-  function requestRemoteThumbnail(id, url, options = {}) {
+  async function requestRemoteThumbnail(id, url, options = {}) {
     const operation = options.source === 'favicon' ? 'favicon' : 'url';
     const validation = validateThumbnailRequest(url, operation);
     if (!validation.success) return Promise.resolve(validation);
+    const expectedRevision = (await ImageDB.get(id))?.revision ?? null;
 
     return new Promise((resolve) => {
       let settled = false;
@@ -1125,7 +1132,7 @@ const Bookmarks = (() => {
         createThumbnailFailure('TIMEOUT', { operation, url })
       ), 2000);
       browser.runtime.sendMessage({
-        remoteThumbnail: { id, url, ...options }
+        remoteThumbnail: { id, url, ...options, expectedRevision }
       }, response => {
         if (browser.runtime.lastError) {
           finish(createThumbnailFailure('RUNTIME_ERROR', { operation, url }));
@@ -1432,8 +1439,9 @@ const Bookmarks = (() => {
     });
   }
 
-  function captureScreen(captureUrl, id, options = {}) {
-    return requestThumbnailCapture(browser.runtime, { id, captureUrl, ...options });
+  async function captureScreen(captureUrl, id, options = {}) {
+    const expectedRevision = (await ImageDB.get(id))?.revision ?? null;
+    return requestThumbnailCapture(browser.runtime, { id, captureUrl, ...options, expectedRevision });
   }
 
   function captureByTurn() {
@@ -1703,15 +1711,15 @@ const Bookmarks = (() => {
           isHidden = false;
           toggleViewBookmarks(false);
           clearBoorkmarksToDelete();
+          refreshCurrentView().catch(console.warn);
         },
         async onClose() {
           if (isHidden) {
-            clearBoorkmarksToDelete();
-
             await Promise.all(selectedBookmarks.map(async(bookmark) => {
               const { id, isFolder } = bookmark;
               releaseThumbnailFromMemory(id);
               await (isFolder ? removeTree(id) : remove(id));
+              delete bookmarksToDelete[id];
               bookmark.remove();
             }));
 
@@ -1749,13 +1757,14 @@ const Bookmarks = (() => {
       onUndo() {
         delete bookmarksToDelete[id];
         bookmark.hidden = false;
+        refreshCurrentView().catch(console.warn);
       },
       onClose() {
-        if (bookmark.hidden) {
-          delete bookmarksToDelete[id];
+        if (Object.hasOwn(bookmarksToDelete, id)) {
           releaseThumbnailFromMemory(bookmark.id);
           (isFolder ? removeTree : remove)(id)
             .then(() => {
+              delete bookmarksToDelete[id];
               bookmark.remove();
               $customTrigger('updateFolderList', document);
             });
@@ -1856,7 +1865,7 @@ const Bookmarks = (() => {
     } else {
       TEXT_PREFERENCES_MAP.delete(String(bookmark.id));
     }
-    bookmark.titleSize = normalized.titleSize ?? settings.effective.bookmark_title_size;
+    bookmark.titleSize = normalized.titleSize ?? null;
     bookmark.titlePosition = settings.effective.bookmark_title_position;
     return normalized;
   }

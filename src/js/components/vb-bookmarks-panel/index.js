@@ -26,6 +26,7 @@ class VbBookmarksPanel extends HTMLElement {
     }
   ];
   folderId = null;
+  parentFolderIds = null;
   foldersThree = [];
   thumbnailUpdatesEnabled = true;
 
@@ -35,6 +36,11 @@ class VbBookmarksPanel extends HTMLElement {
 
   set selectedFolder(value) {
     this.folderId = value;
+  }
+
+  set selectedParentFolders(value) {
+    this.parentFolderIds = new Set(value.map(String));
+    if (this.select?.selectNode) this.changeFolder({ detail: this.select.value });
   }
 
   set folders(folders) {
@@ -114,6 +120,7 @@ class VbBookmarksPanel extends HTMLElement {
 
     this.select.value = this.folderId;
     this.select.folders = this.foldersThree;
+    this.changeFolder({ detail: this.folderId });
   }
 
   #attachEvents() {
@@ -138,7 +145,9 @@ class VbBookmarksPanel extends HTMLElement {
   }
 
   changeFolder({ detail }) {
-    this.selectButton.hidden = this.folderId === detail;
+    this.selectButton.hidden = this.parentFolderIds
+      ? ![...this.parentFolderIds].some(parentId => parentId !== String(detail))
+      : this.folderId === detail;
     this.selectButton.disabled = this.selectButton.hidden;
     if (!this.selectButton.hidden) {
       this.selectButton.dataset.action = 'move_bookmarks';

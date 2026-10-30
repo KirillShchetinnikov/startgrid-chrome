@@ -79,6 +79,21 @@ describe('thumbnail capture RPC', () => {
     expect(getCaptureWorkerTimeout(MAX_CAPTURE_DELAY_MS))
       .toBe(CAPTURE_WORKER_MAX_TIMEOUT_MS);
     expect(CAPTURE_CLIENT_TIMEOUT_MS).toBeGreaterThan(CAPTURE_WORKER_MAX_TIMEOUT_MS);
+    expect(getCaptureWorkerTimeout(2500)).toBe(4500);
+  });
+
+  it.each([2500, MAX_CAPTURE_DELAY_MS])('captures after the configured %s ms wait instead of timing out', async(delay) => {
+    jest.useFakeTimers();
+    const storeCapture = jest.fn().mockResolvedValue('7');
+    const pending = runThumbnailCapture({
+      browserApi: createBrowser(),
+      request: { id: '7', captureUrl: 'https://example.com' },
+      captureDelay: delay,
+      storeCapture
+    });
+    await jest.advanceTimersByTimeAsync(delay);
+    await expect(pending).resolves.toEqual({ ok: true, id: '7' });
+    expect(storeCapture).toHaveBeenCalledTimes(1);
   });
 
   it.each([

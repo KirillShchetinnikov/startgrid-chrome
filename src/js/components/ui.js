@@ -202,7 +202,6 @@ export default {
       if (revision !== backgroundRevision) return;
       if (!image) {
         if (bgState === 'background_external') {
-          await settings.updateKey('background_external', '', { sync: false });
           Toast.show(getMessage('notice_background_url_load_failed'));
         }
         hideBackground();

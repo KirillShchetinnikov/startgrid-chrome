@@ -4,6 +4,10 @@ export const BOOKMARK_TITLE_SIZE_MIN = 10;
 export const BOOKMARK_TITLE_SIZE_MAX = 24;
 const STORAGE_PREFIX = 'bookmark_text_preferences:';
 
+export function isBookmarkTextPreferenceKey(key) {
+  return key.startsWith(STORAGE_PREFIX);
+}
+
 function storageKey(id) {
   return `${STORAGE_PREFIX}${id}`;
 }

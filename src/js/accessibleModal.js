@@ -3,9 +3,30 @@ const FOCUSABLE_SELECTOR = [
   'textarea:not([disabled])', '[tabindex]:not([tabindex="-1"])'
 ].join(', ');
 
+const modalStates = new WeakMap();
+
+function updateInert(state) {
+  const top = state.open.at(-1);
+  if (!top) {
+    state.originalInert.forEach((inert, element) => {
+      element.inert = inert;
+    });
+    state.originalInert.clear();
+    return;
+  }
+  [...document.body.children].forEach(element => {
+    if (element.classList.contains('gmodal-backdrop') || element.classList.contains('toast-container')) return;
+    if (!state.originalInert.has(element)) state.originalInert.set(element, element.inert);
+    element.inert = element !== top.modal;
+  });
+}
+
 export function makeModalAccessible(modal, { initialFocus } = {}) {
   let returnFocus = null;
-  let inertElements = [];
+  let isOpen = false;
+  if (!modalStates.has(document)) modalStates.set(document, { open: [], originalInert: new Map() });
+  const state = modalStates.get(document);
+  const entry = { modal, focus: () => (initialFocus?.() || modal.querySelector(FOCUSABLE_SELECTOR) || modal).focus() };
 
   function containFocus(event) {
     if (event.key !== 'Tab') return;
@@ -25,26 +46,29 @@ export function makeModalAccessible(modal, { initialFocus } = {}) {
   }
 
   function open() {
+    if (isOpen) return;
+    isOpen = true;
     returnFocus = document.activeElement;
-    inertElements = [...document.body.children].filter(element => {
-      return element !== modal
-        && !element.classList.contains('gmodal-backdrop')
-        && !element.classList.contains('toast-container');
-    });
-    inertElements.forEach(element => {
-      element.inert = true;
-    });
+    state.open.push(entry);
+    updateInert(state);
     modal.addEventListener('keydown', containFocus);
-    (initialFocus?.() || modal.querySelector(FOCUSABLE_SELECTOR))?.focus();
+    entry.focus();
   }
 
   function close() {
+    if (!isOpen) return;
+    isOpen = false;
     modal.removeEventListener('keydown', containFocus);
-    inertElements.forEach(element => {
-      element.inert = false;
-    });
-    inertElements = [];
-    returnFocus?.focus?.();
+    const wasTop = state.open.at(-1) === entry;
+    state.open.splice(state.open.indexOf(entry), 1);
+    updateInert(state);
+    if (wasTop) {
+      const top = state.open.at(-1);
+      if (top) {
+        if (top.modal.contains(returnFocus)) returnFocus.focus();
+        else top.focus();
+      } else if (!returnFocus?.closest?.('.gmodal')) returnFocus?.focus?.();
+    }
     returnFocus = null;
   }
 

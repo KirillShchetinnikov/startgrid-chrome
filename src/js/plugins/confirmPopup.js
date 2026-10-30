@@ -75,6 +75,9 @@ function confirmPopup(message, { choices = null } = {}) {
       popupInstance.element.removeEventListener('gmodal:close', closePopup);
       resolve(result);
       result = false;
+      // Gmodal already hid this popup before firing close. Its destroy() hides
+      // again and would pop the still-open parent modal from the shared stack.
+      popupInstance._hideModal = () => { /* Already closed; preserve the parent's stack entry. */ };
       popupInstance.destroy();
       removeAccessibility();
       popupEl.remove();

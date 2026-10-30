@@ -47,6 +47,7 @@ class VbHeader extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this.closeSuggest();
     this.#dettachEvents();
   }
 
@@ -104,6 +105,7 @@ class VbHeader extends HTMLElement {
   }
 
   setSectionVisibility({ showSearch = true, showFolderPicker = true } = {}) {
+    if (!showSearch) this.closeSuggest();
     this.searchSectionNode.hidden = !showSearch;
     this.folderSectionNode.hidden = !showFolderPicker;
     this.headerNode.classList.toggle('header--folder-only', !showSearch && showFolderPicker);
@@ -111,6 +113,7 @@ class VbHeader extends HTMLElement {
   }
 
   set engine(engineId) {
+    this.closeSuggest();
     this.engineNodes[this.prevEngineIndex]?.classList.remove('is-active');
     const engineObject = this.searchEngines.find((searchEngine, index) => {
       if (searchEngine.id === engineId) {
@@ -172,7 +175,8 @@ class VbHeader extends HTMLElement {
 
         this.hashchange();
         this.#suggestPermissionButtonVisibility();
-      });
+      })
+      .catch(error => console.warn('Could not change search engine', error));
   }
 
   #currentEngine() {
@@ -542,24 +546,25 @@ class VbHeader extends HTMLElement {
   }
 
   async suggestSearch(query) {
-    if (isFastMode(settings.$)) return;
+    if (isFastMode(settings.$) || this.isBookmarksEngine || !this.suggestNode) return;
     const requestId = ++this.suggestionRequestId;
+    const suggestNode = this.suggestNode;
+    const engineId = this.#currentEngine()?.id;
     this.suggestIndex = -1;
+    let suggestions = [];
     if (query.length > 0) {
       try {
-        const suggestions = await this.suggestRequest(query);
-        if (requestId !== this.suggestionRequestId) return;
-        this.suggestList = suggestions;
+        suggestions = await this.suggestRequest(query);
       } catch (error) {}
-    } else {
-      this.suggestList = [];
-      this.suggestIndex = -1;
     }
+    if (requestId !== this.suggestionRequestId || suggestNode !== this.suggestNode
+      || engineId !== this.#currentEngine()?.id || this.isBookmarksEngine || !this.isConnected) return;
+    this.suggestList = suggestions;
 
-    this.suggestNode.replaceChildren(...this.suggestList.map((suggest, index) => {
+    suggestNode.replaceChildren(...this.suggestList.map((suggest, index) => {
       return $createElement('div', { 'data-suggest': index }, suggest);
     }));
-    this.suggestNode.hidden = !this.suggestList.length;
+    suggestNode.hidden = !this.suggestList.length;
   }
 
   suggestRequest(query) {
@@ -625,11 +630,8 @@ class VbHeader extends HTMLElement {
   }
 
   closeSuggest() {
-    if (!this.suggestNode || this.suggestNode.hidden) {
-      return;
-    }
-
-    this.suggestNode.hidden = true;
+    this.suggestionRequestId += 1;
+    if (this.suggestNode) this.suggestNode.hidden = true;
     this.suggestList = [];
     this.suggestIndex = -1;
   }

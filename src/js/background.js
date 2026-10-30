@@ -1,5 +1,6 @@
 import { isFastMode } from './performanceMode';
 import { createOptionalWorkGate } from './optionalWork';
+import { createImageRequestCoalescer, runImageRequest } from './imageUpdate';
 import ImageDB from './api/imageDB';
 import { getMessage, hasLanguageSettingChanged, initializeI18n } from './i18n';
 import browserContextMenu from './plugins/browserContextMenu';
@@ -35,8 +36,7 @@ import { requestSearchSuggestions } from './searchSuggestions';
 import {
   cleanupRemovedBookmark,
   createBookmarkImportGuard,
-  createBookmarksChangedEnvelope,
-  runOptionalSideEffectBeforeBroadcast
+  createBookmarksChangedEnvelope
 } from './bookmarkEvents';
 import {
   getCaptureWorkerTimeout,
@@ -131,19 +131,30 @@ async function fetchFavicon(pageUrl, signal) {
   throw new RemoteThumbnailError('FAVICON_NOT_FOUND');
 }
 
-function updateRemoteThumbnail(request) {
-  return optionalWork.run(signal => performRemoteThumbnail(request, signal),
-    createThumbnailFailure('FAST_MODE', { operation: request.source === 'favicon' ? 'favicon' : 'url' }));
-}
+const updateRemoteThumbnail = createImageRequestCoalescer((request, onReserved) => {
+  return optionalWork.run(async signal => {
+    try {
+      return await runImageRequest(childSignal => performRemoteThumbnail(request, childSignal, onReserved), signal);
+    } catch (error) {
+      if (signal.aborted) throw error;
+      return createThumbnailFailure(typeof error?.code === 'string' ? error.code : 'STORE_FAILED', {
+        operation: request.source === 'favicon' ? 'favicon' : 'url',
+        url: request.sourceUrl || request.url
+      });
+    }
+  },
+  createThumbnailFailure('FAST_MODE', { operation: request.source === 'favicon' ? 'favicon' : 'url' }));
+});
 
-async function performRemoteThumbnail({
-  id,
-  url,
-  source = 'url',
-  sourceUrl = url,
-  sourceOverride,
-  temporary = false
-}, signal) {
+async function performRemoteThumbnail(request, signal, onReserved) {
+  const {
+    id,
+    url,
+    source = 'url',
+    sourceUrl = url,
+    sourceOverride,
+    temporary = false
+  } = request;
   const operation = source === 'favicon' ? 'favicon' : 'url';
   const requestUrl = source === 'favicon' ? sourceUrl : url;
   const validation = validateThumbnailRequest(requestUrl, operation);
@@ -154,7 +165,10 @@ async function performRemoteThumbnail({
   const headers = {};
 
   try {
-    existing = temporary ? null : await ImageDB.get(id);
+    const options = Object.hasOwn(request, 'expectedRevision') ? { expectedRevision: request.expectedRevision } : {};
+    existing = temporary ? null : await ImageDB.beginUpdate(id, options);
+    if (!temporary && !existing) return { success: true, updated: false, superseded: true };
+    if (existing) onReserved(existing.revision);
     if (existing?.source === source && existing?.sourceUrl === sourceUrl) {
       if (existing.etag) headers['If-None-Match'] = existing.etag;
       if (existing.lastModified) headers['If-Modified-Since'] = existing.lastModified;
@@ -170,14 +184,14 @@ async function performRemoteThumbnail({
 
     signal.throwIfAborted();
     if (response.status === 304 && existing?.blob) {
-      await ImageDB.update({
+      const committed = await ImageDB.updateIfUnchanged({
         ...existing,
         source,
         sourceUrl,
         ...(typeof sourceOverride === 'boolean' && { sourceOverride }),
         checkedAt
-      });
-      return { success: true, updated: false };
+      }, existing.revision, { signal });
+      return { success: true, updated: false, ...(!committed && { superseded: true }) };
     }
 
     if (!response.ok) {
@@ -213,7 +227,7 @@ async function performRemoteThumbnail({
         : await $resizeThumbnail(downloadedBlob);
 
     signal.throwIfAborted();
-    await ImageDB.update({
+    const committed = await ImageDB.updateIfUnchanged({
       id,
       ...(existing || {}),
       blob,
@@ -225,21 +239,21 @@ async function performRemoteThumbnail({
       etag: response.headers.get('etag'),
       lastModified: response.headers.get('last-modified'),
       checkedAt
-    });
+    }, existing.revision, { signal });
 
-    return { success: true, updated: !isSameImage };
+    return { success: true, updated: committed && !isSameImage, ...(!committed && { superseded: true }) };
   } catch (error) {
     signal.throwIfAborted();
-    const code = error?.code || 'STORE_FAILED';
+    const code = typeof error?.code === 'string' ? error.code : 'STORE_FAILED';
     if (temporary) return createThumbnailFailure(code, { operation, url: requestUrl });
     try {
-      await ImageDB.update({
+      if (existing) await ImageDB.updateIfUnchanged({
         ...(existing || { id }),
         source,
         sourceUrl,
         ...(typeof sourceOverride === 'boolean' && { sourceOverride }),
         checkedAt
-      });
+      }, existing.revision, { signal });
     } catch (storageError) {
       return createThumbnailFailure('STORE_FAILED', { operation, url: requestUrl });
     }
@@ -283,6 +297,10 @@ async function performCapture(request, signal) {
   const captureDelay = normalizeCaptureDelay(
     (parseFloat(settings?.thumbnails_update_delay) || 0.5) * 1000
   );
+  const validRequest = request?.id && validateThumbnailRequest(request.captureUrl, 'site').success;
+  const options = Object.hasOwn(request, 'expectedRevision') ? { expectedRevision: request.expectedRevision } : {};
+  const existing = validRequest ? await ImageDB.beginUpdate(request.id, options) : null;
+  if (validRequest && !existing) return { ok: true, id: String(request.id), superseded: true };
 
   return runThumbnailCapture({
     browserApi: browser,
@@ -297,9 +315,8 @@ async function performCapture(request, signal) {
     async storeCapture(dataUrl) {
       const fileBlob = $base64ToBlob(dataUrl, 'image/webp');
       const blob = await $resizeThumbnail(fileBlob);
-      const existing = await ImageDB.get(request.id);
       signal.throwIfAborted();
-      return ImageDB.update({
+      await ImageDB.updateIfUnchanged({
         id: request.id,
         ...(existing || {}),
         blob,
@@ -309,7 +326,8 @@ async function performCapture(request, signal) {
           sourceOverride: request.sourceOverride
         }),
         checkedAt: Date.now()
-      });
+      }, existing.revision, { signal });
+      return request.id;
     }
   });
 }
@@ -370,13 +388,14 @@ async function handleCreatedTab(tab) {
   }
 }
 
-function handleCreateThumbnail(id, bookmark, sourceOverride = false) {
+function handleCreateThumbnail(id, bookmark, sourceOverride = false, expectedRevision = null) {
   return updateRemoteThumbnail({
     id,
     url: bookmark.url,
     source: 'favicon',
     sourceUrl: bookmark.url,
-    sourceOverride
+    sourceOverride,
+    expectedRevision
   });
 }
 
@@ -448,7 +467,8 @@ async function handleBookmarks(eventType, id, bookmark) {
   const thumbnailSourceOverride = getThumbnailSourceOverride(thumbnail) !== 'inherit';
   const downloadFavicon = shouldDownloadFavicon(thumbnail, settings.download_favicons_by_default);
 
-  await runOptionalSideEffectBeforeBroadcast(async() => {
+  await broadcast();
+  try {
     if (
       ['created', 'changed'].includes(eventType) &&
       !settings.show_last_opened_folder &&
@@ -459,10 +479,15 @@ async function handleBookmarks(eventType, id, bookmark) {
     ) {
       const allUrlsPermission = await containsPermissions({ origins: ['<all_urls>'] });
       if (allUrlsPermission) {
-        await handleCreateThumbnail(id, currentBookmark, thumbnailSourceOverride);
+        const result = await handleCreateThumbnail(
+          id, currentBookmark, thumbnailSourceOverride, thumbnail?.revision ?? null
+        );
+        if (result.success && result.updated) await broadcast();
       }
     }
-  }, broadcast);
+  } catch (error) {
+    console.warn('Optional bookmark favicon update failed', error);
+  }
 
   if (!isBookmarkUrl || eventType === 'moved') {
     await initContextMenu()

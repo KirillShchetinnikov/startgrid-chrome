@@ -125,7 +125,63 @@ export default class ImageDB {
 
   static async update(payload) {
     const db = await this.#dbConnect();
-    return db.put(this.DB_STORE, payload);
+    return db.put(this.DB_STORE, { ...payload, revision: crypto.randomUUID() });
+  }
+
+  // Reserve a persisted revision before starting slow work. Every context sees
+  // this token, including tabs which save a local image while a worker fetches.
+  static async beginUpdate(id, options = {}) {
+    const db = await this.#dbConnect();
+    const tx = db.transaction(this.DB_STORE, 'readwrite');
+    try {
+      const existing = await tx.store.get(id);
+      if (Object.hasOwn(options, 'expectedRevision')
+        && (existing?.revision ?? null) !== options.expectedRevision) {
+        await tx.done;
+        return null;
+      }
+      const snapshot = { ...existing, id, revision: crypto.randomUUID() };
+      await tx.store.put(snapshot);
+      await tx.done;
+      return snapshot;
+    } catch (error) {
+      await tx.done.catch(() => undefined);
+      throw error;
+    }
+  }
+
+  static async updateIfUnchanged(payload, revision, { signal } = {}) {
+    const db = await this.#dbConnect();
+    const tx = db.transaction(this.DB_STORE, 'readwrite');
+    let cancelled = false;
+    const abort = () => {
+      try {
+        tx.abort();
+        cancelled = true;
+      } catch (error) {}
+    };
+    signal?.addEventListener('abort', abort, { once: true });
+    try {
+      if (signal?.aborted) {
+        abort();
+        await tx.done.catch(() => undefined);
+        return false;
+      }
+      const current = await tx.store.get(payload.id);
+      if (signal?.aborted || !current || current.revision !== revision) {
+        await tx.done;
+        return false;
+      }
+      await tx.store.put({ ...payload, revision: crypto.randomUUID() });
+      await tx.done;
+      return true;
+    } catch (error) {
+      await tx.done.catch(() => undefined);
+      if (cancelled) return false;
+      throw error;
+    } finally {
+      signal?.removeEventListener('abort', abort);
+    }
   }
 
   static async delete(id) {

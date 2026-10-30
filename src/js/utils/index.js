@@ -34,7 +34,7 @@ export function $createElement(tag, attributes = {}, ...children) {
 export function $debounce(func, wait, immediate) {
   let timeout = null;
 
-  return function() {
+  function debounced() {
     const context = this,
       args = arguments;
 
@@ -55,7 +55,12 @@ export function $debounce(func, wait, immediate) {
     if (callNow) {
       func.apply(context, args);
     }
+  }
+  debounced.cancel = () => {
+    clearTimeout(timeout);
+    timeout = null;
   };
+  return debounced;
 }
 
 export function $trigger(evt, el, flags = {}) {
