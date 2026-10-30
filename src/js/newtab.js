@@ -36,7 +36,7 @@ import { getBookmarkTitleSizeOverride } from './api/bookmarkTextPreferences';
 import { CONTEXT_MENU, LOCAL_PROTOCOLS } from './constants';
 import { bookmarksToDelete } from './state';
 import Toast from './components/toast';
-import { validateThumbnailRequest } from './api/thumbnailErrors';
+import { createThumbnailFailure, validateThumbnailRequest } from './api/thumbnailErrors';
 import { showThumbnailError } from './thumbnailErrorNotice';
 import { makeModalAccessible } from './accessibleModal';
 import { containsPermissions } from './api/permissions';
@@ -273,20 +273,20 @@ async function init() {
   const formBookmarkEl = document.getElementById('formBookmark');
 
   Validator(formBookmarkEl, {
-    onSuccess: handleSubmitForm
+    onSuccess: withThumbnailErrors(handleSubmitForm)
   });
 
-  upload.addEventListener('change', handleUploadScreen);
+  upload.addEventListener('change', withThumbnailErrors(handleUploadScreen));
   thumbnailSource.addEventListener('change', handleThumbnailSourceChange);
-  captureThumbnailButton.addEventListener('click', handleCaptureThumbnail);
+  captureThumbnailButton.addEventListener('click', withThumbnailErrors(handleCaptureThumbnail));
   uploadThumbnailButton.addEventListener('click', handleModalUploadThumbnail);
-  pasteThumbnailButton.addEventListener('click', handleModalPasteThumbnail);
-  deleteThumbnailButton.addEventListener('click', handleModalDeleteThumbnail);
+  pasteThumbnailButton.addEventListener('click', withThumbnailErrors(handleModalPasteThumbnail));
+  deleteThumbnailButton.addEventListener('click', withThumbnailErrors(handleModalDeleteThumbnail));
   container.addEventListener('click', handleDelegateClick);
   container.addEventListener('mousedown', handleOpenMousemiddle);
   ctxMenuEl.addEventListener('vb:contextmenu:select', handleMenuSelection);
   ctxMenuEl.addEventListener('vb:contextmenu:open', handleMenuOpen);
-  document.getElementById('resetCustomImage').addEventListener('click', handleResetThumb);
+  document.getElementById('resetCustomImage').addEventListener('click', withThumbnailErrors(handleResetThumb));
   modal.addEventListener('gmodal:close', handleCloseModal);
 
   quickSettingsApi = initQuickDisplaySettings({
@@ -927,13 +927,13 @@ async function handleCaptureThumbnail() {
       if (!permission) return;
       const blob = await Bookmarks.captureThumbnailBlob(pageUrl, permission);
       if (blob) {
-        await Bookmarks.uploadScreen(bookmark, blob, {
+        const saved = await Bookmarks.uploadScreen(bookmark, blob, {
           source: 'site',
           sourceOverride,
           custom: false,
           showNotice: false
         });
-        response = { success: true };
+        response = { success: saved === true };
       }
     } else if (source === 'url') {
       const permission = await Bookmarks.checkHostPermissions();
@@ -1001,7 +1001,7 @@ async function handleModalPasteThumbnail() {
 }
 
 function handleModalDeleteThumbnail(evt) {
-  handleResetThumb.call(evt.currentTarget, evt);
+  return handleResetThumb.call(evt.currentTarget, evt);
 }
 
 function handleCloseModal() {
@@ -1012,6 +1012,7 @@ function handleCloseModal() {
   delete form.dataset.oldThumbnailUrl;
   delete form.dataset.thumbnailHasImage;
   delete form.dataset.thumbnailEnabled;
+  delete form.dataset.createdBookmarkId;
   pendingThumbnailBlob = null;
   pendingThumbnailSource = null;
   deleteThumbnailButton.disabled = true;
@@ -1197,13 +1198,23 @@ function usesDownloadedFavicon(preferences = getModalFaviconPreferences()) {
   return shouldDownloadFavicon(preferences, settings.effective.download_favicons_by_default);
 }
 
+function withThumbnailErrors(handler) {
+  return async function(...args) {
+    try {
+      return await handler.apply(this, args);
+    } catch (error) {
+      showThumbnailError(createThumbnailFailure('STORE_FAILED', { url: urlField.value }));
+    }
+  };
+}
+
 async function handleSubmitForm(evt) {
   const form = evt.target;
   evt.preventDefault();
-  const id = form.getAttribute('data-action');
+  const id = form.dataset.createdBookmarkId || form.getAttribute('data-action');
   const title = form.title.value.trim();
   const url = form.url.value.trim();
-  const destinationFolderId = id === 'New'
+  const destinationFolderId = id === 'New' || form.dataset.createdBookmarkId
     ? container.dataset.folder
     : modalSelectFolders.value;
   const thumbnailEnabled = !isFastMode(settings.$) && Bookmarks.isDefaultFolder(destinationFolderId);
@@ -1254,10 +1265,11 @@ async function handleSubmitForm(evt) {
   }
 
   if (id !== 'New') {
-    const newLocation = modalSelectFolders.value;
+    const newLocation = form.dataset.createdBookmarkId ? container.dataset.folder : modalSelectFolders.value;
     bookmark = await Bookmarks.updateBookmark(id, title, url, newLocation);
   } else {
     bookmark = await Bookmarks.createBookmark(title, url);
+    form.dataset.createdBookmarkId = bookmark.id;
   }
 
   if (bookmark && !settings.effective.show_last_opened_folder) {

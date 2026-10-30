@@ -431,12 +431,13 @@ async function handleBookmarks(eventType, id, bookmark) {
     currentBookmark = bookmarks[0] || bookmark;
   }
 
-  const isHomeBookmark = String(currentBookmark.parentId)
-    === String(getDefaultFolderId(settings));
+  const homeFolderId = String(getDefaultFolderId(settings));
+  const isHomeBookmark = String(currentBookmark.parentId) === homeFolderId;
 
   if (
-    ['created', 'changed', 'moved'].includes(eventType)
+    eventType === 'moved'
     && !settings.show_last_opened_folder
+    && String(bookmark.oldParentId) === homeFolderId
     && !isHomeBookmark
   ) {
     await removeStoredThumbnails(id);

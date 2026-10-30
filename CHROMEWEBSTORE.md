@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-10-22
+> Last Updated: 2026-10-30
 
 ## Store Listing
 
@@ -13,6 +13,8 @@ StartGrid
 Customizable visual bookmarks on every new tab, using your existing Chrome bookmark tree.
 
 **Detailed Description**
+
+Browse large bookmark folders with lighter offscreen tiles and updates that preserve the existing tiles, selection, and keyboard focus.
 
 Choose a font for tile captions and combine bold and italic styles in quick or full settings.
 
@@ -144,6 +146,7 @@ Refresh the settings screenshot at a short viewport height to show the scrollabl
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.3.9 | 2026-10-30 | Preserves custom thumbnails when the home folder is renamed or moved, fixes shortcut creation with the Add tile hidden, reports failed image saves while preserving the previous image, and reduces rendering work in large bookmark grids. | GitHub release; Web Store submission pending |
 | 2.3.8 | 2026-10-22 | Fixed clipped lower parts of letters in bookmark and folder captions, preserving ellipsis for long names. | GitHub release; Web Store submission pending |
 | 2.3.7 | 2026-10-17 | Left-aligned labels and descriptions on the full settings page for easier scanning. | GitHub release; Web Store submission pending |
 | 2.3.6 | 2026-10-17 | Redesigned full settings as a nearly full-height panel with independently scrolling navigation, section icons, a compact Full/Fast dropdown with expandable help, GitHub with the installed version, wider search and section labels that wrap only between words. | GitHub release; Web Store submission pending |

@@ -417,7 +417,7 @@ const Bookmarks = (() => {
     return getThumbnailSizeOverride(thumbnail?.thumbnailSize ?? thumbnail?.faviconSize);
   }
 
-  function genBookmark(bookmark, usageCount = null) {
+  function getBookmarkData(bookmark, usageCount = null) {
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
     const limited = settings.effective.show_last_opened_folder;
     const thumbnailSource = limited ? 'favicon'
@@ -433,34 +433,31 @@ const Bookmarks = (() => {
     const thumbnailSize = limited ? null : getStoredThumbnailSize(thumbnail);
     const textPreferences = limited ? {} : getTextPreferences(bookmark.id);
 
-    const vbBookmark = document.createElement('a', { is: 'vb-bookmark' });
-    Object.assign(vbBookmark, {
+    return {
       id: bookmark.id,
       url: bookmark.url,
       title: bookmark.title,
       parentId: bookmark.parentId,
-      image,
+      image: image || null,
       isCustomImage: custom,
       openNewTab: settings.effective.open_bookmarks_newtab,
       thumbnailSource,
       thumbnailSize,
-      titleSize: textPreferences.titleSize,
+      titleSize: textPreferences.titleSize ?? null,
       titlePosition: settings.effective.bookmark_title_position,
       usageCount,
       hasTitle: settings.effective.show_bookmark_title,
       hasFavicon: settings.effective.show_favicon
-    });
-    return vbBookmark;
+    };
   }
 
-  function genFolder(bookmark) {
+  function getFolderData(bookmark) {
     const folderPreview = settings.effective.folder_preview;
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
     const image = thumbnail?.blobUrl;
     const textPreferences = getTextPreferences(bookmark.id);
 
-    const vbBookmark = document.createElement('a', { is: 'vb-bookmark' });
-    Object.assign(vbBookmark, {
+    return {
       id: bookmark.id,
       url: `#${bookmark.id}`,
       parentId: bookmark.parentId,
@@ -469,14 +466,19 @@ const Bookmarks = (() => {
       folderMarkerStyle: settings.effective.folder_marker_style,
       hasFolderPreview: folderPreview,
       folderChidlren: folderPreview ? renderFolderChildren(bookmark) : [],
-      image,
-      titleSize: textPreferences.titleSize,
+      image: image || null,
+      titleSize: textPreferences.titleSize ?? null,
       titlePosition: settings.effective.bookmark_title_position,
       openNewTab: settings.effective.open_bookmarks_newtab,
       hasTitle: settings.effective.show_bookmark_title,
       hasFavicon: settings.effective.show_favicon,
       isDND: settings.effective.drag_and_drop
-    });
+    };
+  }
+
+  function genBookmark(bookmark) {
+    const vbBookmark = document.createElement('a', { is: 'vb-bookmark' });
+    Object.assign(vbBookmark, bookmark.url ? getBookmarkData(bookmark) : getFolderData(bookmark));
     return vbBookmark;
   }
 
@@ -574,7 +576,7 @@ const Bookmarks = (() => {
   }
 
   function createSearchResult(bookmark, folderLabel = '', usageCount = null) {
-    const result = bookmark.url ? genBookmark(bookmark, usageCount) : genFolder(bookmark);
+    const result = bookmark.url ? getBookmarkData(bookmark, usageCount) : getFolderData(bookmark);
     result.searchFolderLabel = folderLabel;
     return result;
   }
@@ -623,9 +625,9 @@ const Bookmarks = (() => {
             class: 'search-results__folder-count'
           }, String(group.bookmarks.length))
         );
-        fragment.appendChild(heading);
+        fragment.push(heading);
         group.bookmarks.forEach(bookmark => {
-          fragment.appendChild(createSearchResult(bookmark));
+          fragment.push(createSearchResult(bookmark));
         });
       });
   }
@@ -709,7 +711,7 @@ const Bookmarks = (() => {
       setChildrenThumbnails([], childrenBookmarks);
     }
 
-    const fragment = document.createDocumentFragment();
+    const fragment = [];
 
     if (options.searchDisplay === 'grouped') {
       appendGroupedSearchResults(fragment, bookmarksArr, options.folderPaths);
@@ -721,7 +723,7 @@ const Bookmarks = (() => {
         const usageCount = showUsageCount && bookmark.url
           ? parseInt(usageCounts[bookmark.id]) || 0
           : null;
-        fragment.appendChild(createSearchResult(bookmark, folderLabel, usageCount));
+        fragment.push(createSearchResult(bookmark, folderLabel, usageCount));
       }
     }
 
@@ -1070,49 +1072,39 @@ const Bookmarks = (() => {
     bookmark.hasOverlay = true;
 
     const { id } = bookmark;
-    const existing = await ImageDB.get(id);
-    const blob = await $resizeThumbnail(fileBlob);
-    const blobUrl = URL.createObjectURL(blob);
-    const thumbnail = THUMBNAILS_MAP.get(id);
+    try {
+      const existing = await ImageDB.get(id);
+      const blob = await $resizeThumbnail(fileBlob);
+      const thumbnail = THUMBNAILS_MAP.get(id);
+      const record = {
+        ...existing,
+        id,
+        blob,
+        custom,
+        source,
+        sourceOverride,
+        ...(checkedAt && { checkedAt }),
+        ...(sourceUrl && { sourceUrl })
+      };
+      await ImageDB.update(record);
+      const blobUrl = URL.createObjectURL(blob);
+      if (thumbnail?.blobUrl) URL.revokeObjectURL(thumbnail.blobUrl);
+      THUMBNAILS_MAP.set(id, {
+        ...record,
+        blobUrl,
+        ...(thumbnail?.children && { children: thumbnail.children })
+      });
 
-    await ImageDB.update({
-      ...existing,
-      id,
-      blob,
-      custom,
-      source,
-      sourceOverride,
-      ...(checkedAt && { checkedAt }),
-      ...(sourceUrl && { sourceUrl })
-    });
-
-    if (thumbnail) {
-      URL.revokeObjectURL(thumbnail.blobUrl);
-    }
-
-    THUMBNAILS_MAP.set(id, {
-      ...existing,
-      id,
-      blob,
-      blobUrl,
-      custom,
-      source,
-      sourceOverride,
-      ...(checkedAt && { checkedAt }),
-      ...(sourceUrl && { sourceUrl }),
-      ...(thumbnail?.children && { children: thumbnail.children })
-    });
-
-    bookmark.thumbnailSource = source;
-    bookmark.thumbnailSize = getStoredThumbnailSize(existing);
-    bookmark.isCustomImage = custom;
-    const useStoredImage = source !== 'favicon'
-      || shouldDownloadFavicon(existing, settings.effective.download_favicons_by_default);
-    bookmark.image = useStoredImage ? blobUrl : null;
-    bookmark.hasOverlay = false;
-
-    if (showNotice) {
-      Toast.show(getMessage('notice_thumb_image_updated'));
+      bookmark.thumbnailSource = source;
+      bookmark.thumbnailSize = getStoredThumbnailSize(existing);
+      bookmark.isCustomImage = custom;
+      const useStoredImage = source !== 'favicon'
+        || shouldDownloadFavicon(existing, settings.effective.download_favicons_by_default);
+      bookmark.image = useStoredImage ? blobUrl : null;
+      if (showNotice) Toast.show(getMessage('notice_thumb_image_updated'));
+      return true;
+    } finally {
+      bookmark.hasOverlay = false;
     }
   }
 
@@ -1309,10 +1301,6 @@ const Bookmarks = (() => {
 
     const existing = await ImageDB.get(bookmark.id);
     const thumbnail = THUMBNAILS_MAP.get(bookmark.id);
-    if (thumbnail?.blobUrl) {
-      URL.revokeObjectURL(thumbnail.blobUrl);
-    }
-
     const sourceUrl = source === 'url'
       ? existing?.sourceUrl
       : source === 'favicon' ? bookmark.url : null;
@@ -1326,6 +1314,7 @@ const Bookmarks = (() => {
       ...(sourceUrl && { sourceUrl })
     };
     await ImageDB.update(payload);
+    if (thumbnail?.blobUrl) URL.revokeObjectURL(thumbnail.blobUrl);
     THUMBNAILS_MAP.set(bookmark.id, payload);
     bookmark.thumbnailSource = source;
     bookmark.thumbnailSize = thumbnailSize;
@@ -1582,6 +1571,7 @@ const Bookmarks = (() => {
   async function search(query) {
     lastSearchQuery = query;
     const requestId = ++activeSearchRequest;
+    const renderRequestId = beginRenderRequest();
     try {
       const searchDisplay = settings.effective.search_results_display;
       const folderTree = searchDisplay === 'flat'
@@ -1592,7 +1582,7 @@ const Bookmarks = (() => {
         folderTree
       ]);
 
-      if (requestId !== activeSearchRequest) return;
+      if (requestId !== activeSearchRequest || !isCurrentRenderRequest(renderRequestId)) return;
 
       if (match.length > 0) {
         if (settings.effective.drag_and_drop) {
@@ -1603,7 +1593,7 @@ const Bookmarks = (() => {
           isSearch: true,
           searchDisplay,
           folderPaths: createFolderPathMap(tree)
-        });
+        }, renderRequestId);
         announce(getMessage('search_results_display'));
       } else {
         container.innerHTML = `<div class="empty-search">🙁 ${getMessage('empty_search')}</div>`;
@@ -1612,7 +1602,7 @@ const Bookmarks = (() => {
         announce(getMessage('empty_search'));
       }
     } catch (error) {
-      if (requestId !== activeSearchRequest) return;
+      if (requestId !== activeSearchRequest || !isCurrentRenderRequest(renderRequestId)) return;
       console.error('Bookmark search failed', error);
       container.innerHTML = `<div class="empty-search">🙁 ${getMessage('search_failed')}</div>`;
       releaseThumbnailUrls(THUMBNAILS_MAP.values());
@@ -1809,13 +1799,8 @@ const Bookmarks = (() => {
     return create({ title, ...(url && { url }), parentId })
       .then(result => {
         beginRenderRequest();
-        let bookmark;
-        if (result.url) {
-          bookmark = genBookmark(result);
-        } else {
-          bookmark = genFolder(result);
-        }
-        container.querySelector('.bookmark-btn--create').insertAdjacentElement('beforeBegin', bookmark);
+        const bookmark = genBookmark(result);
+        container.insertBefore(bookmark, container.querySelector('.bookmark-btn--create'));
 
         $customTrigger('updateFolderList', document);
         // if (!result.url) {

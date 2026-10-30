@@ -84,6 +84,12 @@ describe('incremental bookmark rendering and image lifetime', () => {
       tile.setAttribute('data-selected', '');
       window.__retained = { tile, title: tile.querySelector('.bookmark__title'),
         image: tile.querySelector('[data-thumb]') };
+      window.__createdTiles = 0;
+      window.__createElement = document.createElement.bind(document);
+      document.createElement = (...args) => {
+        if (args[1]?.is === 'vb-bookmark') window.__createdTiles += 1;
+        return window.__createElement(...args);
+      };
     }, data.ids[0]);
     await worker.evaluate(id => chrome.bookmarks.update(id, { title: 'Renamed tile' }), data.ids[0]);
     await page.waitForFunction(() => window.__retained.title.textContent === 'Renamed tile');
@@ -93,6 +99,10 @@ describe('incremental bookmark rendering and image lifetime', () => {
         tile.querySelector('[data-thumb]') === image, document.activeElement === tile,
         tile.hasAttribute('data-selected')];
     })).toEqual([true, true, true, true, true]);
+    expect(await page.evaluate(() => {
+      document.createElement = window.__createElement;
+      return window.__createdTiles;
+    })).toBe(0);
   });
 
   it('keeps tile identity through reordering and releases replaced URLs', async() => {

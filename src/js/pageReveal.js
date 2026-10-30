@@ -1,5 +1,5 @@
 const BACKDROP_SURFACE_SELECTOR = [
-  '.bookmark',
+  '.bookmark:not(.bookmark--deferred)',
   '.bookmark-btn',
   '.header .form-control',
   '.header .back',

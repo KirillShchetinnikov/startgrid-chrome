@@ -20,6 +20,12 @@ describe('image reads by bookmark IDs', () => {
     expect(openDB).not.toHaveBeenCalled();
   });
 
+  it('rejects a failed write so callers cannot report a successful save', async() => {
+    const error = new Error('quota exceeded');
+    openDB.mockResolvedValue({ put: () => Promise.reject(error) });
+    await expect(ImageDB.update({ id: 'a', blob: 'image' })).rejects.toBe(error);
+  });
+
   it('clears only derived background caches, retaining original uploads and thumbnails', async() => {
     const remove = jest.fn(() => Promise.resolve());
     const transaction = jest.fn(() => ({ store: { delete: remove }, done: Promise.resolve() }));

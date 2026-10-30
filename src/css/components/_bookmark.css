@@ -1,4 +1,9 @@
 /* Bookmark */
+.bookmark--deferred:not([data-title-position="outside"]) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto var(--bookmark-intrinsic-height);
+}
+
 .bookmark {
   position: relative;
   aspect-ratio: var(--bookmark-aspect-ratio);

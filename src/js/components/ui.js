@@ -26,6 +26,7 @@ import {
 
 let backgroundResource;
 let backgroundRevision = 0;
+let layoutCache;
 
 export default {
   async setBG(pageRevealStarted = Promise.resolve()) {
@@ -215,6 +216,8 @@ export default {
   },
   calculateStyles() {
     const doc = document.documentElement;
+    const cacheKey = JSON.stringify([settings.$, window.innerWidth, doc.classList.contains('dark')]);
+    if (layoutCache?.key === cacheKey) return layoutCache.value;
     const grid = document.getElementById('bookmarks');
     const columns = parseInt(settings.effective.dial_columns);
     const lsGridWidth = parseInt(settings.effective.dial_width);
@@ -327,6 +330,8 @@ export default {
     const displayedTileSize = responsiveLayout.tileSize;
     const displayedHorizontalGap = responsiveLayout.horizontalGap;
     const scale = responsiveLayout.scale;
+    const [ratioWidth, ratioHeight] = aspectRatio.split('/').map(Number);
+    doc.style.setProperty('--bookmark-intrinsic-height', `${displayedTileSize * ratioHeight / ratioWidth}px`);
     doc.style.setProperty('--grid-row-gap', `${Math.floor(verticalGap * scale)}px`);
     doc.style.setProperty('--bookmark-radius', `${radius * scale}px`);
     doc.style.setProperty('--bookmark-thumbnail-size', `${Math.max(16, thumbnailSize * scale)}px`);
@@ -337,11 +342,13 @@ export default {
     doc.style.setProperty('--grid-column-width', `${displayedTileSize}px`);
     doc.style.setProperty('--grid-columns', columns);
 
-    return {
+    const result = {
       ...gridLayout,
       ...responsiveLayout,
       horizontalGap: displayedHorizontalGap,
       tileSize: displayedTileSize
     };
+    layoutCache = { key: cacheKey, value: result };
+    return result;
   }
 };

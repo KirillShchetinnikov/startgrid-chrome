@@ -11,6 +11,8 @@ const imageObserver = typeof IntersectionObserver === 'function'
   }, { rootMargin: '300px' })
   : null;
 
+document.addEventListener('focusin', ({ target }) => target.closest?.('.bookmark')?.loadImages());
+
 const DISPLAY_ATTRIBUTES = [
   'href', 'title', 'image', 'is-folder', 'is-custom-image', 'open-newtab',
   'thumbnail-source', 'style', 'data-title-position', 'usage-count',
@@ -38,13 +40,34 @@ class VbBookmark extends HTMLAnchorElement {
   }
 
   connectedCallback() {
-    if (!this.#isRendered) {
-      this.#render();
-      this.#isRendered = true;
-    }
+    this.prepareForDisplay();
     if (!this.#imagesLoaded) {
       if (imageObserver) imageObserver.observe(this);
       else this.loadImages();
+    }
+  }
+
+  prepareForDisplay() {
+    if (this.#isRendered) return;
+    this.classList.add('bookmark');
+    if (this.openNewTab && !this.isFolder) this.setAttribute('target', '_blank');
+    else this.removeAttribute('target');
+    if (imageObserver && this.classList.contains('bookmark--deferred') && this.titlePosition !== 'outside') {
+      let title = this.querySelector('.bookmark__deferred-title');
+      if (!title) {
+        title = $createElement('span', { class: 'bookmark__caption bookmark__deferred-title' });
+        this.append(title);
+      }
+      if (title.textContent !== this.title) title.textContent = this.title;
+    } else {
+      this.prepare();
+    }
+  }
+
+  prepare() {
+    if (!this.#isRendered) {
+      this.#render();
+      this.#isRendered = true;
     }
   }
 
@@ -62,6 +85,7 @@ class VbBookmark extends HTMLAnchorElement {
 
   loadImages() {
     if (this.#imagesLoaded || !this.isConnected) return;
+    this.prepare();
     this.#imagesLoaded = true;
     imageObserver?.unobserve(this);
     const thumbnail = this.querySelector('[data-thumb]');
@@ -79,24 +103,29 @@ class VbBookmark extends HTMLAnchorElement {
     this.#updateFavicon();
   }
 
-  updateFrom(next) {
-    const changed = DISPLAY_ATTRIBUTES.filter(name => this.getAttribute(name) !== next.getAttribute(name));
-    const childrenChanged = JSON.stringify(this.folderChidlren) !== JSON.stringify(next.folderChidlren);
+  update(data) {
+    const childrenChanged = JSON.stringify(this.folderChidlren) !== JSON.stringify(data.folderChidlren || []);
+    const updates = Object.entries(data).filter(([key, value]) => key === 'folderChidlren'
+      ? childrenChanged : this[key] !== value);
+    if (!updates.length) return false;
+    if (!this.#isRendered) {
+      for (const [key, value] of updates) this[key] = value;
+      return true;
+    }
+    const before = new Map(DISPLAY_ATTRIBUTES.map(name => [name, this.getAttribute(name)]));
+    const labelChanged = this.searchFolderLabel !== data.searchFolderLabel;
+    this.#isRendered = false;
+    for (const [key, value] of updates) this[key] = value;
+    this.#isRendered = true;
+    const changed = DISPLAY_ATTRIBUTES.filter(name => before.get(name) !== this.getAttribute(name));
     const rebuild = changed.some(name => STRUCTURAL_ATTRIBUTES.has(name))
-      || childrenChanged || this.searchFolderLabel !== next.searchFolderLabel;
-    this.parentId = next.parentId;
-    this.folderChidlren = next.folderChidlren;
-    this.searchFolderLabel = next.searchFolderLabel;
-    if (rebuild) this.#isRendered = false;
-    changed.forEach(name => {
-      const value = next.getAttribute(name);
-      if (value === null) this.removeAttribute(name);
-      else this.setAttribute(name, value);
-    });
+      || childrenChanged || labelChanged;
     if (rebuild) {
       this.#render();
-      this.#isRendered = true;
+    } else {
+      changed.forEach(name => this.attributeChangedCallback(name, before.get(name), this.getAttribute(name)));
     }
+    return true;
   }
 
   static get observedAttributes() {

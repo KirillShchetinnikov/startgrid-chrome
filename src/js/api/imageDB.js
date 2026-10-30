@@ -124,13 +124,8 @@ export default class ImageDB {
   }
 
   static async update(payload) {
-    try {
-      const db = await this.#dbConnect();
-
-      return await db.put(this.DB_STORE, payload);
-    } catch (error) {
-      console.warn(error);
-    }
+    const db = await this.#dbConnect();
+    return db.put(this.DB_STORE, payload);
   }
 
   static async delete(id) {

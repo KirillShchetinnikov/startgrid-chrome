@@ -50,7 +50,7 @@ describe('bookmark text preferences', () => {
     expect(bookmarksSource).not.toContain(
       'titleSize: textPreferences.titleSize ?? settings.$.bookmark_title_size'
     );
-    expect(bookmarksSource.match(/titleSize: textPreferences\.titleSize,/g)).toHaveLength(2);
+    expect(bookmarksSource.match(/titleSize: textPreferences\.titleSize(?: \?\? null)?,/g)).toHaveLength(2);
   });
 
   it('uses the horizontal gap to widen outside captions', () => {
