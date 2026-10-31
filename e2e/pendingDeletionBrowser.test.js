@@ -102,6 +102,10 @@ describe('pending bookmark deletion lifetime', () => {
   beforeAll(async() => {
     ({ browser, worker, extPage: page, extensionUrl } = await bootstrap());
     await page.waitForSelector('#add');
+    // The fixture language change reloads open pages. Close the bootstrap page
+    // before preparing storage so createItems cannot close a navigating page.
+    await page.close();
+    page = null;
     const data = await worker.evaluate(async() => {
       await chrome.storage.local.set({ importingBookmarks: true });
       const home = await chrome.bookmarks.create({ parentId: '1', title: 'Deletion lifetime' });

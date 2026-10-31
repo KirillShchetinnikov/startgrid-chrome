@@ -68,6 +68,16 @@ async function createSetupBookmark(page, bookmark) {
     const modal = document.getElementById('modal').instance;
     return !modal._isOpen && !modal._isTransitiong
       && !document.getElementById('saveBookmarkBtn').disabled;
+  }).catch(async error => {
+    const state = await page.evaluate(() => ({
+      hidden: document.hidden,
+      open: document.getElementById('modal').instance._isOpen,
+      transitioning: document.getElementById('modal').instance._isTransitiong,
+      disabled: document.getElementById('saveBookmarkBtn').disabled,
+      classes: document.getElementById('modal').className
+    })).catch(diagnosticError => ({ diagnosticError: diagnosticError.message }));
+    error.message += `; setup=${JSON.stringify(state)}`;
+    throw error;
   });
 }
 

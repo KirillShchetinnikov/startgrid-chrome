@@ -482,7 +482,7 @@ function handleSelectBookmark(e) {
 
   e.preventDefault();
 
-  let rangeBookmarks = [];
+  let rangeBookmarks;
   const isSelected = bookmark.hasAttribute('data-selected');
 
   const rangeModifierPressed = selectionModifier === 'Shift'
@@ -1292,7 +1292,7 @@ async function saveBookmarkForm(evt) {
         || form.dataset.thumbnailHasImage !== 'true'
   ) && faviconValidation.success;
 
-  let bookmark = false;
+  let bookmark;
   let thumbnailPermission = false;
 
   if (

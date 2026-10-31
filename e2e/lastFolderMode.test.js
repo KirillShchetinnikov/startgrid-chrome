@@ -268,8 +268,11 @@ describe('limited last-folder mode', () => {
 
   it('recovers a deleted last folder and a deleted default folder', async() => {
     await page.evaluate(id => localStorage.setItem('last_opened_folder_id', id), folders.nested);
+    // Leave the extension page so its live refresh cannot replace the saved
+    // last-folder ID while this test deletes that folder.
+    await page.goto('about:blank');
     await worker.evaluate(id => chrome.bookmarks.removeTree(id), folders.parent);
-    await page.reload();
+    await page.goto(extensionUrl);
     await page.waitForFunction(() => document.getElementById('bookmarks').dataset.folder === '1');
     expect(await page.evaluate(() => localStorage.getItem('last_opened_folder_id'))).toBe('1');
     await page.click('#quick_settings_trigger');

@@ -19,14 +19,13 @@ async function bootstrap(options = {}) {
     let browser;
     try {
       browser = await puppeteer.launch({
-        headless: process.env.PUPPETEER_HEADLESS === 'true' ? 'new' : false,
+        headless: process.env.PUPPETEER_HEADLESS === 'true',
+        enableExtensions: [EXTENSION_DIR],
         devtools,
         timeout: launchTimeout,
         args: [
           ...(process.env.PUPPETEER_NO_SANDBOX === 'true'
             ? ['--no-sandbox', '--disable-gpu', '--disable-software-rasterizer'] : []),
-          `--disable-extensions-except=${EXTENSION_DIR}`,
-          `--load-extension=${EXTENSION_DIR}`
         ],
         ...(slowMo && { slowMo })
       });

@@ -3,13 +3,10 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const WebpackBar = require('webpackbar');
-const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
+const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin').default;
 
 module.exports = (env, arg) => {
-  const isDev = arg.mode === 'development'
   return {
     mode: arg.mode,
     experiments: {
@@ -27,6 +24,7 @@ module.exports = (env, arg) => {
     },
     output: {
       path: path.join(__dirname, '/extension_chrome'),
+      clean: true,
       filename(pathData) {
         return pathData.chunk.name === 'background' ? '[name].js' : 'js/[name].js';
       },
@@ -51,7 +49,6 @@ module.exports = (env, arg) => {
         {
           test: /\.js$/,
           exclude: [/node_modules/],
-          // include: path.resolve(__dirname, 'src/js/components'),
           use: [{
             loader: 'babel-loader',
             options: { presets: ['@babel/env'] }
@@ -88,23 +85,6 @@ module.exports = (env, arg) => {
       ]
     },
     optimization: {
-      // splitChunks: {
-      //   cacheGroups: {
-      //     // defaultVendors: {
-      //     //   test: /[\\/]node_modules[\\/]/,
-      //     //   priority: -10,
-      //     //   chunks: 'initial',
-      //     // }
-      //     // vbComponents: {
-      //     //     test: /[\\/]src[\\/]js[\\/]components[\\/]vb-[a-z]+[\\/]/,
-      //     //     test: path.resolve(__dirname, 'src/js/components/vb-popup'),
-      //     //     name: 'vb-components',
-      //     //     chunks: 'all',
-      //     //     minSize: 10000,
-      //     //     reuseExistingChunk: true,
-      //     // }
-      //   }
-      // },
       minimizer: [
         new TerserPlugin({
           // do not extract to separate file
@@ -117,11 +97,7 @@ module.exports = (env, arg) => {
       ]
     },
     plugins: [
-      new WebpackBar(),
-      new CleanWebpackPlugin({
-        verbose: false,
-        cleanStaleWebpackAssets: false
-      }),
+      new webpack.ProgressPlugin(),
       new CopyWebpackPlugin({
         patterns: [
           { from: 'static' }

@@ -16,7 +16,7 @@
   color: var(--notfound-color);
   border-radius: 3px;
 
-  @nest .has-image & {
+  .has-image & {
     background-color: var(--notfound-background);
   }
 }

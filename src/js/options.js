@@ -376,7 +376,7 @@ function initSettingsNavigation() {
 
     const visibleItems = navigationItems.filter(item => !item.hidden);
     const currentIndex = visibleItems.indexOf(currentItem);
-    let nextIndex = currentIndex;
+    let nextIndex;
     if (['ArrowUp', 'ArrowLeft'].includes(event.key)) {
       nextIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
     } else if (['ArrowDown', 'ArrowRight'].includes(event.key)) {

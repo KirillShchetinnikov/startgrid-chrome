@@ -1,7 +1,7 @@
 /* Bookmark */
 .bookmark--deferred:not([data-title-position="outside"]) {
   content-visibility: auto;
-  contain-intrinsic-size: auto none auto var(--bookmark-intrinsic-height);
+  contain-intrinsic-size: auto none auto calc(var(--bookmark-intrinsic-height) - 2px);
 }
 
 .bookmark {
@@ -536,7 +536,7 @@
     &::after {
       content: "";
       position: absolute;
-      border-radius: 6px 6px / 6px 6px 0 0;
+      border-radius: 6px / 6px 6px 0 0;
       background: var(--theme-text-color);
       z-index: 1000;
     }

@@ -289,7 +289,7 @@ body.has-color-background .page-reveal {
     object-fit: cover;
   }
 
-  @nest .has-image &::after {
+  .has-image &::after {
     content: "";
     position: fixed;
     left: 0;
@@ -333,7 +333,7 @@ body.has-color-background .page-reveal {
   font-size: 15px;
   border-radius: var(--base-radius);
 
-  @nest .has-image & {
+  .has-image & {
     background-color: var(--theme-background-3-alpha-65);
   }
 }

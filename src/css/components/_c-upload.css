@@ -131,7 +131,7 @@
     fill: #fff;
   }
 
-  @nest .c-upload__preview:hover & {
+  .c-upload__preview:hover & {
     opacity: 0.85;
   }
 }

@@ -5,6 +5,9 @@ module.exports = {
   rootDir: 'e2e',
   testTimeout: 60000,
   transform: {
-    '^.+\\.js$': ['babel-jest', { configFile: path.resolve(__dirname, '.babelrc') }]
+    '^.+\\.js$': ['babel-jest', {
+      configFile: path.resolve(__dirname, '.babelrc'),
+      plugins: ['@babel/plugin-transform-dynamic-import']
+    }]
   }
 };

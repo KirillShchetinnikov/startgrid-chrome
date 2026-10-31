@@ -42,9 +42,9 @@ describe('Full / Fast mode in the extension', () => {
   beforeAll(async() => {
     ({ browser, worker, extPage: page, extensionUrl } = await bootstrap());
     await page.waitForSelector('#add');
-    observe(page);
-    page.setDefaultTimeout(8000);
-    page.setDefaultNavigationTimeout(8000);
+    // Changing the fixture language reloads extension pages. Configure storage
+    // before opening the page under test to avoid concurrent navigations.
+    await page.close();
     bookmarkId = await worker.evaluate(async() => {
       await chrome.storage.local.set({ importingBookmarks: true });
       const home = await chrome.bookmarks.create({ parentId: '1', title: 'Performance test' });
@@ -69,6 +69,10 @@ describe('Full / Fast mode in the extension', () => {
       await chrome.storage.local.remove('importingBookmarks');
       return bookmark.id;
     });
+    page = await browser.newPage();
+    observe(page);
+    page.setDefaultTimeout(8000);
+    page.setDefaultNavigationTimeout(8000);
     await page.goto(extensionUrl);
     await page.waitForSelector(`#vb-${bookmarkId}`);
     options = await browser.newPage();

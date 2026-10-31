@@ -1,4 +1,3 @@
-/* global ImageDecoder */
 import ImageDB from './api/imageDB';
 import { getBingImage } from './api/bingImageDay';
 import { normalizeBackgroundImageURL } from './backgroundUrlValidation';

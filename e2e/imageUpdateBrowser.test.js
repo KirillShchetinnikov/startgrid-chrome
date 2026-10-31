@@ -2,7 +2,7 @@ import { beforeAll, afterAll, describe, expect, it } from '@jest/globals';
 import { bootstrap } from './bootstrap';
 
 describe('image updates across extension contexts', () => {
-  let browser, page, worker, ids;
+  let browser, page, worker, ids, extensionUrl;
 
   const readImage = id => worker.evaluate(async id => {
     const db = await new Promise(resolve => {
@@ -19,8 +19,10 @@ describe('image updates across extension contexts', () => {
   }, id);
 
   beforeAll(async() => {
-    ({ browser, extPage: page, worker } = await bootstrap());
+    ({ browser, extPage: page, worker, extensionUrl } = await bootstrap());
     await page.waitForSelector('#add');
+    // Fixture settings include a language change, which reloads open pages.
+    await page.close();
     ids = await worker.evaluate(async() => {
       await chrome.storage.local.set({ importingBookmarks: true });
       const home = await chrome.bookmarks.create({ parentId: '1', title: 'Image updates' });
@@ -38,7 +40,8 @@ describe('image updates across extension contexts', () => {
       await chrome.storage.local.remove('importingBookmarks');
       return ids;
     });
-    await page.reload();
+    page = await browser.newPage();
+    await page.goto(extensionUrl);
     await page.waitForSelector('body.page-ready');
     await worker.evaluate(() => { globalThis.imageTestOriginalFetch = globalThis.fetch; });
   });
