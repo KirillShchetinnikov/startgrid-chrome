@@ -1,5 +1,5 @@
-import { initUIInteractions } from './components/uiInteractions';
 import '../css/options.css';
+import { initUIInteractions } from './components/uiInteractions';
 import { initializeI18n } from './i18n';
 
 initUIInteractions();

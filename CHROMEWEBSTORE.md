@@ -160,6 +160,7 @@ Refresh the settings screenshot at a short viewport height to show the scrollabl
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.5.0 | 2026-11-01 | Adds inline renaming, theme segments, clearer empty states and drag targets, theme-aware notifications, image previews and retries, accessible tooltips, and reduced-motion/Fast-mode support. | GitHub release; Web Store submission pending |
 | 2.4.2 | 2026-10-31 | Keeps offscreen tiles the same height when reached by keyboard navigation and removes unused icons. | GitHub release; Web Store submission pending |
 | 2.4.0 | 2026-10-30 | Protects newer thumbnails from delayed updates, preserves caption preferences and background URLs, prevents duplicate saves, fixes search, selection, moving and delayed deletion, restores nested-dialog focus, and supports the selected screenshot delay. Includes large-grid rendering improvements from the withdrawn 2.3.9 release. | GitHub release; Web Store submission pending |
 | 2.3.9 | 2026-10-30 | Preserves custom thumbnails when the home folder is renamed or moved, fixes shortcut creation with the Add tile hidden, reports failed image saves while preserving the previous image, and reduces rendering work in large bookmark grids. | GitHub release withdrawn; not submitted to the Web Store |

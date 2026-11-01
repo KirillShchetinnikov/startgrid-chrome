@@ -298,7 +298,7 @@ async function getLiteralTitleEvidence(page, expectedTitles = []) {
           === document.querySelector('#popup [data-popup="resolve"]')
         ),
         deleteConfirmClickSeen: window.__literalDeleteConfirm?.clickSeen ?? false,
-        toastTexts: Array.from(document.querySelectorAll('.toast__message'))
+        toastTexts: Array.from(document.querySelectorAll('.toast__message, #background_local .image-feedback'))
           .map(node => node.textContent)
       }), expectedTitles),
       new Promise(resolve => {
@@ -391,7 +391,7 @@ async function getBackgroundUploadEvidence(page) {
           uploadConnected: Boolean(document.getElementById('bgFile')?.isConnected),
           uploadAccept: document.getElementById('bgFile')?.getAttribute('accept'),
           formUploading: document.getElementById('bgFile')
-            ?.closest('form')?.classList.contains('is-upload'),
+            ?.closest('form')?.hasAttribute('aria-busy'),
           previewHidden: document.querySelector('.c-upload__preview')?.hidden,
           previewStyle: document.querySelector('.c-upload__preview-image')
             ?.getAttribute('style'),
@@ -404,7 +404,7 @@ async function getBackgroundUploadEvidence(page) {
           finalPreviewUrl: document.querySelector('.c-upload__preview-image')
             ?.style.backgroundImage,
           lifecycle: window.__backgroundUploadLifecycle || null,
-          toastTexts: Array.from(document.querySelectorAll('.toast__message'))
+          toastTexts: Array.from(document.querySelectorAll('.toast__message, #background_local .image-feedback'))
             .map(node => node.textContent),
           databases,
           bundleScripts,
@@ -497,7 +497,7 @@ async function getLocalizedUiEvidence(page) {
           ?.shadowRoot?.querySelector('button')?.getAttribute('aria-label'),
         toastLabels: Array.from(document.querySelectorAll('.toast__btn'))
           .map(node => node.getAttribute('aria-label')),
-        toastTexts: Array.from(document.querySelectorAll('.toast__message'))
+        toastTexts: Array.from(document.querySelectorAll('.toast__message, #background_local .image-feedback'))
           .map(node => node.textContent),
         toastActions: Array.from(document.querySelectorAll('.toast__action'))
           .map(node => node.textContent),
@@ -1444,7 +1444,7 @@ describe('StartGrid bookmark tests', () => {
             return (
               !document.getElementById('popup')
               && titleNode?.closest('.bookmark')?.hidden === true
-              && Array.from(document.querySelectorAll('.toast__message'))
+              && Array.from(document.querySelectorAll('.toast__message, #background_local .image-feedback'))
                 .some(node => node.textContent.includes(expected))
             );
           }, { polling: 100, timeout: 5500 }, editedTitle);
@@ -1863,7 +1863,7 @@ describe('StartGrid bookmark tests', () => {
               '.c-upload__preview-image'
             );
             window.__backgroundUploadLifecycle = {
-              uploadingSeen: form.classList.contains('is-upload'),
+              uploadingSeen: form.hasAttribute('aria-busy'),
               previewChanged: false,
               initialPreviewStyle: initialPreviewImage?.getAttribute('style') || '',
               initialPreviewUrl: initialPreviewImage?.style.backgroundImage || '',
@@ -1872,7 +1872,7 @@ describe('StartGrid bookmark tests', () => {
               toastTexts: []
             };
             const observer = new MutationObserver(records => {
-              if (form.classList.contains('is-upload')) {
+              if (form.hasAttribute('aria-busy')) {
                 window.__backgroundUploadLifecycle.uploadingSeen = true;
               }
               const previewMutated = records.some(record => (
@@ -1902,10 +1902,10 @@ describe('StartGrid bookmark tests', () => {
                 );
               }
               window.__backgroundUploadLifecycle.toastTexts = Array.from(
-                document.querySelectorAll('.toast__message')
+                document.querySelectorAll('.toast__message, #background_local .image-feedback')
               ).map(node => node.textContent);
             });
-            observer.observe(form, { attributes: true, attributeFilter: ['class'] });
+            observer.observe(form, { attributes: true, attributeFilter: ['class', 'aria-busy'] });
             observer.observe(preview, {
               childList: true,
               subtree: true,
@@ -1942,8 +1942,8 @@ describe('StartGrid bookmark tests', () => {
               && finalStyle !== lifecycle.initialPreviewStyle
               && finalUrl !== lifecycle.initialPreviewUrl
               && !document.getElementById('bgFile')
-                ?.closest('form')?.classList.contains('is-upload')
-              && toastTexts.includes(expectedSuccess)
+                ?.closest('form')?.hasAttribute('aria-busy')
+              && toastTexts.some(text => text.includes(expectedSuccess))
             ) {
               return {
                 status: 'success',
@@ -1958,7 +1958,7 @@ describe('StartGrid bookmark tests', () => {
               () => chrome.i18n.getMessage('notice_background_save_failed')
             ),
             expectedSuccess: await optionsPage.evaluate(
-              () => chrome.i18n.getMessage('notice_bg_image_updated')
+              () => chrome.i18n.getMessage('image_ready')
             )
           });
           const uploadOutcome = await uploadOutcomeHandle.jsonValue();
@@ -2180,7 +2180,7 @@ describe('StartGrid bookmark tests', () => {
             ));
           }, title);
           await extPage.waitForFunction(({ expectedLabel, expectedMessage }) => {
-            const message = Array.from(document.querySelectorAll('.toast__message'))
+            const message = Array.from(document.querySelectorAll('.toast__message, #background_local .image-feedback'))
               .find(node => node.textContent === expectedMessage);
             return (
               message?.closest('.toast')
@@ -2192,12 +2192,12 @@ describe('StartGrid bookmark tests', () => {
             expectedMessage: messages.notice_link_copied.message
           });
           await extPage.evaluate(expectedMessage => {
-            const message = Array.from(document.querySelectorAll('.toast__message'))
+            const message = Array.from(document.querySelectorAll('.toast__message, #background_local .image-feedback'))
               .find(node => node.textContent === expectedMessage);
             message.closest('.toast').querySelector('.toast__btn').click();
           }, messages.notice_link_copied.message);
           await extPage.waitForFunction(expectedMessage => (
-            !Array.from(document.querySelectorAll('.toast__message'))
+            !Array.from(document.querySelectorAll('.toast__message, #background_local .image-feedback'))
               .some(node => node.textContent === expectedMessage)
           ), { polling: 100, timeout: 1500 }, messages.notice_link_copied.message);
         }
@@ -2236,7 +2236,7 @@ describe('StartGrid bookmark tests', () => {
           }) => {
             const titleNode = Array.from(document.querySelectorAll('.bookmark__title'))
               .find(node => node.textContent === expectedTitle);
-            const message = Array.from(document.querySelectorAll('.toast__message'))
+            const message = Array.from(document.querySelectorAll('.toast__message, #background_local .image-feedback'))
               .find(node => node.textContent === expectedMessage);
             return (
               titleNode?.closest('.bookmark')?.hidden === true
