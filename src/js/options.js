@@ -1,3 +1,5 @@
+import { syncThemeSegments } from './components/themeSegments';
+import { beginImageOperation } from './components/imageFeedback';
 import { getFastBackground } from './fastBackgroundCache';
 import {
   describeSettingAvailability, explainUnavailableSetting, initAvailabilityTooltips, syncSettingChoices
@@ -441,17 +443,29 @@ async function handleImportSettingsFromPicker() {
   }
 }
 
-async function handleChooseBackgroundFile() {
+async function handleChooseBackgroundFile(selectedFile) {
+  let file = selectedFile instanceof File ? selectedFile : null;
+  const operation = beginImageOperation(
+    document.getElementById('background_local'),
+    document.getElementById('bgFile'),
+    () => handleChooseBackgroundFile(file)
+  );
+  if (!operation) return;
   try {
-    const file = await $filePicker(
+    file ||= await $filePicker(
       isFastMode(settings.$) ? STATIC_BACKGROUND_FILE_PICKER_OPTIONS : BACKGROUND_FILE_PICKER_OPTIONS);
     if (!file) return;
     await handleUploadFile.call(
-      { files: [file], closest: selector => document.getElementById('bgFile').closest(selector) }
+      { files: [file], closest: selector => document.getElementById('bgFile').closest(selector) },
+      operation
     );
   } catch (error) {
-    Toast.show(getMessage('notice_background_save_failed'));
+    operation.error(getMessage('notice_background_save_failed'));
     console.warn(error);
+  } finally {
+    operation.finish();
+    syncLocalBackgroundRemoveControl();
+    document.getElementById('bgFile').textContent = getMessage(backgroundImage ? 'image_replace' : 'btn_open');
   }
 }
 
@@ -551,6 +565,7 @@ async function getOptions() {
     }
   }
   syncConditionalControls();
+  syncThemeSegments();
   await Promise.all([foldersReady, permissionsReady]);
 }
 
@@ -595,6 +610,7 @@ function toggleBackgroundControls(value) {
 }
 
 function syncLocalBackgroundRemoveControl() {
+  document.getElementById('bgFile').textContent = getMessage(backgroundImage ? 'image_replace' : 'btn_open');
   document.getElementById('delete_local_background').disabled = !backgroundImage;
 }
 
@@ -642,28 +658,43 @@ async function handleExternalBackgroundSave() {
     return;
   }
 
-  const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
-  if (!hasPermission) return;
-
-  if (isFastMode(settings.$)) {
-    try {
-      await getFastBackground('url', url);
-    } catch (error) {
-      Toast.show(getMessage(`fast_background_error_${error.code || 'download'}`));
+  const operation = beginImageOperation(
+    document.getElementById('background_external'),
+    document.getElementById('set_background_external'),
+    handleExternalBackgroundSave
+  );
+  if (!operation) return;
+  try {
+    const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
+    if (!hasPermission) {
+      operation.error(getMessage('notice_host_permissions'));
       return;
     }
-  } else if (!await canLoadBackgroundImageURL(url)) {
-    input.value = '';
-    Toast.show(getMessage('notice_background_url_load_failed'));
-    return;
-  }
 
-  await settings.updateAll({
-    background_image: 'background_external',
-    background_external: url
-  });
-  toggleBackgroundControls('background_external');
-  Toast.show(getMessage('notice_bg_image_updated'));
+    if (isFastMode(settings.$)) {
+      try {
+        await getFastBackground('url', url);
+      } catch (error) {
+        operation.error(getMessage(`fast_background_error_${error.code || 'download'}`));
+        return;
+      }
+    } else if (!await canLoadBackgroundImageURL(url)) {
+      operation.error(getMessage('notice_background_url_load_failed'));
+      return;
+    }
+
+    await settings.updateAll({
+      background_image: 'background_external',
+      background_external: url
+    });
+    toggleBackgroundControls('background_external');
+    operation.success();
+  } catch {
+    operation.error(getMessage('notice_background_save_failed'));
+  } finally {
+    operation.finish();
+    document.getElementById('delete_background_external').disabled = !settings.$.background_external;
+  }
 }
 
 async function handleExternalBackgroundRemove() {
@@ -817,6 +848,7 @@ async function handleSetOptions(e) {
   // dark theme
   if (target.id === 'color_theme') {
     await window.vbToggleTheme();
+    syncThemeSegments();
     Object.keys(COLOR_SETTING_THEME_VARIABLES).forEach(settingId => {
       if (!settings.$[settingId]) syncColorControl(settingId);
     });
@@ -850,7 +882,7 @@ function syncGridControls() {
   });
 }
 
-async function handleUploadFile() {
+async function handleUploadFile(operation) {
   const form = this.closest('form');
   const file = this.files[0];
   if (!file) return;
@@ -858,21 +890,21 @@ async function handleUploadFile() {
   form.reset();
 
   const validation = validateBackgroundFile(file, isFastMode(settings.$));
-  if (!validation.ok && validation.reason === 'video') return Toast.show(getMessage('performance_mode_video'));
+  if (!validation.ok && validation.reason === 'video') return operation.error(getMessage('performance_mode_video'));
   if (!validation.ok && validation.reason === 'type') {
-    return Toast.show(getMessage(
+    return operation.error(getMessage(
       'alert_file_type_fail_type',
       [FILES_ALLOWED_EXTENSIONS.join(' | ')]
     ));
   }
   if (!validation.ok && validation.reason === 'size') {
-    return Toast.show(getMessage(
+    return operation.error(getMessage(
       'alert_file_type_fail_size',
       [MAX_FILE_SIZE_BYTES / 10 ** 6]
     ));
   }
 
-  form.classList.add('is-upload');
+  form.setAttribute('aria-busy', 'true');
   try {
     let blob = new Blob([new Uint8Array(await file.arrayBuffer())], {
       type: file.type
@@ -909,7 +941,7 @@ async function handleUploadFile() {
         preview.closest('.c-upload__preview').hidden = !previousObjectURL;
         backgroundImage = previousObjectURL;
       },
-      reportError: () => Toast.show(getMessage('notice_background_save_failed')),
+      reportError: () => operation.error(getMessage('notice_background_save_failed')),
       apply(objectURL) {
         document.getElementById('preview_upload').innerHTML = /* html */
           `<div class="c-upload__preview-image"
@@ -924,11 +956,11 @@ async function handleUploadFile() {
     if (!result.ok) {
       return;
     }
-    Toast.show(getMessage('notice_bg_image_updated'));
+    operation.success(file.name);
   } catch {
-    Toast.show(getMessage('notice_background_save_failed'));
+    operation.error(getMessage('notice_background_save_failed'));
   } finally {
-    form.classList.remove('is-upload');
+    form.removeAttribute('aria-busy');
   }
 }
 
@@ -952,6 +984,7 @@ async function handleRemoveFile(evt) {
 
   preview.innerHTML = '';
   previewParent.hidden = true;
+  document.querySelector('#background_local .image-feedback')?.replaceChildren();
   Toast.show(getMessage('notice_image_removed'));
 }
 

@@ -1,0 +1,74 @@
+.image-feedback {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: var(--theme-muted-color);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.image-feedback:empty {
+  display: none;
+}
+
+.image-feedback[data-state="error"] {
+  padding: 10px 12px;
+  color: var(--theme-text-color);
+  background: var(--color-warning-alpha-20);
+  border-inline-start: 3px solid var(--color-warning);
+  border-radius: 8px;
+}
+
+.image-upload-preview {
+  display: block;
+  width: 100%;
+  max-height: 160px;
+  margin-top: 12px;
+  object-fit: contain;
+  background: var(--theme-background-3);
+  border: var(--surface-border);
+  border-radius: var(--base-radius);
+}
+
+.image-upload-preview[hidden] {
+  display: none;
+}
+
+.js-background-settings .c-upload,
+.gmodal__thumbnail-actions {
+  padding: 12px;
+  background: var(--theme-background-3);
+  border: var(--surface-border);
+  border-radius: var(--base-radius);
+}
+
+.c-upload__remove:focus-within {
+  opacity: 1;
+}
+
+.c-upload__remove > button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.gmodal__custom-image img {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.ui-tooltip {
+  position: fixed;
+  z-index: 100001;
+  max-width: min(280px, calc(100vw - 16px));
+  padding: 8px 12px;
+  color: var(--theme-text-color);
+  background: var(--theme-background-2);
+  border: 1px solid var(--theme-invert-alpha-20);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}

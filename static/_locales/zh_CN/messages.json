@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "斜体标题"
-  }
+  },
+  "image_loading": { "message": "正在加载…" },
+  "image_ready": { "message": "完成" },
+  "image_retry": { "message": "重试" },
+  "image_replace": { "message": "替换图片" },
+  "rename_title": { "message": "重命名" },
+  "rename_hint": { "message": "Enter 保存 · Esc 取消" },
+  "rename_failed": { "message": "无法保存名称，请重试。" },
+  "rename_conflict": { "message": "名称已在其他位置更改，请重新打开重命名。" },
+  "empty_folder_title": { "message": "此文件夹为空" },
+  "empty_folder_hint": { "message": "添加书签或文件夹以开始使用。" },
+  "empty_search_hint": { "message": "尝试其他名称，或清除搜索以返回书签。" },
+  "drop_position": { "message": "放在这里" },
+  "drop_move_here": { "message": "移到这里" }
 }

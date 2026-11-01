@@ -25,11 +25,11 @@
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
-  &:hover {
+  &:hover:not(:disabled) {
     transform: translateY(-1px);
     box-shadow: 0 11px 22px rgb(91 79 214 / 28%);
   }
-  &:active {
+  &:active:not(:disabled) {
     transform: translateY(0) scale(0.98);
   }
 }
@@ -52,7 +52,7 @@
   background-image: none;
   box-shadow: none;
   transition: background-color 0.5s ease;
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: var(--theme-invert-alpha-10);
     box-shadow: none;
   }

@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "斜體標題"
-  }
+  },
+  "image_loading": { "message": "正在載入…" },
+  "image_ready": { "message": "完成" },
+  "image_retry": { "message": "重試" },
+  "image_replace": { "message": "替換圖片" },
+  "rename_title": { "message": "重新命名" },
+  "rename_hint": { "message": "Enter 儲存 · Esc 取消" },
+  "rename_failed": { "message": "無法儲存名稱，請重試。" },
+  "rename_conflict": { "message": "名稱已在其他位置變更，請重新開啟重新命名。" },
+  "empty_folder_title": { "message": "此資料夾是空的" },
+  "empty_folder_hint": { "message": "新增書籤或資料夾以開始使用。" },
+  "empty_search_hint": { "message": "嘗試其他名稱，或清除搜尋以返回書籤。" },
+  "drop_position": { "message": "放在這裡" },
+  "drop_move_here": { "message": "移到這裡" }
 }

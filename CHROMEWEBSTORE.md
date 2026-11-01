@@ -1,6 +1,11 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-10-31
+> Last Updated: 2026-11-01
+
+Screenshot refresh pending: context menu, range controls in quick/full settings,
+theme-aware notifications, image upload previews, inline retry messages,
+theme segments, inline renaming and empty folder/search states.
+UI polish respects Fast mode and reduced motion.
 
 ## Store Listing
 
@@ -13,6 +18,15 @@ StartGrid
 Customizable visual bookmarks on every new tab, using your existing Chrome bookmark tree.
 
 **Detailed Description**
+
+Preview uploaded backgrounds and thumbnails, see the selected filename, and retry failed uploads.
+Failed background URLs stay in the field so you can correct or retry them.
+Quick settings sections open smoothly, and icon buttons offer keyboard-accessible tooltips.
+
+Switch between light, system and dark themes directly in settings.
+Rename bookmarks and folders beside their tiles using the context menu or F2;
+Enter saves and Escape cancels. Empty folders and searches offer clear next steps,
+and drag-and-drop highlights the destination and insertion position.
 
 Browse large bookmark folders with lighter offscreen tiles and updates that preserve the existing tiles, selection, and keyboard focus.
 

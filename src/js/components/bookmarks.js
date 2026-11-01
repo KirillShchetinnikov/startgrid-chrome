@@ -1,3 +1,4 @@
+import { createEmptyState } from './emptyState';
 import { isFastMode } from '../performanceMode';
 import { DragSortify } from '../plugins/dragSortify';
 import { getMessage } from '../i18n';
@@ -276,6 +277,12 @@ const Bookmarks = (() => {
       ignoreSelectors: ['.bookmark__action'],
       plugin: multiswap,
       onDragStart({ event, draggedElement, draggingItems }) {
+        draggingItems.forEach(item => {
+          item.dataset.dragLabel = getMessage('drop_position');
+        });
+        container.querySelectorAll(DROPZONE_SELECTOR).forEach(zone => {
+          zone.dataset.dropLabel = getMessage('drop_move_here');
+        });
         container.classList.add('has-dragging');
         showDropzone(draggedElement);
 
@@ -353,7 +360,7 @@ const Bookmarks = (() => {
             $customTrigger('vb-bookmarks-panel:close', document);
           });
         };
-        if (isFastMode(settings.$)) return finish();
+        if (isFastMode(settings.$) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return finish();
         const dropZoneRect = target.getBoundingClientRect();
         const cardRect = item.getBoundingClientRect();
         const translateX = dropZoneRect.left + dropZoneRect.width / 2 - cardRect.left - cardRect.width / 2;
@@ -769,7 +776,10 @@ const Bookmarks = (() => {
       );
     }
 
-    if (hasCreate) {
+    if (!bookmarksArr.length && !options.isSearch) {
+      container.append(createEmptyState(false, hasCreate));
+    }
+    if (hasCreate && bookmarksArr.length) {
       container.append(
         $createElement('button', {
           id: 'add',
@@ -1604,7 +1614,7 @@ const Bookmarks = (() => {
         }, renderRequestId);
         announce(getMessage('search_results_display'));
       } else {
-        container.innerHTML = `<div class="empty-search">🙁 ${getMessage('empty_search')}</div>`;
+        container.replaceChildren(createEmptyState(true));
         releaseThumbnailUrls(THUMBNAILS_MAP.values());
         THUMBNAILS_MAP.clear();
         announce(getMessage('empty_search'));

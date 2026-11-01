@@ -165,7 +165,8 @@ function createBackgroundSetting() {
       </form>
       <div class="c-upload__preview">
         <div class="c-upload__remove">
-          <button class="md-ripple" data-ripple-center id="delete_upload">
+          <button class="md-ripple" type="button" data-ripple-center id="delete_upload"
+            aria-label="${getMessage('remove_thumbnail')}">
             <svg width="20" height="20"><use xlink:href="/img/symbol.svg#close"></use></svg>
           </button>
         </div>

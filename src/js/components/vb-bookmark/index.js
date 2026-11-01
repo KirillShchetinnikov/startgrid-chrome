@@ -27,6 +27,8 @@ class VbBookmark extends HTMLAnchorElement {
   #isRendered = false;
   #imagesLoaded = false;
   #overlayEl = null;
+  #thumbnailRevision = 0;
+  #clearThumbnailTransition = null;
   #_folderChildren = [];
   #iconMap = {
     chrome: '/img/chrome.svg',
@@ -76,6 +78,8 @@ class VbBookmark extends HTMLAnchorElement {
     // insertBefore during sorting also disconnects custom elements temporarily.
     queueMicrotask(() => {
       if (!this.isConnected) {
+        this.#thumbnailRevision++;
+        this.#clearThumbnailTransition?.();
         document.dispatchEvent(new CustomEvent('bookmark-removed', {
           detail: { id: this.id, image: this.image }
         }));
@@ -181,9 +185,7 @@ class VbBookmark extends HTMLAnchorElement {
       }
     }
     if (['image', 'thumbnail-source'].includes(attr)) {
-      const imageEl = this.querySelector('[data-thumb]');
-      const newThumbnail = this.#createBookmarkThumbnail();
-      imageEl.replaceWith(newThumbnail);
+      void this.#replaceThumbnail();
     }
     if (
       attr === 'href' &&
@@ -194,6 +196,47 @@ class VbBookmark extends HTMLAnchorElement {
       }
       this.#updateFavicon();
     }
+  }
+
+  async #replaceThumbnail() {
+    const revision = ++this.#thumbnailRevision;
+    this.#clearThumbnailTransition?.();
+    const old = this.querySelector('[data-thumb]');
+    if (!old) return;
+    const next = this.#createBookmarkThumbnail();
+    const canAnimate = () => this.#imagesLoaded && this.isConnected && this.image
+      && document.documentElement.dataset.performanceMode === 'full'
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!canAnimate()) {
+      old.replaceWith(next);
+      return;
+    }
+    const image = new Image();
+    image.src = this.image;
+    try {
+      await image.decode();
+    } catch {
+      return;
+    }
+    if (revision !== this.#thumbnailRevision || !old.isConnected) return;
+    if (!canAnimate()) {
+      old.replaceWith(next);
+      return;
+    }
+    const { offsetTop: top, offsetLeft: left, offsetWidth: width, offsetHeight: height } = old;
+    old.replaceWith(next);
+    old.removeAttribute('data-thumb');
+    old.classList.add('bookmark__previous-image');
+    old.setAttribute('aria-hidden', 'true');
+    Object.assign(old.style, { top: `${top}px`, left: `${left}px`, width: `${width}px`, height: `${height}px` });
+    this.append(old);
+    const clear = () => {
+      old.remove();
+      if (this.#clearThumbnailTransition === clear) this.#clearThumbnailTransition = null;
+    };
+    this.#clearThumbnailTransition = clear;
+    old.addEventListener('animationend', clear, { once: true });
+    old.addEventListener('animationcancel', clear, { once: true });
   }
 
   #renderFolderPreview() {
@@ -300,6 +343,8 @@ class VbBookmark extends HTMLAnchorElement {
   }
 
   #render() {
+    this.#thumbnailRevision++;
+    this.#clearThumbnailTransition?.();
     this.innerHTML = '';
     this.classList.add('bookmark');
     if (this.openNewTab && !this.isFolder) {

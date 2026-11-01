@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "Titre en italique"
-  }
+  },
+  "image_loading": { "message": "Chargement…" },
+  "image_ready": { "message": "Terminé" },
+  "image_retry": { "message": "Réessayer" },
+  "image_replace": { "message": "Remplacer l’image" },
+  "rename_title": { "message": "Renommer" },
+  "rename_hint": { "message": "Entrée : enregistrer · Échap : annuler" },
+  "rename_failed": { "message": "Impossible d’enregistrer le nom. Réessayez." },
+  "rename_conflict": { "message": "Le nom a changé ailleurs. Rouvrez Renommer." },
+  "empty_folder_title": { "message": "Ce dossier est vide" },
+  "empty_folder_hint": { "message": "Ajoutez un favori ou un dossier pour commencer." },
+  "empty_search_hint": { "message": "Essayez un autre nom ou effacez la recherche pour retrouver vos favoris." },
+  "drop_position": { "message": "Placer ici" },
+  "drop_move_here": { "message": "Déplacer ici" }
 }

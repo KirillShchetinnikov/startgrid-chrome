@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "斜体のラベル"
-  }
+  },
+  "image_loading": { "message": "読み込み中…" },
+  "image_ready": { "message": "完了" },
+  "image_retry": { "message": "再試行" },
+  "image_replace": { "message": "画像を置換" },
+  "rename_title": { "message": "名前を変更" },
+  "rename_hint": { "message": "Enter：保存 · Esc：キャンセル" },
+  "rename_failed": { "message": "名前を保存できませんでした。再試行してください。" },
+  "rename_conflict": { "message": "別の場所で名前が変更されました。名前の変更を開き直してください。" },
+  "empty_folder_title": { "message": "このフォルダーは空です" },
+  "empty_folder_hint": { "message": "ブックマークやフォルダーを追加してください。" },
+  "empty_search_hint": { "message": "別の名前で検索するか、検索をクリアしてブックマークに戻ってください。" },
+  "drop_position": { "message": "ここに配置" },
+  "drop_move_here": { "message": "ここに移動" }
 }

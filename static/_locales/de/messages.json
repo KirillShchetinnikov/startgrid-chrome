@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "Kursive Beschriftung"
-  }
+  },
+  "image_loading": { "message": "Wird geladen…" },
+  "image_ready": { "message": "Fertig" },
+  "image_retry": { "message": "Erneut versuchen" },
+  "image_replace": { "message": "Bild ersetzen" },
+  "rename_title": { "message": "Umbenennen" },
+  "rename_hint": { "message": "Enter: speichern · Esc: abbrechen" },
+  "rename_failed": { "message": "Der Name konnte nicht gespeichert werden. Erneut versuchen." },
+  "rename_conflict": { "message": "Der Name wurde anderswo geändert. Umbenennen erneut öffnen." },
+  "empty_folder_title": { "message": "Dieser Ordner ist leer" },
+  "empty_folder_hint": { "message": "Fügen Sie ein Lesezeichen oder einen Ordner hinzu." },
+  "empty_search_hint": { "message": "Versuchen Sie einen anderen Namen oder löschen Sie die Suche." },
+  "drop_position": { "message": "Hier platzieren" },
+  "drop_move_here": { "message": "Hierher verschieben" }
 }

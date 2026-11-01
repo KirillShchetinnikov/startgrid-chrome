@@ -110,6 +110,10 @@ class ContextMenu {
     } else {
       this.menu.style.top = `${this.menuY}px`;
     }
+
+    const originX = Math.max(0, Math.min(this.menuWidth, this.menuX - parseFloat(this.menu.style.left)));
+    const originY = Math.max(0, Math.min(this.menuHeight, this.menuY - parseFloat(this.menu.style.top)));
+    this.menu.style.transformOrigin = `${originX}px ${originY}px`;
   }
 
   handlerClose() {

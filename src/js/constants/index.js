@@ -54,6 +54,11 @@ export const CONTEXT_MENU = [
     isBookmark: true
   },
   {
+    action: 'rename',
+    title: getMessage('rename_title') + ' · F2',
+    icon: '<svg height="24" width="24" fill="currentColor"><use xlink:href="/img/symbol.svg#edit_outline"/></svg>'
+  },
+  {
     action: 'edit',
     title: getMessage('contextmenu_edit'),
     icon: '<svg height="24" width="24" fill="currentColor"><use xlink:href="/img/symbol.svg#edit_outline"/></svg>'

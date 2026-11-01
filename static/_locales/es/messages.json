@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "Título en cursiva"
-  }
+  },
+  "image_loading": { "message": "Cargando…" },
+  "image_ready": { "message": "Listo" },
+  "image_retry": { "message": "Reintentar" },
+  "image_replace": { "message": "Reemplazar imagen" },
+  "rename_title": { "message": "Renombrar" },
+  "rename_hint": { "message": "Enter: guardar · Esc: cancelar" },
+  "rename_failed": { "message": "No se pudo guardar el nombre. Inténtalo de nuevo." },
+  "rename_conflict": { "message": "El nombre cambió en otra ventana. Vuelve a abrir Renombrar." },
+  "empty_folder_title": { "message": "Esta carpeta está vacía" },
+  "empty_folder_hint": { "message": "Añade un marcador o una carpeta para empezar." },
+  "empty_search_hint": { "message": "Prueba otro nombre o borra la búsqueda para volver a tus marcadores." },
+  "drop_position": { "message": "Colocar aquí" },
+  "drop_move_here": { "message": "Mover aquí" }
 }

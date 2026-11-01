@@ -1,3 +1,6 @@
+import { syncThemeSegments } from './themeSegments';
+import { beginImageOperation, setImagePreview } from './imageFeedback';
+import { getFastLocalBackground } from '../localBackgroundCache';
 import { bookmarkTitleFontOptions } from '../bookmarkTypography';
 import { getFastBackground } from '../fastBackgroundCache';
 import {
@@ -173,14 +176,14 @@ function createPanel() {
     </label>`;
 
   const pageAndBackground = /* html */`
-    <label class="quick-settings__field" for="quick_color_theme">
+    <div class="quick-settings__field quick-settings__theme">
       <span>${message('color_theme')}</span>
       <select class="form-control" id="quick_color_theme" data-setting="color_theme">
         <option value="dark">${message('dark_theme')}</option>
         <option value="light">${message('light_theme')}</option>
         <option value="os">${message('os_theme')}</option>
       </select>
-    </label>
+    </div>
     <label class="quick-settings__field" for="quick_background_image">
       <span>${message('background')}</span>
       <select class="form-control" id="quick_background_image" data-setting="background_image">
@@ -512,11 +515,20 @@ export default function initQuickDisplaySettings({
   let tileSizeScaleAnchor = null;
   let pendingBackgroundRemoval = null;
   let hasLocalBackground = false;
+  let localPreviewRevision = 0;
   let folderTree = null;
 
   function syncBackgroundControls() {
     const backgroundMode = settings.effective.background_image;
-    panel.querySelector('#quick_background_external').value = settings.$.background_external;
+    const externalInput = panel.querySelector('#quick_background_external');
+    if (externalInput.dataset.savedValue !== settings.$.background_external) {
+      externalInput.value = settings.$.background_external;
+      externalInput.dataset.savedValue = settings.$.background_external;
+    }
+    const uploadButton = panel.querySelector('[data-quick-background-upload]');
+    if (!uploadButton.closest('[aria-busy="true"]')) {
+      uploadButton.textContent = message(hasLocalBackground ? 'image_replace' : 'btn_open');
+    }
     panel.querySelector('[data-quick-background-external-remove]').disabled = !settings.$.background_external;
     panel.querySelector('[data-quick-background-remove]').disabled = !hasLocalBackground;
     panel.querySelectorAll('[data-quick-background-setting]').forEach(control => {
@@ -605,28 +617,43 @@ export default function initQuickDisplaySettings({
       return;
     }
 
-    const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
-    if (!hasPermission) return;
-
-    if (isFastMode(settings.$)) {
-      try {
-        await getFastBackground('url', url);
-      } catch (error) {
-        Toast.show(getMessage(`fast_background_error_${error.code || 'download'}`));
+    const operation = beginImageOperation(
+      input.closest('section'),
+      panel.querySelector('[data-quick-background-external-set]'),
+      handleExternalBackgroundSave
+    );
+    if (!operation) return;
+    try {
+      const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
+      if (!hasPermission) {
+        operation.error(message('notice_host_permissions'));
         return;
       }
-    } else if (!await canLoadBackgroundImageURL(url)) {
-      input.value = '';
-      Toast.show(message('notice_background_url_load_failed'));
-      return;
-    }
 
-    await settings.updateAll({
-      background_image: 'background_external',
-      background_external: url
-    });
-    await UI.setBG();
-    Toast.show(message('notice_bg_image_updated'));
+      if (isFastMode(settings.$)) {
+        try {
+          await getFastBackground('url', url);
+        } catch (error) {
+          operation.error(getMessage(`fast_background_error_${error.code || 'download'}`));
+          return;
+        }
+      } else if (!await canLoadBackgroundImageURL(url)) {
+        operation.error(message('notice_background_url_load_failed'));
+        return;
+      }
+
+      await settings.updateAll({
+        background_image: 'background_external',
+        background_external: url
+      });
+      await UI.setBG();
+      operation.success();
+    } catch {
+      operation.error(message('notice_background_save_failed'));
+    } finally {
+      operation.finish();
+      syncBackgroundControls();
+    }
   }
 
   function showBackgroundRemovalConfirmation(source) {
@@ -636,14 +663,21 @@ export default function initQuickDisplaySettings({
     confirmation.querySelector('[data-quick-background-confirm-cancel]').focus();
   }
 
-  async function handleLocalBackgroundUpload() {
+  async function handleLocalBackgroundUpload(selectedFile) {
+    let file = selectedFile instanceof File ? selectedFile : null;
+    const host = panel.querySelector('[data-quick-background-setting="background_local"]');
+    const operation = beginImageOperation(host,
+      panel.querySelector('[data-quick-background-upload]'),
+      () => handleLocalBackgroundUpload(file));
+    if (!operation) return;
+    localPreviewRevision++;
     try {
-      const file = await $filePicker(
+      file ||= await $filePicker(
         isFastMode(settings.$) ? STATIC_BACKGROUND_FILE_PICKER_OPTIONS : BACKGROUND_FILE_PICKER_OPTIONS, panel);
       if (!file) return;
 
       const validation = validateBackgroundFile(file, isFastMode(settings.$));
-      if (!validation.ok && validation.reason === 'video') return Toast.show(message('performance_mode_video'));
+      if (!validation.ok && validation.reason === 'video') return operation.error(message('performance_mode_video'));
       if (!validation.ok) {
         const messageId = validation.reason === 'size'
           ? 'alert_file_type_fail_size'
@@ -651,7 +685,7 @@ export default function initQuickDisplaySettings({
         const value = validation.reason === 'size'
           ? MAX_FILE_SIZE_BYTES / 10 ** 6
           : FILES_ALLOWED_EXTENSIONS.join(' | ');
-        Toast.show(message(messageId, [value]));
+        operation.error(message(messageId, [value]));
         return;
       }
 
@@ -676,17 +710,21 @@ export default function initQuickDisplaySettings({
           if (previousRecord) await ImageDB.update(previousRecord);
           else await ImageDB.delete('background');
         },
-        reportError: () => Toast.show(message('notice_background_save_failed'))
+        reportError: () => operation.error(message('notice_background_save_failed'))
       });
       if (!result.ok) return;
 
       hasLocalBackground = true;
       syncBackgroundControls();
       await UI.setBG();
-      Toast.show(message('notice_bg_image_updated'));
+      setImagePreview(host, blobThumbnail);
+      operation.success(file.name);
     } catch (error) {
-      Toast.show(message('notice_background_save_failed'));
+      operation.error(message('notice_background_save_failed'));
       console.warn(error);
+    } finally {
+      operation.finish();
+      syncBackgroundControls();
     }
   }
 
@@ -699,8 +737,12 @@ export default function initQuickDisplaySettings({
       await settings.updateKey('background_external', '');
       syncBackgroundControls();
     } else if (source === 'local') {
+      localPreviewRevision++;
       await ImageDB.delete('background');
       hasLocalBackground = false;
+      const host = panel.querySelector('[data-quick-background-setting="background_local"]');
+      setImagePreview(host, null);
+      host.querySelector('.image-feedback')?.replaceChildren();
       syncBackgroundControls();
     } else {
       return;
@@ -747,6 +789,7 @@ export default function initQuickDisplaySettings({
     syncBackgroundControls();
     syncDefaultFolderControls();
     syncSortingControls();
+    syncThemeSegments(panel);
     panel.querySelectorAll('[data-setting], [data-quick-default-folder]').forEach(control => {
       const key = control.dataset.setting || 'default_folder_id';
       const row = control.closest('label');
@@ -775,9 +818,27 @@ export default function initQuickDisplaySettings({
     trigger.classList.toggle('is-active', willOpen);
     if (willOpen) {
       syncControls();
+      void refreshLocalPreview();
       panel.querySelector('.quick-settings__group-summary')?.focus();
     } else if (restoreFocus) {
       trigger.focus();
+    }
+    if (!willOpen) {
+      localPreviewRevision++;
+      setImagePreview(panel.querySelector('[data-quick-background-setting="background_local"]'), null);
+    }
+  }
+
+  async function refreshLocalPreview() {
+    const revision = ++localPreviewRevision;
+    try {
+      const record = await ImageDB.get('background');
+      const preview = isFastMode(settings.$)
+        ? await getFastLocalBackground(record?.blob) : record?.blobThumbnail;
+      if (revision !== localPreviewRevision || panel.hidden) return;
+      setImagePreview(panel.querySelector('[data-quick-background-setting="background_local"]'), preview);
+    } catch (error) {
+      console.warn(error);
     }
   }
 

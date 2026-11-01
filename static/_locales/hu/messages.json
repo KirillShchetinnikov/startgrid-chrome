@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "Dőlt felirat"
-  }
+  },
+  "image_loading": { "message": "Betöltés…" },
+  "image_ready": { "message": "Kész" },
+  "image_retry": { "message": "Újra" },
+  "image_replace": { "message": "Kép cseréje" },
+  "rename_title": { "message": "Átnevezés" },
+  "rename_hint": { "message": "Enter: mentés · Esc: mégse" },
+  "rename_failed": { "message": "A név mentése sikertelen. Próbálja újra." },
+  "rename_conflict": { "message": "A név máshol megváltozott. Nyissa meg újra az átnevezést." },
+  "empty_folder_title": { "message": "Ez a mappa üres" },
+  "empty_folder_hint": { "message": "Adjon hozzá könyvjelzőt vagy mappát." },
+  "empty_search_hint": { "message": "Próbáljon másik nevet, vagy törölje a keresést." },
+  "drop_position": { "message": "Elhelyezés itt" },
+  "drop_move_here": { "message": "Áthelyezés ide" }
 }

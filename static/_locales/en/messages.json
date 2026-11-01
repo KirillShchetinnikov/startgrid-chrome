@@ -1156,5 +1156,18 @@
   },
   "bookmark_title_italic": {
     "message": "Italic caption"
-  }
+  },
+  "image_loading": { "message": "Loading…" },
+  "image_ready": { "message": "Ready" },
+  "image_retry": { "message": "Try again" },
+  "image_replace": { "message": "Replace image" },
+  "rename_title": { "message": "Rename" },
+  "rename_hint": { "message": "Enter to save · Esc to cancel" },
+  "rename_failed": { "message": "Could not save the name. Try again." },
+  "rename_conflict": { "message": "The name changed elsewhere. Reopen Rename to review it." },
+  "empty_folder_title": { "message": "This folder is empty" },
+  "empty_folder_hint": { "message": "Add a bookmark or folder to get started." },
+  "empty_search_hint": { "message": "Try another name or clear the search to return to your bookmarks." },
+  "drop_position": { "message": "Place here" },
+  "drop_move_here": { "message": "Move here" }
 }

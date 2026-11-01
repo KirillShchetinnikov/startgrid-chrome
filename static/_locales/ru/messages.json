@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "Курсив"
-  }
+  },
+  "image_loading": { "message": "Загрузка…" },
+  "image_ready": { "message": "Готово" },
+  "image_retry": { "message": "Повторить" },
+  "image_replace": { "message": "Заменить изображение" },
+  "rename_title": { "message": "Переименовать" },
+  "rename_hint": { "message": "Enter — сохранить · Esc — отменить" },
+  "rename_failed": { "message": "Не удалось сохранить название. Повторите попытку." },
+  "rename_conflict": { "message": "Название изменено в другом окне. Откройте переименование заново." },
+  "empty_folder_title": { "message": "Папка пока пуста" },
+  "empty_folder_hint": { "message": "Добавьте закладку или папку, чтобы начать." },
+  "empty_search_hint": { "message": "Попробуйте другое название или сбросьте поиск, чтобы вернуться к закладкам." },
+  "drop_position": { "message": "Поставить здесь" },
+  "drop_move_here": { "message": "Переместить сюда" }
 }

@@ -1,3 +1,5 @@
+import { initInlineRename, startInlineRename } from './components/inlineRename';
+import { beginImageOperation } from './components/imageFeedback';
 import { isFastMode } from './performanceMode';
 import './components/vb-select';
 import './components/vb-context-menu';
@@ -37,7 +39,7 @@ import { CONTEXT_MENU, LOCAL_PROTOCOLS } from './constants';
 import { bookmarksToDelete } from './state';
 import Toast from './components/toast';
 import { createThumbnailFailure, validateThumbnailRequest } from './api/thumbnailErrors';
-import { showThumbnailError } from './thumbnailErrorNotice';
+import { showThumbnailError as showThumbnailErrorNotice } from './thumbnailErrorNotice';
 import { makeModalAccessible } from './accessibleModal';
 import { containsPermissions } from './api/permissions';
 import {
@@ -278,15 +280,18 @@ async function init() {
     onSuccess: withThumbnailErrors(handleSubmitForm)
   });
 
-  upload.addEventListener('change', withThumbnailErrors(handleUploadScreen));
+  upload.addEventListener('change', withModalImageFeedback(handleUploadScreen, uploadThumbnailButton));
   thumbnailSource.addEventListener('change', handleThumbnailSourceChange);
-  captureThumbnailButton.addEventListener('click', withThumbnailErrors(handleCaptureThumbnail));
+  captureThumbnailButton.addEventListener('click',
+    withModalImageFeedback(handleCaptureThumbnail, captureThumbnailButton));
   uploadThumbnailButton.addEventListener('click', handleModalUploadThumbnail);
-  pasteThumbnailButton.addEventListener('click', withThumbnailErrors(handleModalPasteThumbnail));
+  pasteThumbnailButton.addEventListener('click',
+    withModalImageFeedback(handleModalPasteThumbnail, pasteThumbnailButton));
   deleteThumbnailButton.addEventListener('click', withThumbnailErrors(handleModalDeleteThumbnail));
   container.addEventListener('click', handleDelegateClick);
   container.addEventListener('mousedown', handleOpenMousemiddle);
   ctxMenuEl.addEventListener('vb:contextmenu:select', handleMenuSelection);
+  initInlineRename({ isShortcutReserved: () => Object.values(settings.effective.keyboard_shortcuts).includes('F2') });
   ctxMenuEl.addEventListener('vb:contextmenu:open', handleMenuOpen);
   document.getElementById('resetCustomImage').addEventListener('click', withThumbnailErrors(handleResetThumb));
   modal.addEventListener('gmodal:close', handleCloseModal);
@@ -669,6 +674,11 @@ async function startGenerateThumbs(trigger = null) {
 }
 
 async function handleDelegateClick(evt) {
+  if (evt.target.closest('[data-empty-search-reset]')) {
+    document.querySelector('vb-header')?.resetNode?.click();
+    document.querySelector('vb-header')?.inputNode?.focus();
+    return;
+  }
   const searchFolder = evt.target.closest('[data-search-folder-id]');
 
   if (searchFolder) {
@@ -770,6 +780,9 @@ async function handleMenuSelection(evt) {
       if (!target.isFolder) incrementBookmarkUsage(target);
       openTab(target.href);
       break;
+    case 'rename':
+      startInlineRename(target);
+      break;
     case 'edit':
       await prepareModal(target);
       modalApi.open();
@@ -806,18 +819,22 @@ async function handleUploadScreen(evt) {
     delete input.dataset.modal;
     showModalBlob(blob);
     handleThumbnailSourceChange();
-    return;
+    return true;
   }
 
   if (!bookmark) return;
 
-  await Bookmarks.uploadScreen(bookmark, blob);
+  if (!await Bookmarks.uploadScreen(bookmark, blob)) {
+    modalImageOperation?.error(getMessage('thumbnail_error_reason_storage'));
+    return false;
+  }
   if (input.dataset.modal === 'true') {
     delete input.dataset.modal;
     thumbnailSource.value = 'local';
     handleThumbnailSourceChange();
     await showModalThumbnail(id);
   }
+  return true;
 }
 
 async function readClipboardImage() {
@@ -905,7 +922,10 @@ async function handleCaptureThumbnail() {
     }
 
     const permission = await Bookmarks.checkHostPermissions();
-    if (!permission) return;
+    if (!permission) {
+      modalImageOperation?.error(getMessage('notice_host_permissions'));
+      return;
+    }
 
     const blob = source === 'site'
       ? await Bookmarks.captureThumbnailBlob(pageUrl, permission)
@@ -922,7 +942,9 @@ async function handleCaptureThumbnail() {
       pendingThumbnailSource = source;
       showModalBlob(blob);
       handleThumbnailSourceChange();
+      return true;
     }
+    modalImageOperation?.error(getMessage('thumbnail_error_reason_unknown'));
     return;
   }
 
@@ -949,7 +971,10 @@ async function handleCaptureThumbnail() {
     let response;
     if (source === 'site') {
       const permission = await Bookmarks.checkHostPermissions();
-      if (!permission) return;
+      if (!permission) {
+        modalImageOperation?.error(getMessage('notice_host_permissions'));
+        return;
+      }
       const blob = await Bookmarks.captureThumbnailBlob(pageUrl, permission);
       if (blob) {
         const saved = await Bookmarks.uploadScreen(bookmark, blob, {
@@ -962,11 +987,17 @@ async function handleCaptureThumbnail() {
       }
     } else if (source === 'url') {
       const permission = await Bookmarks.checkHostPermissions();
-      if (!permission) return;
+      if (!permission) {
+        modalImageOperation?.error(getMessage('notice_host_permissions'));
+        return;
+      }
       response = await Bookmarks.setRemoteThumbnail(bookmark, remoteUrl, false);
     } else if (source === 'favicon') {
       const permission = await Bookmarks.checkHostPermissions();
-      if (!permission) return;
+      if (!permission) {
+        modalImageOperation?.error(getMessage('notice_host_permissions'));
+        return;
+      }
       response = await Bookmarks.setFaviconThumbnailSource(
         bookmark,
         pageUrl,
@@ -985,7 +1016,9 @@ async function handleCaptureThumbnail() {
       handleThumbnailSourceChange();
       await showModalThumbnail(bookmark.id);
       Toast.show(getMessage('notice_thumb_image_updated'));
+      return true;
     } else {
+      modalImageOperation?.error(getMessage('thumbnail_error_reason_unknown'));
       bookmark.classList.add('is-thumbnail-error');
       window.setTimeout(() => bookmark.classList.remove('is-thumbnail-error'), 1800);
       if (source !== 'site') {
@@ -1008,7 +1041,10 @@ async function handleModalPasteThumbnail() {
   if (!(await containsPermissions({ permissions: ['clipboardRead'] }))) return;
 
   const blob = await readClipboardImage();
-  if (!blob) return;
+  if (!blob) {
+    modalImageOperation?.error(getMessage('thumbnail_error_reason_not_image'));
+    return;
+  }
 
   const bookmark = getModalBookmark();
   if (!bookmark) {
@@ -1016,13 +1052,17 @@ async function handleModalPasteThumbnail() {
     pendingThumbnailSource = 'local';
     showModalBlob(blob);
     handleThumbnailSourceChange();
-    return;
+    return true;
   }
 
-  await Bookmarks.uploadScreen(bookmark, blob);
+  if (!await Bookmarks.uploadScreen(bookmark, blob)) {
+    modalImageOperation?.error(getMessage('thumbnail_error_reason_storage'));
+    return false;
+  }
   thumbnailSource.value = 'local';
   handleThumbnailSourceChange();
   await showModalThumbnail(bookmark.id);
+  return true;
 }
 
 function handleModalDeleteThumbnail(evt) {
@@ -1030,6 +1070,7 @@ function handleModalDeleteThumbnail(evt) {
 }
 
 function handleCloseModal() {
+  document.querySelector('#thumbnailActions > .image-feedback')?.replaceChildren();
   modal.classList.remove('has-edit', 'has-add');
   customScreen.style.display = '';
   delete form.dataset.oldUrl;
@@ -1044,7 +1085,10 @@ function handleCloseModal() {
   form.reset();
 }
 
-function handleThumbnailSourceChange() {
+function handleThumbnailSourceChange(event) {
+  if (event?.type === 'change') {
+    document.querySelector('#thumbnailActions > .image-feedback')?.replaceChildren();
+  }
   const enabled = form.dataset.thumbnailEnabled === 'true';
   if (!enabled) {
     document.getElementById('thumbnailSourceWrap').hidden = true;
@@ -1077,6 +1121,8 @@ function handleThumbnailSourceChange() {
     isNew && source === 'site' ? 'thumbnail_source_site' : 'contextmenu_capture'
   );
   uploadThumbnailButton.hidden = !isLocal;
+  uploadThumbnailButton.textContent = getMessage(isLocal
+    && (pendingThumbnailBlob || form.dataset.thumbnailHasImage === 'true') ? 'image_replace' : 'contextmenu_upload');
   pasteThumbnailButton.hidden = !isLocal;
   deleteThumbnailButton.hidden = false;
   resetCustomImageButton.hidden = false;
@@ -1221,6 +1267,41 @@ function getModalThumbnailSize() {
 
 function usesDownloadedFavicon(preferences = getModalFaviconPreferences()) {
   return shouldDownloadFavicon(preferences, settings.effective.download_favicons_by_default);
+}
+
+let modalImageOperation = null;
+
+function showThumbnailError(response, context) {
+  modalImageOperation?.error(getMessage('thumbnail_error_reason_unknown'));
+  return showThumbnailErrorNotice(response, context);
+}
+
+function withModalImageFeedback(handler, button) {
+  return async function run(event) {
+    if (handler === handleUploadScreen && event.target.dataset.modal !== 'true') {
+      return withThumbnailErrors(handler).call(this, event);
+    }
+    const file = event?.target?.files?.[0];
+    const retryEvent = file ? {
+      preventDefault() { /* The original change event is already handled. */ },
+      target: { files: [file], dataset: { ...event.target.dataset }, value: '' }
+    } : null;
+    const host = document.getElementById('thumbnailActions');
+    const operation = beginImageOperation(host, button, () => retryEvent ? run.call(this, retryEvent) : button.click());
+    if (!operation) return;
+    modalImageOperation = operation;
+    const fileName = file?.name || '';
+    try {
+      const success = await handler.call(this, event);
+      if (success) operation.success(fileName);
+    } catch {
+      operation.error(getMessage('thumbnail_error_reason_unknown'));
+    } finally {
+      operation.finish();
+      modalImageOperation = null;
+      handleThumbnailSourceChange();
+    }
+  };
 }
 
 function withThumbnailErrors(handler) {
@@ -1466,6 +1547,7 @@ async function handleResetThumb(evt) {
 }
 
 async function prepareModal(target) {
+  document.querySelector('#thumbnailActions > .image-feedback')?.replaceChildren();
   // Reset stale values and validation state before filling the edit form.
   // Resetting in gmodal:beforeopen cleared values populated by this async function.
   form.reset();

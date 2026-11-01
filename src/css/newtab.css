@@ -14,5 +14,7 @@
 @import "./components/_progress-toast.css";
 @import "./components/_gmodal.css";
 @import "./components/_not-found.css";
+@import "./components/_image-feedback.css";
+@import "./components/_ui-polish.css";
 @import "./base/_utilities.css";
 @import "./components/_performance-mode.css";

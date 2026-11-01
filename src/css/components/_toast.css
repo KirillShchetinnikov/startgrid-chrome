@@ -1,3 +1,20 @@
+.toast,
+.progress-toast {
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 16px;
+  color: var(--theme-text-color);
+  background-color: var(--theme-background-2);
+  border: var(--surface-border);
+  border-radius: var(--base-radius);
+  box-sizing: border-box;
+  box-shadow: var(--surface-shadow);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
 .toast-container {
   position: fixed;
   display: flex;
@@ -53,17 +70,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 48px;
-  padding: 10px 16px;
-  font-family: inherit;
-  color: #fff;
-  background-color: #323232;
-  border-radius: var(--base-radius);
-  box-sizing: border-box;
-  will-change: transform, opacity;
   overflow: hidden;
-  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
   transition: opacity 0.25s, transform 0.25s, display 0.25s allow-discrete;
 
   &.toast--progress::after {
@@ -79,7 +86,7 @@
 }
 
 .toast--error {
-  background-color: var(--color-warning);
+  border-inline-start: 4px solid var(--color-warning);
 }
 
 @keyframes toast-progress {
@@ -142,13 +149,25 @@
 }
 
 .toast__action {
+  padding: 6px 10px;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  border: var(--surface-border);
+  border-radius: 8px;
+  cursor: pointer;
   flex-shrink: 0;
   margin-left: auto;
   position: relative;
   align-self: center;
   display: inline-flex;
   gap: 4px;
-  background-color: rgb(255 255 255 / 5%);
+  background-color: var(--theme-invert-alpha-10);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
 }
 
 .toast__btn {
@@ -164,13 +183,18 @@
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.25s ease;
-  outline: none;
+  color: inherit;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
   &:hover,
   &:focus {
-    background-color: rgb(255 255 255 / 15%);
+    background-color: var(--theme-invert-alpha-10);
   }
   &:active {
-    background-color: rgb(255 255 255 / 30%);
+    background-color: var(--theme-invert-alpha-20);
   }
   & svg {
     display: inline-block;
@@ -178,7 +202,7 @@
     height: 1.4em;
     margin: auto;
     vertical-align: middle;
-    fill: #fff;
+    fill: currentcolor;
   }
 }
 
@@ -187,12 +211,12 @@
   .toast-container--top .toast,
   .toast-container--top-left .toast,
   .toast-container--top-right .toast {
-    transform: translateY(-50px);
+    transform: translateY(-8px);
   }
   .toast-container--bottom .toast,
   .toast-container--bottom-left .toast,
   .toast-container--bottom-right .toast {
-    transform: translateY(50px);
+    transform: translateY(8px);
   }
 }
 
@@ -204,10 +228,21 @@
 .toast-container--top .is-deleting,
 .toast-container--top-left .is-deleting,
 .toast-container--top-right .is-deleting {
-  transform: translateY(-50px);
+  transform: translateY(-8px);
 }
 .toast-container--bottom .is-deleting,
 .toast-container--bottom-left .is-deleting,
 .toast-container--bottom-right .is-deleting {
-  transform: translateY(50px);
+  transform: translateY(8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast,
+  .toast__btn {
+    transition: none;
+  }
+
+  .toast--progress::after {
+    animation: none;
+  }
 }

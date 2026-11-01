@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "Podpis kursywą"
-  }
+  },
+  "image_loading": { "message": "Ładowanie…" },
+  "image_ready": { "message": "Gotowe" },
+  "image_retry": { "message": "Spróbuj ponownie" },
+  "image_replace": { "message": "Zastąp obraz" },
+  "rename_title": { "message": "Zmień nazwę" },
+  "rename_hint": { "message": "Enter: zapisz · Esc: anuluj" },
+  "rename_failed": { "message": "Nie udało się zapisać nazwy. Spróbuj ponownie." },
+  "rename_conflict": { "message": "Nazwa została zmieniona w innym miejscu. Otwórz ponownie zmianę nazwy." },
+  "empty_folder_title": { "message": "Ten folder jest pusty" },
+  "empty_folder_hint": { "message": "Dodaj zakładkę lub folder, aby rozpocząć." },
+  "empty_search_hint": { "message": "Spróbuj innej nazwy lub wyczyść wyszukiwanie, aby wrócić do zakładek." },
+  "drop_position": { "message": "Umieść tutaj" },
+  "drop_move_here": { "message": "Przenieś tutaj" }
 }

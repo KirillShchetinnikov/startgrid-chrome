@@ -1351,5 +1351,18 @@
   },
   "bookmark_title_italic": {
     "message": "기울임 제목"
-  }
+  },
+  "image_loading": { "message": "불러오는 중…" },
+  "image_ready": { "message": "완료" },
+  "image_retry": { "message": "다시 시도" },
+  "image_replace": { "message": "이미지 바꾸기" },
+  "rename_title": { "message": "이름 바꾸기" },
+  "rename_hint": { "message": "Enter: 저장 · Esc: 취소" },
+  "rename_failed": { "message": "이름을 저장하지 못했습니다. 다시 시도하세요." },
+  "rename_conflict": { "message": "다른 곳에서 이름이 변경되었습니다. 이름 바꾸기를 다시 여세요." },
+  "empty_folder_title": { "message": "폴더가 비어 있습니다" },
+  "empty_folder_hint": { "message": "북마크나 폴더를 추가해 보세요." },
+  "empty_search_hint": { "message": "다른 이름을 검색하거나 검색을 지워 북마크로 돌아가세요." },
+  "drop_position": { "message": "여기에 배치" },
+  "drop_move_here": { "message": "여기로 이동" }
 }
