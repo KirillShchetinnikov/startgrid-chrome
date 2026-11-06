@@ -23,6 +23,14 @@ function dispatchFolderNavigation() {
 }
 
 export function initFolderNavigation(folderId) {
+  const [navigation] = window.performance.getEntriesByType('navigation');
+  const state = window.history.state;
+  if (!window.location.hash && navigation?.type === 'back_forward' && state?.[FOLDER_HISTORY_KEY]) {
+    currentFolderId = String(state[FOLDER_HISTORY_KEY]);
+    historyDepth = Number(state[FOLDER_HISTORY_DEPTH_KEY]) || 0;
+    return;
+  }
+
   currentFolderId = String(folderId);
 
   // Older versions stored the current folder in the URL hash. Honour that URL

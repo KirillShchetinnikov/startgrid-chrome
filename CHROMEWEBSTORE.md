@@ -1,6 +1,6 @@
 # Chrome Web Store Listing — StartGrid
 
-> Last Updated: 2026-11-01
+> Last Updated: 2026-11-06
 
 Screenshot refresh pending: context menu, range controls in quick/full settings,
 theme-aware notifications, image upload previews, inline retry messages,
@@ -18,6 +18,8 @@ StartGrid
 Customizable visual bookmarks on every new tab, using your existing Chrome bookmark tree.
 
 **Detailed Description**
+
+StartGrid keeps its bookmark grid and settings tabs loaded so you can return to them faster.
 
 Preview uploaded backgrounds and thumbnails, see the selected filename, and retry failed uploads.
 Failed background URLs stay in the field so you can correct or retry them.
@@ -46,7 +48,7 @@ Organize, open, edit, move, and search bookmarks without creating a separate acc
 
 Optionally reopen the last folder visited on this device. This simplified mode applies global display settings to every folder and uses website icons, without individual bookmark appearance, screenshots, or usage-based sorting. Choose icons from Chrome's cache or download them from websites in either the quick or full settings.
 
-Open a new tab to use StartGrid. Select a folder, open a bookmark, or use the search bar. Chrome's Back and Forward buttons navigate between folders opened in StartGrid. Use the tile menu to edit a bookmark or its thumbnail, and open Settings to personalize the page.
+Open a new tab to use StartGrid. Select a folder, open a bookmark, or use the search bar. Chrome's Back and Forward buttons navigate between folders opened in StartGrid. If you open a bookmark in the same tab, Back returns to the folder you left. Use the tile menu to edit a bookmark or its thumbnail, and open Settings to personalize the page.
 
 StartGrid keeps bookmarks in Chrome's bookmark system. It stores settings and locally chosen images in Chrome storage. Network access is used only for user-enabled features such as web-page thumbnails, favicon downloads, search suggestions, and Bing's daily image.
 
@@ -160,6 +162,7 @@ Refresh the settings screenshot at a short viewport height to show the scrollabl
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.5.1 | 2026-11-06 | Keeps StartGrid's own tabs loaded in the background and restores the open folder when returning from a site. | GitHub release; Web Store submission pending |
 | 2.5.0 | 2026-11-01 | Adds inline renaming, theme segments, clearer empty states and drag targets, theme-aware notifications, image previews and retries, accessible tooltips, and reduced-motion/Fast-mode support. | GitHub release; Web Store submission pending |
 | 2.4.2 | 2026-10-31 | Keeps offscreen tiles the same height when reached by keyboard navigation and removes unused icons. | GitHub release; Web Store submission pending |
 | 2.4.0 | 2026-10-30 | Protects newer thumbnails from delayed updates, preserves caption preferences and background URLs, prevents duplicate saves, fixes search, selection, moving and delayed deletion, restores nested-dialog focus, and supports the selected screenshot delay. Includes large-grid rendering improvements from the withdrawn 2.3.9 release. | GitHub release; Web Store submission pending |

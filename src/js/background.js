@@ -33,6 +33,7 @@ import {
 import { shouldDownloadFavicon } from './api/faviconPreferences';
 import { removeBookmarkTextPreference } from './api/bookmarkTextPreferences';
 import { requestSearchSuggestions } from './searchSuggestions';
+import { registerTabDiscardProtection } from './tabDiscardProtection';
 import {
   cleanupRemovedBookmark,
   createBookmarkImportGuard,
@@ -635,3 +636,4 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 browser.tabs.onCreated.addListener(handleCreatedTab);
+registerTabDiscardProtection(browser);
