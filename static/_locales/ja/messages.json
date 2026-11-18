@@ -290,7 +290,7 @@
     "message": "本気ですか？ローカルのサムネイルはすべて削除されます。"
   },
   "confirm_clear_local_cache": {
-    "message": "本気ですか？一時的なローカル データはすべて削除されます。設定とローカルイメージは保存されます。"
+    "message": "この端末の一時データ、ブックマークを開いた回数、最後に開いたフォルダの記録を消去しますか？設定と保存済みの画像は保持されます。"
   },
   "confirm_delete_bookmark": {
     "message": "このブックマークを削除しますか?"
@@ -537,6 +537,9 @@
   "background_external": {
     "message": "URLからの画像"
   },
+  "background_external_permission": {
+    "message": "この背景を使用するには、画像の配信元サイトへのアクセスを許可してください。"
+  },
   "background_external_note": {
     "message": "画像への直接リンクを貼り付けます。適用時にサイトへのアクセス許可を求めます。"
   },
@@ -769,6 +772,9 @@
   },
   "export": {
     "message": "輸出"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "設定をインポートしました。バックアップのホームフォルダが見つからないため、現在のホームフォルダを保持しました。"
   },
   "import_settings_success": {
     "message": "インポートされた設定"

@@ -290,7 +290,7 @@
     "message": "Bist du sicher? Alle lokalen Miniaturansichten werden gelöscht."
   },
   "confirm_clear_local_cache": {
-    "message": "Bist du sicher? Alle temporären lokalen Daten werden gelöscht. Einstellungen und lokale Bilder bleiben erhalten."
+    "message": "Temporäre Daten, Aufrufzähler der Lesezeichen und den Eintrag zum zuletzt geöffneten Ordner auf diesem Gerät löschen? Einstellungen und gespeicherte Bilder bleiben erhalten."
   },
   "confirm_delete_bookmark": {
     "message": "Dieses Lesezeichen löschen?"
@@ -537,6 +537,9 @@
   "background_external": {
     "message": "Bild von URL"
   },
+  "background_external_permission": {
+    "message": "Erlaube den Zugriff auf die Website des Bildes, um diesen Hintergrund zu verwenden."
+  },
   "background_external_note": {
     "message": "Fügen Sie einen direkten Link zu einem Bild ein. Beim Anwenden wird der Zugriff auf die Website angefordert."
   },
@@ -769,6 +772,9 @@
   },
   "export": {
     "message": "Export"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "Einstellungen importiert. Der Startordner aus der Sicherung wurde nicht gefunden. Der aktuelle Startordner bleibt erhalten."
   },
   "import_settings_success": {
     "message": "Einstellungen importiert"

@@ -23,7 +23,8 @@ describe('remote backgrounds in Fast mode', () => {
     page.setDefaultTimeout(8000);
     page.on('pageerror', error => errors.push(error.message));
     await page.evaluateOnNewDocument(() => {
-      chrome.permissions.request = async() => true;
+      chrome.permissions.request = async({ origins }) =>
+        origins.length === 1 && ['https://background.test/*', 'https://www.bing.com/*'].includes(origins[0]);
       const realFetch = window.fetch;
       window.__remoteRequests = [];
       window.fetch = async(input, options) => {

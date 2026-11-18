@@ -1,3 +1,4 @@
+import { getMessage } from '../../i18n';
 import ContextMenu from './contextmenu';
 import { $createElement } from '../../utils';
 
@@ -52,7 +53,9 @@ class VbContextMenu extends HTMLElement {
       class: 'context-menu'
     });
     this.menuNode = $createElement('ul', {
-      class: 'context-menu__list'
+      class: 'context-menu__list',
+      role: 'menu',
+      'aria-label': getMessage('bookmark_context')
     });
     this.containerNode.append(this.menuNode);
     this.append(this.containerNode);
@@ -63,10 +66,10 @@ class VbContextMenu extends HTMLElement {
       const isDisabled = item.disabled ? 'is-disabled' : '';
 
       if (item.divider) {
-        return '<li class="context-menu__item context-menu__item--divider"></li>';
+        return '<li role="separator" class="context-menu__item context-menu__item--divider"></li>';
       }
-      return `<li class="context-menu__item">
-          <a class="context-menu__link ${ isDisabled }" data-action="${ item.action }">
+      return `<li role="none" class="context-menu__item">
+          <a role="menuitem" tabindex="-1" aria-disabled="${Boolean(item.disabled)}" class="context-menu__link ${ isDisabled }" data-action="${ item.action }">
             <span class="context-menu__icon">${ item.icon ? item.icon : '' }</span>
             <span class="">${ item.title }</span>
           </a>

@@ -73,6 +73,46 @@ describe('audited bookmark interactions', () => {
     expect(await page.$eval('#saveBookmarkBtn', button => button.disabled)).toBe(false);
   });
 
+  it('moves keyboard focus through tile actions and returns it to the opener', async() => {
+    await fresh();
+    const opener = `#vb-${data.a} .bookmark__action`;
+    await page.focus(opener);
+    await page.keyboard.press('Enter');
+    await page.waitForSelector('[role="menu"] [role="menuitem"]:focus');
+    expect(await page.$eval(opener, button => button.getAttribute('aria-expanded'))).toBe('true');
+    const first = await page.$eval('[role="menuitem"]:focus', item => item.dataset.action);
+    await page.keyboard.press('ArrowDown');
+    expect(await page.$eval('[role="menuitem"]:focus', item => item.dataset.action)).not.toBe(first);
+    await page.keyboard.press('Escape');
+    expect(await page.$eval(opener, button =>
+      document.activeElement === button && button.getAttribute('aria-expanded') === 'false')).toBe(true);
+  });
+
+  it('imports a legacy backup without enabling Sync or adopting a foreign folder ID', async() => {
+    await fresh({ color_theme: 'light' });
+    const cloudBefore = await worker.evaluate(() => chrome.storage.sync.get(null));
+    const options = await browser.newPage();
+    try {
+      await options.goto(extensionUrl.replace('newtab.html', 'options.html'));
+      await options.waitForSelector('body:not([data-options-loading])');
+      await options.evaluate(foreignId => {
+        const backup = JSON.stringify({ enable_sync: true, color_theme: 'dark', sync_default_folder_id: foreignId,
+          sync_default_folder_path: [{ title: 'Missing folder', index: 0 }] });
+        window.showOpenFilePicker = async() => [{ getFile: async() => new File([backup], 'backup.json') }];
+      }, data.folder);
+      await Promise.all([
+        options.waitForNavigation({ waitUntil: 'load' }),
+        options.$eval('#import', button => button.click())
+      ]);
+      const { settings } = await worker.evaluate(() => chrome.storage.local.get('settings'));
+      expect(settings).toMatchObject({ enable_sync: false, color_theme: 'dark', default_folder_id: data.home });
+      expect(settings.sync_default_folder_id).not.toBe(data.folder);
+      expect(await worker.evaluate(() => chrome.storage.sync.get(null))).toEqual(cloudBefore);
+    } finally {
+      await options.close();
+    }
+  });
+
   it('cancels a queued search on reset and on folder navigation', async() => {
     await fresh();
     await page.evaluate(() => {

@@ -290,7 +290,7 @@
     "message": "Es-tu sûr? Toutes les vignettes locales seront supprimées."
   },
   "confirm_clear_local_cache": {
-    "message": "Es-tu sûr? Toutes les données locales temporaires seront supprimées. Les paramètres et les images locales seront conservés."
+    "message": "Effacer les données temporaires, les compteurs d’ouverture des favoris et la référence au dernier dossier ouvert sur cet appareil ? Les paramètres et les images enregistrées seront conservés."
   },
   "confirm_delete_bookmark": {
     "message": "Supprimer ce favori ?"
@@ -537,6 +537,9 @@
   "background_external": {
     "message": "Image de l'URL"
   },
+  "background_external_permission": {
+    "message": "Autorisez l’accès au site de l’image pour utiliser cet arrière-plan."
+  },
   "background_external_note": {
     "message": "Collez un lien direct vers une image. L’accès au site sera demandé lors de l’application."
   },
@@ -769,6 +772,9 @@
   },
   "export": {
     "message": "Exporter"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "Paramètres importés. Le dossier d’accueil de la sauvegarde est introuvable. Le dossier d’accueil actuel est conservé."
   },
   "import_settings_success": {
     "message": "Paramètres importés"

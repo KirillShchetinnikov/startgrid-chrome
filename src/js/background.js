@@ -333,45 +333,26 @@ async function performCapture(request, signal) {
   });
 }
 
-function handleCreateBookmark(data) {
-  browser.tabs.query({ active: true, currentWindow: true }, async function(tabs){
-    await i18nReady;
-    const matches = await search(data.pageUrl);
-    if (!matches) return;
+async function handleCreateBookmark(data, tab) {
+  if (!data.pageUrl) return;
+  await i18nReady;
+  const matches = await search(data.pageUrl);
+  if (matches.some(match => match.url === data.pageUrl)) {
+    $notifications(getMessage('notice_bookmark_exist'));
+    return;
+  }
+  const { settings } = await storage.local.get('settings');
+  const menuItemId = String(data.menuItemId).replace('save-', '');
+  const parentId = menuItemId === 'current_folder' ? String(getDefaultFolderId(settings)) : menuItemId;
 
-    const isExist = matches.some(match => match.url === data.pageUrl);
-    if (isExist) {
-      // Bookmarks exist
-      $notifications(getMessage('notice_bookmark_exist'));
-    } else {
-      const { settings } = await storage.local.get('settings');
-      // ID of the item for subfolders starts with 'save-{parentId}'
-      // to get a valid ID, remove the extra characters from the string
-      // extra characters will be found in subfolders in the add item
-      const menuItemId = data.menuItemId.replace('save-', '');
-
-      const parentId = (menuItemId === 'current_folder')
-        ? String(getDefaultFolderId(settings))
-        : menuItemId;
-
-      // Create
-      const response = await create({
-        parentId,
-        url: data.pageUrl,
-        title: tabs[0].title
-      }).catch(err => {
-        console.warn(err);
-      });
-
-      // do not generate a thumbnail if you could not create a bookmark or the auto-generation option is turned off
-      if (!response) return;
-
-      if (settings.close_tab_after_adding_bookmark) {
-        browser.tabs.remove(tabs[0].id);
-      }
-      $notifications(getMessage('notice_bookmark_created'));
+  await create({ parentId, url: data.pageUrl, title: tab?.title || data.pageUrl });
+  $notifications(getMessage('notice_bookmark_created'));
+  if (settings.close_tab_after_adding_bookmark && tab?.id != null) {
+    const current = await browser.tabs.get(tab.id).catch(() => null);
+    if (current?.url === data.pageUrl && (!current.pendingUrl || current.pendingUrl === data.pageUrl)) {
+      await browser.tabs.remove(tab.id);
     }
-  });
+  }
 }
 
 async function handleCreatedTab(tab) {
@@ -567,7 +548,9 @@ browser.bookmarks.onImportEnded.addListener(() => {
     .catch(error => console.warn('Could not finish bookmark import', error));
 });
 
-browser.contextMenus.onClicked.addListener(handleCreateBookmark);
+browser.contextMenus.onClicked.addListener((data, tab) =>
+  handleCreateBookmark(data, tab).catch(error => console.warn('Could not save page from context menu', error))
+);
 browser.action.onClicked.addListener(browserActionHandler);
 browser.notifications.onClicked.addListener(browserActionHandler);
 

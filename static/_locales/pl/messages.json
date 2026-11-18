@@ -290,7 +290,7 @@
     "message": "Czy jesteś pewien? Wszystkie lokalne miniatury zostaną usunięte."
   },
   "confirm_clear_local_cache": {
-    "message": "Czy jesteś pewien? Wszystkie tymczasowe dane lokalne zostaną usunięte. Ustawienia i obrazy lokalne zostaną zachowane."
+    "message": "Usunąć dane tymczasowe, liczniki otwarć zakładek i informację o ostatnio otwartym folderze na tym urządzeniu? Ustawienia i zapisane obrazy zostaną zachowane."
   },
   "confirm_delete_bookmark": {
     "message": "Usunąć tę zakładkę?"
@@ -537,6 +537,9 @@
   "background_external": {
     "message": "Obraz z adresu URL"
   },
+  "background_external_permission": {
+    "message": "Zezwól na dostęp do witryny z obrazem, aby użyć tego tła."
+  },
   "background_external_note": {
     "message": "Wklej bezpośredni link do obrazu. Podczas stosowania zostanie poproszony dostęp do witryny."
   },
@@ -769,6 +772,9 @@
   },
   "export": {
     "message": "Eksport"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "Zaimportowano ustawienia. Nie znaleziono folderu startowego z kopii. Zachowano bieżący folder startowy."
   },
   "import_settings_success": {
     "message": "Ustawienia zaimportowane"

@@ -286,7 +286,7 @@
     "message": "Are you sure? All local thumbnails will be deleted."
   },
   "confirm_clear_local_cache": {
-    "message": "Are you sure? All temporary local data will be deleted. Settings and local images will be preserved."
+    "message": "Clear temporary data, bookmark open counts and the last opened folder on this device? Settings and saved images will be kept."
   },
   "confirm_delete_bookmark": {
     "message": "Delete this bookmark?"
@@ -533,6 +533,9 @@
   "background_external": {
     "message": "Image from URL"
   },
+  "background_external_permission": {
+    "message": "Allow access to the image site to use this background."
+  },
   "background_external_note": {
     "message": "Paste a direct link to an image. Access to the site will be requested when you apply it."
   },
@@ -729,6 +732,9 @@
   },
   "export": {
     "message": "Export"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "Settings imported. The home folder from the backup was not found. Your current home folder was kept."
   },
   "import_settings_success": {
     "message": "Settings imported"

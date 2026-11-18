@@ -26,7 +26,9 @@ import {
 } from './utils';
 import Range from './components/range';
 import ImageDB from './api/imageDB';
-import { canLoadBackgroundImageURL, normalizeBackgroundImageURL } from './backgroundUrlValidation';
+import {
+  canLoadBackgroundImageURL, normalizeBackgroundImageURL, requestBackgroundPermission
+} from './backgroundUrlValidation';
 import {
   commitBackgroundUpload,
   BACKGROUND_FILE_PICKER_OPTIONS,
@@ -47,6 +49,7 @@ import { SYNC_STATE_KEY, SYNC_ERROR_KEY, equal } from './selectiveSync';
 import { cssColorToHex } from './tileAppearance';
 import { getGridSettingsLimits } from './gridControls';
 import { scaleTileContentSettings } from './tileSizeSync';
+import { createSettingsBackup, importSettingsBackup } from './settingsBackup';
 import { exportSettings, SETTINGS_JSON_FILE_TYPES } from './settingsExport';
 import { matchesSettingsSearch } from './settingsSearch';
 
@@ -436,7 +439,9 @@ async function handleImportSettingsFromPicker() {
       multiple: false
     });
     if (!file) return;
-    handleImportSettings({ target: { files: [file] } });
+    const { folderUnavailable } = await importSettingsBackup(settings, JSON.parse(await file.text()));
+    $notifications(getMessage(folderUnavailable ? 'import_settings_folder_unavailable' : 'import_settings_success'));
+    location.reload();
   } catch (error) {
     Toast.show(getMessage('import_settings_failed'));
     console.warn(error);
@@ -469,46 +474,8 @@ async function handleChooseBackgroundFile(selectedFile) {
   }
 }
 
-function handleImportSettings(e) {
-  const input = e.target;
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-
-    reader.addEventListener('load', async(e) => {
-      try {
-        const importSettings = JSON.parse(e.target.result);
-        await settings.updateAll(importSettings);
-        $notifications(
-          getMessage('import_settings_success')
-        );
-        setTimeout(() => {
-          location.reload();
-        }, 0);
-      } catch (error) {
-        input.value = '';
-        Toast.show(getMessage('import_settings_failed'));
-        console.warn(error);
-      }
-    });
-    reader.readAsText(input.files[0], 'UTF-8');
-  }
-}
-
 async function handleExportSettings() {
-  const data = Object.keys(settings.$).reduce((acc, cur) => {
-    if (
-      ![
-        'default_folder_id',
-        'custom_dials',
-        'background_local'
-      ].includes(cur)
-    ) {
-      acc[cur] = settings.$[cur];
-    }
-    return acc;
-  }, {});
-
-  const result = await exportSettings(data);
+  const result = await exportSettings(() => createSettingsBackup(settings));
   if (!result.ok && !result.cancelled) {
     Toast.show(getMessage('import_settings_failed'));
     console.warn(result.error);
@@ -665,9 +632,9 @@ async function handleExternalBackgroundSave() {
   );
   if (!operation) return;
   try {
-    const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
+    const hasPermission = await requestBackgroundPermission(url);
     if (!hasPermission) {
-      operation.error(getMessage('notice_host_permissions'));
+      operation.error(getMessage('background_external_permission'));
       return;
     }
 

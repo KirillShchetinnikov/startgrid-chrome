@@ -290,7 +290,7 @@
     "message": "Biztos vagy benne? Az összes helyi miniatűr törlődik."
   },
   "confirm_clear_local_cache": {
-    "message": "Biztos vagy benne? Minden ideiglenes helyi adat törlődik. A beállítások és a helyi képek megmaradnak."
+    "message": "Törli az ideiglenes adatokat, a könyvjelzők megnyitási számlálóit és a legutóbb megnyitott mappára vonatkozó adatot ezen az eszközön? A beállítások és a mentett képek megmaradnak."
   },
   "confirm_delete_bookmark": {
     "message": "Törli ezt a könyvjelzőt?"
@@ -537,6 +537,9 @@
   "background_external": {
     "message": "Kép az URL-ről"
   },
+  "background_external_permission": {
+    "message": "A háttér használatához engedélyezze a hozzáférést a képet tároló webhelyhez."
+  },
   "background_external_note": {
     "message": "Illesszen be egy közvetlen hivatkozást egy képre. Alkalmazáskor a rendszer hozzáférést kér a webhelyhez."
   },
@@ -769,6 +772,9 @@
   },
   "export": {
     "message": "Export"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "A beállítások importálása megtörtént. A mentésben szereplő kezdőmappa nem található. A jelenlegi kezdőmappa maradt érvényben."
   },
   "import_settings_success": {
     "message": "Beállítások importálva"

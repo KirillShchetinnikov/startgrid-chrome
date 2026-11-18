@@ -162,6 +162,7 @@ Refresh the settings screenshot at a short viewport height to show the scrollabl
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
+| 2.5.2 | 2026-11-18 | Makes settings backups portable, improves keyboard control of bookmark menus, saves pages from the correct tab, and requests access only to the site hosting a URL background. | GitHub release; Web Store submission pending |
 | 2.5.1 | 2026-11-06 | Keeps StartGrid's own tabs loaded in the background and restores the open folder when returning from a site. | GitHub release; Web Store submission pending |
 | 2.5.0 | 2026-11-01 | Adds inline renaming, theme segments, clearer empty states and drag targets, theme-aware notifications, image previews and retries, accessible tooltips, and reduced-motion/Fast-mode support. | GitHub release; Web Store submission pending |
 | 2.4.2 | 2026-10-31 | Keeps offscreen tiles the same height when reached by keyboard navigation and removes unused icons. | GitHub release; Web Store submission pending |

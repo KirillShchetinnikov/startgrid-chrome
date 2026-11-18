@@ -1,3 +1,4 @@
+import { requestPermissions } from './api/permissions';
 import { $imageLoaded } from './utils';
 
 export function normalizeBackgroundImageURL(value) {
@@ -7,6 +8,11 @@ export function normalizeBackgroundImageURL(value) {
   } catch {
     return null;
   }
+}
+
+export function requestBackgroundPermission(url) {
+  const { protocol, hostname } = new URL(url);
+  return requestPermissions({ origins: [`${protocol}//${hostname}/*`] });
 }
 
 export async function canLoadBackgroundImageURL(url) {

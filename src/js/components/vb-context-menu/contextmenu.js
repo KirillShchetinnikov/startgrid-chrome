@@ -53,8 +53,7 @@ class ContextMenu {
   }
 
   getDOMChildren() {
-    this.items = Array.from(this.menu.querySelectorAll('.context-menu__link'));
-    this.itemsLength = this.items.length;
+    this.items = Array.from(this.menu.querySelectorAll('.context-menu__link:not(.is-disabled)'));
   }
 
   attachEvents() {
@@ -121,30 +120,36 @@ class ContextMenu {
   }
 
   handlerKeyboard(e) {
-    const key = e.which;
-
-    switch (key) {
-      case 38: {
-        if (this.state) {
-          e.preventDefault();
-          this.prev();
-        }
+    if (!this.state) return;
+    const index = this.items.indexOf(document.activeElement);
+    switch (e.key) {
+      case 'ArrowDown':
+        this.items[(index + 1) % this.items.length]?.focus();
         break;
-      }
-      case 40: {
-        if (this.state) {
-          e.preventDefault();
-          this.next();
-        }
+      case 'ArrowUp':
+        this.items[(index - 1 + this.items.length) % this.items.length]?.focus();
         break;
-      }
-      case 27:
-        this.close();
+      case 'Home':
+        this.items[0]?.focus();
         break;
-      case 13:
-        this.enter(e);
+      case 'End':
+        this.items.at(-1)?.focus();
         break;
+      case 'Escape':
+        this.close(true);
+        break;
+      case 'Enter':
+      case ' ':
+        this.select(this.items[index]);
+        break;
+      case 'Tab':
+        this.close(true);
+        return;
+      default:
+        return;
     }
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   handlerClick(e) {
@@ -168,61 +173,23 @@ class ContextMenu {
     const target = e.target.closest(this.settings.delegateSelector);
     if (target) {
       e.preventDefault();
-      this.trigger = target;
       this.close();
+      this.trigger = target;
       this.open(e);
     } else {
       this.close();
     }
   }
 
-  next() {
-    this.currentIndex = (this.currentIndex + 1) % this.itemsLength;
-    if (this.items[this.currentIndex].classList.contains('is-disabled')) {
-      this.next();
-      return;
-    }
-    this.mark();
-  }
-
-  prev() {
-    this.currentIndex--;
-    if (this.currentIndex < 0) {
-      this.currentIndex = this.itemsLength - 1;
-    }
-    if (this.items[this.currentIndex].classList.contains('is-disabled')) {
-      this.prev();
-      return;
-    }
-    this.mark();
-  }
-
-  mark() {
-    const current = this.menu.querySelector('.hover');
-    if (current) {
-      current.classList.remove('hover');
-    }
-
-    this.items[this.currentIndex].classList.add('hover');
-  }
-
-  enter(e) {
-    if (!this.state) return;
-    e.preventDefault();
-    e.stopPropagation();
-    this.select(this.items[this.currentIndex]);
-  }
-
   select(action) {
-    if (action && !action.classList.contains('disabled')) {
+    if (action && !action.classList.contains('is-disabled')) {
+      this.close(true);
       $customTrigger(EVENTS.SELECTION, this.menu, {
         detail: {
           selection: action.dataset.action,
           trigger: this.trigger
         }
       });
-
-      this.close();
     }
   }
 
@@ -239,22 +206,20 @@ class ContextMenu {
     });
     this.position(e);
 
-    // links
-    this.currentIndex = -1;
+    this.opener = this.trigger.querySelector('.bookmark__action') || this.trigger;
+    this.opener.setAttribute('aria-expanded', 'true');
     this.getDOMChildren();
+    this.items[0]?.focus({ preventScroll: true });
   }
 
-  close() {
+  close(restoreFocus = false) {
     if (!this.state) return;
 
     this.state = false;
     this.menu.classList.remove('context-menu--open');
 
-    const current = this.menu.querySelector('.hover');
-    if (current) {
-      current.classList.remove('hover');
-    }
-    this.currentIndex = -1;
+    this.opener?.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) this.opener?.focus({ preventScroll: true });
 
     $customTrigger(EVENTS.CLOSE, this.menu, {
       detail: {

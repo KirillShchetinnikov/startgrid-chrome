@@ -6,7 +6,10 @@ describe('image controls and UI interactions', () => {
   let browser;
   let page;
   beforeAll(async() => {
-    browser = await puppeteer.launch({ headless: true });
+    browser = await puppeteer.launch({
+      headless: true,
+      args: process.env.PUPPETEER_NO_SANDBOX === 'true' ? ['--no-sandbox'] : []
+    });
     page = await browser.newPage();
   });
   afterAll(async() => { await browser?.close(); });
@@ -44,7 +47,7 @@ describe('image controls and UI interactions', () => {
       const Toast = { show() {} };
       const settings = { $: { background_external: '' }, async updateAll(value) { this.$ = value; } };
       const normalizeBackgroundImageURL = value => value;
-      const requestPermissions = async () => true;
+      const requestBackgroundPermission = async url => url === 'https://example.com/picture.png';
       const isFastMode = () => false;
       let requests = 0;
       let resolveRequest;

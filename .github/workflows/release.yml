@@ -38,8 +38,20 @@ jobs:
           PUPPETEER_SKIP_DOWNLOAD: 'true'
         run: npm ci
 
+      - name: Lint extension
+        run: npm run lint
+
       - name: Build Chrome extension
         run: npm run build
+
+      - name: Install test browser
+        run: npx puppeteer browsers install chrome
+
+      - name: Run unit and extension browser tests
+        env:
+          PUPPETEER_HEADLESS: 'true'
+          PUPPETEER_NO_SANDBOX: 'true'
+        run: npm test -- --runInBand
 
       - name: Package extension
         env:
@@ -52,4 +64,5 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${{ github.ref_name }}" dist/*.zip --generate-notes --verify-tag
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: gh release create "$RELEASE_TAG" dist/*.zip --title "StartGrid ${RELEASE_TAG#v}" --generate-notes --verify-tag

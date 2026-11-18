@@ -290,7 +290,7 @@
     "message": "Tem certeza? Todas as miniaturas locais serão excluídas."
   },
   "confirm_clear_local_cache": {
-    "message": "Tem certeza? Todos os dados locais temporários serão excluídos. As configurações e imagens locais serão preservadas."
+    "message": "Limpar os dados temporários, os contadores de abertura dos favoritos e o registro da última pasta aberta neste dispositivo? As configurações e as imagens salvas serão mantidas."
   },
   "confirm_delete_bookmark": {
     "message": "Excluir este favorito?"
@@ -537,6 +537,9 @@
   "background_external": {
     "message": "Imagem do URL"
   },
+  "background_external_permission": {
+    "message": "Permita o acesso ao site da imagem para usar este plano de fundo."
+  },
   "background_external_note": {
     "message": "Cole um link direto para uma imagem. O acesso ao site será solicitado ao aplicar."
   },
@@ -769,6 +772,9 @@
   },
   "export": {
     "message": "Exportar"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "Configurações importadas. A pasta inicial do backup não foi encontrada. A pasta inicial atual foi mantida."
   },
   "import_settings_success": {
     "message": "Configurações importadas"

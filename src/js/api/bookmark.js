@@ -13,6 +13,7 @@ const recurseFolders = (arr) => {
         id: current.id,
         parentId: current.parentId,
         folderType: current.folderType,
+        syncing: current.syncing,
         index: accum.length,
         children: recurseFolders(current.children),
         childrenLength: current.children.length
@@ -37,7 +38,10 @@ export function createFolderSyncPath(folders, folderId, parentPath = []) {
       {
         title: folder.title,
         index: folder.index,
-        ...folder.folderType && { folderType: folder.folderType }
+        ...folder.folderType && {
+          folderType: folder.folderType,
+          ...typeof folder.syncing === 'boolean' && { syncing: folder.syncing }
+        }
       }
     ];
 
@@ -56,20 +60,30 @@ export function createFolderSyncPath(folders, folderId, parentPath = []) {
  * @param {Array<object>} path
  * @returns {string|null}
  */
-export function resolveFolderSyncPath(folders, path) {
+export function resolveFolderSyncPath(folders, path, { strictRoot = false } = {}) {
   if (!Array.isArray(path) || !path.length) return null;
 
   let currentFolders = folders;
   let resolvedFolder = null;
 
   for (const [depth, segment] of path.entries()) {
-    resolvedFolder = segment.folderType
-      ? currentFolders.find(folder => folder.folderType === segment.folderType)
-      : null;
-
     const folderAtIndex = currentFolders[segment.index];
+    resolvedFolder = null;
+    if (segment.folderType) {
+      const matchingType = currentFolders.filter(folder => folder.folderType === segment.folderType);
+      const matchingStorage = typeof segment.syncing === 'boolean' && matchingType.some(folder =>
+        typeof folder.syncing === 'boolean');
+      if (matchingStorage) {
+        resolvedFolder = matchingType.find(folder => folder.syncing === segment.syncing);
+        if (!resolvedFolder) return null;
+      } else {
+        resolvedFolder = folderAtIndex?.folderType === segment.folderType ? folderAtIndex : matchingType[0];
+      }
+    }
+    if (strictRoot && depth === 0 && segment.folderType && !resolvedFolder
+      && currentFolders.some(folder => folder.folderType)) return null;
     if (!resolvedFolder && folderAtIndex) {
-      const isRootFolder = depth === 0;
+      const isRootFolder = depth === 0 && !strictRoot;
       if (isRootFolder || folderAtIndex.title === segment.title) {
         resolvedFolder = folderAtIndex;
       }

@@ -55,7 +55,7 @@
     cursor: pointer;
   }
   &:not(.is-disabled):hover,
-  &.hover {
+  &:focus-visible {
     background-color: var(--context-menu-bg-hover);
   }
   &.is-disabled {

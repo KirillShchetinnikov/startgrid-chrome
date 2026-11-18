@@ -45,19 +45,15 @@ export async function exportSettings(data, dependencies = {}) {
   const picker = Object.prototype.hasOwnProperty.call(dependencies, 'showSaveFilePicker')
     ? showSaveFilePicker
     : window.showSaveFilePicker;
-  const blob = new BlobConstructor([JSON.stringify(data)], { type: 'application/json' });
-
-  if (typeof picker !== 'function') {
-    try {
+  try {
+    // Open the native picker while the click still carries user activation.
+    const fileHandle = typeof picker === 'function' ? await picker(SETTINGS_EXPORT_PICKER_OPTIONS) : null;
+    const values = typeof data === 'function' ? await data() : data;
+    const blob = new BlobConstructor([JSON.stringify(values)], { type: 'application/json' });
+    if (!fileHandle) {
       downloadWithAnchor(blob, fallbackDependencies);
       return { ok: true, method: 'download' };
-    } catch (error) {
-      return { ok: false, error };
     }
-  }
-
-  try {
-    const fileHandle = await picker(SETTINGS_EXPORT_PICKER_OPTIONS);
     const writable = await fileHandle.createWritable();
     await writable.write(blob);
     await writable.close();

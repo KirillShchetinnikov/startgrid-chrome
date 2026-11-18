@@ -24,7 +24,9 @@ import { updateDefaultFolder } from '../defaultFolderSettings';
 import { renderFolderOptions, replaceFolderOptions } from './vb-select';
 import { requestPermissions } from '../api/permissions';
 import ImageDB from '../api/imageDB';
-import { canLoadBackgroundImageURL, normalizeBackgroundImageURL } from '../backgroundUrlValidation';
+import {
+  canLoadBackgroundImageURL, normalizeBackgroundImageURL, requestBackgroundPermission
+} from '../backgroundUrlValidation';
 import { $filePicker, $resizeThumbnail, getVideoPoster } from '../utils';
 import {
   BACKGROUND_FILE_PICKER_OPTIONS,
@@ -624,9 +626,9 @@ export default function initQuickDisplaySettings({
     );
     if (!operation) return;
     try {
-      const hasPermission = await requestPermissions({ origins: ['<all_urls>'] });
+      const hasPermission = await requestBackgroundPermission(url);
       if (!hasPermission) {
-        operation.error(message('notice_host_permissions'));
+        operation.error(message('background_external_permission'));
         return;
       }
 

@@ -290,7 +290,7 @@
     "message": "¿Está seguro? Se eliminarán todas las miniaturas locales."
   },
   "confirm_clear_local_cache": {
-    "message": "¿Está seguro? Se eliminarán todos los datos locales temporales. Se conservarán la configuración y las imágenes locales."
+    "message": "¿Borrar los datos temporales, los contadores de apertura de marcadores y el registro de la última carpeta abierta en este dispositivo? Se conservarán los ajustes y las imágenes guardadas."
   },
   "confirm_delete_bookmark": {
     "message": "¿Eliminar este marcador?"
@@ -537,6 +537,9 @@
   "background_external": {
     "message": "Imagen de la URL"
   },
+  "background_external_permission": {
+    "message": "Permite el acceso al sitio de la imagen para usar este fondo."
+  },
   "background_external_note": {
     "message": "Pegue un enlace directo a una imagen. Al aplicarlo, se solicitará acceso al sitio."
   },
@@ -769,6 +772,9 @@
   },
   "export": {
     "message": "Exportar"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "Ajustes importados. No se encontró la carpeta de inicio de la copia. Se ha conservado la carpeta de inicio actual."
   },
   "import_settings_success": {
     "message": "Configuraciones importadas"

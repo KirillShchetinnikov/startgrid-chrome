@@ -267,6 +267,8 @@ class VbBookmark extends HTMLAnchorElement {
     return $createElement('button', {
       type: 'button',
       class: 'bookmark__action',
+      'aria-haspopup': 'menu',
+      'aria-expanded': 'false',
       'aria-label': getMessage('bookmark_context')
     });
   }

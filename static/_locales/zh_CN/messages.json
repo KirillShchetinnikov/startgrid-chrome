@@ -290,7 +290,7 @@
     "message": "你确定吗？所有本地缩略图都将被删除。"
   },
   "confirm_clear_local_cache": {
-    "message": "你确定吗？所有临时本地数据将被删除。设置和本地图像将被保留。"
+    "message": "要清除此设备上的临时数据、书签打开次数和上次打开的文件夹记录吗？设置和已保存的图片将保留。"
   },
   "confirm_delete_bookmark": {
     "message": "删除此书签吗？"
@@ -537,6 +537,9 @@
   "background_external": {
     "message": "图片来自网址"
   },
+  "background_external_permission": {
+    "message": "请允许访问图片所在的网站以使用此背景。"
+  },
   "background_external_note": {
     "message": "粘贴图片的直接链接。应用时将请求访问该网站的权限。"
   },
@@ -769,6 +772,9 @@
   },
   "export": {
     "message": "出口"
+  },
+  "import_settings_folder_unavailable": {
+    "message": "设置已导入。未找到备份中的主文件夹，已保留当前主文件夹。"
   },
   "import_settings_success": {
     "message": "导入的设置"
